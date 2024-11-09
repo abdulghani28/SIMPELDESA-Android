@@ -31,4 +31,3 @@ val TabSelectedTextColor = Color(0xFF303099)  // Color for selected tab text
 val TabUnselectedTextColor = Color(0xFFB0B0B0) // Color for unselected tab text
 val TabIndicatorColor = Color(0xFFFFD400)      // Color for the selected tab indicator
 val TabBackgroundColor = Color(0xFFF7F7FD)     // Background color for TabRow (optional)
-
