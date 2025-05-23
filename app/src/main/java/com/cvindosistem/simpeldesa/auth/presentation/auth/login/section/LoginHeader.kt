@@ -14,7 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.cvindosistem.simpeldesa.R
 import com.cvindosistem.simpeldesa.core.components.LargeText
-import com.cvindosistem.simpeldesa.core.components.SmallText
+import com.cvindosistem.simpeldesa.core.components.BodyMediumText
 
 @Composable
 internal fun LoginHeader() {
@@ -32,7 +32,7 @@ internal fun LoginHeader() {
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        SmallText(
+        BodyMediumText(
             text = "Silakan masukkan Email dan Password yang sudah\nterdaftar untuk mengakses aplikasi Digital Desa"
         )
     }

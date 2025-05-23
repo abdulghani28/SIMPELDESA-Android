@@ -37,7 +37,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.cvindosistem.simpeldesa.core.components.AppTopBar
 import com.cvindosistem.simpeldesa.core.components.AuthButton
-import com.cvindosistem.simpeldesa.core.components.SmallText
+import com.cvindosistem.simpeldesa.core.components.BodyMediumText
 import com.cvindosistem.simpeldesa.main.navigation.Screen
 import kotlinx.coroutines.flow.collectLatest
 
@@ -122,9 +122,9 @@ private fun OtpVerificationHeader(email: String) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        SmallText("Kode Verifikasi telah dikirim ke email")
+        BodyMediumText("Kode Verifikasi telah dikirim ke email")
         Spacer(modifier = Modifier.height(8.dp))
-        SmallText(email)
+        BodyMediumText(email)
     }
 }
 
@@ -204,12 +204,12 @@ private fun ResendOtpSection(viewModel: PasswordResetViewModel) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         if (viewModel.countdownTime > 0) {
-            SmallText("Belum menerima kode? Mohon tunggu ${viewModel.countdownTime} detik")
+            BodyMediumText("Belum menerima kode? Mohon tunggu ${viewModel.countdownTime} detik")
         } else {
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                SmallText("Belum menerima kode? ")
+                BodyMediumText("Belum menerima kode? ")
                 TextButton(
                     onClick = { viewModel.requestOtp() },
                     enabled = viewModel.canResendOtp() && !viewModel.isLoading,

@@ -5,12 +5,14 @@ import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -21,13 +23,19 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.cvindosistem.simpeldesa.core.components.AppSearchBar
 import com.cvindosistem.simpeldesa.core.components.AppTopBar
+import com.cvindosistem.simpeldesa.core.components.BodySmallText
+import com.cvindosistem.simpeldesa.core.components.TitleMediumText
+import com.cvindosistem.simpeldesa.core.components.TitleSmallText
+import com.cvindosistem.simpeldesa.R
+import com.cvindosistem.simpeldesa.core.components.CardTitleText
+import com.itextpdf.layout.element.Text
 
 @Composable
 fun LayananPersuratanScreen(
@@ -160,23 +168,21 @@ private fun SuratSayaContent(
 @Composable
 private fun SuratTypeSection() {
     Column {
-        Text(
-            text = "Pilih Jenis Surat",
-            style = MaterialTheme.typography.titleMedium.copy(
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface
-            ),
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
+        TitleMediumText("Pilih Jenis Surat")
+
+        Spacer(Modifier.height(8.dp))
 
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
-            modifier = Modifier.height(280.dp)
         ) {
             items(getSuratTypes()) { suratType ->
                 SuratTypeCard(suratType = suratType)
+            }
+
+            item {
+                Spacer(modifier = Modifier.height(16.dp))
             }
         }
     }
@@ -191,7 +197,7 @@ private fun SuratTypeCard(
             .fillMaxWidth()
             .clickable { },
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
+            containerColor = MaterialTheme.colorScheme.background
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         shape = RoundedCornerShape(12.dp)
@@ -200,44 +206,21 @@ private fun SuratTypeCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.Start
         ) {
-            Box(
-                modifier = Modifier
-                    .size(48.dp)
-                    .background(
-                        suratType.iconBackgroundColor,
-                        RoundedCornerShape(8.dp)
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = suratType.icon,
-                    contentDescription = suratType.title,
-                    tint = suratType.iconColor,
-                    modifier = Modifier.size(24.dp)
-                )
-            }
+            Icon(
+                painter = painterResource(suratType.icon),
+                contentDescription = suratType.title,
+                tint = Color.Unspecified,
+            )
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            Text(
-                text = suratType.title,
-                style = MaterialTheme.typography.titleSmall.copy(
-                    fontWeight = FontWeight.Bold
-                ),
-                textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.onSurface
-            )
+            TitleSmallText(suratType.title)
 
             Spacer(modifier = Modifier.height(4.dp))
 
-            Text(
-                text = suratType.subtitle,
-                style = MaterialTheme.typography.bodySmall,
-                textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
-            )
+            BodySmallText(suratType.subtitle)
         }
     }
 }
@@ -245,14 +228,7 @@ private fun SuratTypeCard(
 @Composable
 private fun RecentLetterSection() {
     Column {
-        Text(
-            text = "Surat Terakhir Dibuat",
-            style = MaterialTheme.typography.titleMedium.copy(
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface
-            ),
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
+        TitleMediumText("Surat Terakhir Dibuat")
 
         RecentLetterCard()
     }
@@ -263,57 +239,38 @@ private fun RecentLetterCard() {
     Card(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(vertical = 8.dp)
             .clickable { },
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
+            containerColor = Color.White
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        shape = RoundedCornerShape(12.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        shape = RoundedCornerShape(20.dp)
     ) {
-        Row(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
+                .padding(16.dp)
         ) {
             Box(
                 modifier = Modifier
                     .size(48.dp)
                     .background(
-                        Color(0xFF2196F3).copy(alpha = 0.1f),
-                        RoundedCornerShape(8.dp)
+                        Color(0xFFF5F7FE),
+                        CircleShape
                     ),
                 contentAlignment = Alignment.Center
             ) {
-                Icon(
-                    imageVector = Icons.Default.AddCircle,
-                    contentDescription = "Surat Keterangan Domisili",
-                    tint = Color(0xFF2196F3),
-                    modifier = Modifier.size(24.dp)
-                )
+                Text("\uD83C\uDF0F")
             }
 
-            Spacer(modifier = Modifier.width(12.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-            Column(
-                modifier = Modifier.weight(1f)
-            ) {
-                Text(
-                    text = "Surat Keterangan Domisili",
-                    style = MaterialTheme.typography.titleSmall.copy(
-                        fontWeight = FontWeight.Bold,
-                        color = Color(0xFF2196F3)
-                    )
-                )
+            CardTitleText("Surat Keterangan Domisili")
 
-                Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(6.dp))
 
-                Text(
-                    text = "Menyatakan tempat tinggal seseorang untuk keperluan administrasi.",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
-                )
-            }
+            BodySmallText("Menyatakan tempat tinggal seseorang untuk keperluan administrasi.")
         }
     }
 }
@@ -322,9 +279,7 @@ private fun RecentLetterCard() {
 data class SuratType(
     val title: String,
     val subtitle: String,
-    val icon: ImageVector,
-    val iconColor: Color,
-    val iconBackgroundColor: Color
+    val icon: Int
 )
 
 // Function untuk mendapatkan data tipe surat
@@ -333,30 +288,22 @@ private fun getSuratTypes(): List<SuratType> {
         SuratType(
             title = "Surat Keterangan",
             subtitle = "14 Pilihan Surat",
-            icon = Icons.Default.CheckCircle,
-            iconColor = Color(0xFF8BC34A),
-            iconBackgroundColor = Color(0xFF8BC34A).copy(alpha = 0.1f)
+            icon = R.drawable.ic_surat_keterangan,
         ),
         SuratType(
             title = "Surat Pengantar",
             subtitle = "3 Pilihan Surat",
-            icon = Icons.Default.Send,
-            iconColor = Color(0xFFFF9800),
-            iconBackgroundColor = Color(0xFFFF9800).copy(alpha = 0.1f)
+            icon = R.drawable.ic_surat_pengantar,
         ),
         SuratType(
             title = "Surat Rekomendasi",
             subtitle = "1 Pilihan Surat",
-            icon = Icons.Default.Star,
-            iconColor = Color(0xFF9C27B0),
-            iconBackgroundColor = Color(0xFF9C27B0).copy(alpha = 0.1f)
+            icon = R.drawable.ic_surat_rekomendasi,
         ),
         SuratType(
             title = "Surat Lainnya",
             subtitle = "2 Pilihan Surat",
-            icon = Icons.Default.List,
-            iconColor = Color(0xFF607D8B),
-            iconBackgroundColor = Color(0xFF607D8B).copy(alpha = 0.1f)
+            icon = R.drawable.ic_surat_lainnya,
         )
     )
 }

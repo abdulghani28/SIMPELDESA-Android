@@ -9,7 +9,7 @@ import androidx.compose.ui.unit.sp
 
 
 @Composable
-fun SmallText(
+fun BodyMediumText(
     text: String
 ) {
     Text(
@@ -31,6 +31,60 @@ fun LargeText(
         style = MaterialTheme.typography.headlineMedium.copy(
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onBackground
+        )
+    )
+}
+
+@Composable
+fun TitleMediumText(
+    text: String
+) {
+    Text(
+        text = text,
+        style = MaterialTheme.typography.titleMedium.copy(
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onBackground
+        )
+    )
+}
+
+@Composable
+fun BodySmallText(
+    text: String
+) {
+    Text(
+        text = text,
+        style = MaterialTheme.typography.bodySmall.copy(
+            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
+            textAlign = TextAlign.Start,
+            lineHeight = 20.sp
+        )
+    )
+}
+
+@Composable
+fun TitleSmallText(
+    text: String
+) {
+    Text(
+        text = text,
+        style = MaterialTheme.typography.titleSmall.copy(
+            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
+            textAlign = TextAlign.Start,
+            lineHeight = 20.sp
+        )
+    )
+}
+
+@Composable
+fun CardTitleText(
+    text: String
+) {
+    Text(
+        text = text,
+        style = MaterialTheme.typography.titleMedium.copy(
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.primary
         )
     )
 }

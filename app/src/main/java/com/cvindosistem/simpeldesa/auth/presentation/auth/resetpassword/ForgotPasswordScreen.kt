@@ -29,7 +29,7 @@ import com.cvindosistem.simpeldesa.core.components.AuthButton
 import com.cvindosistem.simpeldesa.core.components.ErrorText
 import com.cvindosistem.simpeldesa.main.navigation.Screen
 import com.cvindosistem.simpeldesa.core.components.AppOutlinedTextField
-import com.cvindosistem.simpeldesa.core.components.SmallText
+import com.cvindosistem.simpeldesa.core.components.BodyMediumText
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -100,7 +100,7 @@ private fun ForgotPasswordHeader() {
         horizontalAlignment = Alignment.Start,
         modifier = Modifier.fillMaxWidth()
     ) {
-        SmallText(
+        BodyMediumText(
             text = "Silakan masukkan Email atau Nomor Telepon Anda untuk mengirim kode verifikasi reset password"
         )
     }

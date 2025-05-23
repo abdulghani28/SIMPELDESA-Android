@@ -34,7 +34,7 @@ import com.cvindosistem.simpeldesa.core.components.LabelFieldText
 import com.cvindosistem.simpeldesa.core.components.PasswordField
 import com.cvindosistem.simpeldesa.main.navigation.Screen
 import com.cvindosistem.simpeldesa.core.components.LargeText
-import com.cvindosistem.simpeldesa.core.components.SmallText
+import com.cvindosistem.simpeldesa.core.components.BodyMediumText
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -119,7 +119,7 @@ private fun ResetPasswordHeader() {
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        SmallText(
+        BodyMediumText(
             text = "Masukkan password baru untuk akun Anda.\nPastikan password aman dan mudah diingat."
         )
     }
@@ -162,7 +162,7 @@ private fun ResetPasswordForm(
         Spacer(modifier = Modifier.height(8.dp))
 
         // Password requirements
-        SmallText("Password minimal 6 karakter")
+        BodyMediumText("Password minimal 6 karakter")
 
         Spacer(modifier = Modifier.height(24.dp))
 
