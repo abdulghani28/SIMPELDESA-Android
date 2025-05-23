@@ -11,6 +11,7 @@ import com.cvindosistem.simpeldesa.auth.presentation.auth.resetpassword.ForgotPa
 import com.cvindosistem.simpeldesa.auth.presentation.auth.resetpassword.OtpVerificationScreen
 import com.cvindosistem.simpeldesa.auth.presentation.auth.resetpassword.PasswordResetViewModel
 import com.cvindosistem.simpeldesa.auth.presentation.auth.resetpassword.ResetPasswordScreen
+import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.LayananPersuratanScreen
 import com.cvindosistem.simpeldesa.core.data.local.preferences.UserPreferences
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
@@ -24,13 +25,13 @@ fun NavGraph(
 
     val activeModule = userPreferences.getActiveModule() ?: ""
 
-    val initialStartDestination = when {
-        !isLoggedIn -> Screen.Login.route
-        activeModule.isNotEmpty() -> activeModule
-        else -> Screen.MainScreen.route
-    }
+//    val initialStartDestination = when {
+//        !isLoggedIn -> Screen.Login.route
+//        activeModule.isNotEmpty() -> activeModule
+//        else -> Screen.MainScreen.route
+//    }
 
-//    val initialStartDestination = "${Screen.ResetPassword.route}/ghani@email.com"
+    val initialStartDestination = Screen.LayananPersuratan.route
 
     val passwordResetViewModel: PasswordResetViewModel = koinViewModel()
 
@@ -38,6 +39,7 @@ fun NavGraph(
         navController = navController,
         startDestination = initialStartDestination
     ) {
+        // ===== Auth =====
         composable(Screen.Login.route) {
             LoginScreen(
                 navController = navController,
@@ -71,8 +73,16 @@ fun NavGraph(
             )
         }
 
+        // ===== Main =====
         composable(Screen.MainScreen.route) {
             Text("Main Screen")
+        }
+
+        // ===== Layanan Persuratan =====
+        composable(Screen.LayananPersuratan.route) {
+            LayananPersuratanScreen(
+                navController = navController
+            )
         }
     }
 }

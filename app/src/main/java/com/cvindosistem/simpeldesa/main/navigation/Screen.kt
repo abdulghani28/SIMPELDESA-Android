@@ -9,4 +9,7 @@ sealed class Screen(val route: String) {
 
     // ===== Menu Utama =====
     object MainScreen : Screen("main_screen")
+
+    // ===== Layanan Persuratan =====
+    object LayananPersuratan : Screen("layanan_persuratan")
 }
