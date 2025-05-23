@@ -91,4 +91,73 @@ dependencies {
     testImplementation(libs.mockk)
     androidTestImplementation(libs.androidx.junit.v115)
     androidTestImplementation(libs.androidx.espresso.core.v351)
+
+    dependencies {
+
+        // Compose
+        implementation(platform(libs.androidx.compose.bom.v20240200))
+        implementation(libs.ui)
+        implementation(libs.ui.graphics)
+        implementation(libs.material3)
+        implementation(libs.ui.tooling.preview)
+
+        // Navigation
+        implementation(libs.androidx.navigation.compose.v277)
+
+        // Lifecycle
+        implementation(libs.androidx.lifecycle.runtime.ktx.v270)
+        implementation(libs.androidx.lifecycle.viewmodel.compose.v270)
+
+        // Koin
+        implementation(libs.koin.android)
+        implementation(libs.koin.androidx.compose)
+
+        // Retrofit
+        implementation(libs.retrofit.v290)
+        implementation(libs.converter.gson.v290)
+        implementation(libs.logging.interceptor.v4120)
+
+        // Room
+        implementation(libs.androidx.room.runtime)
+        implementation(libs.androidx.room.ktx)
+        implementation(libs.material)
+        implementation(libs.androidx.compose.material)
+        ksp(libs.androidx.room.compiler)
+
+        // Coil
+        implementation(libs.coil.compose.v250)
+
+        // Testing
+        testImplementation(libs.junit)
+        testImplementation(libs.mockk)
+        androidTestImplementation(libs.androidx.junit.v115)
+        androidTestImplementation(libs.androidx.espresso.core.v351)
+
+        // Swipe Refresh
+        implementation(libs.accompanist.swiperefresh.v0320)
+
+        // PDF Scan
+        implementation(libs.androidx.camera.camera2)
+        implementation(libs.androidx.camera.lifecycle)
+        implementation(libs.androidx.camera.view)
+        implementation(libs.itext7.core)
+        implementation("com.google.mlkit:object-detection:17.0.2")
+        implementation(libs.document.scanning.android.sdk.vlatestrelease)
+
+        implementation(libs.google.accompanist.permissions)
+
+        implementation(libs.androidx.camera.core)
+        implementation(libs.androidx.camera.camera2.v13)
+        implementation(libs.androidx.camera.lifecycle.v13)
+        implementation(libs.androidx.camera.view.v13)
+        implementation(libs.androidx.camera.video)
+
+        // For photo preview
+        implementation(libs.compose)
+        implementation(libs.androidx.runtime.livedata.v160)
+
+        // Kompresi
+        implementation(libs.compressor)
+        implementation(libs.androidx.animation)
+    }
 }

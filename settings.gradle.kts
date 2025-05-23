@@ -1,5 +1,6 @@
 pluginManagement {
     repositories {
+        google()
         google {
             content {
                 includeGroupByRegex("com\\.android.*")
@@ -9,6 +10,8 @@ pluginManagement {
         }
         mavenCentral()
         gradlePluginPortal()
+        maven { url = uri("https://jitpack.io") }
+        maven { url = uri("https://repo.opencv.org/maven2") }
     }
 }
 dependencyResolutionManagement {
@@ -16,6 +19,8 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { url = uri("https://jitpack.io") }
+        maven { url = uri("https://repo.opencv.org/maven2") }
     }
 }
 
