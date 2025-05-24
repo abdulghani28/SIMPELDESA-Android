@@ -54,3 +54,44 @@ internal fun GenderSelection(
         }
     }
 }
+
+@Composable
+internal fun StatusPerkawinanSelection(
+    selectedStatus: String,
+    onStatusSelected: (String) -> Unit
+) {
+    Column {
+        LabelFieldText("Status Perkawinan")
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(24.dp)
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                RadioButton(
+                    selected = selectedStatus == "Kawin",
+                    onClick = { onStatusSelected("Kawin") },
+                    colors = RadioButtonDefaults.colors(
+                        selectedColor = MaterialTheme.colorScheme.primary
+                    )
+                )
+                BodyMediumText("Kawin")
+            }
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                RadioButton(
+                    selected = selectedStatus == "Belum Kawin",
+                    onClick = { onStatusSelected("Belum Kawin") },
+                    colors = RadioButtonDefaults.colors(
+                        selectedColor = MaterialTheme.colorScheme.primary
+                    )
+                )
+                BodyMediumText("Belum Kawin")
+            }
+        }
+    }
+}
