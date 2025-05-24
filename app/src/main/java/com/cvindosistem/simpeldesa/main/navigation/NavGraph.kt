@@ -17,6 +17,7 @@ import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buats
 import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.SuratPengantarScreen
 import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.SuratRekomendasiScreen
 import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.subsurat.SKDomisiliScreen
+import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.subsurat.SKResiKTPSementaraScreen
 import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.subsurat.SKStatusPerkawinanScreen
 import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.subsurat.SKTidakMampu
 import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.subsurat.skberpergian.SKBerpergianScreen
@@ -43,7 +44,7 @@ fun NavGraph(
 //        else -> Screen.MainScreen.route
 //    }
 
-    val initialStartDestination = Screen.SKStatusPerkawinan.route
+    val initialStartDestination = Screen.SKResiKTPSementara.route
 
     val passwordResetViewModel: PasswordResetViewModel = koinViewModel()
 
@@ -157,6 +158,12 @@ fun NavGraph(
 
         composable(Screen.SKStatusPerkawinan.route) {
             SKStatusPerkawinanScreen(
+                navController = navController
+            )
+        }
+
+        composable(Screen.SKResiKTPSementara.route) {
+            SKResiKTPSementaraScreen(
                 navController = navController
             )
         }
