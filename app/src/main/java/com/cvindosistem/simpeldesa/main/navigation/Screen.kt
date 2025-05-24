@@ -12,4 +12,10 @@ sealed class Screen(val route: String) {
 
     // ===== Layanan Persuratan =====
     object LayananPersuratan : Screen("layanan_persuratan")
+    object SuratKeterangan : Screen("surat_keterangan")
+    object SuratPengantar : Screen("surat_pengantar")
+    object SuratRekomendasi : Screen("surat_rekomendasi")
+    object SuratLainnya : Screen("surat_lainnya")
+    object SKDomisiliScreen : Screen("sk_domisili_screen")
+    object SKTidakMampu : Screen("sk_tidak_mampu")
 }

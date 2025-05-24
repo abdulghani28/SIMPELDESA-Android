@@ -1,4 +1,4 @@
-package com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan
+package com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -26,13 +26,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.cvindosistem.simpeldesa.R
 import com.cvindosistem.simpeldesa.core.components.AppSearchBar
 import com.cvindosistem.simpeldesa.core.components.BodySmallText
 import com.cvindosistem.simpeldesa.core.components.CardTitleText
 import com.cvindosistem.simpeldesa.core.components.TitleMediumText
 import com.cvindosistem.simpeldesa.core.components.TitleSmallText
-import com.itextpdf.layout.element.Text
 
 @Composable
 internal fun BuatSuratContent(
@@ -141,7 +141,7 @@ private fun RecentLetterCard() {
             .padding(vertical = 8.dp)
             .clickable { },
         colors = CardDefaults.cardColors(
-            containerColor = Color.White
+            containerColor = MaterialTheme.colorScheme.background
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         shape = RoundedCornerShape(20.dp)
@@ -160,7 +160,10 @@ private fun RecentLetterCard() {
                     ),
                 contentAlignment = Alignment.Center
             ) {
-                Text("\uD83C\uDF0F")
+                Text(
+                    "\uD83C\uDF0F",
+                    fontSize = 20.sp
+                )
             }
 
             Spacer(modifier = Modifier.height(16.dp))

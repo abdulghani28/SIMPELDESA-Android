@@ -28,13 +28,11 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.cvindosistem.simpeldesa.auth.presentation.auth.login.section.VillageIllustration
+import com.cvindosistem.simpeldesa.core.components.AppPasswordField
 import com.cvindosistem.simpeldesa.core.components.AuthButton
-import com.cvindosistem.simpeldesa.core.components.ErrorText
-import com.cvindosistem.simpeldesa.core.components.LabelFieldText
-import com.cvindosistem.simpeldesa.core.components.PasswordField
-import com.cvindosistem.simpeldesa.main.navigation.Screen
-import com.cvindosistem.simpeldesa.core.components.LargeText
 import com.cvindosistem.simpeldesa.core.components.BodyMediumText
+import com.cvindosistem.simpeldesa.core.components.LargeText
+import com.cvindosistem.simpeldesa.main.navigation.Screen
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -186,24 +184,17 @@ private fun PasswordTextField(
     isError: Boolean = false,
     errorMessage: String? = null
 ) {
-    Column {
-        LabelFieldText(label)
-
-        PasswordField(
-            value = value,
-            onValueChange = onValueChange,
-            isPasswordVisible = isPasswordVisible,
-            onPasswordVisibilityChange = onPasswordVisibilityChange,
-            isError = isError,
-            placeholder = placeholder,
-            imeAction = imeAction
-        )
-
-        if (isError && errorMessage != null) {
-            Spacer(modifier = Modifier.height(4.dp))
-            ErrorText(errorMessage)
-        }
-    }
+    AppPasswordField(
+        label = label,
+        placeholder = placeholder,
+        value = value,
+        onValueChange = onValueChange,
+        isPasswordVisible = isPasswordVisible,
+        onPasswordVisibilityChange = onPasswordVisibilityChange,
+        isError = isError,
+        errorMessage = errorMessage,
+        imeAction = imeAction
+    )
 }
 
 @Composable

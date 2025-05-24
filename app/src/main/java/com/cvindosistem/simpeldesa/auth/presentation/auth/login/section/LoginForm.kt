@@ -20,11 +20,10 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.cvindosistem.simpeldesa.R
-import com.cvindosistem.simpeldesa.core.components.AppOutlinedTextField
 import com.cvindosistem.simpeldesa.auth.presentation.auth.login.AuthViewModel
+import com.cvindosistem.simpeldesa.core.components.AppPasswordField
+import com.cvindosistem.simpeldesa.core.components.AppTextField
 import com.cvindosistem.simpeldesa.core.components.AuthButton
-import com.cvindosistem.simpeldesa.core.components.LabelFieldText
-import com.cvindosistem.simpeldesa.core.components.PasswordField
 
 @Composable
 internal fun LoginForm(
@@ -101,36 +100,18 @@ private fun EmailTextField(
     isError: Boolean = false,
     errorMessage: String? = null
 ) {
-    Column {
-        LabelFieldText(
-            "Email / Nomor Telepon"
+    AppTextField(
+        label = "Email / Nomor Telepon",
+        placeholder = "example@email.com",
+        value = value,
+        onValueChange = onValueChange,
+        isError = isError,
+        errorMessage = errorMessage,
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Email,
+            imeAction = ImeAction.Next
         )
-
-        AppOutlinedTextField(
-            value = value,
-            onValueChange = onValueChange,
-            placeholder = {
-                Text(
-                    text = "example@email.com",
-                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.3f)
-                )
-            },
-            isError = isError,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Email,
-                imeAction = ImeAction.Next
-            )
-        )
-
-        if (isError && errorMessage != null) {
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = errorMessage,
-                color = MaterialTheme.colorScheme.error,
-                style = MaterialTheme.typography.bodySmall
-            )
-        }
-    }
+    )
 }
 
 @Composable
@@ -142,28 +123,15 @@ private fun PasswordTextField(
     isError: Boolean = false,
     errorMessage: String? = null
 ) {
-    Column {
-        LabelFieldText(
-            "Password"
-        )
-
-        PasswordField(
-            value,
-            onValueChange,
-            isPasswordVisible,
-            onPasswordVisibilityChange,
-            isError
-        )
-
-        if (isError && errorMessage != null) {
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = errorMessage,
-                color = MaterialTheme.colorScheme.error,
-                style = MaterialTheme.typography.bodySmall
-            )
-        }
-    }
+    AppPasswordField(
+        label = "Password",
+        value = value,
+        onValueChange = onValueChange,
+        isPasswordVisible = isPasswordVisible,
+        onPasswordVisibilityChange = onPasswordVisibilityChange,
+        isError = isError,
+        errorMessage = errorMessage,
+    )
 }
 
 @Composable

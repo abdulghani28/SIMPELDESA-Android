@@ -77,6 +77,20 @@ fun TitleSmallText(
 }
 
 @Composable
+fun PlaceholderTitleSmallText(
+    text: String
+) {
+    Text(
+        text = text,
+        style = MaterialTheme.typography.titleSmall.copy(
+            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.2f),
+            textAlign = TextAlign.Start,
+            lineHeight = 20.sp
+        )
+    )
+}
+
+@Composable
 fun CardTitleText(
     text: String
 ) {

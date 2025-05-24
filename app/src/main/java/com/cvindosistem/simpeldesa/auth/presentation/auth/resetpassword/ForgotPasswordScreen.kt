@@ -13,23 +13,20 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.cvindosistem.simpeldesa.core.components.AppTextField
 import com.cvindosistem.simpeldesa.core.components.AppTopBar
 import com.cvindosistem.simpeldesa.core.components.AuthButton
-import com.cvindosistem.simpeldesa.core.components.ErrorText
-import com.cvindosistem.simpeldesa.main.navigation.Screen
-import com.cvindosistem.simpeldesa.core.components.AppOutlinedTextField
 import com.cvindosistem.simpeldesa.core.components.BodyMediumText
+import com.cvindosistem.simpeldesa.main.navigation.Screen
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -125,37 +122,18 @@ private fun EmailTextField(
     isError: Boolean = false,
     errorMessage: String? = null
 ) {
-    Column {
-        Text(
-            text = "Email / Nomor Telepon",
-            style = MaterialTheme.typography.bodyMedium.copy(
-                color = MaterialTheme.colorScheme.onBackground.copy(0.7f),
-                fontWeight = FontWeight.Medium
-            ),
-            modifier = Modifier.padding(bottom = 8.dp)
+    AppTextField(
+        label = "Email / Nomor Telepon",
+        placeholder = "example@email.com",
+        value = value,
+        onValueChange = onValueChange,
+        isError = isError,
+        errorMessage = errorMessage,
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Email,
+            imeAction = ImeAction.Next
         )
-
-        AppOutlinedTextField(
-            value = value,
-            onValueChange = onValueChange,
-            placeholder = {
-                Text(
-                    text = "example@email.com",
-                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.3f)
-                )
-            },
-            isError = isError,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Email,
-                imeAction = ImeAction.Next
-            )
-        )
-
-        if (isError && errorMessage != null) {
-            Spacer(modifier = Modifier.height(4.dp))
-            ErrorText(errorMessage)
-        }
-    }
+    )
 }
 
 @Composable

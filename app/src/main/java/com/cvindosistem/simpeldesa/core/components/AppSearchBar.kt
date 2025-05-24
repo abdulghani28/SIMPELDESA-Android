@@ -64,7 +64,7 @@ fun FilterButton(
             containerColor = Color(0xFFF8F7FD)
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape(8.dp),
         border = BorderStroke(
             width = 0.5.dp,
             color = Color(0xFFDCE2FB)
@@ -75,7 +75,7 @@ fun FilterButton(
             contentAlignment = Alignment.Center
         ) {
             Icon(
-                painter = painterResource(R.drawable.ic_filter), // Ganti dengan icon filter yang sesuai
+                painter = painterResource(R.drawable.ic_filter),
                 contentDescription = "Filter",
                 tint = MaterialTheme.colorScheme.primary
             )
