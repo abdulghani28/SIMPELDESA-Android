@@ -18,6 +18,10 @@ import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buats
 import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.SuratRekomendasiScreen
 import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.subsurat.SKDomisiliScreen
 import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.subsurat.SKTidakMampu
+import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.subsurat.skkematian.SKKematian1Screen
+import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.subsurat.skkematian.SKKematian2Screen
+import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.subsurat.skkematian.SKKematian3Screen
+import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.subsurat.skusaha.SKUsahaScreen
 import com.cvindosistem.simpeldesa.core.data.local.preferences.UserPreferences
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
@@ -37,7 +41,7 @@ fun NavGraph(
 //        else -> Screen.MainScreen.route
 //    }
 
-    val initialStartDestination = Screen.SKDomisiliScreen.route
+    val initialStartDestination = Screen.SKUsaha.route
 
     val passwordResetViewModel: PasswordResetViewModel = koinViewModel()
 
@@ -115,6 +119,30 @@ fun NavGraph(
 
         composable(Screen.SKTidakMampu.route) {
             SKTidakMampu(
+                navController = navController
+            )
+        }
+
+        composable(Screen.SKKematian1.route) {
+            SKKematian1Screen(
+                navController = navController
+            )
+        }
+
+        composable(Screen.SKKematian2.route) {
+            SKKematian2Screen(
+                navController = navController
+            )
+        }
+
+        composable(Screen.SKKematian3.route) {
+            SKKematian3Screen(
+                navController = navController
+            )
+        }
+
+        composable(Screen.SKUsaha.route) {
+            SKUsahaScreen(
                 navController = navController
             )
         }

@@ -1,4 +1,4 @@
-package com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.subsurat
+package com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.subsurat.skkematian
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -16,7 +15,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.components.GenderSelection
@@ -28,10 +26,10 @@ import com.cvindosistem.simpeldesa.core.components.DropdownField
 import com.cvindosistem.simpeldesa.core.components.FormSectionList
 import com.cvindosistem.simpeldesa.core.components.MultilineTextField
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
-import com.cvindosistem.simpeldesa.core.components.UseMyDataCheckbox
+import com.cvindosistem.simpeldesa.core.components.StepIndicator
 
 @Composable
-fun SKTidakMampu(
+fun SKKematian2Screen(
     navController: NavController
 ) {
 
@@ -39,7 +37,7 @@ fun SKTidakMampu(
         topBar = {
             Column {
                 AppTopBar(
-                    title = "SK Tidak Mampu",
+                    title = "SK Kematian",
                     showBackButton = true,
                     onBackClick = { navController.popBackStack() }
                 )
@@ -48,16 +46,17 @@ fun SKTidakMampu(
         bottomBar = {
             AppBottomBar(
                 onPreviewClick = { },
-                onSubmitClick = { }
+                onBackClick = { },
+                onContinueClick = { }
             )
         }
     ) { paddingValues ->
-        SKTidakMampuContent(modifier = Modifier.padding(paddingValues))
+        SKKematian2Content(modifier = Modifier.padding(paddingValues))
     }
 }
 
 @Composable
-private fun SKTidakMampuContent(
+private fun SKKematian2Content(
     modifier: Modifier = Modifier
 ) {
     FormSectionList(
@@ -65,40 +64,41 @@ private fun SKTidakMampuContent(
         background = MaterialTheme.colorScheme.background
     ) {
         item {
-            UseMyDataCheckbox()
+            StepIndicator(
+                steps = listOf("Informasi Pelapor", "Informasi Mendiang", "Informasi Pelengkap"),
+                currentStep = 2
+            )
         }
 
         item {
-            InformasiPelapor()
+            InformasiMendiang()
         }
     }
 }
 
 @Composable
-private fun InformasiPelapor() {
+private fun InformasiMendiang() {
     Column {
-        SectionTitle("Informasi Pelapor")
+        SectionTitle("Informasi Mendiang")
 
         Spacer(modifier = Modifier.height(16.dp))
 
         var nikValue by remember { mutableStateOf("") }
         var namaValue by remember { mutableStateOf("") }
-        var tempatLahirValue by remember { mutableStateOf("") }
-        var tanggalLahirValue by remember { mutableStateOf("") }
+        var tempatMeninggalValue by remember { mutableStateOf("") }
+        var tanggalMeninggalValue by remember { mutableStateOf("") }
         var selectedGender by remember { mutableStateOf("") }
-        var agamaValue by remember { mutableStateOf("") }
-        var pekerjaanValue by remember { mutableStateOf("") }
+        var hariMeninggalValue by remember { mutableStateOf("") }
+        var sebabMeninggalValue by remember { mutableStateOf("") }
         var alamatValue by remember { mutableStateOf("") }
-        var keperluan by remember { mutableStateOf("") }
 
         AppTextField(
             label = "Nomor Induk Kependudukan (NIK)",
-            placeholder = "Masukkan NIK",
+            placeholder = "Masukkan nama lengkap",
             value = nikValue,
             onValueChange = { nikValue = it },
             isError = false,
-            errorMessage = null,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+            errorMessage = null
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -114,55 +114,9 @@ private fun InformasiPelapor() {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            Column(modifier = Modifier.weight(1f)) {
-                AppTextField(
-                    label = "Tempat Lahir",
-                    placeholder = "Tempat lahir",
-                    value = tempatLahirValue,
-                    onValueChange = { tempatLahirValue = it },
-                    isError = false,
-                    errorMessage = null
-                )
-            }
-
-            Column(modifier = Modifier.weight(1f)) {
-                DatePickerField(
-                    label = "Tanggal Lahir",
-                    value = tanggalLahirValue,
-                    onValueChange = { tanggalLahirValue = it }
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
         GenderSelection(
             selectedGender = selectedGender,
             onGenderSelected = { selectedGender = it }
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        DropdownField(
-            label = "Agama",
-            value = agamaValue,
-            onValueChange = { agamaValue = it },
-            options = listOf("Islam", "Kristen", "Katolik", "Hindu", "Buddha", "Konghucu")
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        AppTextField(
-            label = "Pekerjaan",
-            placeholder = "Masukkan pekerjaan",
-            value = pekerjaanValue,
-            onValueChange = { pekerjaanValue = it },
-            isError = false,
-            errorMessage = null
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -178,11 +132,46 @@ private fun InformasiPelapor() {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        MultilineTextField(
-            label = "Keperluan",
-            placeholder = "Masukkan keperluan",
-            value = keperluan,
-            onValueChange = { keperluan = it },
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
+                DropdownField(
+                    label = "Hari Meninggal",
+                    value = hariMeninggalValue,
+                    onValueChange = { hariMeninggalValue = it },
+                    options = listOf("Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu")
+                )
+            }
+
+            Column(modifier = Modifier.weight(1f)) {
+                DatePickerField(
+                    label = "Tanggal Meninggal",
+                    value = tanggalMeninggalValue,
+                    onValueChange = { tanggalMeninggalValue = it }
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        AppTextField(
+            label = "Tempat Meninggal",
+            placeholder = "Tempat meninggal",
+            value = tempatMeninggalValue,
+            onValueChange = { tempatMeninggalValue = it },
+            isError = false,
+            errorMessage = null
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        AppTextField(
+            label = "Sebab Meninggal",
+            placeholder = "Sebab meninggal",
+            value = sebabMeninggalValue,
+            onValueChange = { sebabMeninggalValue = it },
             isError = false,
             errorMessage = null
         )

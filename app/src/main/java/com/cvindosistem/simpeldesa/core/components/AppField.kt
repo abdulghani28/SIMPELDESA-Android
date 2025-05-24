@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DatePickerState
@@ -359,7 +361,7 @@ fun DatePickerField(
             trailingIcon = {
                 IconButton(onClick = { showDatePicker = true }) {
                     Icon(
-                        painter = painterResource(R.drawable.ic_ajukan_surat),
+                        imageVector = Icons.Default.DateRange,
                         contentDescription = "Select date",
                         tint = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
                     )
