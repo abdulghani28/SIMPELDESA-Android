@@ -20,6 +20,8 @@ import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buats
 import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.subsurat.SKTidakMampu
 import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.subsurat.skberpergian.SKBerpergianScreen
 import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.subsurat.skkematian.SKKematianScreen
+import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.subsurat.skpenghasilan.SKPenghasilanScreen
+import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.subsurat.sktidakmasukkerja.SKTidakMasukKerjaScreen
 import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.subsurat.skusaha.SKUsahaScreen
 import com.cvindosistem.simpeldesa.core.data.local.preferences.UserPreferences
 import org.koin.androidx.compose.koinViewModel
@@ -40,7 +42,7 @@ fun NavGraph(
 //        else -> Screen.MainScreen.route
 //    }
 
-    val initialStartDestination = Screen.SKBerpergian.route
+    val initialStartDestination = Screen.SKPenghasilan.route
 
     val passwordResetViewModel: PasswordResetViewModel = koinViewModel()
 
@@ -136,6 +138,18 @@ fun NavGraph(
 
         composable(Screen.SKBerpergian.route) {
             SKBerpergianScreen(
+                navController = navController
+            )
+        }
+
+        composable(Screen.SKTidakMasukKerja.route) {
+            SKTidakMasukKerjaScreen(
+                navController = navController
+            )
+        }
+
+        composable(Screen.SKPenghasilan.route) {
+            SKPenghasilanScreen(
                 navController = navController
             )
         }
