@@ -6,21 +6,18 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.components.GenderSelection
-import com.cvindosistem.simpeldesa.core.components.AppBottomBar
 import com.cvindosistem.simpeldesa.core.components.AppTextField
-import com.cvindosistem.simpeldesa.core.components.AppTopBar
 import com.cvindosistem.simpeldesa.core.components.DatePickerField
 import com.cvindosistem.simpeldesa.core.components.DropdownField
 import com.cvindosistem.simpeldesa.core.components.FormSectionList
@@ -29,34 +26,7 @@ import com.cvindosistem.simpeldesa.core.components.SectionTitle
 import com.cvindosistem.simpeldesa.core.components.StepIndicator
 
 @Composable
-fun SKKematian2Screen(
-    navController: NavController
-) {
-
-    Scaffold(
-        topBar = {
-            Column {
-                AppTopBar(
-                    title = "SK Kematian",
-                    showBackButton = true,
-                    onBackClick = { navController.popBackStack() }
-                )
-            }
-        },
-        bottomBar = {
-            AppBottomBar(
-                onPreviewClick = { },
-                onBackClick = { },
-                onContinueClick = { }
-            )
-        }
-    ) { paddingValues ->
-        SKKematian2Content(modifier = Modifier.padding(paddingValues))
-    }
-}
-
-@Composable
-private fun SKKematian2Content(
+internal fun SKKematian2Content(
     modifier: Modifier = Modifier
 ) {
     FormSectionList(
@@ -94,11 +64,12 @@ private fun InformasiMendiang() {
 
         AppTextField(
             label = "Nomor Induk Kependudukan (NIK)",
-            placeholder = "Masukkan nama lengkap",
+            placeholder = "Masukkan NIK",
             value = nikValue,
             onValueChange = { nikValue = it },
             isError = false,
-            errorMessage = null
+            errorMessage = null,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
 
         Spacer(modifier = Modifier.height(16.dp))
