@@ -1,7 +1,9 @@
 package com.cvindosistem.simpeldesa.main.presentation.screens.main.activity
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -9,25 +11,19 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.cvindosistem.simpeldesa.main.presentation.components.ActivityTabLayout
 
 @Composable
-fun ActivityScreen() {
-    var selectedTab by remember { mutableIntStateOf(0) }
-    val tabs = listOf("Surat Saya", "Laporan", "Pesanan")
-
-    Column(modifier = Modifier.fillMaxSize()) {
-        ActivityTabLayout(
-            tabs = tabs,
-            selectedTabIndex = selectedTab,
-            onTabSelected = { selectedTab = it }
+fun AktivitasScreen() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "Aktivitas Screen",
+            style = MaterialTheme.typography.headlineMedium
         )
-
-        when (selectedTab) {
-            0 -> LettersList()
-            1 -> Text("Laporan Tab")
-            2 -> Text("Pesanan Tab")
-        }
     }
 }

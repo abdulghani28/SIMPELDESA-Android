@@ -2,6 +2,7 @@ package com.cvindosistem.simpeldesa.core.components
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -10,7 +11,8 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun BodyMediumText(
-    text: String
+    text: String,
+    fontWeight: FontWeight = FontWeight.Normal
 ) {
     Text(
         text = text,
@@ -18,7 +20,8 @@ fun BodyMediumText(
             color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
             textAlign = TextAlign.Start,
             lineHeight = 20.sp
-        )
+        ),
+        fontWeight = fontWeight
     )
 }
 
@@ -50,13 +53,14 @@ fun TitleMediumText(
 
 @Composable
 fun BodySmallText(
-    text: String
+    text: String,
+    textAlign: TextAlign = TextAlign.Start
 ) {
     Text(
         text = text,
         style = MaterialTheme.typography.bodySmall.copy(
             color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
-            textAlign = TextAlign.Start,
+            textAlign = textAlign,
             lineHeight = 20.sp
         )
     )
@@ -100,5 +104,45 @@ fun CardTitleText(
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary
         )
+    )
+}
+
+@Composable
+fun BodyLargeText(
+    text: String,
+    fontWeight: FontWeight = FontWeight.Normal
+) {
+    Text(
+        text = text,
+        style = MaterialTheme.typography.bodyLarge,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        fontWeight = fontWeight
+    )
+}
+
+@Composable
+fun ClickableText(
+    onClick: () -> Unit,
+    text: String
+) {
+    TextButton(
+        onClick = onClick
+    ) {
+        Text(
+            text = text,
+            color = MaterialTheme.colorScheme.primary,
+            style = MaterialTheme.typography.labelMedium.copy(
+                fontWeight = FontWeight.Medium
+            )
+        )
+    }
+}
+
+@Composable
+fun LabelSmallText(date: String) {
+    Text(
+        date,
+        style = MaterialTheme.typography.labelSmall,
+        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f)
     )
 }

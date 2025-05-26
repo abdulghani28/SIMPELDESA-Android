@@ -30,6 +30,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.cvindosistem.simpeldesa.R
+import com.cvindosistem.simpeldesa.main.presentation.screens.main.activity.AktivitasScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.main.home.BerandaScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.main.profile.ProfilScreen
 
 // Data class untuk item bottom navigation
 data class BottomNavItem(
@@ -163,57 +166,4 @@ fun DynamicIcon(
         painter = painterResource(id = drawableRes),
         contentDescription = contentDescription
     )
-}
-
-// Screen Composables
-@Composable
-fun BerandaScreen() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = "Beranda Screen",
-            style = MaterialTheme.typography.headlineMedium
-        )
-    }
-}
-
-@Composable
-fun AktivitasScreen() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = "Aktivitas Screen",
-            style = MaterialTheme.typography.headlineMedium
-        )
-    }
-}
-
-@Composable
-fun ProfilScreen(navController: NavController) {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = "Profil Screen",
-                style = MaterialTheme.typography.headlineMedium
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Button(
-                onClick = {
-                    // Contoh navigasi keluar dari MainScreen
-                    navController.popBackStack()
-                }
-            ) {
-                Text("Kembali ke Login")
-            }
-        }
-    }
 }

@@ -37,7 +37,7 @@ fun SPCatatanKepolisianScreen(
         topBar = {
             Column {
                 AppTopBar(
-                    title = "SP Catatan KEPOLISIAN",
+                    title = "SP Catatan Kepolisian",
                     showBackButton = true,
                     onBackClick = { navController.popBackStack() }
                 )

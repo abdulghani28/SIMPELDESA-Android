@@ -24,6 +24,7 @@ import com.cvindosistem.simpeldesa.auth.presentation.auth.login.AuthViewModel
 import com.cvindosistem.simpeldesa.core.components.AppPasswordField
 import com.cvindosistem.simpeldesa.core.components.AppTextField
 import com.cvindosistem.simpeldesa.core.components.AuthButton
+import com.cvindosistem.simpeldesa.core.components.ClickableText
 
 @Composable
 internal fun LoginForm(
@@ -66,17 +67,10 @@ internal fun LoginForm(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.End
         ) {
-            TextButton(
-                onClick = { /* Handle forgot password */ }
-            ) {
-                Text(
-                    text = "LUPA PASSWORD",
-                    color = MaterialTheme.colorScheme.primary,
-                    style = MaterialTheme.typography.bodySmall.copy(
-                        fontWeight = FontWeight.Medium
-                    )
-                )
-            }
+            ClickableText(
+                onClick = {},
+                text = "LUPA PASSWORD"
+            )
         }
 
         AuthButton(
