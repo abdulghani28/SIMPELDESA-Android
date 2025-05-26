@@ -1,7 +1,15 @@
 package com.cvindosistem.simpeldesa.main.presentation.screens.main
 
+import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -9,114 +17,203 @@ import androidx.compose.material3.NavigationBarItemColors
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.cvindosistem.simpeldesa.R
+
+// Data class untuk item bottom navigation
+data class BottomNavItem(
+    val route: String,
+    val title: String,
+    val iconName: String // Nama dasar icon tanpa suffix selected/unselected
+)
+
+// Enum untuk bottom navigation items
+enum class BottomNavScreen(
+    val route: String,
+    val title: String,
+    val iconName: String
+) {
+    BERANDA("beranda", "Beranda", "home"),
+    AKTIVITAS("aktivitas", "Aktivitas", "aktivitas"),
+    PROFIL("profil", "Profil", "profil")
+}
 
 @Composable
 fun MainScreen(navController: NavController) {
     val internalNavController = rememberNavController()
     val currentRoute = internalNavController.currentBackStackEntryAsState().value?.destination?.route
 
-//    LaunchedEffect(Unit) {
-//        viewModel.loginEvent.collectLatest { event ->
-//            if (event is AuthViewModel.LoginEvent.Logout) {
-//                navController.navigate(Screen.Login.route) {
-//                    popUpTo(Screen.MainScreen.route) { inclusive = true }
-//                }
-//            }
-//        }
-//    }
+    val bottomNavItems = BottomNavScreen.entries.map { screen ->
+        BottomNavItem(
+            route = screen.route,
+            title = screen.title,
+            iconName = screen.iconName
+        )
+    }
 
     Scaffold(
         bottomBar = {
-            NavigationBar(
-                containerColor = MaterialTheme.colorScheme.primary,
-                contentColor = MaterialTheme.colorScheme.background
-            ) {
-                BottomNavigationItem(
-                    selected = currentRoute == "modul_aplikasi",
-                    onClick = {
-                        if (currentRoute != "modul_aplikasi") {
-                            internalNavController.navigate("modul_aplikasi") {
-                                popUpTo(internalNavController.graph.startDestinationId)
-                                launchSingleTop = true
+            CustomBottomNavigationBar(
+                items = bottomNavItems,
+                currentRoute = currentRoute,
+                onItemClick = { route ->
+                    if (currentRoute != route) {
+                        internalNavController.navigate(route) {
+                            popUpTo(internalNavController.graph.findStartDestination().id) {
+                                saveState = true
                             }
+                            launchSingleTop = true
+                            restoreState = true
                         }
-                    },
-                    icon = {
-//                        Icon(
-//                            painter = painterResource(id = R.drawable.ic_modul),
-//                            contentDescription = "Modul Aplikasi"
-//                        )
-                    },
-                    label = { Text("Modul Aplikasi") }
-                )
-
-                BottomNavigationItem(
-                    selected = currentRoute == "lainnya",
-                    onClick = {
-                        if (currentRoute != "lainnya") {
-                            internalNavController.navigate("lainnya") {
-                                launchSingleTop = true
-                            }
-                        }
-                    },
-                    icon = {
-//                        Icon(
-//                            painter = painterResource(id = R.drawable.ic_others_menu),
-//                            contentDescription = "Lainnya"
-//                        )
-                    },
-                    label = { Text("Lainnya") }
-                )
-            }
+                    }
+                }
+            )
         }
     ) { innerPadding ->
         NavHost(
             navController = internalNavController,
-            startDestination = "modul_aplikasi",
+            startDestination = BottomNavScreen.BERANDA.route,
             modifier = Modifier.padding(innerPadding)
         ) {
-//            composable("modul_aplikasi") {
-//                ModulAplikasiScreen(
-//                    mainNavController = navController
-//                )
-//            }
+            composable(BottomNavScreen.BERANDA.route) {
+                BerandaScreen()
+            }
 
-//            composable("lainnya") {
-//                LainnyaScreen(
-//                    navController = navController,
-//                    viewModel = profileViewModel,
-//                    authViewModel = viewModel,
-//                )
-//            }
+            composable(BottomNavScreen.AKTIVITAS.route) {
+                AktivitasScreen()
+            }
+
+            composable(BottomNavScreen.PROFIL.route) {
+                ProfilScreen(navController = navController)
+            }
         }
     }
 }
 
 @Composable
-fun RowScope.BottomNavigationItem(
-    selected: Boolean,
-    onClick: () -> Unit,
-    icon: @Composable () -> Unit,
-    label: @Composable () -> Unit
+fun CustomBottomNavigationBar(
+    items: List<BottomNavItem>,
+    currentRoute: String?,
+    onItemClick: (String) -> Unit
 ) {
-    NavigationBarItem(
-        selected = selected,
-        onClick = onClick,
-        icon = icon,
-        label = label,
-        colors = NavigationBarItemColors(
-            selectedIconColor = MaterialTheme.colorScheme.background,
-            selectedTextColor = MaterialTheme.colorScheme.background,
-            selectedIndicatorColor = MaterialTheme.colorScheme.background.copy(alpha = 0.2f),
-            disabledIconColor = MaterialTheme.colorScheme.background.copy(alpha = 0.5f),
-            disabledTextColor = MaterialTheme.colorScheme.background.copy(alpha = 0.5f),
-            unselectedTextColor = MaterialTheme.colorScheme.background,
-            unselectedIconColor = MaterialTheme.colorScheme.background
-        )
+    NavigationBar(
+        containerColor = MaterialTheme.colorScheme.background
+    ) {
+        items.forEach { item ->
+            val isSelected = currentRoute == item.route
+
+            NavigationBarItem(
+                selected = isSelected,
+                onClick = { onItemClick(item.route) },
+                icon = {
+                    DynamicIcon(
+                        iconName = item.iconName,
+                        isSelected = isSelected,
+                        contentDescription = item.title
+                    )
+                },
+                label = { Text(item.title) },
+                colors = NavigationBarItemColors(
+                    selectedIconColor = Color.Unspecified,
+                    selectedTextColor = MaterialTheme.colorScheme.primary,
+                    selectedIndicatorColor = Color.Transparent,
+                    disabledIconColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f),
+                    disabledTextColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f),
+                    unselectedTextColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f),
+                    unselectedIconColor = Color.Unspecified
+                )
+            )
+        }
+    }
+}
+
+@SuppressLint("DiscouragedApi")
+@Composable
+fun DynamicIcon(
+    iconName: String,
+    isSelected: Boolean,
+    contentDescription: String
+) {
+    val context = LocalContext.current
+    val suffix = if (isSelected) "selected" else "unselected"
+    val resourceName = "ic_${iconName}_$suffix"
+
+    // Mendapatkan resource ID secara dinamis
+    val resourceId = context.resources.getIdentifier(
+        resourceName,
+        "drawable",
+        context.packageName
     )
+
+    // Fallback ke icon default jika tidak ditemukan
+    val drawableRes = if (resourceId != 0) resourceId else R.drawable.ic_home_unselected
+
+    Icon(
+        painter = painterResource(id = drawableRes),
+        contentDescription = contentDescription
+    )
+}
+
+// Screen Composables
+@Composable
+fun BerandaScreen() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "Beranda Screen",
+            style = MaterialTheme.typography.headlineMedium
+        )
+    }
+}
+
+@Composable
+fun AktivitasScreen() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "Aktivitas Screen",
+            style = MaterialTheme.typography.headlineMedium
+        )
+    }
+}
+
+@Composable
+fun ProfilScreen(navController: NavController) {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = "Profil Screen",
+                style = MaterialTheme.typography.headlineMedium
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(
+                onClick = {
+                    // Contoh navigasi keluar dari MainScreen
+                    navController.popBackStack()
+                }
+            ) {
+                Text("Kembali ke Login")
+            }
+        }
+    }
 }

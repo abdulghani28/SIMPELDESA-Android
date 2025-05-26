@@ -11,31 +11,32 @@ import com.cvindosistem.simpeldesa.auth.presentation.auth.resetpassword.ForgotPa
 import com.cvindosistem.simpeldesa.auth.presentation.auth.resetpassword.OtpVerificationScreen
 import com.cvindosistem.simpeldesa.auth.presentation.auth.resetpassword.PasswordResetViewModel
 import com.cvindosistem.simpeldesa.auth.presentation.auth.resetpassword.ResetPasswordScreen
-import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.LayananPersuratanScreen
-import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.SuratKeteranganScreen
-import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.SuratLainnyaScreen
-import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.SuratPengantarScreen
-import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.SuratRekomendasiScreen
-import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratketerangan.SKDomisiliScreen
-import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratketerangan.SKResiKTPSementaraScreen
-import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratketerangan.SKStatusPerkawinanScreen
-import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratketerangan.SKTidakMampu
-import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratketerangan.skbedaidentitas.SKBedaIdentitasScreen
-import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratketerangan.skberpergian.SKBerpergianScreen
-import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratketerangan.skdomisiliperusahaan.SKDomisiliPerusahaanScreen
-import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratketerangan.skgaib.SKGhaibScreen
-import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratketerangan.skjandaduda.SKJandaDudaScreen
-import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratketerangan.skkematian.SKKematianScreen
-import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratketerangan.skpenghasilan.SKPenghasilanScreen
-import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratketerangan.sktidakmasukkerja.SKTidakMasukKerjaScreen
-import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratketerangan.skusaha.SKUsahaScreen
-import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratlainnya.suratkuasa.SuratKuasaScreen
-import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratlainnya.surattugas.SuratTugasScreen
-import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratpengantar.SPCatatanKepolisianScreen
-import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratpengantar.spkehilangan.SPKehilanganScreen
-import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratpengantar.sppernikahan.SPPernikahanScreen
-import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratrekomendasi.SRKeramaianScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.LayananPersuratanScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.SuratKeteranganScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.SuratLainnyaScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.SuratPengantarScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.SuratRekomendasiScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.suratketerangan.SKDomisiliScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.suratketerangan.SKResiKTPSementaraScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.suratketerangan.SKStatusPerkawinanScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.suratketerangan.SKTidakMampu
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.suratketerangan.skbedaidentitas.SKBedaIdentitasScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.suratketerangan.skberpergian.SKBerpergianScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.suratketerangan.skdomisiliperusahaan.SKDomisiliPerusahaanScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.suratketerangan.skgaib.SKGhaibScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.suratketerangan.skjandaduda.SKJandaDudaScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.suratketerangan.skkematian.SKKematianScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.suratketerangan.skpenghasilan.SKPenghasilanScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.suratketerangan.sktidakmasukkerja.SKTidakMasukKerjaScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.suratketerangan.skusaha.SKUsahaScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.suratlainnya.suratkuasa.SuratKuasaScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.suratlainnya.surattugas.SuratTugasScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.suratpengantar.SPCatatanKepolisianScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.suratpengantar.spkehilangan.SPKehilanganScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.suratpengantar.sppernikahan.SPPernikahanScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.suratrekomendasi.SRKeramaianScreen
 import com.cvindosistem.simpeldesa.core.data.local.preferences.UserPreferences
+import com.cvindosistem.simpeldesa.main.presentation.screens.main.MainScreen
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 
@@ -54,7 +55,7 @@ fun NavGraph(
 //        else -> Screen.MainScreen.route
 //    }
 
-    val initialStartDestination = Screen.SuratKuasa.route
+    val initialStartDestination = Screen.MainScreen.route
 
     val passwordResetViewModel: PasswordResetViewModel = koinViewModel()
 
@@ -98,7 +99,9 @@ fun NavGraph(
 
         // ===== Main =====
         composable(Screen.MainScreen.route) {
-            Text("Main Screen")
+            MainScreen(
+                navController = navController
+            )
         }
 
         // ===== Layanan Persuratan =====
