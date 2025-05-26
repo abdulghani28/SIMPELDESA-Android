@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.RadioButton
-import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -17,21 +15,20 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.components.GenderSelection
 import com.cvindosistem.simpeldesa.core.components.AnimatedTabContent
 import com.cvindosistem.simpeldesa.core.components.AppBottomBar
 import com.cvindosistem.simpeldesa.core.components.AppTab
 import com.cvindosistem.simpeldesa.core.components.AppTextField
 import com.cvindosistem.simpeldesa.core.components.AppTopBar
-import com.cvindosistem.simpeldesa.core.components.BodyMediumText
 import com.cvindosistem.simpeldesa.core.components.DatePickerField
 import com.cvindosistem.simpeldesa.core.components.DropdownField
 import com.cvindosistem.simpeldesa.core.components.FormSectionList
+import com.cvindosistem.simpeldesa.core.components.GenderSelection
+import com.cvindosistem.simpeldesa.core.components.KewarganegaraanSection
 import com.cvindosistem.simpeldesa.core.components.MultilineTextField
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
 import com.cvindosistem.simpeldesa.core.components.UseMyDataCheckbox
@@ -95,6 +92,8 @@ private fun WargaDesaContent(
 private fun PendatangContent(
     modifier: Modifier = Modifier
 ) {
+    var selectedKewarganegaraan by remember { mutableStateOf("") }
+
     FormSectionList(
         modifier = modifier,
         background = MaterialTheme.colorScheme.background
@@ -108,7 +107,10 @@ private fun PendatangContent(
         }
 
         item {
-            KewarganegaraanSection()
+            KewarganegaraanSection(
+                selectedKewarganegaraan = selectedKewarganegaraan,
+                onSelectedKewarganegaraan = { selectedKewarganegaraan = it }
+            )
         }
 
         item {
@@ -233,45 +235,6 @@ private fun InformasiPelapor() {
             isError = false,
             errorMessage = null
         )
-    }
-}
-
-@Composable
-private fun KewarganegaraanSection() {
-    Column {
-        SectionTitle("Kewarganegaraan")
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        var selectedKewarganegaraan by remember { mutableStateOf("WNI") }
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            RadioButton(
-                selected = selectedKewarganegaraan == "WNI",
-                onClick = { selectedKewarganegaraan = "WNI" },
-                colors = RadioButtonDefaults.colors(
-                    selectedColor = MaterialTheme.colorScheme.primary
-                )
-            )
-            BodyMediumText("Warga Negara Indonesia (WNI)")
-        }
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            RadioButton(
-                selected = selectedKewarganegaraan == "WNA",
-                onClick = { selectedKewarganegaraan = "WNA" },
-                colors = RadioButtonDefaults.colors(
-                    selectedColor = MaterialTheme.colorScheme.primary
-                )
-            )
-            BodyMediumText("Warga Negara Asing (WNA)")
-        }
     }
 }
 

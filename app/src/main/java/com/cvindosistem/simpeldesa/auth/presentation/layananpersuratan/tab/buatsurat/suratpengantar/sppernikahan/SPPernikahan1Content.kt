@@ -1,6 +1,5 @@
-package com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratketerangan.skusaha.pendatang
+package com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratpengantar.sppernikahan
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -18,57 +16,49 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.cvindosistem.simpeldesa.core.components.GenderSelection
-import com.cvindosistem.simpeldesa.core.components.AppBottomBar
 import com.cvindosistem.simpeldesa.core.components.AppTextField
 import com.cvindosistem.simpeldesa.core.components.DatePickerField
 import com.cvindosistem.simpeldesa.core.components.DropdownField
 import com.cvindosistem.simpeldesa.core.components.FormSectionList
+import com.cvindosistem.simpeldesa.core.components.KewarganegaraanSection
 import com.cvindosistem.simpeldesa.core.components.MultilineTextField
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
-import com.cvindosistem.simpeldesa.core.components.StepIndicator
+import com.cvindosistem.simpeldesa.core.components.StepIndicatorFlexible
 import com.cvindosistem.simpeldesa.core.components.UseMyDataCheckbox
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun UsahaPendatang1Content(
-    modifier: Modifier = Modifier,
-    onContinueClick: () -> Unit = {}
+internal fun SPPernikahan1Content(
+    modifier: Modifier = Modifier
 ) {
-    Scaffold(
-        bottomBar = {
-            AppBottomBar(
-                onPreviewClick = { },
-                onContinueClick = onContinueClick
+    FormSectionList(
+        modifier = modifier,
+        background = MaterialTheme.colorScheme.background
+    ) {
+        item {
+            StepIndicatorFlexible(
+                steps = listOf("Informasi Calon Suami", "Informasi Orang Tua Calon Suami", "Informasi Calon Istri", "Informasi Orang Tua Calon Istri", "Informasi Rencana Pernikahan"),
+                currentStep = 1
             )
         }
-    ) {
-        FormSectionList(
-            modifier = modifier,
-            background = MaterialTheme.colorScheme.background
-        ) {
-            item {
-                StepIndicator(
-                    steps = listOf("Informasi Pelapor", "Informasi Usaha", "Informasi Pelengkap"),
-                    currentStep = 1
-                )
-            }
 
-            item {
-                UseMyDataCheckbox()
-            }
+        item {
+            UseMyDataCheckbox()
+        }
 
-            item {
-                InformasiPelapor()
-            }
+        item {
+            InformasiCalonSuami()
+        }
+
+        item {
+            InformasiStatusPerkawinan()
         }
     }
 }
 
 @Composable
-private fun InformasiPelapor() {
+private fun InformasiCalonSuami() {
     Column {
-        SectionTitle("Informasi Pelapor")
+        SectionTitle("Informasi Calon Suami")
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -76,7 +66,7 @@ private fun InformasiPelapor() {
         var namaValue by remember { mutableStateOf("") }
         var tempatLahirValue by remember { mutableStateOf("") }
         var tanggalLahirValue by remember { mutableStateOf("") }
-        var selectedGender by remember { mutableStateOf("") }
+        var selectedKewarganegaraan by remember { mutableStateOf("") }
         var agamaValue by remember { mutableStateOf("") }
         var pekerjaanValue by remember { mutableStateOf("") }
         var alamatValue by remember { mutableStateOf("") }
@@ -130,9 +120,9 @@ private fun InformasiPelapor() {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        GenderSelection(
-            selectedGender = selectedGender,
-            onGenderSelected = { selectedGender = it }
+        KewarganegaraanSection(
+            selectedKewarganegaraan = selectedKewarganegaraan,
+            onSelectedKewarganegaraan = { selectedKewarganegaraan = it }
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -158,12 +148,55 @@ private fun InformasiPelapor() {
         Spacer(modifier = Modifier.height(16.dp))
 
         MultilineTextField(
-            label = "Alamat Lengkap",
+            label = "Alamat Tinggal",
             placeholder = "Masukkan alamat lengkap",
             value = alamatValue,
             onValueChange = { alamatValue = it },
             isError = false,
             errorMessage = null
+        )
+    }
+}
+
+@Composable
+private fun InformasiStatusPerkawinan() {
+    Column {
+        SectionTitle("Informasi Status Perkawinan")
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        var statusValue by remember { mutableStateOf("") }
+        var jumlahIstriValue by remember { mutableStateOf("") }
+        var namaIstriSebelumnyaValue by remember { mutableStateOf("") }
+
+        DropdownField(
+            label = "Status",
+            value = statusValue,
+            onValueChange = { statusValue = it },
+            options = listOf("Duda", "Lajang")
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        AppTextField(
+            label = "Jumlah Istri",
+            placeholder = "Masukkan jumlah istri",
+            value = jumlahIstriValue,
+            onValueChange = { jumlahIstriValue = it },
+            isError = false,
+            errorMessage = null,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        AppTextField(
+            label = "Nama Istri Sebelumnya",
+            placeholder = "Masukkan nama istri sebelumnya",
+            value = namaIstriSebelumnyaValue,
+            onValueChange = { namaIstriSebelumnyaValue = it },
+            isError = false,
+            errorMessage = null,
         )
     }
 }

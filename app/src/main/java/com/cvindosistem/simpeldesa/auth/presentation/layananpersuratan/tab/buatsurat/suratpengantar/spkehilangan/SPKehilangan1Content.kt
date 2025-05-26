@@ -1,6 +1,5 @@
-package com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratketerangan.skusaha.pendatang
+package com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratpengantar.spkehilangan
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -19,48 +17,35 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.cvindosistem.simpeldesa.core.components.GenderSelection
-import com.cvindosistem.simpeldesa.core.components.AppBottomBar
 import com.cvindosistem.simpeldesa.core.components.AppTextField
 import com.cvindosistem.simpeldesa.core.components.DatePickerField
-import com.cvindosistem.simpeldesa.core.components.DropdownField
 import com.cvindosistem.simpeldesa.core.components.FormSectionList
 import com.cvindosistem.simpeldesa.core.components.MultilineTextField
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
 import com.cvindosistem.simpeldesa.core.components.StepIndicator
 import com.cvindosistem.simpeldesa.core.components.UseMyDataCheckbox
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun UsahaPendatang1Content(
-    modifier: Modifier = Modifier,
-    onContinueClick: () -> Unit = {}
+internal fun SPKehilangan1Content(
+    modifier: Modifier = Modifier
 ) {
-    Scaffold(
-        bottomBar = {
-            AppBottomBar(
-                onPreviewClick = { },
-                onContinueClick = onContinueClick
+    FormSectionList(
+        modifier = modifier,
+        background = MaterialTheme.colorScheme.background
+    ) {
+        item {
+            StepIndicator(
+                steps = listOf("Informasi Pelapor", "Informasi Barang Hilang"),
+                currentStep = 1
             )
         }
-    ) {
-        FormSectionList(
-            modifier = modifier,
-            background = MaterialTheme.colorScheme.background
-        ) {
-            item {
-                StepIndicator(
-                    steps = listOf("Informasi Pelapor", "Informasi Usaha", "Informasi Pelengkap"),
-                    currentStep = 1
-                )
-            }
 
-            item {
-                UseMyDataCheckbox()
-            }
+        item {
+            UseMyDataCheckbox()
+        }
 
-            item {
-                InformasiPelapor()
-            }
+        item {
+            InformasiPelapor()
         }
     }
 }
@@ -77,7 +62,6 @@ private fun InformasiPelapor() {
         var tempatLahirValue by remember { mutableStateOf("") }
         var tanggalLahirValue by remember { mutableStateOf("") }
         var selectedGender by remember { mutableStateOf("") }
-        var agamaValue by remember { mutableStateOf("") }
         var pekerjaanValue by remember { mutableStateOf("") }
         var alamatValue by remember { mutableStateOf("") }
 
@@ -133,15 +117,6 @@ private fun InformasiPelapor() {
         GenderSelection(
             selectedGender = selectedGender,
             onGenderSelected = { selectedGender = it }
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        DropdownField(
-            label = "Agama",
-            value = agamaValue,
-            onValueChange = { agamaValue = it },
-            options = listOf("Islam", "Kristen", "Katolik", "Hindu", "Buddha", "Konghucu")
         )
 
         Spacer(modifier = Modifier.height(16.dp))

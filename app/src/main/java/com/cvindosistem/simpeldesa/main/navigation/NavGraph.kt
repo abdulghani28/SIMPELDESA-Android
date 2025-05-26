@@ -29,6 +29,9 @@ import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buats
 import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratketerangan.skpenghasilan.SKPenghasilanScreen
 import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratketerangan.sktidakmasukkerja.SKTidakMasukKerjaScreen
 import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratketerangan.skusaha.SKUsahaScreen
+import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratpengantar.SPCatatanKepolisianScreen
+import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratpengantar.spkehilangan.SPKehilanganScreen
+import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratpengantar.sppernikahan.SPPernikahanScreen
 import com.cvindosistem.simpeldesa.core.data.local.preferences.UserPreferences
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
@@ -48,7 +51,7 @@ fun NavGraph(
 //        else -> Screen.MainScreen.route
 //    }
 
-    val initialStartDestination = Screen.SKBedaIdentitas.route
+    val initialStartDestination = Screen.SPKehilangan.route
 
     val passwordResetViewModel: PasswordResetViewModel = koinViewModel()
 
@@ -192,6 +195,24 @@ fun NavGraph(
 
         composable(Screen.SKGhaib.route) {
             SKGhaibScreen(
+                navController = navController
+            )
+        }
+
+        composable(Screen.SPCatatanKepolisian.route) {
+            SPCatatanKepolisianScreen(
+                navController = navController
+            )
+        }
+
+        composable(Screen.SPKehilangan.route) {
+            SPKehilanganScreen(
+                navController = navController
+            )
+        }
+
+        composable(Screen.SPPernikahan.route) {
+            SPPernikahanScreen(
                 navController = navController
             )
         }

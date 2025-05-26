@@ -3,7 +3,6 @@ package com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buat
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -17,7 +16,6 @@ import com.cvindosistem.simpeldesa.core.components.DatePickerField
 import com.cvindosistem.simpeldesa.core.components.DropdownField
 import com.cvindosistem.simpeldesa.core.components.FormSectionList
 import com.cvindosistem.simpeldesa.core.components.InformationDivider
-import com.cvindosistem.simpeldesa.core.components.LabelFieldText
 import com.cvindosistem.simpeldesa.core.components.MultilineTextField
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
 import com.cvindosistem.simpeldesa.core.components.StepIndicator
@@ -72,7 +70,7 @@ private fun InformasiPerbedaanIdentitas() {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        InformationDivider()
+        InformationDivider("Identitas 1 (identitas sebenarnya)")
 
         Spacer(modifier = Modifier.height(16.dp))
 

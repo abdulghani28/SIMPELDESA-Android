@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.components.GenderSelection
+import com.cvindosistem.simpeldesa.core.components.GenderSelection
 import com.cvindosistem.simpeldesa.core.components.AppBottomBar
 import com.cvindosistem.simpeldesa.core.components.AppTextField
 import com.cvindosistem.simpeldesa.core.components.AppTopBar
@@ -29,7 +29,6 @@ import com.cvindosistem.simpeldesa.core.components.FormSectionList
 import com.cvindosistem.simpeldesa.core.components.MultilineTextField
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
 import com.cvindosistem.simpeldesa.core.components.UseMyDataCheckbox
-
 
 @Composable
 fun SKResiKTPSementaraScreen(

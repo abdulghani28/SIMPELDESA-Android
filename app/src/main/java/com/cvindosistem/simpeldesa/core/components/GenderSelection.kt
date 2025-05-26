@@ -1,9 +1,11 @@
-package com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.components
+package com.cvindosistem.simpeldesa.core.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
@@ -11,8 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.cvindosistem.simpeldesa.core.components.BodyMediumText
-import com.cvindosistem.simpeldesa.core.components.LabelFieldText
 
 @Composable
 internal fun GenderSelection(
@@ -173,6 +173,46 @@ internal fun PenyebabStatusSelection(
                 )
                 BodyMediumText("Cerai Mati")
             }
+        }
+    }
+}
+
+@Composable
+internal fun KewarganegaraanSection(
+    selectedKewarganegaraan: String,
+    onSelectedKewarganegaraan: (String) -> Unit
+) {
+    Column {
+        SectionTitle("Kewarganegaraan")
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            RadioButton(
+                selected = selectedKewarganegaraan == "WNI",
+                onClick = { onSelectedKewarganegaraan("WNI") },
+                colors = RadioButtonDefaults.colors(
+                    selectedColor = MaterialTheme.colorScheme.primary
+                )
+            )
+            BodyMediumText("Warga Negara Indonesia (WNI)")
+        }
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            RadioButton(
+                selected = selectedKewarganegaraan == "WNA",
+                onClick = { onSelectedKewarganegaraan("WNA") },
+                colors = RadioButtonDefaults.colors(
+                    selectedColor = MaterialTheme.colorScheme.primary
+                )
+            )
+            BodyMediumText("Warga Negara Asing (WNA)")
         }
     }
 }

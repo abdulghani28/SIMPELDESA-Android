@@ -1,5 +1,6 @@
 package com.cvindosistem.simpeldesa.core.components
 
+// YANG BENAR
 import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -13,6 +14,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DatePickerState
@@ -27,7 +29,10 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TimePicker
+import androidx.compose.material3.TimePickerState
 import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -46,6 +51,7 @@ import com.cvindosistem.simpeldesa.R
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+
 
 @Composable
 fun AppOutlinedTextField(
@@ -426,4 +432,96 @@ fun AppDatePickerDialog(
             showModeToggle = false
         )
     }
+}
+
+@SuppressLint("DefaultLocale")
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TimePickerField(
+    label: String,
+    value: String,
+    onValueChange: (String) -> Unit
+) {
+    Column {
+        LabelFieldText(label)
+        var showTimePicker by remember { mutableStateOf(false) }
+        val timePickerState = rememberTimePickerState()
+
+        OutlinedTextField(
+            value = value,
+            onValueChange = {},
+            enabled = false,
+            placeholder = {
+                Text(
+                    text = "HH:MM",
+                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.3f)
+                )
+            },
+            trailingIcon = {
+                IconButton(onClick = { showTimePicker = true }) {
+                    Icon(
+                        imageVector = Icons.Default.DateRange,
+                        contentDescription = "Select time",
+                        tint = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
+                    )
+                }
+            },
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = Color(0xFFDCE2FB),
+                unfocusedBorderColor = Color(0xFFDCE2FB),
+                disabledBorderColor = Color(0xFFDCE2FB),
+                focusedContainerColor = Color(0xFFF8F7FD),
+                unfocusedContainerColor = Color(0xFFF8F7FD),
+                disabledContainerColor = Color(0xFFF8F7FD),
+                disabledTextColor = MaterialTheme.colorScheme.onBackground,
+            ),
+            shape = RoundedCornerShape(8.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { showTimePicker = true }
+        )
+
+        if (showTimePicker) {
+            AppTimePickerDialog(
+                timePickerState = timePickerState,
+                onTimeSelected = { hour, minute ->
+                    val formattedTime = String.format("%02d:%02d", hour, minute)
+                    onValueChange(formattedTime)
+                    showTimePicker = false
+                },
+                onDismiss = { showTimePicker = false }
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AppTimePickerDialog(
+    timePickerState: TimePickerState,
+    onTimeSelected: (Int, Int) -> Unit,
+    onDismiss: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text("Batal")
+            }
+        },
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    onTimeSelected(timePickerState.hour, timePickerState.minute)
+                }
+            ) {
+                Text("OK")
+            }
+        },
+        text = {
+            TimePicker(
+                state = timePickerState
+            )
+        }
+    )
 }

@@ -16,8 +16,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.components.DasarPengajuanSelection
-import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.components.PenyebabStatusSelection
+import com.cvindosistem.simpeldesa.core.components.DasarPengajuanSelection
+import com.cvindosistem.simpeldesa.core.components.PenyebabStatusSelection
 import com.cvindosistem.simpeldesa.core.components.AppTextField
 import com.cvindosistem.simpeldesa.core.components.FormSectionList
 import com.cvindosistem.simpeldesa.core.components.SectionTitle

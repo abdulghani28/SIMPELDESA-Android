@@ -7,9 +7,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun InformationDivider() {
+fun InformationDivider(
+    text: String
+) {
     Column {
-        LabelFieldText("Identitas 1 (identitas sebenarnya)")
+        LabelFieldText(text)
 
         HorizontalDivider(
             thickness = 1.dp,

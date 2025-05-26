@@ -20,8 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.components.GenderSelection
-import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.components.StatusPerkawinanSelection
+import com.cvindosistem.simpeldesa.core.components.GenderSelection
+import com.cvindosistem.simpeldesa.core.components.StatusPerkawinanSelection
 import com.cvindosistem.simpeldesa.core.components.AppBottomBar
 import com.cvindosistem.simpeldesa.core.components.AppTextField
 import com.cvindosistem.simpeldesa.core.components.AppTopBar
