@@ -1,4 +1,4 @@
-package com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratketerangan.skgaib
+package com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratlainnya.suratkuasa
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -14,14 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.cvindosistem.simpeldesa.core.components.AppTextField
-import com.cvindosistem.simpeldesa.core.components.DropdownField
 import com.cvindosistem.simpeldesa.core.components.FormSectionList
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
 import com.cvindosistem.simpeldesa.core.components.StepIndicator
-import com.cvindosistem.simpeldesa.core.components.UseMyDataCheckbox
 
 @Composable
-internal fun SKGhaib1Content(
+internal fun SuratKuasa2Content(
     modifier: Modifier = Modifier
 ) {
     FormSectionList(
@@ -30,39 +28,35 @@ internal fun SKGhaib1Content(
     ) {
         item {
             StepIndicator(
-                steps = listOf("Informasi Pelapor", "Informasi Orang Hilang", "Informasi Orang yang Hilang"),
-                currentStep = 1
+                steps = listOf("Informasi Pemberi Kuasa", "Informasi Penerima Kuasa"),
+                currentStep = 2
             )
         }
 
         item {
-            UseMyDataCheckbox()
-        }
-
-        item {
-            InformasiPelapor()
+            InformasiPenerimaKuasa()
         }
     }
 }
 
 @Composable
-private fun InformasiPelapor() {
+private fun InformasiPenerimaKuasa() {
     Column {
-        SectionTitle("Informasi Pelapor")
+        SectionTitle("Informasi Penerima Kuasa")
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        var nikValue by remember { mutableStateOf("987492837421") }
-        var namaValue by remember { mutableStateOf("Joko Subianto") }
-        var hubunganValue by remember { mutableStateOf("") }
+        var nikValue by remember { mutableStateOf("") }
+        var namaValue by remember { mutableStateOf("") }
+        var jabatanValue by remember { mutableStateOf("") }
 
         AppTextField(
             label = "Nomor Induk Kependudukan (NIK)",
-            placeholder = "Masukkan NIK",
+            placeholder = "Masukkan NIK penerima kuasa",
             value = nikValue,
             onValueChange = { nikValue = it },
             isError = false,
-            errorMessage = null,
+            errorMessage = "",
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
 
@@ -70,22 +64,22 @@ private fun InformasiPelapor() {
 
         AppTextField(
             label = "Nama Lengkap",
-            placeholder = "Masukkan nama lengkap",
+            placeholder = "Masukkan nama lengkap penerima kuasa",
             value = namaValue,
             onValueChange = { namaValue = it },
             isError = false,
-            errorMessage = null
+            errorMessage = ""
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        DropdownField(
-            label = "Hubungan dengan Orang yang Hilang",
-            value = hubunganValue,
-            onValueChange = { hubunganValue = it },
-            options = listOf("Keluarga", "Kolega", "Teman", "Tetangga", "Lainnya"),
+        AppTextField(
+            label = "Jabatan",
+            placeholder = "Masukkan jabatan penerima kuasa",
+            value = jabatanValue,
+            onValueChange = { jabatanValue = it },
             isError = false,
-            errorMessage = null,
+            errorMessage = ""
         )
     }
 }

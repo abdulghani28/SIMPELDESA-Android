@@ -87,7 +87,9 @@ private fun InformasiMendiang() {
 
         GenderSelection(
             selectedGender = selectedGender,
-            onGenderSelected = { selectedGender = it }
+            onGenderSelected = { selectedGender = it },
+            isError = false,
+            errorMessage = null,
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -112,7 +114,9 @@ private fun InformasiMendiang() {
                     label = "Hari Meninggal",
                     value = hariMeninggalValue,
                     onValueChange = { hariMeninggalValue = it },
-                    options = listOf("Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu")
+                    options = listOf("Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"),
+                    isError = false,
+                    errorMessage = null,
                 )
             }
 
@@ -120,7 +124,9 @@ private fun InformasiMendiang() {
                 DatePickerField(
                     label = "Tanggal Meninggal",
                     value = tanggalMeninggalValue,
-                    onValueChange = { tanggalMeninggalValue = it }
+                    onValueChange = { tanggalMeninggalValue = it },
+                    isError = false,
+                    errorMessage = null,
                 )
             }
         }

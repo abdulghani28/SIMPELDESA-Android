@@ -56,7 +56,9 @@ private fun InformasiRencanaPernikahan() {
             label = "Hari",
             value = hariValue,
             onValueChange = { hariValue = it },
-            options = listOf("Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu")
+            options = listOf("Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"),
+            isError = false,
+            errorMessage = null,
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -64,7 +66,9 @@ private fun InformasiRencanaPernikahan() {
         DatePickerField(
             label = "Tanggal Pernikahan",
             value = tanggalPernikahanValue,
-            onValueChange = { tanggalPernikahanValue = it }
+            onValueChange = { tanggalPernikahanValue = it },
+            isError = false,
+            errorMessage = null,
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -72,7 +76,9 @@ private fun InformasiRencanaPernikahan() {
         TimePickerField(
             label = "Jam",
             value = jamValue,
-            onValueChange = { jamValue = it }
+            onValueChange = { jamValue = it },
+            isError = false,
+            errorMessage = null,
         )
 
         Spacer(modifier = Modifier.height(16.dp))

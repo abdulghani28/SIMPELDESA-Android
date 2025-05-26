@@ -109,7 +109,9 @@ private fun InformasiOrangTuaCalonIstri() {
                 DatePickerField(
                     label = "Tanggal Lahir",
                     value = ayahTanggalLahirValue,
-                    onValueChange = { ayahTanggalLahirValue = it }
+                    onValueChange = { ayahTanggalLahirValue = it },
+                    isError = false,
+                    errorMessage = null,
                 )
             }
         }
@@ -118,7 +120,9 @@ private fun InformasiOrangTuaCalonIstri() {
 
         KewarganegaraanSection(
             selectedKewarganegaraan = ayahSelectedKewarganegaraan,
-            onSelectedKewarganegaraan = { ayahSelectedKewarganegaraan = it }
+            onSelectedKewarganegaraan = { ayahSelectedKewarganegaraan = it },
+            isError = false,
+            errorMessage = null,
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -127,7 +131,9 @@ private fun InformasiOrangTuaCalonIstri() {
             label = "Agama",
             value = ayahAgamaValue,
             onValueChange = { ayahAgamaValue = it },
-            options = listOf("Islam", "Kristen", "Katolik", "Hindu", "Buddha", "Konghucu")
+            options = listOf("Islam", "Kristen", "Katolik", "Hindu", "Buddha", "Konghucu"),
+            isError = false,
+            errorMessage = null,
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -210,7 +216,9 @@ private fun InformasiOrangTuaCalonIstri() {
                 DatePickerField(
                     label = "Tanggal Lahir",
                     value = ibuTanggalLahirValue,
-                    onValueChange = { ibuTanggalLahirValue = it }
+                    onValueChange = { ibuTanggalLahirValue = it },
+                    isError = false,
+                    errorMessage = null,
                 )
             }
         }
@@ -219,7 +227,9 @@ private fun InformasiOrangTuaCalonIstri() {
 
         KewarganegaraanSection(
             selectedKewarganegaraan = ibuSelectedKewarganegaraan,
-            onSelectedKewarganegaraan = { ibuSelectedKewarganegaraan = it }
+            onSelectedKewarganegaraan = { ibuSelectedKewarganegaraan = it },
+            isError = false,
+            errorMessage = null,
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -228,7 +238,9 @@ private fun InformasiOrangTuaCalonIstri() {
             label = "Agama",
             value = ibuAgamaValue,
             onValueChange = { ibuAgamaValue = it },
-            options = listOf("Islam", "Kristen", "Katolik", "Hindu", "Buddha", "Konghucu")
+            options = listOf("Islam", "Kristen", "Katolik", "Hindu", "Buddha", "Konghucu"),
+            isError = false,
+            errorMessage = null,
         )
 
         Spacer(modifier = Modifier.height(16.dp))

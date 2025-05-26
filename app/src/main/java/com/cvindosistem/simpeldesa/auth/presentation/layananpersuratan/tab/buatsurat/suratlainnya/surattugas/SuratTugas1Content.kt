@@ -1,10 +1,14 @@
-package com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratketerangan.skgaib
+package com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratlainnya.surattugas
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -14,14 +18,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.cvindosistem.simpeldesa.core.components.AppTextField
-import com.cvindosistem.simpeldesa.core.components.DropdownField
 import com.cvindosistem.simpeldesa.core.components.FormSectionList
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
 import com.cvindosistem.simpeldesa.core.components.StepIndicator
-import com.cvindosistem.simpeldesa.core.components.UseMyDataCheckbox
+
 
 @Composable
-internal fun SKGhaib1Content(
+internal fun SuratTugas1Content(
     modifier: Modifier = Modifier
 ) {
     FormSectionList(
@@ -30,31 +33,27 @@ internal fun SKGhaib1Content(
     ) {
         item {
             StepIndicator(
-                steps = listOf("Informasi Pelapor", "Informasi Orang Hilang", "Informasi Orang yang Hilang"),
+                steps = listOf("Informasi Pemberi Kuasa", "Informasi Penerima Kuasa"),
                 currentStep = 1
             )
         }
 
         item {
-            UseMyDataCheckbox()
-        }
-
-        item {
-            InformasiPelapor()
+            InformasiPenerimaTugas()
         }
     }
 }
 
 @Composable
-private fun InformasiPelapor() {
+private fun InformasiPenerimaTugas() {
     Column {
-        SectionTitle("Informasi Pelapor")
+        SectionTitle("Informasi Penerima Tugas")
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        var nikValue by remember { mutableStateOf("987492837421") }
-        var namaValue by remember { mutableStateOf("Joko Subianto") }
-        var hubunganValue by remember { mutableStateOf("") }
+        var nikValue by remember { mutableStateOf("") }
+        var namaValue by remember { mutableStateOf("") }
+        var jabatanValue by remember { mutableStateOf("") }
 
         AppTextField(
             label = "Nomor Induk Kependudukan (NIK)",
@@ -62,7 +61,7 @@ private fun InformasiPelapor() {
             value = nikValue,
             onValueChange = { nikValue = it },
             isError = false,
-            errorMessage = null,
+            errorMessage = "",
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
 
@@ -74,18 +73,30 @@ private fun InformasiPelapor() {
             value = namaValue,
             onValueChange = { namaValue = it },
             isError = false,
-            errorMessage = null
+            errorMessage = ""
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        DropdownField(
-            label = "Hubungan dengan Orang yang Hilang",
-            value = hubunganValue,
-            onValueChange = { hubunganValue = it },
-            options = listOf("Keluarga", "Kolega", "Teman", "Tetangga", "Lainnya"),
+        AppTextField(
+            label = "Jabatan",
+            placeholder = "Masukkan jabatan",
+            value = jabatanValue,
+            onValueChange = { jabatanValue = it },
             isError = false,
-            errorMessage = null,
+            errorMessage = ""
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(
+            text = "Tambah Penerima Tugas",
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { /* Handle add more recipients */ }
+                .padding(vertical = 8.dp)
         )
     }
 }

@@ -93,7 +93,9 @@ private fun InformasiPerusahaan() {
                 "Koperasi",
                 "Yayasan",
                 "Perorangan"
-            )
+            ),
+            isError = false,
+            errorMessage = null,
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -113,7 +115,9 @@ private fun InformasiPerusahaan() {
                 "Transportasi",
                 "Pendidikan",
                 "Kesehatan"
-            )
+            ),
+            isError = false,
+            errorMessage = null,
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -150,7 +154,9 @@ private fun InformasiPerusahaan() {
                 "Hak Pakai",
                 "Sewa",
                 "Pinjam Pakai"
-            )
+            ),
+            isError = false,
+            errorMessage = null,
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -165,7 +171,9 @@ private fun InformasiPerusahaan() {
                 "51 - 100",
                 "101 - 500",
                 "Lebih dari 500"
-            )
+            ),
+            isError = false,
+            errorMessage = null,
         )
 
         Spacer(modifier = Modifier.height(16.dp))

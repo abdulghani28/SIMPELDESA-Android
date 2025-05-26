@@ -1,6 +1,5 @@
 package com.cvindosistem.simpeldesa.core.components
 
-// YANG BENAR
 import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -230,7 +229,9 @@ fun DropdownField(
     label: String,
     value: String,
     onValueChange: (String) -> Unit,
-    options: List<String>
+    options: List<String>,
+    isError: Boolean,
+    errorMessage: String?,
 ) {
     Column {
         LabelFieldText(label)
@@ -279,6 +280,15 @@ fun DropdownField(
                     )
                 }
             }
+        }
+
+        if (isError && errorMessage != null) {
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = errorMessage,
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodySmall
+            )
         }
     }
 }
@@ -346,7 +356,9 @@ fun SectionTitle(title: String) {
 fun DatePickerField(
     label: String,
     value: String,
-    onValueChange: (String) -> Unit
+    onValueChange: (String) -> Unit,
+    isError: Boolean,
+    errorMessage: String?
 ) {
     Column {
         LabelFieldText(label)
@@ -402,6 +414,15 @@ fun DatePickerField(
                 onDismiss = { showDatePicker = false }
             )
         }
+
+        if (isError && errorMessage != null) {
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = errorMessage,
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
     }
 }
 
@@ -410,7 +431,7 @@ fun DatePickerField(
 fun AppDatePickerDialog(
     datePickerState: DatePickerState,
     onDateSelected: (Long?) -> Unit,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
 ) {
     DatePickerDialog(
         onDismissRequest = onDismiss,
@@ -440,7 +461,9 @@ fun AppDatePickerDialog(
 fun TimePickerField(
     label: String,
     value: String,
-    onValueChange: (String) -> Unit
+    onValueChange: (String) -> Unit,
+    isError: Boolean,
+    errorMessage: String?
 ) {
     Column {
         LabelFieldText(label)
@@ -490,6 +513,15 @@ fun TimePickerField(
                     showTimePicker = false
                 },
                 onDismiss = { showTimePicker = false }
+            )
+        }
+
+        if (isError && errorMessage != null) {
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = errorMessage,
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodySmall
             )
         }
     }

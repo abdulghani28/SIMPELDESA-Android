@@ -101,7 +101,9 @@ private fun InformasiKepergian() {
                     label = "",
                     value = satuanWaktuValue,
                     onValueChange = { satuanWaktuValue = it },
-                    options = listOf("Jam", "Hari", "Bulan")
+                    options = listOf("Jam", "Hari", "Bulan"),
+                    isError = false,
+                    errorMessage = null,
                 )
             }
         }
@@ -111,7 +113,9 @@ private fun InformasiKepergian() {
         DatePickerField(
             label = "Tanggal Keberangkatan",
             value = tanggalKeberangkatanValue,
-            onValueChange = { tanggalKeberangkatanValue = it }
+            onValueChange = { tanggalKeberangkatanValue = it },
+            isError = false,
+            errorMessage = null,
         )
 
         Spacer(modifier = Modifier.height(16.dp))

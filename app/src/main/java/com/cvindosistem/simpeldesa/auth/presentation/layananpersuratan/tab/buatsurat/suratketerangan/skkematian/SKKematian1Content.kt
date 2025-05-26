@@ -81,7 +81,9 @@ private fun InformasiPelapor() {
             label = "Hubungan dengan Mendiang",
             value = agamaValue,
             onValueChange = { agamaValue = it },
-            options = listOf("Suami", "Istri", "Saudara Kandung", "Saudara Tiri", "Ayah", "Ibu")
+            options = listOf("Suami", "Istri", "Saudara Kandung", "Saudara Tiri", "Ayah", "Ibu"),
+            isError = false,
+            errorMessage = null,
         )
     }
 }

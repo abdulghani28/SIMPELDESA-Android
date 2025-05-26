@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,7 +18,9 @@ import androidx.compose.ui.unit.dp
 @Composable
 internal fun GenderSelection(
     selectedGender: String,
-    onGenderSelected: (String) -> Unit
+    onGenderSelected: (String) -> Unit,
+    isError: Boolean,
+    errorMessage: String?
 ) {
     Column {
         LabelFieldText("Jenis Kelamin")
@@ -52,13 +55,24 @@ internal fun GenderSelection(
                 BodyMediumText("Perempuan")
             }
         }
+
+        if (isError && errorMessage != null) {
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = errorMessage,
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
     }
 }
 
 @Composable
 internal fun StatusPerkawinanSelection(
     selectedStatus: String,
-    onStatusSelected: (String) -> Unit
+    onStatusSelected: (String) -> Unit,
+    isError: Boolean,
+    errorMessage: String?
 ) {
     Column {
         LabelFieldText("Status Perkawinan")
@@ -93,13 +107,24 @@ internal fun StatusPerkawinanSelection(
                 BodyMediumText("Belum Kawin")
             }
         }
+
+        if (isError && errorMessage != null) {
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = errorMessage,
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
     }
 }
 
 @Composable
 internal fun DasarPengajuanSelection(
     selectedDasarPengajuan: String,
-    onDasarPengajuanSelected: (String) -> Unit
+    onDasarPengajuanSelected: (String) -> Unit,
+    isError: Boolean,
+    errorMessage: String?
 ) {
     Column {
         LabelFieldText("Dasar Pengajuan")
@@ -133,13 +158,24 @@ internal fun DasarPengajuanSelection(
                 BodyMediumText("Surat Keterangan Kematian")
             }
         }
+
+        if (isError && errorMessage != null) {
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = errorMessage,
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
     }
 }
 
 @Composable
 internal fun PenyebabStatusSelection(
     selectedPenyebabStatus: String,
-    onPenyebabStatusSelected: (String) -> Unit
+    onPenyebabStatusSelected: (String) -> Unit,
+    isError: Boolean,
+    errorMessage: String?
 ) {
     Column {
         LabelFieldText("Penyebab Status")
@@ -174,13 +210,24 @@ internal fun PenyebabStatusSelection(
                 BodyMediumText("Cerai Mati")
             }
         }
+
+        if (isError && errorMessage != null) {
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = errorMessage,
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
     }
 }
 
 @Composable
 internal fun KewarganegaraanSection(
     selectedKewarganegaraan: String,
-    onSelectedKewarganegaraan: (String) -> Unit
+    onSelectedKewarganegaraan: (String) -> Unit,
+    isError: Boolean,
+    errorMessage: String?
 ) {
     Column {
         SectionTitle("Kewarganegaraan")
@@ -213,6 +260,15 @@ internal fun KewarganegaraanSection(
                 )
             )
             BodyMediumText("Warga Negara Asing (WNA)")
+        }
+
+        if (isError && errorMessage != null) {
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = errorMessage,
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodySmall
+            )
         }
     }
 }

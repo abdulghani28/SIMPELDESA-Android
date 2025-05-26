@@ -65,7 +65,9 @@ private fun InformasiPerbedaanIdentitas() {
             label = "Perbedaan Data yang Akan Dilaporkan",
             value = perbedaanDataValue,
             onValueChange = {perbedaanDataValue = it },
-            options = listOf("NIK", "Nama", "Tempat Lahir", "Tanggal Lahir", "Alamat")
+            options = listOf("NIK", "Nama", "Tempat Lahir", "Tanggal Lahir", "Alamat"),
+            isError = false,
+            errorMessage = null,
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -78,7 +80,9 @@ private fun InformasiPerbedaanIdentitas() {
             label = "Tercantum Dalam",
             value = tercantumDalamValue,
             onValueChange = { tercantumDalamValue = it },
-            options = listOf("KTP", "KK", "Ijazah", "Akta Kelahiran", "Buku Nikah")
+            options = listOf("KTP", "KK", "Ijazah", "Akta Kelahiran", "Buku Nikah"),
+            isError = false,
+            errorMessage = null,
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -119,7 +123,9 @@ private fun InformasiPerbedaanIdentitas() {
         DatePickerField(
             label = "Tanggal Lahir",
             value = tanggalLahirValue,
-            onValueChange = { tanggalLahirValue = it }
+            onValueChange = { tanggalLahirValue = it },
+            isError = false,
+            errorMessage = null,
         )
 
         Spacer(modifier = Modifier.height(16.dp))

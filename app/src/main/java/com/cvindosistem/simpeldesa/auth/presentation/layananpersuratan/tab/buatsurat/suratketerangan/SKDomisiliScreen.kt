@@ -109,7 +109,9 @@ private fun PendatangContent(
         item {
             KewarganegaraanSection(
                 selectedKewarganegaraan = selectedKewarganegaraan,
-                onSelectedKewarganegaraan = { selectedKewarganegaraan = it }
+                onSelectedKewarganegaraan = { selectedKewarganegaraan = it },
+                isError = false,
+                errorMessage = null,
             )
         }
 
@@ -182,7 +184,9 @@ private fun InformasiPelapor() {
                 DatePickerField(
                     label = "Tanggal Lahir",
                     value = tanggalLahirValue,
-                    onValueChange = { tanggalLahirValue = it }
+                    onValueChange = { tanggalLahirValue = it },
+                    isError = false,
+                    errorMessage = null
                 )
             }
         }
@@ -191,7 +195,9 @@ private fun InformasiPelapor() {
 
         GenderSelection(
             selectedGender = selectedGender,
-            onGenderSelected = { selectedGender = it }
+            onGenderSelected = { selectedGender = it },
+            isError = false,
+            errorMessage = null,
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -200,7 +206,9 @@ private fun InformasiPelapor() {
             label = "Agama",
             value = agamaValue,
             onValueChange = { agamaValue = it },
-            options = listOf("Islam", "Kristen", "Katolik", "Hindu", "Buddha", "Konghucu")
+            options = listOf("Islam", "Kristen", "Katolik", "Hindu", "Buddha", "Konghucu"),
+            isError = false,
+            errorMessage = null
         )
 
         Spacer(modifier = Modifier.height(16.dp))

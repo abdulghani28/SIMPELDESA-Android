@@ -57,7 +57,9 @@ private fun InformasiJandaDuda() {
 
         DasarPengajuanSelection(
             selectedDasarPengajuan = dasarPengajuanValue,
-            onDasarPengajuanSelected = { dasarPengajuanValue = it }
+            onDasarPengajuanSelected = { dasarPengajuanValue = it },
+            isError = false,
+            errorMessage = null,
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -80,7 +82,9 @@ private fun InformasiJandaDuda() {
         ) {
             PenyebabStatusSelection(
                 selectedPenyebabStatus = penyebabStatusValue,
-                onPenyebabStatusSelected = { penyebabStatusValue = it }
+                onPenyebabStatusSelected = { penyebabStatusValue = it },
+                isError = false,
+                errorMessage = null,
             )
         }
     }

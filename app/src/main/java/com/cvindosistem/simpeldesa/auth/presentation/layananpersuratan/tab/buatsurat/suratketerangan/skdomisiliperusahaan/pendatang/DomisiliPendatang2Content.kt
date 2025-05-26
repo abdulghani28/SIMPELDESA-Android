@@ -101,7 +101,9 @@ private fun InformasiPerusahaanPendatang() {
                 "Koperasi",
                 "Yayasan",
                 "Perorangan"
-            )
+            ),
+            isError = false,
+            errorMessage = null,
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -121,7 +123,9 @@ private fun InformasiPerusahaanPendatang() {
                 "Transportasi",
                 "Pendidikan",
                 "Kesehatan"
-            )
+            ),
+            isError = false,
+            errorMessage = null,
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -189,7 +193,9 @@ private fun InformasiPerusahaanPendatang() {
                 "Hak Pakai",
                 "Sewa",
                 "Pinjam Pakai"
-            )
+            ),
+            isError = false,
+            errorMessage = null,
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -204,7 +210,9 @@ private fun InformasiPerusahaanPendatang() {
                 "51 - 100",
                 "101 - 500",
                 "Lebih dari 500"
-            )
+            ),
+            isError = false,
+            errorMessage = null,
         )
 
         Spacer(modifier = Modifier.height(16.dp))

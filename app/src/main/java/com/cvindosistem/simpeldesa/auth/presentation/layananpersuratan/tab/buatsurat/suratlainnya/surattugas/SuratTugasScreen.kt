@@ -1,4 +1,4 @@
-package com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratketerangan.skbedaidentitas
+package com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratlainnya.surattugas
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Column
@@ -17,17 +17,17 @@ import com.cvindosistem.simpeldesa.core.components.AppTopBar
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun SKBedaIdentitasScreen(
+fun SuratTugasScreen(
     navController: NavController
 ) {
     var currentStep by remember { mutableIntStateOf(1) }
-    val totalSteps = 3
+    val totalSteps = 2
 
     Scaffold(
         topBar = {
             Column {
                 AppTopBar(
-                    title = "SK Beda Identitas",
+                    title = "Surat Tugas",
                     showBackButton = true,
                     onBackClick = { navController.popBackStack() }
                 )
@@ -57,9 +57,8 @@ fun SKBedaIdentitasScreen(
             modifier = Modifier.padding(paddingValues)
         ) { step ->
             when (step) {
-                1 -> SKBedaIdentitas1Content()
-                2 -> SKBedaIdentitas2Content()
-                3 -> SKBedaIdentitas3Content()
+                1 -> SuratTugas1Content()
+                2 -> SuratTugas2Content()
             }
         }
     }

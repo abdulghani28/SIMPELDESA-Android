@@ -29,9 +29,12 @@ import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buats
 import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratketerangan.skpenghasilan.SKPenghasilanScreen
 import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratketerangan.sktidakmasukkerja.SKTidakMasukKerjaScreen
 import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratketerangan.skusaha.SKUsahaScreen
+import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratlainnya.suratkuasa.SuratKuasaScreen
+import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratlainnya.surattugas.SuratTugasScreen
 import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratpengantar.SPCatatanKepolisianScreen
 import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratpengantar.spkehilangan.SPKehilanganScreen
 import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratpengantar.sppernikahan.SPPernikahanScreen
+import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.suratrekomendasi.SRKeramaianScreen
 import com.cvindosistem.simpeldesa.core.data.local.preferences.UserPreferences
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
@@ -51,7 +54,7 @@ fun NavGraph(
 //        else -> Screen.MainScreen.route
 //    }
 
-    val initialStartDestination = Screen.SPKehilangan.route
+    val initialStartDestination = Screen.SuratKuasa.route
 
     val passwordResetViewModel: PasswordResetViewModel = koinViewModel()
 
@@ -213,6 +216,24 @@ fun NavGraph(
 
         composable(Screen.SPPernikahan.route) {
             SPPernikahanScreen(
+                navController = navController
+            )
+        }
+
+        composable(Screen.SRKeramaian.route) {
+            SRKeramaianScreen(
+                navController = navController
+            )
+        }
+
+        composable(Screen.SuratKuasa.route) {
+            SuratKuasaScreen(
+                navController = navController
+            )
+        }
+
+        composable(Screen.SuratTugas.route) {
+            SuratTugasScreen(
                 navController = navController
             )
         }

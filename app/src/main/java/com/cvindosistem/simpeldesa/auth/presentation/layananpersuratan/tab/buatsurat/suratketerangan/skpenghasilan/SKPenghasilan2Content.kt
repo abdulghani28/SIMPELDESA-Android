@@ -101,7 +101,9 @@ private fun InformasiAnak() {
                 DatePickerField(
                     label = "Tanggal Lahir",
                     value = tanggalLahirValue,
-                    onValueChange = { tanggalLahirValue = it }
+                    onValueChange = { tanggalLahirValue = it },
+                    isError = false,
+                    errorMessage = null,
                 )
             }
         }
@@ -110,7 +112,9 @@ private fun InformasiAnak() {
 
         GenderSelection(
             selectedGender = selectedGender,
-            onGenderSelected = { selectedGender = it }
+            onGenderSelected = { selectedGender = it },
+            isError = false,
+            errorMessage = null,
         )
 
         Spacer(modifier = Modifier.height(16.dp))

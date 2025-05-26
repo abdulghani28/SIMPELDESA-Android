@@ -113,7 +113,9 @@ private fun InformasiCalonSuami() {
                 DatePickerField(
                     label = "Tanggal Lahir",
                     value = tanggalLahirValue,
-                    onValueChange = { tanggalLahirValue = it }
+                    onValueChange = { tanggalLahirValue = it },
+                    isError = false,
+                    errorMessage = null,
                 )
             }
         }
@@ -122,7 +124,9 @@ private fun InformasiCalonSuami() {
 
         KewarganegaraanSection(
             selectedKewarganegaraan = selectedKewarganegaraan,
-            onSelectedKewarganegaraan = { selectedKewarganegaraan = it }
+            onSelectedKewarganegaraan = { selectedKewarganegaraan = it },
+            isError = false,
+            errorMessage = null,
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -131,7 +135,9 @@ private fun InformasiCalonSuami() {
             label = "Agama",
             value = agamaValue,
             onValueChange = { agamaValue = it },
-            options = listOf("Islam", "Kristen", "Katolik", "Hindu", "Buddha", "Konghucu")
+            options = listOf("Islam", "Kristen", "Katolik", "Hindu", "Buddha", "Konghucu"),
+            isError = false,
+            errorMessage = null,
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -173,7 +179,9 @@ private fun InformasiStatusPerkawinan() {
             label = "Status",
             value = statusValue,
             onValueChange = { statusValue = it },
-            options = listOf("Duda", "Lajang")
+            options = listOf("Duda", "Lajang"),
+            isError = false,
+            errorMessage = null,
         )
 
         Spacer(modifier = Modifier.height(16.dp))

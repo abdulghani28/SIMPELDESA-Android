@@ -104,7 +104,9 @@ private fun InformasiCalonIstri() {
                 DatePickerField(
                     label = "Tanggal Lahir",
                     value = tanggalLahirValue,
-                    onValueChange = { tanggalLahirValue = it }
+                    onValueChange = { tanggalLahirValue = it },
+                    isError = false,
+                    errorMessage = null,
                 )
             }
         }
@@ -113,7 +115,9 @@ private fun InformasiCalonIstri() {
 
         KewarganegaraanSection(
             selectedKewarganegaraan = selectedKewarganegaraan,
-            onSelectedKewarganegaraan = { selectedKewarganegaraan = it }
+            onSelectedKewarganegaraan = { selectedKewarganegaraan = it },
+            isError = false,
+            errorMessage = null,
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -122,7 +126,9 @@ private fun InformasiCalonIstri() {
             label = "Agama",
             value = agamaValue,
             onValueChange = { agamaValue = it },
-            options = listOf("Islam", "Kristen", "Katolik", "Hindu", "Buddha", "Konghucu")
+            options = listOf("Islam", "Kristen", "Katolik", "Hindu", "Buddha", "Konghucu"),
+            isError = false,
+            errorMessage = null,
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -161,7 +167,9 @@ private fun InformasiCalonIstri() {
             label = "Status",
             value = statusValue,
             onValueChange = { statusValue = it },
-            options = listOf("Belum Kawin", "Kawin", "Cerai Hidup", "Cerai Mati")
+            options = listOf("Belum Kawin", "Kawin", "Cerai Hidup", "Cerai Mati"),
+            isError = false,
+            errorMessage = null,
         )
 
         Spacer(modifier = Modifier.height(16.dp))

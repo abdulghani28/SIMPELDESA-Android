@@ -87,7 +87,9 @@ private fun InformasiBarangHilang() {
         DatePickerField(
             label = "Waktu Kehilangan",
             value = waktuKehilangan,
-            onValueChange = { waktuKehilangan = it }
+            onValueChange = { waktuKehilangan = it },
+            isError = false,
+            errorMessage = null,
         )
     }
 }

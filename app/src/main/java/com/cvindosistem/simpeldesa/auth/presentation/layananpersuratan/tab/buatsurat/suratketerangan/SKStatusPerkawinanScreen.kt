@@ -131,7 +131,9 @@ private fun InformasiPelaporPerkawinan() {
                 DatePickerField(
                     label = "Tanggal Lahir",
                     value = tanggalLahirValue,
-                    onValueChange = { tanggalLahirValue = it }
+                    onValueChange = { tanggalLahirValue = it },
+                    isError = false,
+                    errorMessage = null,
                 )
             }
         }
@@ -140,7 +142,9 @@ private fun InformasiPelaporPerkawinan() {
 
         GenderSelection(
             selectedGender = selectedGender,
-            onGenderSelected = { selectedGender = it }
+            onGenderSelected = { selectedGender = it },
+            isError = false,
+            errorMessage = null,
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -149,7 +153,9 @@ private fun InformasiPelaporPerkawinan() {
             label = "Agama",
             value = agamaValue,
             onValueChange = { agamaValue = it },
-            options = listOf("Islam", "Kristen", "Katolik", "Hindu", "Buddha", "Konghucu")
+            options = listOf("Islam", "Kristen", "Katolik", "Hindu", "Buddha", "Konghucu"),
+            isError = false,
+            errorMessage = null,
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -167,7 +173,9 @@ private fun InformasiPelaporPerkawinan() {
 
         StatusPerkawinanSelection(
             selectedStatus = statusValue,
-            onStatusSelected = { statusValue = it }
+            onStatusSelected = { statusValue = it },
+            isError = false,
+            errorMessage = null,
         )
 
         Spacer(modifier = Modifier.height(16.dp))

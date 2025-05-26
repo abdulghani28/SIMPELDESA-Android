@@ -99,7 +99,9 @@ private fun InformasiPerusahaan() {
                 DatePickerField(
                     label = "Terhitung dari tanggal",
                     value = tanggalIzinValue,
-                    onValueChange = { tanggalIzinValue = it }
+                    onValueChange = { tanggalIzinValue = it },
+                    isError = false,
+                    errorMessage = null,
                 )
             }
         }

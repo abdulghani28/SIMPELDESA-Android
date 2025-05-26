@@ -68,7 +68,9 @@ private fun InformasiOrangYangHilang() {
 
         GenderSelection(
             selectedGender = selectedGender,
-            onGenderSelected = { selectedGender = it }
+            onGenderSelected = { selectedGender = it },
+            isError = false,
+            errorMessage = null,
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -99,7 +101,9 @@ private fun InformasiOrangYangHilang() {
         DatePickerField(
             label = "Hilang Sejak",
             value = hilangSejakValue,
-            onValueChange = { hilangSejakValue = it }
+            onValueChange = { hilangSejakValue = it },
+            isError = false,
+            errorMessage = null,
         )
     }
 }
