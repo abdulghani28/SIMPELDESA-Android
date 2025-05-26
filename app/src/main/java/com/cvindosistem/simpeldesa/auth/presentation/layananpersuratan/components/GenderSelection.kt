@@ -95,3 +95,84 @@ internal fun StatusPerkawinanSelection(
         }
     }
 }
+
+@Composable
+internal fun DasarPengajuanSelection(
+    selectedDasarPengajuan: String,
+    onDasarPengajuanSelected: (String) -> Unit
+) {
+    Column {
+        LabelFieldText("Dasar Pengajuan")
+
+        Column(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                RadioButton(
+                    selected = selectedDasarPengajuan == "Akta Cerai",
+                    onClick = { onDasarPengajuanSelected("Akta Cerai") },
+                    colors = RadioButtonDefaults.colors(
+                        selectedColor = MaterialTheme.colorScheme.primary
+                    )
+                )
+                BodyMediumText("Akta Cerai")
+            }
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                RadioButton(
+                    selected = selectedDasarPengajuan == "Surat Keterangan Kematian",
+                    onClick = { onDasarPengajuanSelected("Surat Keterangan Kematian") },
+                    colors = RadioButtonDefaults.colors(
+                        selectedColor = MaterialTheme.colorScheme.primary
+                    )
+                )
+                BodyMediumText("Surat Keterangan Kematian")
+            }
+        }
+    }
+}
+
+@Composable
+internal fun PenyebabStatusSelection(
+    selectedPenyebabStatus: String,
+    onPenyebabStatusSelected: (String) -> Unit
+) {
+    Column {
+        LabelFieldText("Penyebab Status")
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(24.dp)
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                RadioButton(
+                    selected = selectedPenyebabStatus == "Cerai Hidup",
+                    onClick = { onPenyebabStatusSelected("Cerai Hidup") },
+                    colors = RadioButtonDefaults.colors(
+                        selectedColor = MaterialTheme.colorScheme.primary
+                    )
+                )
+                BodyMediumText("Cerai Hidup")
+            }
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                RadioButton(
+                    selected = selectedPenyebabStatus == "Cerai Mati",
+                    onClick = { onPenyebabStatusSelected("Cerai Mati") },
+                    colors = RadioButtonDefaults.colors(
+                        selectedColor = MaterialTheme.colorScheme.primary
+                    )
+                )
+                BodyMediumText("Cerai Mati")
+            }
+        }
+    }
+}

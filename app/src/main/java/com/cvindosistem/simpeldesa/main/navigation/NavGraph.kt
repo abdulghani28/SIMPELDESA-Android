@@ -22,6 +22,7 @@ import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buats
 import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.subsurat.SKTidakMampu
 import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.subsurat.skberpergian.SKBerpergianScreen
 import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.subsurat.skdomisiliperusahaan.SKDomisiliPerusahaanScreen
+import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.subsurat.skjandaduda.SKJandaDudaScreen
 import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.subsurat.skkematian.SKKematianScreen
 import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.subsurat.skpenghasilan.SKPenghasilanScreen
 import com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.subsurat.sktidakmasukkerja.SKTidakMasukKerjaScreen
@@ -45,7 +46,7 @@ fun NavGraph(
 //        else -> Screen.MainScreen.route
 //    }
 
-    val initialStartDestination = Screen.SKDomisiliPerusahaan.route
+    val initialStartDestination = Screen.SKJandaDuda.route
 
     val passwordResetViewModel: PasswordResetViewModel = koinViewModel()
 
@@ -171,6 +172,12 @@ fun NavGraph(
 
         composable(Screen.SKDomisiliPerusahaan.route) {
             SKDomisiliPerusahaanScreen(
+                navController = navController
+            )
+        }
+
+        composable(Screen.SKJandaDuda.route) {
+            SKJandaDudaScreen(
                 navController = navController
             )
         }
