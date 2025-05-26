@@ -21,6 +21,7 @@ fun SKTidakMasukKerjaScreen(
     navController: NavController
 ) {
     var currentStep by remember { mutableIntStateOf(1) }
+    val totalSteps = 3
 
     Scaffold(
         topBar = {
@@ -34,17 +35,20 @@ fun SKTidakMasukKerjaScreen(
         },
         bottomBar = {
             AppBottomBar(
-                onPreviewClick = { /* Handle preview */ },
+                onPreviewClick = {
+                    // Handle preview - selalu ada
+                },
                 onBackClick = if (currentStep > 1) {
                     { currentStep -= 1 }
                 } else null,
-                onContinueClick = {
-                    if (currentStep < 3) {
-                        currentStep += 1
-                    } else {
-                        // Handle final submit
+                onContinueClick = if (currentStep < totalSteps) {
+                    { currentStep += 1 }
+                } else null,
+                onSubmitClick = if (currentStep == totalSteps) {
+                    {
+                        // Handle final submit - Ajukan Surat
                     }
-                }
+                } else null,
             )
         }
     ) { paddingValues ->

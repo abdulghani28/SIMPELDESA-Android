@@ -1,4 +1,4 @@
-package com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.subsurat.skusaha.warga
+package com.cvindosistem.simpeldesa.auth.presentation.layananpersuratan.tab.buatsurat.subsurat.skdomisiliperusahaan.pendatang
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
@@ -21,7 +21,7 @@ import com.cvindosistem.simpeldesa.core.components.StepIndicator
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun UsahaWargaDesa3Content(
+fun DomisiliPendatang3Content(
     modifier: Modifier = Modifier,
     onBackClick: () -> Unit = {},
     onSubmit: () -> Unit = {}
@@ -31,7 +31,8 @@ fun UsahaWargaDesa3Content(
             AppBottomBar(
                 onPreviewClick = { },
                 onBackClick = onBackClick,
-                onSubmitClick = onSubmit
+                onSubmitClick = onSubmit,
+                submitText = "Ajukan Surat"
             )
         }
     ) {
@@ -41,20 +42,20 @@ fun UsahaWargaDesa3Content(
         ) {
             item {
                 StepIndicator(
-                    steps = listOf("Informasi Pelapor", "Informasi Usaha", "Informasi Pelengkap"),
+                    steps = listOf("Informasi Pelapor", "Informasi Perusahaan", "Informasi Pelengkap"),
                     currentStep = 3
                 )
             }
 
             item {
-                InformasiPelengkap()
+                InformasiPelengkapDomisili()
             }
         }
     }
 }
 
 @Composable
-private fun InformasiPelengkap() {
+private fun InformasiPelengkapDomisili() {
     Column {
         SectionTitle("Informasi Pelengkap")
 

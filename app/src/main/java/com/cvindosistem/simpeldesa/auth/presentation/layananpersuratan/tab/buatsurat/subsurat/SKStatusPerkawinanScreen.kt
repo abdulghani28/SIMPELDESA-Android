@@ -39,7 +39,6 @@ import com.cvindosistem.simpeldesa.core.components.UseMyDataCheckbox
 fun SKStatusPerkawinanScreen(
     navController: NavController
 ) {
-    var currentStep by remember { mutableIntStateOf(1) }
 
     Scaffold(
         topBar = {
@@ -54,12 +53,7 @@ fun SKStatusPerkawinanScreen(
         bottomBar = {
             AppBottomBar(
                 onPreviewClick = { /* Handle preview */ },
-                onBackClick = if (currentStep > 1) {
-                    { currentStep -= 1 }
-                } else null,
-                onContinueClick = {
-                    // Handle submit since this is single step
-                }
+                onSubmitClick = {}
             )
         }
     ) { paddingValues ->
