@@ -19,14 +19,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.cvindosistem.simpeldesa.R
 import com.cvindosistem.simpeldesa.core.components.AppCard
 import com.cvindosistem.simpeldesa.core.components.BodySmallText
+import com.cvindosistem.simpeldesa.main.navigation.Screen
 
 @Composable
-internal fun ServicesGrid() {
+internal fun ServicesGrid(navController: NavController) {
     val services = listOf(
-        ServiceItem(R.drawable.ic_persuratan, "Layanan\nPersuratan") {},
+        ServiceItem(R.drawable.ic_persuratan, "Layanan\nPersuratan") {navController.navigate(Screen.LayananPersuratan.route)},
         ServiceItem(R.drawable.ic_lapor, "Lapor\nPemdes") {},
         ServiceItem(R.drawable.ic_artikel, "Artikel &\nBlog Desa") {},
         ServiceItem(R.drawable.ic_donasi, "Donasi\nDesa") {},

@@ -96,7 +96,7 @@ fun AktivitasLaporanSayaTab(
     }
 
     AppContainer(
-        background = MaterialTheme.colorScheme.background,
+        background = MaterialTheme.colorScheme.surfaceBright,
         modifier = modifier
     ) {
         AppSearchBarAndFilter(

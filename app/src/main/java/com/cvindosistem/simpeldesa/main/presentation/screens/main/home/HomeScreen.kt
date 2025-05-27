@@ -43,7 +43,7 @@ fun BerandaScreen(
         }
 
         item {
-            ServicesGrid()
+            ServicesGrid(navController = navController)
         }
 
         item {
