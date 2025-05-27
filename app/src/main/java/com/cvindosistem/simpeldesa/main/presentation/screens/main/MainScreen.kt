@@ -29,7 +29,7 @@ import com.cvindosistem.simpeldesa.main.presentation.screens.main.profile.Profil
 private data class BottomNavItem(
     val route: String,
     val title: String,
-    val iconName: String // Nama dasar icon tanpa suffix selected/unselected
+    val iconName: String
 )
 
 // Enum untuk bottom navigation items

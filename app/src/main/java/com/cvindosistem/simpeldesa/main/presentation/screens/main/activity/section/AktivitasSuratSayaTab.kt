@@ -32,7 +32,7 @@ import com.cvindosistem.simpeldesa.core.components.BodySmallText
 import com.cvindosistem.simpeldesa.core.components.TitleMediumText
 
 @Composable
-fun AktivitasSuratSaya(
+fun AktivitasSuratSayaTab(
     modifier: Modifier = Modifier
 ) {
     var searchQuery by remember { mutableStateOf("") }
@@ -125,7 +125,7 @@ fun AktivitasSuratSaya(
 }
 
 // Data Classes
-data class SuratItem(
+private data class SuratItem(
     val id: Int,
     val judul: String,
     val deskripsi: String,
@@ -133,7 +133,7 @@ data class SuratItem(
     val tanggal: String
 )
 
-enum class SuratStatus(
+private enum class SuratStatus(
     val displayName: String,
     val backgroundColor: Color,
     val textColor: Color
@@ -162,7 +162,7 @@ enum class SuratStatus(
 
 // Surat Card Component
 @Composable
-fun SuratCard(
+private fun SuratCard(
     surat: SuratItem,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -201,7 +201,7 @@ fun SuratCard(
 
 // Status Chip Component
 @Composable
-fun StatusChip(
+private fun StatusChip(
     status: SuratStatus,
     modifier: Modifier = Modifier
 ) {

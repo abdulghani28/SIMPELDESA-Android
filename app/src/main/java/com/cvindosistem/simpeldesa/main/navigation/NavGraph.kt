@@ -54,7 +54,7 @@ fun NavGraph(
 //        else -> Screen.MainScreen.route
 //    }
 
-    val initialStartDestination = Screen.LayananPersuratan.route
+    val initialStartDestination = Screen.MainScreen.route
 
     val passwordResetViewModel: PasswordResetViewModel = koinViewModel()
 

@@ -11,7 +11,8 @@ import androidx.compose.runtime.setValue
 import androidx.navigation.NavController
 import com.cvindosistem.simpeldesa.core.components.AnimatedTabContent
 import com.cvindosistem.simpeldesa.core.components.AppTab
-import com.cvindosistem.simpeldesa.main.presentation.screens.main.activity.section.AktivitasSuratSaya
+import com.cvindosistem.simpeldesa.main.presentation.screens.main.activity.section.AktivitasLaporanSayaTab
+import com.cvindosistem.simpeldesa.main.presentation.screens.main.activity.section.AktivitasSuratSayaTab
 
 @Composable
 fun AktivitasScreen(
@@ -36,8 +37,8 @@ fun AktivitasScreen(
             paddingValues = paddingValues
         ) { tabIndex, modifier ->
             when (tabIndex) {
-                0 -> AktivitasSuratSaya(modifier)
-                1 -> Text("3")
+                0 -> AktivitasSuratSayaTab(modifier)
+                1 -> AktivitasLaporanSayaTab(modifier)
                 2 -> Text("3")
             }
         }
