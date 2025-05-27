@@ -42,7 +42,7 @@ fun LayananPersuratanScreen(
             paddingValues = paddingValues
         ) { tabIndex, modifier ->
             when (tabIndex) {
-                0 -> BuatSuratContent(modifier)
+                0 -> BuatSuratContent(modifier, navController = navController)
                 1 -> SuratSayaContent(modifier)
             }
         }

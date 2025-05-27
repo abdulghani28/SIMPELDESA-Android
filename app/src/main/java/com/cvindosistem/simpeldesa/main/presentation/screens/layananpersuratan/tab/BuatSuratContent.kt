@@ -14,9 +14,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -27,36 +24,37 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.cvindosistem.simpeldesa.R
-import com.cvindosistem.simpeldesa.core.components.AppSearchBar
+import com.cvindosistem.simpeldesa.core.components.AppCard
+import com.cvindosistem.simpeldesa.core.components.AppContainer
+import com.cvindosistem.simpeldesa.core.components.AppSearchBarAndFilter
 import com.cvindosistem.simpeldesa.core.components.BodySmallText
 import com.cvindosistem.simpeldesa.core.components.CardTitleText
 import com.cvindosistem.simpeldesa.core.components.TitleMediumText
 import com.cvindosistem.simpeldesa.core.components.TitleSmallText
+import com.cvindosistem.simpeldesa.main.navigation.Screen
 
 @Composable
 internal fun BuatSuratContent(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navController: NavController
 ) {
-    Column(
+    AppContainer(
+        background = MaterialTheme.colorScheme.surfaceBright,
         modifier = modifier
-            .background(MaterialTheme.colorScheme.surfaceBright)
-            .padding(16.dp)
     ) {
-        AppSearchBar(
+        AppSearchBarAndFilter(
+            placeholder = "Cari Jenis Surat...",
             value = "",
             onValueSearch = { },
-            placeholder = {
-                Text(
-                    text = "Cari Jenis Surat yang Akan Dibuat",
-                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.3f)
-                )
-            }
+            onFilterClick = { },
+            showFilter = true
         )
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        SuratTypeSection()
+        SuratTypeSection(navController = navController)
 
         Spacer(modifier = Modifier.height(24.dp))
 
@@ -65,7 +63,9 @@ internal fun BuatSuratContent(
 }
 
 @Composable
-private fun SuratTypeSection() {
+private fun SuratTypeSection(
+    navController: NavController
+) {
     Column {
         TitleMediumText("Pilih Jenis Surat")
 
@@ -77,7 +77,10 @@ private fun SuratTypeSection() {
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             items(getSuratTypes()) { suratType ->
-                SuratTypeCard(suratType = suratType)
+                SuratTypeCard(
+                    suratType = suratType,
+                    navController = navController
+                )
             }
 
             item {
@@ -89,17 +92,14 @@ private fun SuratTypeSection() {
 
 @Composable
 private fun SuratTypeCard(
-    suratType: SuratType
+    suratType: SuratType,
+    navController: NavController
 ) {
-    Card(
+    AppCard(
         modifier = Modifier
-            .fillMaxWidth()
-            .clickable { },
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.background
-        ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        shape = RoundedCornerShape(12.dp)
+            .clickable {
+                navController.navigate(suratType.navigation)
+            }
     ) {
         Column(
             modifier = Modifier
@@ -135,17 +135,7 @@ private fun RecentLetterSection() {
 
 @Composable
 private fun RecentLetterCard() {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp)
-            .clickable { },
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.background
-        ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        shape = RoundedCornerShape(20.dp)
-    ) {
+    AppCard {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -181,7 +171,8 @@ private fun RecentLetterCard() {
 data class SuratType(
     val title: String,
     val subtitle: String,
-    val icon: Int
+    val icon: Int,
+    val navigation: String
 )
 
 // Function untuk mendapatkan data tipe surat
@@ -191,21 +182,25 @@ private fun getSuratTypes(): List<SuratType> {
             title = "Surat Keterangan",
             subtitle = "14 Pilihan Surat",
             icon = R.drawable.ic_surat_keterangan,
+            navigation = Screen.SuratKeterangan.route
         ),
         SuratType(
             title = "Surat Pengantar",
             subtitle = "3 Pilihan Surat",
             icon = R.drawable.ic_surat_pengantar,
+            navigation = Screen.SuratPengantar.route
         ),
         SuratType(
             title = "Surat Rekomendasi",
             subtitle = "1 Pilihan Surat",
             icon = R.drawable.ic_surat_rekomendasi,
+            navigation = Screen.SuratRekomendasi.route
         ),
         SuratType(
             title = "Surat Lainnya",
             subtitle = "2 Pilihan Surat",
             icon = R.drawable.ic_surat_lainnya,
+            navigation = Screen.SuratLainnya.route
         )
     )
 }

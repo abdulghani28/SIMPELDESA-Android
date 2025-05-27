@@ -1,6 +1,5 @@
 package com.cvindosistem.simpeldesa.main.navigation
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -11,6 +10,7 @@ import com.cvindosistem.simpeldesa.auth.presentation.auth.resetpassword.ForgotPa
 import com.cvindosistem.simpeldesa.auth.presentation.auth.resetpassword.OtpVerificationScreen
 import com.cvindosistem.simpeldesa.auth.presentation.auth.resetpassword.PasswordResetViewModel
 import com.cvindosistem.simpeldesa.auth.presentation.auth.resetpassword.ResetPasswordScreen
+import com.cvindosistem.simpeldesa.core.data.local.preferences.UserPreferences
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.LayananPersuratanScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.SuratKeteranganScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.SuratLainnyaScreen
@@ -35,7 +35,6 @@ import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.t
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.suratpengantar.spkehilangan.SPKehilanganScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.suratpengantar.sppernikahan.SPPernikahanScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.suratrekomendasi.SRKeramaianScreen
-import com.cvindosistem.simpeldesa.core.data.local.preferences.UserPreferences
 import com.cvindosistem.simpeldesa.main.presentation.screens.main.MainScreen
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
@@ -55,7 +54,7 @@ fun NavGraph(
 //        else -> Screen.MainScreen.route
 //    }
 
-    val initialStartDestination = Screen.MainScreen.route
+    val initialStartDestination = Screen.LayananPersuratan.route
 
     val passwordResetViewModel: PasswordResetViewModel = koinViewModel()
 
@@ -112,19 +111,27 @@ fun NavGraph(
         }
 
         composable(Screen.SuratKeterangan.route) {
-            SuratKeteranganScreen()
+            SuratKeteranganScreen(
+                onNavigateBack = { navController.popBackStack() }
+            )
         }
 
         composable(Screen.SuratPengantar.route) {
-            SuratPengantarScreen()
+            SuratPengantarScreen(
+                onNavigateBack = { navController.popBackStack() }
+            )
         }
 
         composable(Screen.SuratRekomendasi.route) {
-            SuratRekomendasiScreen()
+            SuratRekomendasiScreen(
+                onNavigateBack = { navController.popBackStack() }
+            )
         }
 
         composable(Screen.SuratLainnya.route) {
-            SuratLainnyaScreen()
+            SuratLainnyaScreen(
+                onNavigateBack = { navController.popBackStack() }
+            )
         }
 
         composable(Screen.SKDomisiliScreen.route) {

@@ -1,7 +1,6 @@
 package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,8 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,40 +20,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.cvindosistem.simpeldesa.core.components.AppSearchBar
+import com.cvindosistem.simpeldesa.core.components.AppCard
+import com.cvindosistem.simpeldesa.core.components.AppContainer
+import com.cvindosistem.simpeldesa.core.components.AppSearchBarAndFilter
 import com.cvindosistem.simpeldesa.core.components.BodySmallText
-import com.cvindosistem.simpeldesa.core.components.FilterButton
 import com.cvindosistem.simpeldesa.core.components.TitleMediumText
 
 @Composable
 internal fun SuratSayaContent(
     modifier: Modifier = Modifier
 ) {
-    Column(
+    AppContainer(
+        background = MaterialTheme.colorScheme.surfaceBright,
         modifier = modifier
-            .background(MaterialTheme.colorScheme.surfaceBright)
-            .padding(16.dp)
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            AppSearchBar(
-                value = "",
-                onValueSearch = { },
-                placeholder = {
-                    Text(
-                        text = "Cari Keyword",
-                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.3f)
-                    )
-                },
-                modifier = Modifier.weight(1f)
-            )
-
-            FilterButton(
-                onClick = { }
-            )
-        }
+        AppSearchBarAndFilter(
+            placeholder = "Cari Surat",
+            value = "",
+            onValueSearch = { },
+            onFilterClick = { },
+            showFilter = true
+        )
 
         Spacer(modifier = Modifier.height(24.dp))
 
@@ -83,16 +67,7 @@ private fun SuratListSection() {
 private fun SuratSayaCard(
     surat: SuratSaya
 ) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { },
-        colors = CardDefaults.cardColors(
-            containerColor = Color.White
-        ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        shape = RoundedCornerShape(12.dp)
-    ) {
+    AppCard {
         Column(
             modifier = Modifier
                 .fillMaxWidth()

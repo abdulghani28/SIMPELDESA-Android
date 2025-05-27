@@ -1,14 +1,7 @@
 package com.cvindosistem.simpeldesa.main.presentation.screens.main
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -17,12 +10,10 @@ import androidx.compose.material3.NavigationBarItemColors
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
@@ -35,14 +26,14 @@ import com.cvindosistem.simpeldesa.main.presentation.screens.main.home.BerandaSc
 import com.cvindosistem.simpeldesa.main.presentation.screens.main.profile.ProfilScreen
 
 // Data class untuk item bottom navigation
-data class BottomNavItem(
+private data class BottomNavItem(
     val route: String,
     val title: String,
     val iconName: String // Nama dasar icon tanpa suffix selected/unselected
 )
 
 // Enum untuk bottom navigation items
-enum class BottomNavScreen(
+private enum class BottomNavScreen(
     val route: String,
     val title: String,
     val iconName: String
@@ -94,7 +85,7 @@ fun MainScreen(navController: NavController) {
             }
 
             composable(BottomNavScreen.AKTIVITAS.route) {
-                AktivitasScreen()
+                AktivitasScreen(navController = navController)
             }
 
             composable(BottomNavScreen.PROFIL.route) {
@@ -105,7 +96,7 @@ fun MainScreen(navController: NavController) {
 }
 
 @Composable
-fun CustomBottomNavigationBar(
+private fun CustomBottomNavigationBar(
     items: List<BottomNavItem>,
     currentRoute: String?,
     onItemClick: (String) -> Unit
@@ -143,7 +134,7 @@ fun CustomBottomNavigationBar(
 
 @SuppressLint("DiscouragedApi")
 @Composable
-fun DynamicIcon(
+private fun DynamicIcon(
     iconName: String,
     isSelected: Boolean,
     contentDescription: String

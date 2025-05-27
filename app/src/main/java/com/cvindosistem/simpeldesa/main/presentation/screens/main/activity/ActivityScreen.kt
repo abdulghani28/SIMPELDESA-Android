@@ -1,29 +1,45 @@
 package com.cvindosistem.simpeldesa.main.presentation.screens.main.activity
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import com.cvindosistem.simpeldesa.main.presentation.components.ActivityTabLayout
+import androidx.navigation.NavController
+import com.cvindosistem.simpeldesa.core.components.AnimatedTabContent
+import com.cvindosistem.simpeldesa.core.components.AppTab
+import com.cvindosistem.simpeldesa.main.presentation.screens.main.activity.section.AktivitasSuratSaya
 
 @Composable
-fun AktivitasScreen() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = "Aktivitas Screen",
-            style = MaterialTheme.typography.headlineMedium
-        )
+fun AktivitasScreen(
+    navController: NavController
+) {
+    var selectedTab by remember { mutableIntStateOf(0) }
+    val tabs = listOf("Surat Saya", "Laporan", "Pesanan")
+
+    Scaffold(
+        topBar = {
+            Column {
+                AppTab(
+                    selectedTab = selectedTab,
+                    tabs = tabs,
+                    onTabSelected = { selectedTab = it }
+                )
+            }
+        }
+    ) { paddingValues ->
+        AnimatedTabContent(
+            selectedTab = selectedTab,
+            paddingValues = paddingValues
+        ) { tabIndex, modifier ->
+            when (tabIndex) {
+                0 -> AktivitasSuratSaya(modifier)
+                1 -> Text("3")
+                2 -> Text("3")
+            }
+        }
     }
 }

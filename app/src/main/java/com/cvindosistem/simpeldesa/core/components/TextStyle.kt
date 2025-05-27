@@ -1,9 +1,10 @@
 package com.cvindosistem.simpeldesa.core.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
@@ -125,17 +126,17 @@ fun ClickableText(
     onClick: () -> Unit,
     text: String
 ) {
-    TextButton(
-        onClick = onClick
-    ) {
-        Text(
-            text = text,
-            color = MaterialTheme.colorScheme.primary,
-            style = MaterialTheme.typography.labelMedium.copy(
-                fontWeight = FontWeight.Medium
-            )
-        )
-    }
+    Text(
+        text = text,
+        color = MaterialTheme.colorScheme.primary,
+        style = MaterialTheme.typography.labelMedium.copy(
+            fontWeight = FontWeight.Medium
+        ),
+        modifier = Modifier
+            .clickable {
+                onClick
+            }
+    )
 }
 
 @Composable
