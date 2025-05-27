@@ -36,6 +36,7 @@ import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.t
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.suratpengantar.sppernikahan.SPPernikahanScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.suratrekomendasi.SRKeramaianScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.main.MainScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.submain.home.notification.NotificationScreen
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 
@@ -54,7 +55,7 @@ fun NavGraph(
 //        else -> Screen.MainScreen.route
 //    }
 
-    val initialStartDestination = Screen.MainScreen.route
+    val initialStartDestination = Screen.Notification.route
 
     val passwordResetViewModel: PasswordResetViewModel = koinViewModel()
 
@@ -244,6 +245,12 @@ fun NavGraph(
 
         composable(Screen.SuratTugas.route) {
             SuratTugasScreen(
+                navController = navController
+            )
+        }
+
+        composable(Screen.Notification.route) {
+            NotificationScreen(
                 navController = navController
             )
         }

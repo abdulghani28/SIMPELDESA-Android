@@ -40,4 +40,6 @@ sealed class Screen(val route: String) {
 
     object SuratTugas : Screen("surat_tugas")
     object SuratKuasa : Screen("surat_kuasa")
+
+    object Notification : Screen("notifikasi")
 }
