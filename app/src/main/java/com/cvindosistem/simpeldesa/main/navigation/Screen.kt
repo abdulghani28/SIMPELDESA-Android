@@ -42,4 +42,5 @@ sealed class Screen(val route: String) {
     object SuratKuasa : Screen("surat_kuasa")
 
     object Notification : Screen("notifikasi")
+    object VillageInformation : Screen("informasi_desa")
 }

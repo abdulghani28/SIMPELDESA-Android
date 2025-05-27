@@ -81,7 +81,7 @@ fun MainScreen(navController: NavController) {
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(BottomNavScreen.BERANDA.route) {
-                BerandaScreen()
+                BerandaScreen(navController = navController)
             }
 
             composable(BottomNavScreen.AKTIVITAS.route) {

@@ -8,7 +8,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.cvindosistem.simpeldesa.R
+import com.cvindosistem.simpeldesa.main.navigation.Screen
 import com.cvindosistem.simpeldesa.main.presentation.screens.main.home.section.BlogItem
 import com.cvindosistem.simpeldesa.main.presentation.screens.main.home.section.BlogSection
 import com.cvindosistem.simpeldesa.main.presentation.screens.main.home.section.DonationItem
@@ -20,7 +22,9 @@ import com.cvindosistem.simpeldesa.main.presentation.screens.main.home.section.R
 import com.cvindosistem.simpeldesa.main.presentation.screens.main.home.section.ServicesGrid
 
 @Composable
-fun BerandaScreen() {
+fun BerandaScreen(
+    navController: NavController
+) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -28,7 +32,14 @@ fun BerandaScreen() {
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         item {
-            HeaderSection()
+            HeaderSection(
+                onNotifikasiClick = {
+                    navController.navigate(Screen.Notification.route)
+                },
+                onDesaClick = {
+                    navController.navigate(Screen.VillageInformation.route)
+                }
+            )
         }
 
         item {
