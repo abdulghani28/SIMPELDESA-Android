@@ -129,7 +129,7 @@ fun ProfilScreen(
         // Village Information Card
         item {
             VillageInfoCard(
-                village = uiState.village
+                village = uiState.dusun
             )
         }
 
@@ -261,12 +261,12 @@ private fun ProfileHeaderWithExpandableInfo(
             ) {
                 ProfileInfoItem(
                     label = "Tempat & Tanggal Lahir",
-                    value = uiState.tempatTanggalLahir.ifEmpty { "Jakarta Timur, 33 Juli 1973" }
+                    value = uiState.tempatTanggalLahir
                 )
 
                 ProfileInfoItem(
                     label = "Jenis Kelamin",
-                    value = uiState.jenisKelamin.ifEmpty { "Laki-laki" }
+                    value =  uiState.jenisKelamin
                 )
 
                 ProfileInfoItem(
@@ -307,7 +307,11 @@ private fun VillageInfoCard(
     village: String
 ) {
     AppCard(
-        modifier = Modifier.padding(horizontal = 32.dp)
+        modifier = Modifier
+            .padding(horizontal = 32.dp)
+            .clickable {
+
+            }
     ) {
         Row(
             modifier = Modifier

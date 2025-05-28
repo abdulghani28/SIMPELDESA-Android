@@ -66,9 +66,9 @@ internal fun HeaderSection(
 
         DesaInformationCard(
             onDesaClick = onDesaClick,
-            desa = villageInfo.village,
-            kecamatan = villageInfo.kecamatan,
-            kabupaten = villageInfo.kabupaten
+            dusun = villageInfo.dusun,
+            rt = villageInfo.rt,
+            rw = villageInfo.rw
         )
     }
 }
@@ -76,9 +76,9 @@ internal fun HeaderSection(
 @Composable
 private fun DesaInformationCard(
     onDesaClick: () -> Unit,
-    desa: String,
-    kecamatan: String,
-    kabupaten: String
+    dusun: String,
+    rt: String,
+    rw: String
 ) {
     Box(
         modifier = Modifier
@@ -101,11 +101,11 @@ private fun DesaInformationCard(
                 verticalArrangement = Arrangement
                     .spacedBy(4.dp)
             ) {
-                BodyLargeText(desa, FontWeight.Bold)
+                BodyLargeText(dusun, FontWeight.Bold)
 
-                BodyMediumText(kecamatan)
+                BodyMediumText(rt)
 
-                BodyMediumText(kabupaten)
+                BodyMediumText(rw)
             }
 
             Icon(

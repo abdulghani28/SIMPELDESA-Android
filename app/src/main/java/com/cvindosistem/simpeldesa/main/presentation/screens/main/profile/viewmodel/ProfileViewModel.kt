@@ -11,11 +11,14 @@ import com.cvindosistem.simpeldesa.auth.domain.model.UserInfoResult
 import com.cvindosistem.simpeldesa.auth.domain.usecases.GetUserInfoUseCase
 import com.cvindosistem.simpeldesa.auth.domain.usecases.auth.LogoutUseCase
 import com.cvindosistem.simpeldesa.core.data.local.preferences.UserPreferences
+import com.cvindosistem.simpeldesa.core.helpers.formatTanggalLahir
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 
 class ProfileViewModel(
     private val getUserInfoUseCase: GetUserInfoUseCase,
@@ -63,7 +66,9 @@ class ProfileViewModel(
                         agama = userData.agama,
                         pekerjaan = userData.pekerjaan,
                         alamatLengkap = userData.alamat,
-                        village = extractVillageName(userData.alamat),
+                        dusun = userData.dusun,
+                        rt = userData.rt,
+                        rw = userData.rw,
                         email = userData.email,
                         noTelp = userData.no_telp,
                         isDataLoaded = true
@@ -107,56 +112,6 @@ class ProfileViewModel(
         }
     }
 
-    // Helper function to extract village name from address
-    private fun extractVillageName(alamat: String): String {
-        return when {
-            alamat.contains("Desa", ignoreCase = true) -> {
-                val parts = alamat.split(",", " ")
-                val desaIndex = parts.indexOfFirst { it.contains("Desa", ignoreCase = true) }
-                if (desaIndex != -1 && desaIndex + 1 < parts.size) {
-                    "Desa ${parts[desaIndex + 1].trim()}"
-                } else {
-                    "Desa Sukaramai Baru" // fallback
-                }
-            }
-            else -> "Desa Sukaramai Baru" // fallback default
-        }
-    }
-
-    // Helper function to format birth date
-    private fun formatTanggalLahir(tanggalLahir: String): String {
-        // Assuming tanggalLahir is in format "YYYY-MM-DD" or similar
-        // You can adjust this logic based on your actual date format
-        return try {
-            // Simple formatting logic - adjust as needed
-            val parts = tanggalLahir.split("-")
-            if (parts.size >= 3) {
-                val day = parts[2]
-                val month = when (parts[1]) {
-                    "01" -> "Januari"
-                    "02" -> "Februari"
-                    "03" -> "Maret"
-                    "04" -> "April"
-                    "05" -> "Mei"
-                    "06" -> "Juni"
-                    "07" -> "Juli"
-                    "08" -> "Agustus"
-                    "09" -> "September"
-                    "10" -> "Oktober"
-                    "11" -> "November"
-                    "12" -> "Desember"
-                    else -> parts[1]
-                }
-                val year = parts[0]
-                "$day $month $year"
-            } else {
-                tanggalLahir
-            }
-        } catch (e: Exception) {
-            tanggalLahir
-        }
-    }
-
     sealed class ProfileEvent {
         data object DataLoaded : ProfileEvent()
         data object LogoutSuccess : ProfileEvent()
@@ -179,7 +134,9 @@ data class ProfileUiState(
     val agama: String = "",
     val pekerjaan: String = "",
     val alamatLengkap: String = "",
-    val village: String = "Desa Sukaramai Baru",
+    val dusun: String = "Dusun...",
+    val rt: String = "",
+    val rw: String = "",
     val email: String = "",
     val noTelp: String = "",
     val isDataLoaded: Boolean = false
