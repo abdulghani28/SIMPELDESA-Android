@@ -18,6 +18,7 @@ import com.cvindosistem.simpeldesa.auth.presentation.auth.login.AuthViewModel
 import com.cvindosistem.simpeldesa.auth.presentation.auth.resetpassword.PasswordResetViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.main.MainViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.main.home.viewmodel.HomeViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.main.profile.viewmodel.ProfileViewModel
 import com.google.gson.Gson
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -40,8 +41,9 @@ val authModule = module {
     single { ResetPasswordUseCase(get()) }
     single { GetUserInfoUseCase(get()) }
 
-    viewModel { AuthViewModel(get(), get(), get()) }
+    viewModel { AuthViewModel(get(), get()) }
     viewModel { MainViewModel() }
     viewModel { PasswordResetViewModel(get(), get(), get(), get()) }
     viewModel { HomeViewModel(get()) }
+    viewModel { ProfileViewModel(get(), get(), get()) }
 }

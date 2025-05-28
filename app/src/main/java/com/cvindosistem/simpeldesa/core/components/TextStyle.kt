@@ -41,13 +41,27 @@ fun LargeText(
 }
 
 @Composable
-fun TitleMediumText(
+fun TitleLargeText(
     text: String
 ) {
     Text(
         text = text,
-        style = MaterialTheme.typography.titleMedium.copy(
+        style = MaterialTheme.typography.titleLarge.copy(
             fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onBackground
+        )
+    )
+}
+
+@Composable
+fun TitleMediumText(
+    text: String,
+    fontWeight: FontWeight = FontWeight.Bold
+) {
+    Text(
+        text = text,
+        style = MaterialTheme.typography.titleMedium.copy(
+            fontWeight = fontWeight,
             color = MaterialTheme.colorScheme.onBackground
         )
     )

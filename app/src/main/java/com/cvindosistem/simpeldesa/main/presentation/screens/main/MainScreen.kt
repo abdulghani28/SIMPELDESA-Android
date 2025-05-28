@@ -25,6 +25,7 @@ import com.cvindosistem.simpeldesa.main.presentation.screens.main.activity.Aktiv
 import com.cvindosistem.simpeldesa.main.presentation.screens.main.home.screen.BerandaScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.main.home.viewmodel.HomeViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.main.profile.ProfilScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.main.profile.viewmodel.ProfileViewModel
 
 // Data class untuk item bottom navigation
 private data class BottomNavItem(
@@ -47,7 +48,8 @@ private enum class BottomNavScreen(
 @Composable
 fun MainScreen(
     navController: NavController,
-    homeViewModel: HomeViewModel
+    homeViewModel: HomeViewModel,
+    profileViewModel: ProfileViewModel
 ) {
     val internalNavController = rememberNavController()
     val currentRoute = internalNavController.currentBackStackEntryAsState().value?.destination?.route
@@ -96,7 +98,10 @@ fun MainScreen(
             }
 
             composable(BottomNavScreen.PROFIL.route) {
-                ProfilScreen(navController = navController)
+                ProfilScreen(
+                    navController = navController,
+                    viewModel = profileViewModel
+                )
             }
         }
     }

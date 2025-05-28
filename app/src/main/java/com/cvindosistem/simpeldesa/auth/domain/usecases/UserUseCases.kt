@@ -4,7 +4,9 @@ import com.cvindosistem.simpeldesa.auth.data.repository.UserRepository
 import com.cvindosistem.simpeldesa.auth.domain.model.UserInfoResult
 
 class GetUserInfoUseCase(private val userRepository: UserRepository) {
-    suspend operator fun invoke(): UserInfoResult = userRepository.getUserInfo()
+    suspend operator fun invoke(): UserInfoResult {
+        return userRepository.getUserInfo()
+    }
 }
 
 //class GetOrganizationInfoUseCase(private val userRepository: UserRepository) {

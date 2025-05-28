@@ -37,6 +37,7 @@ import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.t
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.suratrekomendasi.SRKeramaianScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.main.MainScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.main.home.viewmodel.HomeViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.main.profile.viewmodel.ProfileViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.submain.home.notification.NotificationScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.submain.home.village.InformasiDesaScreen
 import org.koin.androidx.compose.koinViewModel
@@ -102,9 +103,12 @@ fun NavGraph(
         // ===== Main =====
         composable(Screen.MainScreen.route) {
             val homeViewModel: HomeViewModel = koinViewModel()
+            val profileViewModel: ProfileViewModel = koinViewModel()
+
             MainScreen(
                 navController = navController,
-                homeViewModel = homeViewModel
+                homeViewModel = homeViewModel,
+                profileViewModel = profileViewModel
             )
         }
 

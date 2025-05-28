@@ -18,7 +18,6 @@ import kotlinx.coroutines.launch
 class AuthViewModel(
     private val loginUseCase: LoginUseCase,
     private val userPreferences: UserPreferences,
-    private val logoutUseCase: LogoutUseCase
 ) : ViewModel() {
 
     var email by mutableStateOf("")
@@ -187,26 +186,6 @@ class AuthViewModel(
         }
     }
 
-    fun logout() {
-        viewModelScope.launch {
-            isLoading = true
-
-            when (val result = logoutUseCase()) {
-                is LogoutResult.Success -> {
-                    userPreferences.clearAuthToken()
-                    _loginEvent.emit(LoginEvent.Logout)
-                    Log.d("LoginViewModel", "Logout successful")
-                }
-                is LogoutResult.Error -> {
-                    Log.e("LoginViewModel", "Logout failed: ${result.message}")
-                    _loginEvent.emit(LoginEvent.Error(result.message))
-                }
-            }
-
-            isLoading = false
-        }
-    }
-
     // Function to manually trigger validation (useful for submit button state)
     fun isFormValid(): Boolean {
         return email.isNotEmpty() &&
@@ -217,7 +196,6 @@ class AuthViewModel(
 
     sealed class LoginEvent {
         data object Success : LoginEvent()
-        data object Logout : LoginEvent()
         data class Error(val message: String) : LoginEvent()
     }
 }
