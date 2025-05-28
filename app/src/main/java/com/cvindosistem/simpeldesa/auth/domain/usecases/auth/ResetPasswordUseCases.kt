@@ -1,9 +1,9 @@
 package com.cvindosistem.simpeldesa.auth.domain.usecases.auth
 
+import com.cvindosistem.simpeldesa.auth.data.repository.PasswordResetRepository
 import com.cvindosistem.simpeldesa.auth.domain.model.RequestOtpResult
 import com.cvindosistem.simpeldesa.auth.domain.model.ResetPasswordResult
 import com.cvindosistem.simpeldesa.auth.domain.model.ValidateOtpResult
-import com.cvindosistem.simpeldesa.auth.domain.repository.PasswordResetRepository
 
 
 class RequestOtpUseCase(private val passwordResetRepository: PasswordResetRepository) {

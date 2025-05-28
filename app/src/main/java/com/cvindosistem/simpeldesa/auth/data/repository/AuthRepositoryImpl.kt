@@ -6,10 +6,14 @@ import com.cvindosistem.simpeldesa.auth.data.remote.dto.auth.login.ErrorResponse
 import com.cvindosistem.simpeldesa.auth.data.remote.dto.auth.login.LoginRequest
 import com.cvindosistem.simpeldesa.auth.domain.model.LoginResult
 import com.cvindosistem.simpeldesa.auth.domain.model.LogoutResult
-import com.cvindosistem.simpeldesa.auth.domain.repository.AuthRepository
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+
+interface AuthRepository {
+    suspend fun login(email: String, password: String, licenseCode: String): LoginResult
+    suspend fun logout(): LogoutResult
+}
 
 class AuthRepositoryImpl(private val authApi: AuthApi) : AuthRepository {
 

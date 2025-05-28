@@ -15,10 +15,10 @@ import retrofit2.http.DELETE
 import retrofit2.http.POST
 
 interface AuthApi {
-    @POST("portal-desa/auth/login")
+    @POST("/warga-desa/auth/login")
     suspend fun login(@Body loginRequest: LoginRequest): Response<LoginResponse>
 
-    @DELETE("portal-desa/auth/logout")
+    @DELETE("/warga-desa/auth/logout")
     suspend fun logout(): Response<LogoutResponse>
 
     @POST("portal-desa/auth/request-otp")

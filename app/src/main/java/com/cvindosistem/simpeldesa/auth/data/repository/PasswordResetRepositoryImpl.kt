@@ -9,10 +9,15 @@ import com.cvindosistem.simpeldesa.auth.data.remote.dto.auth.resetpassword.reque
 import com.cvindosistem.simpeldesa.auth.domain.model.RequestOtpResult
 import com.cvindosistem.simpeldesa.auth.domain.model.ResetPasswordResult
 import com.cvindosistem.simpeldesa.auth.domain.model.ValidateOtpResult
-import com.cvindosistem.simpeldesa.auth.domain.repository.PasswordResetRepository
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+
+interface PasswordResetRepository {
+    suspend fun requestOtp(email: String, licenseCode: String): RequestOtpResult
+    suspend fun validateOtp(email: String, otp: String, licenseCode: String): ValidateOtpResult
+    suspend fun resetPassword(email: String, otp: String, newPassword: String, licenseCode: String): ResetPasswordResult
+}
 
 class PasswordResetRepositoryImpl(private val authApi: AuthApi) : PasswordResetRepository {
 

@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.bumptech.glide.integration.compose.placeholder
 import com.cvindosistem.simpeldesa.R
 import com.cvindosistem.simpeldesa.auth.presentation.auth.login.AuthViewModel
 import com.cvindosistem.simpeldesa.core.components.AppPasswordField
@@ -51,6 +52,19 @@ internal fun LoginForm(
             errorMessage = viewModel.passwordError
         )
 
+        Spacer(modifier = Modifier.height(16.dp))
+
+        if (!viewModel.hasLicenseCode) {
+            AppTextField(
+                label = "Kode Lisensi",
+                placeholder = "Masukkan kode lisensi",
+                value = viewModel.licenseCode,
+                onValueChange = { viewModel.onLicenseCodeChanged(it) },
+                isError = viewModel.licenseCodeError != null,
+                errorMessage = viewModel.licenseCodeError
+            )
+        }
+
         // General login error (from server response)
         if (viewModel.loginError != null) {
             Spacer(modifier = Modifier.height(8.dp))
@@ -61,7 +75,7 @@ internal fun LoginForm(
             )
         }
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -73,6 +87,8 @@ internal fun LoginForm(
             )
         }
 
+        Spacer(modifier = Modifier.height(16.dp))
+
         AuthButton(
             onClick = { viewModel.login() },
             isLoading = viewModel.isLoading,
@@ -82,8 +98,6 @@ internal fun LoginForm(
         )
 
         Spacer(modifier = Modifier.height(16.dp))
-
-        OrDivider()
     }
 }
 

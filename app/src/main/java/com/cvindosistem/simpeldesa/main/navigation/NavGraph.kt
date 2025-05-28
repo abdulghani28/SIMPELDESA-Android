@@ -36,6 +36,7 @@ import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.t
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.suratpengantar.sppernikahan.SPPernikahanScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.suratrekomendasi.SRKeramaianScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.main.MainScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.main.home.viewmodel.HomeViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.submain.home.notification.NotificationScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.submain.home.village.InformasiDesaScreen
 import org.koin.androidx.compose.koinViewModel
@@ -50,13 +51,13 @@ fun NavGraph(
 
     val activeModule = userPreferences.getActiveModule() ?: ""
 
-//    val initialStartDestination = when {
-//        !isLoggedIn -> Screen.Login.route
-//        activeModule.isNotEmpty() -> activeModule
-//        else -> Screen.MainScreen.route
-//    }
+    val initialStartDestination = when {
+        !isLoggedIn -> Screen.Login.route
+        activeModule.isNotEmpty() -> activeModule
+        else -> Screen.MainScreen.route
+    }
 
-    val initialStartDestination = Screen.MainScreen.route
+//    val initialStartDestination = Screen.MainScreen.route
 
     val passwordResetViewModel: PasswordResetViewModel = koinViewModel()
 
@@ -100,8 +101,10 @@ fun NavGraph(
 
         // ===== Main =====
         composable(Screen.MainScreen.route) {
+            val homeViewModel: HomeViewModel = koinViewModel()
             MainScreen(
-                navController = navController
+                navController = navController,
+                homeViewModel = homeViewModel
             )
         }
 

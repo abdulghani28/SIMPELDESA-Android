@@ -43,6 +43,9 @@ class AuthViewModel(
     var passwordError by mutableStateOf<String?>(null)
         private set
 
+    var licenseCodeError by mutableStateOf<String?>(null)
+        private set
+
     var loginError by mutableStateOf<String?>(null)
         private set
 
@@ -75,6 +78,14 @@ class AuthViewModel(
 
     fun onLicenseCodeChanged(value: String) {
         licenseCode = value
+
+        if (licenseCodeError != null) {
+            licenseCodeError = null
+        }
+
+        if (loginError != null) {
+            loginError = null
+        }
     }
 
     private fun validateEmail(): Boolean {

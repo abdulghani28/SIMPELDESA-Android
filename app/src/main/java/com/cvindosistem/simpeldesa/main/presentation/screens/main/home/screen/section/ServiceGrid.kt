@@ -1,4 +1,4 @@
-package com.cvindosistem.simpeldesa.main.presentation.screens.main.home.section
+package com.cvindosistem.simpeldesa.main.presentation.screens.main.home.screen.section
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable

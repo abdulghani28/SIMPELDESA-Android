@@ -1,4 +1,4 @@
-package com.cvindosistem.simpeldesa.main.presentation.screens.main.home.section
+package com.cvindosistem.simpeldesa.main.presentation.screens.main.home.screen.section
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -23,6 +23,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,16 +35,17 @@ import com.cvindosistem.simpeldesa.R
 import com.cvindosistem.simpeldesa.core.components.BodyLargeText
 import com.cvindosistem.simpeldesa.core.components.BodyMediumText
 import com.cvindosistem.simpeldesa.core.components.LargeText
+import com.cvindosistem.simpeldesa.main.presentation.screens.main.home.viewmodel.HomeViewModel
 
 @Composable
 internal fun HeaderSection(
-    nama: String = "Rudi Tabuti",
-    desa: String = "Desa Sukaramai Baru",
-    kecamatan: String = "Kecamatan Terong Belanda",
-    kabupaten: String = "Kabupaten Kebun Subur",
+    homeViewModel: HomeViewModel,
     onNotifikasiClick: () -> Unit = {},
     onDesaClick: () -> Unit = {}
 ) {
+    val uiState = homeViewModel.uiState.collectAsState()
+    val villageInfo = homeViewModel.getVillageInfo()
+
     Column(modifier = Modifier
         .background(MaterialTheme.colorScheme.background)
         .padding(24.dp)
@@ -53,20 +55,20 @@ internal fun HeaderSection(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            BodyLargeText("Halo selamat siang 👋")
+            BodyLargeText(uiState.value.greeting)
 
             NotificationIcon(onNotifikasiClick)
         }
 
-        LargeText(nama)
+        LargeText(homeViewModel.getDisplayName())
 
         Spacer(modifier = Modifier.height(16.dp))
 
         DesaInformationCard(
-            onDesaClick,
-            desa,
-            kecamatan,
-            kabupaten
+            onDesaClick = onDesaClick,
+            desa = villageInfo.village,
+            kecamatan = villageInfo.kecamatan,
+            kabupaten = villageInfo.kabupaten
         )
     }
 }

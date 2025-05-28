@@ -1,7 +1,7 @@
 package com.cvindosistem.simpeldesa.auth.domain.usecases.auth
 
+import com.cvindosistem.simpeldesa.auth.data.repository.AuthRepository
 import com.cvindosistem.simpeldesa.auth.domain.model.LoginResult
-import com.cvindosistem.simpeldesa.auth.domain.repository.AuthRepository
 
 
 class LoginUseCase(private val authRepository: AuthRepository) {
