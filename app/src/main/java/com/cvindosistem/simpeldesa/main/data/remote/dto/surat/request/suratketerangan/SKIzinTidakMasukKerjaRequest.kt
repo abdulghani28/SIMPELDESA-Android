@@ -1,6 +1,6 @@
-package com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request
+package com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan
 
-data class SuratIzinTidakMasukKerjaRequest(
+data class SKIzinTidakMasukKerjaRequest(
     val agama_id: String,
     val alamat: String,
     val alasan_izin: String,

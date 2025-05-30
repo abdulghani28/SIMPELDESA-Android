@@ -8,6 +8,21 @@ import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratkete
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKIzinTidakMasukKerjaResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKJandaDudaResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.SuratListResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKGhaibResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKKelahiranResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKKematianResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKPenghasilanResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKResiKTPSementaraResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKStatusPerkawinanResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKTidakMampuResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKUsahaResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratlainnya.SuratKuasaResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratlainnya.SuratTugasResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratpengantar.SPCatatanKepolisianResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratpengantar.SPKehilanganResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratpengantar.SPPernikahanResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratpengantar.SPPindahDomisiliResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratrekomendasi.SRKeramaianResponse
 
 sealed class SuratListResult {
     data class Success(val data: SuratListResponse) : SuratListResult()
@@ -47,4 +62,84 @@ sealed class SuratTidakMasukKerjaResult {
 sealed class SuratJandaDudaResult {
     data class Success(val data: SKJandaDudaResponse) : SuratJandaDudaResult()
     data class Error(val message: String) : SuratJandaDudaResult()
+}
+
+sealed class SuratGhaibResult {
+    data class Success(val data: SKGhaibResponse) : SuratGhaibResult()
+    data class Error(val message: String) : SuratGhaibResult()
+}
+
+sealed class SuratKehilanganResult {
+    data class Success(val data: SPKehilanganResponse) : SuratKehilanganResult()
+    data class Error(val message: String) : SuratKehilanganResult()
+}
+
+sealed class SuratKelahiranResult {
+    data class Success(val data: SKKelahiranResponse) : SuratKelahiranResult()
+    data class Error(val message: String) : SuratKelahiranResult()
+}
+
+sealed class SuratKematianResult {
+    data class Success(val data: SKKematianResponse) : SuratKematianResult()
+    data class Error(val message: String) : SuratKematianResult()
+}
+
+sealed class SuratKeramaianResult {
+    data class Success(val data: SRKeramaianResponse) : SuratKeramaianResult()
+    data class Error(val message: String) : SuratKeramaianResult()
+}
+
+sealed class SuratKuasaResult {
+    data class Success(val data: SuratKuasaResponse) : SuratKuasaResult()
+    data class Error(val message: String) : SuratKuasaResult()
+}
+
+sealed class SuratPenghasilanResult {
+    data class Success(val data: SKPenghasilanResponse) : SuratPenghasilanResult()
+    data class Error(val message: String) : SuratPenghasilanResult()
+}
+
+sealed class SuratPernikahanResult {
+    data class Success(val data: SPPernikahanResponse) : SuratPernikahanResult()
+    data class Error(val message: String) : SuratPernikahanResult()
+}
+
+sealed class SuratPindahDomisiliResult {
+    data class Success(val data: SPPindahDomisiliResponse) : SuratPindahDomisiliResult()
+    data class Error(val message: String) : SuratPindahDomisiliResult()
+}
+
+sealed class SuratResiKTPSementaraResult {
+    data class Success(val data: SKResiKTPSementaraResponse) : SuratResiKTPSementaraResult()
+    data class Error(val message: String) : SuratResiKTPSementaraResult()
+}
+
+sealed class SuratSKCKResult {
+    data class Success(val data: SPCatatanKepolisianResponse) : SuratSKCKResult()
+    data class Error(val message: String) : SuratSKCKResult()
+}
+
+sealed class SuratStatusPerkawinanResult {
+    data class Success(val data: SKStatusPerkawinanResponse) : SuratStatusPerkawinanResult()
+    data class Error(val message: String) : SuratStatusPerkawinanResult()
+}
+
+sealed class SuratTidakMampuResult {
+    data class Success(val data: SKTidakMampuResponse) : SuratTidakMampuResult()
+    data class Error(val message: String) : SuratTidakMampuResult()
+}
+
+sealed class SuratUsahaResult {
+    data class Success(val data: SKUsahaResponse) : SuratUsahaResult()
+    data class Error(val message: String) : SuratUsahaResult()
+}
+
+sealed class SuratTugasResult {
+    data class Success(val data: SuratTugasResponse) : SuratTugasResult()
+    data class Error(val message: String) : SuratTugasResult()
+}
+
+sealed class SuratIzinTidakKerjaResult {
+    data class Success(val data: SKIzinTidakMasukKerjaResponse) : SuratIzinTidakKerjaResult()
+    data class Error(val message: String) : SuratIzinTidakKerjaResult()
 }

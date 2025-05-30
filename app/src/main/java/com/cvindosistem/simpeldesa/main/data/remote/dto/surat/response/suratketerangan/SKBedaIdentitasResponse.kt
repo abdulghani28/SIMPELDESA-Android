@@ -1,6 +1,6 @@
-package com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response
+package com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan
 
-data class SuratKeteranganBedaIdentitasResponse(
+data class SKBedaIdentitasResponse(
     val `data`: Data
 ) {
     data class Data(

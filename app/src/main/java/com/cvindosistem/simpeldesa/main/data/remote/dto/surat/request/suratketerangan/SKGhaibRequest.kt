@@ -1,6 +1,6 @@
-package com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request
+package com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan
 
-data class SuratKeteranganGhaibRequest(
+data class SKGhaibRequest(
     val alamat: String,
     val disahkan_oleh: String,
     val hilang_sejak: String,

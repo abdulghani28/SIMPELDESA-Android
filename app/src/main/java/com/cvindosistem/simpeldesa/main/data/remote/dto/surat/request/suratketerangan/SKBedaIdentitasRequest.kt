@@ -1,6 +1,6 @@
-package com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request
+package com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan
 
-data class SuratKeteranganBedaIdentitasRequest(
+data class SKBedaIdentitasRequest(
     val alamat_1: String,
     val alamat_2: String,
     val disahkan_oleh: String,

@@ -1,18 +1,19 @@
-package com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request
+package com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan
 
-data class SuratKeteranganDomisiliPerusahaanRequest(
-    val agama_id: String,
+data class SKBerpergianRequest(
     val alamat: String,
-    val alamat_identitas: String,
     val disahkan_oleh: String,
     val jenis_kelamin: String,
     val jumlah_pengikut: Int,
     val keperluan: String,
-    val kewarganegaraan: String,
+    val lama: Int,
+    val maksud_tujuan: String,
     val nama: String,
     val nik: String,
     val pekerjaan: String,
+    val satuan_lama: String,
+    val tanggal_keberangkatan: String,
     val tanggal_lahir: String,
     val tempat_lahir: String,
-    val warga_desa: Boolean
+    val tempat_tujuan: String
 )

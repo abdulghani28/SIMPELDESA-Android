@@ -1,6 +1,6 @@
-package com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request
+package com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan
 
-data class SuratKeteranganDomisiliRequest(
+data class SKDomisiliPerusahaanRequest(
     val agama_id: String,
     val alamat: String,
     val alamat_identitas: String,
