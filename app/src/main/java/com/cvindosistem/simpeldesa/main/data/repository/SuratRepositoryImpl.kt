@@ -25,8 +25,11 @@ interface SuratRepository {
     suspend fun getSuratList(
         page: Int? = null,
         limit: Int? = null,
+        search: String? = null,
         jenisSurat: String? = null,
-        status: String? = null
+        status: String? = null,
+        startDate: String? = null,
+        endDate: String? = null
     ): SuratListResult
 
     suspend fun getSuratDetail(id: String): SuratDetailResult
@@ -63,11 +66,14 @@ class SuratRepositoryImpl(
     override suspend fun getSuratList(
         page: Int?,
         limit: Int?,
+        search: String?,
         jenisSurat: String?,
-        status: String?
+        status: String?,
+        startDate: String?,
+        endDate: String?
     ): SuratListResult = withContext(Dispatchers.IO) {
         try {
-            val response = suratApi.getSuratList(page, limit, jenisSurat, status)
+            val response = suratApi.getSuratList(page, limit, search, jenisSurat, status, startDate, endDate)
 
             if (response.isSuccessful) {
                 response.body()?.let {

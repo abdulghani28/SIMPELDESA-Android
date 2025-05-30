@@ -13,10 +13,12 @@ import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.t
 import com.cvindosistem.simpeldesa.core.components.AnimatedTabContent
 import com.cvindosistem.simpeldesa.core.components.AppTab
 import com.cvindosistem.simpeldesa.core.components.AppTopBar
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SuratSayaViewModel
 
 @Composable
 fun LayananPersuratanScreen(
-    navController: NavController
+    navController: NavController,
+    suratSayaViewModel: SuratSayaViewModel
 ) {
     var selectedTab by remember { mutableIntStateOf(0) }
     val tabs = listOf("Buat Surat", "Surat Saya")
@@ -43,7 +45,10 @@ fun LayananPersuratanScreen(
         ) { tabIndex, modifier ->
             when (tabIndex) {
                 0 -> BuatSuratContent(modifier, navController = navController)
-                1 -> SuratSayaContent(modifier)
+                1 -> SuratSayaContent(
+                    modifier = modifier,
+                    viewModel = suratSayaViewModel
+                )
             }
         }
     }

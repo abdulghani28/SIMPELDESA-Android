@@ -6,6 +6,7 @@ import com.cvindosistem.simpeldesa.app.di.appModule
 import com.cvindosistem.simpeldesa.auth.di.authModule
 import com.cvindosistem.simpeldesa.core.di.coreModule
 import com.cvindosistem.simpeldesa.core.di.networkModule
+import com.cvindosistem.simpeldesa.main.di.mainModule
 import com.zynksoftware.documentscanner.ui.DocumentScanner
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -32,7 +33,8 @@ class App : Application() {
                     appModule,
                     coreModule,
                     networkModule,
-                    authModule
+                    authModule,
+                    mainModule
                 )
             )
         }

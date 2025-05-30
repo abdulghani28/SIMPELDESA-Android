@@ -1,6 +1,5 @@
 package com.cvindosistem.simpeldesa.main.data.remote.api
 
-import com.cvindosistem.simpeldesa.auth.data.remote.dto.user.response.UserInfoResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.SuratIzinTidakMasukKerjaRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.SuratKeteranganBedaIdentitasRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.SuratKeteranganBerpergianRequest
@@ -27,8 +26,11 @@ interface SuratApi {
     suspend fun getSuratList(
         @Query("page") page: Int? = null,
         @Query("limit") limit: Int? = null,
+        @Query("search") search: String? = null,
         @Query("jenis_surat") jenisSurat: String? = null,
-        @Query("status") status: String? = null
+        @Query("status") status: String? = null,
+        @Query("start_date") startDate: String? = null,
+        @Query("end_date") endDate: String? = null
     ): Response<SuratListResponse>
 
     @GET("/warga-desa/surat/{id}")

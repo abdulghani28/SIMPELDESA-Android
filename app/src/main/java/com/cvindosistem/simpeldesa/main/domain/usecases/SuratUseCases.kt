@@ -20,10 +20,13 @@ class GetSuratListUseCase(private val suratRepository: SuratRepository) {
     suspend operator fun invoke(
         page: Int? = null,
         limit: Int? = null,
+        search: String? = null,
         jenisSurat: String? = null,
-        status: String? = null
+        status: String? = null,
+        startDate: String? = null,
+        endDate: String? = null
     ): SuratListResult {
-        return suratRepository.getSuratList(page, limit, jenisSurat, status)
+        return suratRepository.getSuratList(page, limit, search, jenisSurat, status, startDate, endDate)
     }
 }
 
