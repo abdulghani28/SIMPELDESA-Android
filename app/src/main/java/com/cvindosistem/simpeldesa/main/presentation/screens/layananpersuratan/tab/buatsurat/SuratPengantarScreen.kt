@@ -24,15 +24,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.cvindosistem.simpeldesa.core.components.AppCard
 import com.cvindosistem.simpeldesa.core.components.AppTopBar
 import com.cvindosistem.simpeldesa.core.components.BodySmallText
 import com.cvindosistem.simpeldesa.core.components.CardTitleText
+import com.cvindosistem.simpeldesa.main.navigation.Screen
 
 @Composable
 fun SuratPengantarScreen(
     onNavigateBack: () -> Unit = {},
-    onSuratItemClick: (SuratPengantarItem) -> Unit = {},
+    navController: NavController,
     @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
 ) {
     Column(
@@ -47,15 +49,15 @@ fun SuratPengantarScreen(
         )
 
         SuratPengantarContent(
-            onSuratItemClick = onSuratItemClick,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
+            navController = navController
         )
     }
 }
 
 @Composable
 private fun SuratPengantarContent(
-    onSuratItemClick: (SuratPengantarItem) -> Unit,
+    navController: NavController,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -66,7 +68,9 @@ private fun SuratPengantarContent(
         items(getSuratPengantarList()) { suratItem ->
             SuratPengantarItemCard(
                 suratItem = suratItem,
-                onItemClick = { onSuratItemClick(suratItem) }
+                onItemClick = {
+                    navController.navigate(suratItem.rute)
+                }
             )
         }
     }
@@ -81,7 +85,7 @@ private fun SuratPengantarItemCard(
     AppCard(
         modifier
             .clickable {
-                onItemClick
+                onItemClick()
             }
     ) {
         Column(
@@ -146,46 +150,36 @@ data class SuratPengantarItem(
     val title: String,
     val description: String,
     val emoji: String,
-    val iconBackgroundColor: Color
+    val iconBackgroundColor: Color,
+    val rute: String
 )
 
 // Function untuk mendapatkan data surat Pengantar
 private fun getSuratPengantarList(): List<SuratPengantarItem> {
     return listOf(
         SuratPengantarItem(
-            id = "domisili",
-            title = "Surat Pengantar Domisili",
-            description = "Menyatakan tempat tinggal seseorang untuk keperluan administrasi.",
-            emoji = "🌏",
-            iconBackgroundColor = Color(0xFFF0F4FF)
+            id = "kepolisian",
+            title = "Surat Pengantar Catatan Kepolisian ",
+            description = "Dibutuhkan untuk mengurus Surat Keterangan Catatan Kepolisian (SKCK).",
+            emoji = "\uD83D\uDC6E\u200D♂\uFE0F",
+            iconBackgroundColor = Color(0xFFF0F4FF),
+            rute = Screen.SPCatatanKepolisian.route
         ),
         SuratPengantarItem(
-            id = "tidak_mampu",
-            title = "Surat Pengantar Tidak Mampu",
-            description = "Menyatakan kondisi ekonomi kurang mampu untuk bantuan atau keringanan biaya.",
-            emoji = "⚖️",
-            iconBackgroundColor = Color(0xFFFFF4E6)
+            id = "kehilangan",
+            title = "Surat Pengantar Kehilangan",
+            description = "Digunakan untuk melaporkan kehilangan barang atau dokumen.",
+            emoji = "❓",
+            iconBackgroundColor = Color(0xFFFFF4E6),
+            rute = Screen.SPKehilangan.route
         ),
         SuratPengantarItem(
-            id = "kelahiran",
-            title = "Surat Pengantar Kelahiran",
-            description = "Mengonfirmasi kelahiran anak untuk pengurusan akta kelahiran.",
-            emoji = "👶",
-            iconBackgroundColor = Color(0xFFF0FFF4)
-        ),
-        SuratPengantarItem(
-            id = "kematian",
-            title = "Surat Pengantar Kematian",
-            description = "Menyatakan kematian seseorang untuk urusan administrasi.",
-            emoji = "❌",
-            iconBackgroundColor = Color(0xFFFFF0F0)
-        ),
-        SuratPengantarItem(
-            id = "usaha",
-            title = "Surat Pengantar Usaha",
-            description = "Menyatakan kegiatan usaha yang dijalankan untuk keperluan perizinan.",
-            emoji = "🏢",
-            iconBackgroundColor = Color(0xFFF8F0FF)
+            id = "perkawinan",
+            title = "Surat Pengantar Perkawinan",
+            description = "Diperlukan untuk administrasi pernikahan (Pria atau Wanita).",
+            emoji = "\uD83D\uDC8D",
+            iconBackgroundColor = Color(0xFFF0FFF4),
+            rute = Screen.SPPernikahan.route
         )
     )
 }

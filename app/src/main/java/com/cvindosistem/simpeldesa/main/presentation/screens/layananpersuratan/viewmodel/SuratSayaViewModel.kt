@@ -3,6 +3,7 @@ package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cvindosistem.simpeldesa.main.domain.model.SuratListResult
@@ -10,8 +11,12 @@ import com.cvindosistem.simpeldesa.main.domain.usecases.GetSuratListUseCase
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.FilterData
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -42,6 +47,21 @@ class SuratSayaViewModel(
     // Show filter sheet state
     var showFilterSheet by mutableStateOf(false)
         private set
+
+    val filteredSuratList: StateFlow<List<SuratSaya>> = combine(
+        _uiState,
+        snapshotFlow { searchQuery }
+    ) { uiState, query ->
+        if (query.isEmpty()) {
+            uiState.suratList
+        } else {
+            uiState.suratList.filter { surat ->
+                surat.judul.contains(query, ignoreCase = true) ||
+                        surat.nama.contains(query, ignoreCase = true) ||
+                        surat.nik.contains(query, ignoreCase = true)
+            }
+        }
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     // Pagination
     private var currentPage = 1
@@ -126,9 +146,6 @@ class SuratSayaViewModel(
 
     fun onSearchValueChange(query: String) {
         searchQuery = query
-        // Implement search logic if needed
-        // For now, we'll trigger refresh when search changes
-        refreshData()
     }
 
     fun onFilterClick() {
@@ -168,7 +185,7 @@ class SuratSayaViewModel(
             "menunggu", "pending" -> StatusSurat.MENUNGGU
             "diproses", "processing" -> StatusSurat.DIPROSES
             "selesai", "completed", "done" -> StatusSurat.SELESAI
-            "ditolak", "rejected" -> StatusSurat.DITOLAK
+            "dibatalkan", "rejected" -> StatusSurat.DIBATALKAN
             else -> StatusSurat.MENUNGGU
         }
     }
@@ -179,7 +196,7 @@ class SuratSayaViewModel(
             "menunggu", "pending" -> "Surat $jenisSurat berhasil diajukan ke pihak desa dan akan segera diproses."
             "diproses", "processing" -> "Surat $jenisSurat yang Anda ajukan saat ini sedang dalam proses oleh pihak desa."
             "selesai", "completed", "done" -> "Surat $jenisSurat yang Anda ajukan sudah selesai diproses dan siap untuk diambil di kantor desa."
-            "ditolak", "rejected" -> "Mohon maaf, surat $jenisSurat yang Anda ajukan telah ditolak oleh pihak desa."
+            "dibatalkan", "rejected" -> "Mohon maaf, surat $jenisSurat yang Anda ajukan telah dibatalkan oleh pihak desa."
             else -> "Surat $jenisSurat sedang dalam proses."
         }
     }
@@ -230,5 +247,5 @@ enum class StatusSurat {
     MENUNGGU,
     DIPROSES,
     SELESAI,
-    DITOLAK
+    DIBATALKAN
 }

@@ -25,6 +25,7 @@ import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.t
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.suratketerangan.skdomisiliperusahaan.SKDomisiliPerusahaanScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.suratketerangan.skgaib.SKGhaibScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.suratketerangan.skjandaduda.SKJandaDudaScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.suratketerangan.skkelahiran.SKKelahiranScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.suratketerangan.skkematian.SKKematianScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.suratketerangan.skpenghasilan.SKPenghasilanScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.suratketerangan.sktidakmasukkerja.SKTidakMasukKerjaScreen
@@ -125,25 +126,29 @@ fun NavGraph(
 
         composable(Screen.SuratKeterangan.route) {
             SuratKeteranganScreen(
-                onNavigateBack = { navController.popBackStack() }
+                onNavigateBack = { navController.popBackStack() },
+                navController = navController
             )
         }
 
         composable(Screen.SuratPengantar.route) {
             SuratPengantarScreen(
-                onNavigateBack = { navController.popBackStack() }
+                onNavigateBack = { navController.popBackStack() },
+                navController = navController
             )
         }
 
         composable(Screen.SuratRekomendasi.route) {
             SuratRekomendasiScreen(
-                onNavigateBack = { navController.popBackStack() }
+                onNavigateBack = { navController.popBackStack() },
+                navController = navController
             )
         }
 
         composable(Screen.SuratLainnya.route) {
             SuratLainnyaScreen(
-                onNavigateBack = { navController.popBackStack() }
+                onNavigateBack = { navController.popBackStack() },
+                navController = navController
             )
         }
 
@@ -161,6 +166,12 @@ fun NavGraph(
 
         composable(Screen.SKKematian.route) {
             SKKematianScreen(
+                navController = navController
+            )
+        }
+
+        composable(Screen.SKKelahiran.route) {
+            SKKelahiranScreen(
                 navController = navController
             )
         }

@@ -1,0 +1,117 @@
+package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.buatsurat.suratketerangan.skkelahiran
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.cvindosistem.simpeldesa.core.components.AppTextField
+import com.cvindosistem.simpeldesa.core.components.DatePickerField
+import com.cvindosistem.simpeldesa.core.components.FormSectionList
+import com.cvindosistem.simpeldesa.core.components.MultilineTextField
+import com.cvindosistem.simpeldesa.core.components.SectionTitle
+import com.cvindosistem.simpeldesa.core.components.StepIndicator
+
+@Composable
+internal fun SKKelahiran2Content(
+    modifier: Modifier = Modifier
+) {
+    FormSectionList(
+        modifier = modifier,
+        background = MaterialTheme.colorScheme.background
+    ) {
+        item {
+            StepIndicator(
+                steps = listOf("Informasi Anak", "Informasi Ayah", "Informasi Ibu", "Informasi Pelengkap"),
+                currentStep = 2
+            )
+        }
+
+        item {
+            InformasiAyah()
+        }
+    }
+}
+
+@Composable
+private fun InformasiAyah() {
+    Column {
+        SectionTitle("Informasi Ayah")
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        var nikValue by remember { mutableStateOf("") }
+        var namaValue by remember { mutableStateOf("") }
+        var tempatLahirValue by remember { mutableStateOf("") }
+        var tanggalLahirValue by remember { mutableStateOf("") }
+        var alamatValue by remember { mutableStateOf("") }
+
+        AppTextField(
+            label = "Nomor Induk Kependudukan (NIK)",
+            placeholder = "NIK",
+            value = nikValue,
+            onValueChange = { nikValue = it },
+            isError = false,
+            errorMessage = null,
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        AppTextField(
+            label = "Nama Lengkap",
+            placeholder = "Masukkan nama lengkap",
+            value = namaValue,
+            onValueChange = { namaValue = it },
+            isError = false,
+            errorMessage = null
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
+                AppTextField(
+                    label = "Tempat Lahir",
+                    placeholder = "Masukkan tempat lahir",
+                    value = tempatLahirValue,
+                    onValueChange = { tempatLahirValue = it },
+                    isError = false,
+                    errorMessage = null
+                )
+            }
+
+            Column(modifier = Modifier.weight(1f)) {
+                DatePickerField(
+                    label = "Tanggal Lahir",
+                    value = tanggalLahirValue,
+                    onValueChange = { tanggalLahirValue = it },
+                    isError = false,
+                    errorMessage = null,
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        MultilineTextField(
+            label = "Alamat Lengkap",
+            placeholder = "Masukkan Alamat Lengkap",
+            value = alamatValue,
+            onValueChange = { alamatValue = it },
+            isError = false,
+            errorMessage = null
+        )
+    }
+}

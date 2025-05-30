@@ -24,15 +24,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.cvindosistem.simpeldesa.core.components.AppCard
 import com.cvindosistem.simpeldesa.core.components.AppTopBar
 import com.cvindosistem.simpeldesa.core.components.BodySmallText
 import com.cvindosistem.simpeldesa.core.components.CardTitleText
+import com.cvindosistem.simpeldesa.main.navigation.Screen
 
 @Composable
 fun SuratRekomendasiScreen(
     onNavigateBack: () -> Unit = {},
-    onSuratItemClick: (SuratRekomendasiItem) -> Unit = {},
+    navController: NavController,
     @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
 ) {
     Column(
@@ -47,7 +49,7 @@ fun SuratRekomendasiScreen(
         )
 
         SuratRekomendasiContent(
-            onSuratItemClick = onSuratItemClick,
+            navController = navController,
             modifier = Modifier.fillMaxSize()
         )
     }
@@ -55,7 +57,7 @@ fun SuratRekomendasiScreen(
 
 @Composable
 private fun SuratRekomendasiContent(
-    onSuratItemClick: (SuratRekomendasiItem) -> Unit,
+    navController: NavController,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -66,7 +68,9 @@ private fun SuratRekomendasiContent(
         items(getSuratRekomendasiList()) { suratItem ->
             SuratRekomendasiItemCard(
                 suratItem = suratItem,
-                onItemClick = { onSuratItemClick(suratItem) }
+                onItemClick = {
+                    navController.navigate(suratItem.rute)
+                }
             )
         }
     }
@@ -80,7 +84,7 @@ private fun SuratRekomendasiItemCard(
 ) {
     AppCard(
         modifier.clickable{
-            onItemClick
+            onItemClick()
         }
     ) {
         Column(
@@ -145,46 +149,20 @@ data class SuratRekomendasiItem(
     val title: String,
     val description: String,
     val emoji: String,
-    val iconBackgroundColor: Color
+    val iconBackgroundColor: Color,
+    val rute: String
 )
 
 // Function untuk mendapatkan data surat rekomendasi
 private fun getSuratRekomendasiList(): List<SuratRekomendasiItem> {
     return listOf(
         SuratRekomendasiItem(
-            id = "domisili",
-            title = "Surat Rekomendasi Domisili",
-            description = "Menyatakan tempat tinggal seseorang untuk keperluan administrasi.",
-            emoji = "🌏",
-            iconBackgroundColor = Color(0xFFF0F4FF)
-        ),
-        SuratRekomendasiItem(
-            id = "tidak_mampu",
-            title = "Surat Rekomendasi Tidak Mampu",
-            description = "Menyatakan kondisi ekonomi kurang mampu untuk bantuan atau keringanan biaya.",
-            emoji = "⚖️",
-            iconBackgroundColor = Color(0xFFFFF4E6)
-        ),
-        SuratRekomendasiItem(
-            id = "kelahiran",
-            title = "Surat Rekomendasi Kelahiran",
-            description = "Mengonfirmasi kelahiran anak untuk pengurusan akta kelahiran.",
-            emoji = "👶",
-            iconBackgroundColor = Color(0xFFF0FFF4)
-        ),
-        SuratRekomendasiItem(
-            id = "kematian",
-            title = "Surat Rekomendasi Kematian",
-            description = "Menyatakan kematian seseorang untuk urusan administrasi.",
-            emoji = "❌",
-            iconBackgroundColor = Color(0xFFFFF0F0)
-        ),
-        SuratRekomendasiItem(
-            id = "usaha",
-            title = "Surat Rekomendasi Usaha",
-            description = "Menyatakan kegiatan usaha yang dijalankan untuk keperluan perizinan.",
-            emoji = "🏢",
-            iconBackgroundColor = Color(0xFFF8F0FF)
+            id = "keramaian",
+            title = "Surat Rekomendasi Izin Keramaian",
+            description = "Diperlukan untuk mendapatkan izin mengadakan acara atau kegiatan yang melibatkan keramaian.",
+            emoji = "\uD83C\uDF89",
+            iconBackgroundColor = Color(0xFFF0F4FF),
+            rute = Screen.SRKeramaian.route
         )
     )
 }

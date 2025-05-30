@@ -24,15 +24,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.cvindosistem.simpeldesa.core.components.AppCard
 import com.cvindosistem.simpeldesa.core.components.AppTopBar
 import com.cvindosistem.simpeldesa.core.components.BodySmallText
 import com.cvindosistem.simpeldesa.core.components.CardTitleText
+import com.cvindosistem.simpeldesa.main.navigation.Screen
 
 @Composable
 fun SuratLainnyaScreen(
     onNavigateBack: () -> Unit = {},
-    onSuratItemClick: (SuratLainnyaItem) -> Unit = {},
+    navController: NavController,
     @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
 ) {
     Column(
@@ -47,7 +49,7 @@ fun SuratLainnyaScreen(
         )
 
         SuratLainnyaContent(
-            onSuratItemClick = onSuratItemClick,
+            navController = navController,
             modifier = Modifier.fillMaxSize()
         )
     }
@@ -55,7 +57,7 @@ fun SuratLainnyaScreen(
 
 @Composable
 private fun SuratLainnyaContent(
-    onSuratItemClick: (SuratLainnyaItem) -> Unit,
+    navController: NavController,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -66,7 +68,9 @@ private fun SuratLainnyaContent(
         items(getSuratLainnyaList()) { suratItem ->
             SuratLainnyaItemCard(
                 suratItem = suratItem,
-                onItemClick = { onSuratItemClick(suratItem) }
+                onItemClick = {
+                    navController.navigate(suratItem.rute)
+                }
             )
         }
     }
@@ -81,7 +85,7 @@ private fun SuratLainnyaItemCard(
     AppCard(
         modifier
             .clickable {
-                onItemClick
+                onItemClick()
             }
     ) {
         Column(
@@ -146,46 +150,28 @@ data class SuratLainnyaItem(
     val title: String,
     val description: String,
     val emoji: String,
-    val iconBackgroundColor: Color
+    val iconBackgroundColor: Color,
+    val rute: String
 )
 
 // Function untuk mendapatkan data surat lainnya
 private fun getSuratLainnyaList(): List<SuratLainnyaItem> {
     return listOf(
         SuratLainnyaItem(
-            id = "domisili",
-            title = "Surat Lainnya Domisili",
-            description = "Menyatakan tempat tinggal seseorang untuk keperluan administrasi.",
-            emoji = "🌏",
-            iconBackgroundColor = Color(0xFFF0F4FF)
+            id = "kuasa",
+            title = "Surat Kuasa",
+            description = "Memberi wewenang kepada orang lain untuk bertindak atas nama pemberi kuasa.",
+            emoji = "\uD83C\uDFDB\uFE0F",
+            iconBackgroundColor = Color(0xFFF0F4FF),
+            rute = Screen.SuratKuasa.route
         ),
         SuratLainnyaItem(
-            id = "tidak_mampu",
-            title = "Surat Lainnya Tidak Mampu",
-            description = "Menyatakan kondisi ekonomi kurang mampu untuk bantuan atau keringanan biaya.",
-            emoji = "⚖️",
-            iconBackgroundColor = Color(0xFFFFF4E6)
-        ),
-        SuratLainnyaItem(
-            id = "kelahiran",
-            title = "Surat Lainnya Kelahiran",
-            description = "Mengonfirmasi kelahiran anak untuk pengurusan akta kelahiran.",
-            emoji = "👶",
-            iconBackgroundColor = Color(0xFFF0FFF4)
-        ),
-        SuratLainnyaItem(
-            id = "kematian",
-            title = "Surat Lainnya Kematian",
-            description = "Menyatakan kematian seseorang untuk urusan administrasi.",
-            emoji = "❌",
-            iconBackgroundColor = Color(0xFFFFF0F0)
-        ),
-        SuratLainnyaItem(
-            id = "usaha",
-            title = "Surat Lainnya Usaha",
-            description = "Menyatakan kegiatan usaha yang dijalankan untuk keperluan perizinan.",
-            emoji = "🏢",
-            iconBackgroundColor = Color(0xFFF8F0FF)
+            id = "tugas",
+            title = "Surat Tugas",
+            description = "Dokumen resmi yang menugaskan seseorang untuk melaksanakan tugas tertentu.",
+            emoji = "☝\uFE0F",
+            iconBackgroundColor = Color(0xFFFFF4E6),
+            rute = Screen.SuratTugas.route
         )
     )
 }

@@ -1,17 +1,13 @@
 package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -23,13 +19,12 @@ import com.cvindosistem.simpeldesa.core.components.AppCard
 import com.cvindosistem.simpeldesa.core.components.AppContainer
 import com.cvindosistem.simpeldesa.core.components.AppSearchBarAndFilter
 import com.cvindosistem.simpeldesa.core.components.BodySmallText
+import com.cvindosistem.simpeldesa.core.components.DatePickerField
+import com.cvindosistem.simpeldesa.core.components.DropdownField
 import com.cvindosistem.simpeldesa.core.components.TitleMediumText
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.StatusSurat
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SuratSaya
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SuratSayaViewModel
-import com.zynksoftware.documentscanner.model.DocumentScannerErrorModel.ErrorMessage
-import java.text.SimpleDateFormat
-import java.util.*
 
 @Composable
 internal fun SuratSayaContent(
@@ -94,7 +89,7 @@ internal fun SuratSayaContent(
             }
             else -> {
                 SuratListSection(
-                    suratList = uiState.value.suratList,
+                    suratList = viewModel.filteredSuratList.collectAsState().value,
                     isLoading = isLoading,
                     onLoadMore = { viewModel.loadMoreData() }
                 )
@@ -206,21 +201,21 @@ private fun StatusChip(
         StatusSurat.MENUNGGU -> Color(0xFFE3F2FD)
         StatusSurat.DIPROSES -> Color(0xFFFFF3E0)
         StatusSurat.SELESAI -> Color(0xFFE8F5E8)
-        StatusSurat.DITOLAK -> Color(0xFFFFEBEE)
+        StatusSurat.DIBATALKAN -> Color(0xFFFFEBEE)
     }
 
     val textColor = when (status) {
         StatusSurat.MENUNGGU -> Color(0xFF1976D2)
         StatusSurat.DIPROSES -> Color(0xFFFF8F00)
         StatusSurat.SELESAI -> Color(0xFF388E3C)
-        StatusSurat.DITOLAK -> Color(0xFFD32F2F)
+        StatusSurat.DIBATALKAN -> Color(0xFFD32F2F)
     }
 
     val statusText = when (status) {
         StatusSurat.MENUNGGU -> "Menunggu"
         StatusSurat.DIPROSES -> "Diproses"
         StatusSurat.SELESAI -> "Selesai"
-        StatusSurat.DITOLAK -> "Ditolak"
+        StatusSurat.DIBATALKAN -> "Dibatalkan"
     }
 
     Box(
@@ -252,7 +247,9 @@ fun FilterBottomSheet(
     var endDate by remember { mutableStateOf(currentFilter.endDate) }
     var selectedJenisSurat by remember { mutableStateOf(currentFilter.jenisSurat) }
 
-    val modalBottomSheetState = rememberModalBottomSheetState()
+    val modalBottomSheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
+    )
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
@@ -272,14 +269,6 @@ fun FilterBottomSheet(
                 .fillMaxWidth()
                 .padding(24.dp)
         ) {
-            Text(
-                text = "Filter",
-                style = MaterialTheme.typography.headlineSmall,
-                fontWeight = FontWeight.Bold
-            )
-
-            Spacer(modifier = Modifier.height(24.dp))
-
             // Status Surat Section
             StatusSuratSection(
                 selectedStatuses = selectedStatuses,
@@ -355,6 +344,40 @@ fun FilterBottomSheet(
 }
 
 @Composable
+private fun DateRangeSection(
+    startDate: String,
+    endDate: String,
+    onStartDateChange: (String) -> Unit,
+    onEndDateChange: (String) -> Unit
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        Column(modifier = Modifier.weight(1f)) {
+            DatePickerField(
+                label = "Tanggal Mulai",
+                value = startDate,
+                onValueChange = onStartDateChange,
+                isError = false,
+                errorMessage = null,
+            )
+        }
+
+        Column(modifier = Modifier.weight(1f)) {
+            DatePickerField(
+                label = "Tanggal Selesai",
+                value = endDate,
+                onValueChange = onEndDateChange,
+                isError = false,
+                errorMessage = null,
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
 private fun StatusSuratSection(
     selectedStatuses: Set<String>,
     onStatusChange: (String, Boolean) -> Unit
@@ -368,10 +391,13 @@ private fun StatusSuratSection(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        // Changed from LazyRow to FlowRow for wrapping
+        FlowRow(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.fillMaxWidth()
         ) {
-            items(getStatusList()) { status ->
+            getStatusList().forEach { status ->
                 FilterChip(
                     selected = selectedStatuses.contains(status.value),
                     onClick = {
@@ -402,340 +428,96 @@ private fun StatusSuratSection(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun DateRangeSection(
-    startDate: String,
-    endDate: String,
-    onStartDateChange: (String) -> Unit,
-    onEndDateChange: (String) -> Unit
-) {
-    var showStartDatePicker by remember { mutableStateOf(false) }
-    var showEndDatePicker by remember { mutableStateOf(false) }
 
-    Column {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = "Mulai Dari Tanggal",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Medium
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                OutlinedTextField(
-                    value = startDate,
-                    onValueChange = { },
-                    placeholder = {
-                        Text(
-                            text = "Tgl / Bln / Thn",
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    },
-                    readOnly = true,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { showStartDatePicker = true },
-                    trailingIcon = {
-                        Icon(
-                            imageVector = Icons.Default.DateRange,
-                            contentDescription = "Select Date"
-                        )
-                    }
-                )
-            }
-
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = "Sampai Dengan",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Medium
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                OutlinedTextField(
-                    value = endDate,
-                    onValueChange = { },
-                    placeholder = {
-                        Text(
-                            text = "Tgl / Bln / Thn",
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    },
-                    readOnly = true,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { showEndDatePicker = true },
-                    trailingIcon = {
-                        Icon(
-                            imageVector = Icons.Default.DateRange,
-                            contentDescription = "Select Date"
-                        )
-                    }
-                )
-            }
-        }
-    }
-
-    // Date Pickers
-    if (showStartDatePicker) {
-        DatePickerDialog(
-            onDateSelected = { date ->
-                onStartDateChange(date)
-                showStartDatePicker = false
-            },
-            onDismiss = { showStartDatePicker = false }
-        )
-    }
-
-    if (showEndDatePicker) {
-        DatePickerDialog(
-            onDateSelected = { date ->
-                onEndDateChange(date)
-                showEndDatePicker = false
-            },
-            onDismiss = { showEndDatePicker = false }
-        )
-    }
-}
-
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun JenisSuratSection(
     selectedJenisSurat: Set<String>,
     onJenisSuratChange: (Set<String>) -> Unit
 ) {
-    var expandedSections by remember { mutableStateOf(setOf<String>()) }
+    val jenisSuratOptions = listOf(
+        "Surat Keterangan Domisili",
+        "Surat Keterangan Domisili Perusahaan",
+        "Surat Keterangan Tidak Mampu",
+        "Surat Keterangan Kelahiran",
+        "Surat Keterangan Kematian",
+        "Surat Keterangan Usaha",
+        "Surat Keterangan Bepergian",
+        "Surat Keterangan Izin Tidak Masuk Kerja",
+        "Surat Keterangan Penghasilan",
+        "Surat Keterangan Status Perkawinan",
+        "Surat Keterangan Resi KTP Sementara",
+        "Surat Keterangan Janda Duda",
+        "Surat Keterangan Beda Identitas",
+        "Surat Keterangan Ghaib",
+        "Surat Pengantar Catatan Kepolisian",
+        "Surat Pengantar Kehilangan",
+        "Surat Pengantar Pernikahan",
+        "Surat Rekomendasi Izin Keramaian",
+        "Surat Kuasa",
+        "Surat Tugas",
+        "Surat Pengantar Pindah Domisili"
+    )
+
+    var selectedSurat by remember { mutableStateOf("") }
 
     Column {
-        Text(
-            text = "Jenis Surat",
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.Medium
+        DropdownField(
+            label = "Jenis Surat",
+            value = selectedSurat,
+            onValueChange = { selected ->
+                selectedSurat = selected
+                val newSet = if (selectedJenisSurat.contains(selected)) {
+                    selectedJenisSurat - selected
+                } else {
+                    selectedJenisSurat + selected
+                }
+                onJenisSuratChange(newSet)
+            },
+            options = jenisSuratOptions,
+            isError = false,
+            errorMessage = null
         )
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        // Surat Keterangan (Dropdown)
-        DropdownSection(
-            title = "Surat Keterangan",
-            isExpanded = false,
-            onClick = { /* Handle dropdown click */ }
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        // Surat Pengantar (Dropdown)
-        DropdownSection(
-            title = "Surat Pengantar",
-            isExpanded = false,
-            onClick = { /* Handle dropdown click */ }
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        // Surat Rekomendasi (Expandable)
-        ExpandableSection(
-            title = "Surat Rekomendasi",
-            isExpanded = expandedSections.contains("rekomendasi"),
-            onToggle = {
-                expandedSections = if (expandedSections.contains("rekomendasi")) {
-                    expandedSections - "rekomendasi"
-                } else {
-                    expandedSections + "rekomendasi"
-                }
-            }
-        ) {
-            CheckboxItem(
-                text = "Surat Rekomendasi Keramaian",
-                isChecked = selectedJenisSurat.contains("rekomendasi_keramaian"),
-                onCheckedChange = { isChecked ->
-                    val newSet = if (isChecked) {
-                        selectedJenisSurat + "rekomendasi_keramaian"
-                    } else {
-                        selectedJenisSurat - "rekomendasi_keramaian"
-                    }
-                    onJenisSuratChange(newSet)
-                }
-            )
-        }
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        // Surat Lainnya (Expandable)
-        ExpandableSection(
-            title = "Surat Lainnya",
-            isExpanded = expandedSections.contains("lainnya"),
-            onToggle = {
-                expandedSections = if (expandedSections.contains("lainnya")) {
-                    expandedSections - "lainnya"
-                } else {
-                    expandedSections + "lainnya"
-                }
-            }
-        ) {
-            CheckboxItem(
-                text = "Surat Kuasa",
-                isChecked = selectedJenisSurat.contains("kuasa"),
-                onCheckedChange = { isChecked ->
-                    val newSet = if (isChecked) {
-                        selectedJenisSurat + "kuasa"
-                    } else {
-                        selectedJenisSurat - "kuasa"
-                    }
-                    onJenisSuratChange(newSet)
-                }
-            )
-
-            CheckboxItem(
-                text = "Surat Tugas",
-                isChecked = selectedJenisSurat.contains("tugas"),
-                onCheckedChange = { isChecked ->
-                    val newSet = if (isChecked) {
-                        selectedJenisSurat + "tugas"
-                    } else {
-                        selectedJenisSurat - "tugas"
-                    }
-                    onJenisSuratChange(newSet)
-                }
-            )
-        }
-    }
-}
-
-@Composable
-private fun DropdownSection(
-    title: String,
-    isExpanded: Boolean,
-    onClick: () -> Unit
-) {
-    OutlinedCard(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onClick() }
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+        // Display selected jenis surat as chips
+        if (selectedJenisSurat.isNotEmpty()) {
             Text(
-                text = title,
-                style = MaterialTheme.typography.bodyMedium
+                text = "Jenis Surat Terpilih:",
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.Medium
             )
 
-            Icon(
-                imageVector = Icons.Default.KeyboardArrowDown,
-                contentDescription = "Expand"
-            )
-        }
-    }
-}
+            Spacer(modifier = Modifier.height(8.dp))
 
-@Composable
-private fun ExpandableSection(
-    title: String,
-    isExpanded: Boolean,
-    onToggle: () -> Unit,
-    content: @Composable () -> Unit
-) {
-    OutlinedCard(
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Column {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { onToggle() }
-                    .padding(16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Text(
-                    text = title,
-                    style = MaterialTheme.typography.bodyMedium
-                )
-
-                Icon(
-                    imageVector = if (isExpanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
-                    contentDescription = if (isExpanded) "Collapse" else "Expand"
-                )
-            }
-
-            if (isExpanded) {
-                Column(
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-                ) {
-                    content()
+                selectedJenisSurat.forEach { jenis ->
+                    AssistChip(
+                        onClick = {
+                            onJenisSuratChange(selectedJenisSurat - jenis)
+                        },
+                        label = {
+                            Text(
+                                text = jenis,
+                                style = MaterialTheme.typography.labelSmall
+                            )
+                        },
+                        trailingIcon = {
+                            Icon(
+                                imageVector = Icons.Default.Close,
+                                contentDescription = "Remove",
+                                modifier = Modifier.size(16.dp)
+                            )
+                        }
+                    )
                 }
             }
         }
-    }
-}
-
-@Composable
-private fun CheckboxItem(
-    text: String,
-    isChecked: Boolean,
-    onCheckedChange: (Boolean) -> Unit
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onCheckedChange(!isChecked) }
-            .padding(vertical = 8.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Checkbox(
-            checked = isChecked,
-            onCheckedChange = onCheckedChange
-        )
-
-        Spacer(modifier = Modifier.width(8.dp))
-
-        Text(
-            text = text,
-            style = MaterialTheme.typography.bodyMedium
-        )
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun DatePickerDialog(
-    onDateSelected: (String) -> Unit,
-    onDismiss: () -> Unit
-) {
-    val datePickerState = rememberDatePickerState()
-
-    DatePickerDialog(
-        onDismissRequest = onDismiss,
-        confirmButton = {
-            TextButton(
-                onClick = {
-                    datePickerState.selectedDateMillis?.let { millis ->
-                        val date = Date(millis)
-                        val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-                        onDateSelected(formatter.format(date))
-                    }
-                }
-            ) {
-                Text("OK")
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text("Batal")
-            }
-        }
-    ) {
-        DatePicker(state = datePickerState)
     }
 }
 
@@ -776,8 +558,8 @@ private fun getStatusList(): List<StatusItem> {
             textColor = Color(0xFF388E3C)
         ),
         StatusItem(
-            label = "Ditolak",
-            value = "ditolak",
+            label = "Dibatalkan",
+            value = "dibatalkan",
             backgroundColor = Color(0xFFFFEBEE),
             textColor = Color(0xFFD32F2F)
         )
