@@ -348,7 +348,9 @@ private fun AccountSettingsSection(
     onLogoutClick: () -> Unit
 ) {
     Column(
-        modifier = Modifier.padding(horizontal = 32.dp),
+        modifier = Modifier
+            .background(MaterialTheme.colorScheme.background)
+            .padding(vertical = 16.dp, horizontal = 32.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         Text(
