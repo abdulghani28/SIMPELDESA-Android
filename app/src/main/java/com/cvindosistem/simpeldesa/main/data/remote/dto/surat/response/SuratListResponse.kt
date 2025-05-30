@@ -1,4 +1,4 @@
-package com.cvindosistem.simpeldesa.main.data.remote.dto.surat
+package com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response
 
 data class SuratListResponse(
     val `data`: List<Data>,

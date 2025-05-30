@@ -1,0 +1,31 @@
+package com.cvindosistem.simpeldesa.main.domain.usecases
+
+import com.cvindosistem.simpeldesa.main.data.repository.ReferensiRepository
+import com.cvindosistem.simpeldesa.main.domain.model.AgamaResult
+import com.cvindosistem.simpeldesa.main.domain.model.DisahkanOlehResult
+import com.cvindosistem.simpeldesa.main.domain.model.PerbedaanIdentitasResult
+import com.cvindosistem.simpeldesa.main.domain.model.TercantumIdentitasResult
+
+class GetTercantumIdentitasUseCase(private val referensiRepository: ReferensiRepository) {
+    suspend operator fun invoke(): TercantumIdentitasResult {
+        return referensiRepository.getTercantumIdentitas()
+    }
+}
+
+class GetPerbedaanIdentitasUseCase(private val referensiRepository: ReferensiRepository) {
+    suspend operator fun invoke(): PerbedaanIdentitasResult {
+        return referensiRepository.getPerbedaanIdentitas()
+    }
+}
+
+class GetDisahkanOlehUseCase(private val referensiRepository: ReferensiRepository) {
+    suspend operator fun invoke(): DisahkanOlehResult {
+        return referensiRepository.getDisahkanOleh()
+    }
+}
+
+class GetAgamaUseCase(private val referensiRepository: ReferensiRepository) {
+    suspend operator fun invoke(): AgamaResult {
+        return referensiRepository.getAgama()
+    }
+}
