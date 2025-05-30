@@ -372,7 +372,7 @@ fun DatePickerField(
             enabled = false,
             placeholder = {
                 Text(
-                    text = "DD/MM/YYYY",
+                    text = "YYYY-MM-DD",
                     color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.3f)
                 )
             },
@@ -405,7 +405,7 @@ fun DatePickerField(
                 datePickerState = datePickerState,
                 onDateSelected = { selectedDateMillis ->
                     selectedDateMillis?.let {
-                        val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                        val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                         val formattedDate = formatter.format(Date(it))
                         onValueChange(formattedDate)
                     }

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -23,11 +24,15 @@ import com.cvindosistem.simpeldesa.core.components.FormSectionList
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
 import com.cvindosistem.simpeldesa.core.components.StepIndicator
 import com.cvindosistem.simpeldesa.core.components.TimePickerField
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SRKeramaianViewModel
 
 @Composable
 internal fun SRKeramaian2Content(
+    viewModel: SRKeramaianViewModel,
     modifier: Modifier = Modifier
 ) {
+    val validationErrors by viewModel.validationErrors.collectAsState()
+
     FormSectionList(
         modifier = modifier,
         background = MaterialTheme.colorScheme.background
@@ -35,39 +40,36 @@ internal fun SRKeramaian2Content(
         item {
             StepIndicator(
                 steps = listOf("Informasi Pelapor", "Informasi Kegiatan"),
-                currentStep = 2
+                currentStep = viewModel.currentStep
             )
         }
 
         item {
-            InformasiBarangHilang()
+            InformasiKegiatan(
+                viewModel = viewModel,
+                validationErrors = validationErrors
+            )
         }
     }
 }
 
 @Composable
-private fun InformasiBarangHilang() {
+private fun InformasiKegiatan(
+    viewModel: SRKeramaianViewModel,
+    validationErrors: Map<String, String>
+) {
     Column {
         SectionTitle("Informasi Kegiatan")
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        var namaAcaraValue by remember { mutableStateOf("") }
-        var tempatAcaraValue by remember { mutableStateOf("") }
-        var hariValue by remember { mutableStateOf("") }
-        var tanggalValue by remember { mutableStateOf("") }
-        var jamMulaiValue by remember { mutableStateOf("") }
-        var jamSelesaiValue by remember { mutableStateOf("") }
-        var penanggungJawabValue by remember { mutableStateOf("") }
-        var kontakValue by remember { mutableStateOf("") }
-
         AppTextField(
             label = "Nama Acara",
             placeholder = "Masukkan nama acara",
-            value = namaAcaraValue,
-            onValueChange = { namaAcaraValue = it },
-            isError = false,
-            errorMessage = ""
+            value = viewModel.namaAcaraValue,
+            onValueChange = viewModel::updateNamaAcara,
+            isError = viewModel.hasFieldError("nama_acara"),
+            errorMessage = viewModel.getFieldError("nama_acara")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -75,10 +77,10 @@ private fun InformasiBarangHilang() {
         AppTextField(
             label = "Tempat Acara",
             placeholder = "Masukkan tempat acara",
-            value = tempatAcaraValue,
-            onValueChange = { tempatAcaraValue = it },
-            isError = false,
-            errorMessage = ""
+            value = viewModel.tempatAcaraValue,
+            onValueChange = viewModel::updateTempatAcara,
+            isError = viewModel.hasFieldError("tempat_acara"),
+            errorMessage = viewModel.getFieldError("tempat_acara")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -90,21 +92,21 @@ private fun InformasiBarangHilang() {
             Column(modifier = Modifier.weight(1f)) {
                 DropdownField(
                     label = "Hari",
-                    value = hariValue,
-                    onValueChange = { hariValue = it },
+                    value = viewModel.hariValue,
+                    onValueChange = viewModel::updateHari,
                     options = listOf("Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"),
-                    isError = false,
-                    errorMessage = null,
+                    isError = viewModel.hasFieldError("hari"),
+                    errorMessage = viewModel.getFieldError("hari"),
                 )
             }
 
             Column(modifier = Modifier.weight(1f)) {
                 DatePickerField(
                     label = "Tanggal Acara",
-                    value = tanggalValue,
-                    onValueChange = { tanggalValue = it },
-                    isError = false,
-                    errorMessage = null,
+                    value = viewModel.tanggalValue,
+                    onValueChange = viewModel::updateTanggal,
+                    isError = viewModel.hasFieldError("tanggal"),
+                    errorMessage = viewModel.getFieldError("tanggal"),
                 )
             }
         }
@@ -118,20 +120,20 @@ private fun InformasiBarangHilang() {
             Column(modifier = Modifier.weight(1f)) {
                 TimePickerField(
                     label = "Dimulai Dari Pukul (WIB)",
-                    value = jamMulaiValue,
-                    onValueChange = { jamMulaiValue = it },
-                    isError = false,
-                    errorMessage = null,
+                    value = viewModel.jamMulaiValue,
+                    onValueChange = viewModel::updateJamMulai,
+                    isError = viewModel.hasFieldError("dimulai"),
+                    errorMessage = viewModel.getFieldError("dimulai"),
                 )
             }
 
             Column(modifier = Modifier.weight(1f)) {
                 TimePickerField(
                     label = "Selesai Pada (WIB)",
-                    value = jamSelesaiValue,
-                    onValueChange = { jamSelesaiValue = it },
-                    isError = false,
-                    errorMessage = null,
+                    value = viewModel.jamSelesaiValue,
+                    onValueChange = viewModel::updateJamSelesai,
+                    isError = viewModel.hasFieldError("selesai"),
+                    errorMessage = viewModel.getFieldError("selesai"),
                 )
             }
         }
@@ -141,10 +143,10 @@ private fun InformasiBarangHilang() {
         AppTextField(
             label = "Penanggung Jawab",
             placeholder = "Masukkan nama penanggung jawab",
-            value = penanggungJawabValue,
-            onValueChange = { penanggungJawabValue = it },
-            isError = false,
-            errorMessage = ""
+            value = viewModel.penanggungJawabValue,
+            onValueChange = viewModel::updatePenanggungJawab,
+            isError = viewModel.hasFieldError("penanggung_jawab"),
+            errorMessage = viewModel.getFieldError("penanggung_jawab")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -152,10 +154,10 @@ private fun InformasiBarangHilang() {
         AppTextField(
             label = "Kontak",
             placeholder = "Masukkan nomor kontak penanggungjawab",
-            value = kontakValue,
-            onValueChange = { kontakValue = it },
-            isError = false,
-            errorMessage = "",
+            value = viewModel.kontakValue,
+            onValueChange = viewModel::updateKontak,
+            isError = viewModel.hasFieldError("kontak"),
+            errorMessage = viewModel.getFieldError("kontak"),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
     }

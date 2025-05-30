@@ -1,15 +1,18 @@
 package com.cvindosistem.simpeldesa.core.helpers
 
+import java.time.OffsetDateTime
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-fun formatTanggalLahir(tanggalLahir: String): String {
+fun dateFormatterToApiFormat(dateString: String): String {
     return try {
-        val zonedDateTime = ZonedDateTime.parse(tanggalLahir)
-        val formatter = DateTimeFormatter.ofPattern("EEEE, d MMMM yyyy", Locale("id", "ID"))
-        zonedDateTime.format(formatter)
+        if (dateString.isBlank()) return ""
+
+        val parsedDate = OffsetDateTime.parse(dateString)
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        parsedDate.format(formatter)
     } catch (e: Exception) {
-        tanggalLahir // fallback jika parsing gagal
+        dateString
     }
 }

@@ -11,14 +11,12 @@ import com.cvindosistem.simpeldesa.auth.domain.model.UserInfoResult
 import com.cvindosistem.simpeldesa.auth.domain.usecases.GetUserInfoUseCase
 import com.cvindosistem.simpeldesa.auth.domain.usecases.auth.LogoutUseCase
 import com.cvindosistem.simpeldesa.core.data.local.preferences.UserPreferences
-import com.cvindosistem.simpeldesa.core.helpers.formatTanggalLahir
+import com.cvindosistem.simpeldesa.core.helpers.dateFormatterToApiFormat
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
 
 class ProfileViewModel(
     private val getUserInfoUseCase: GetUserInfoUseCase,
@@ -61,7 +59,7 @@ class ProfileViewModel(
                         userName = userData.nama_warga,
                         nik = userData.nik,
                         foto = userData.photo,
-                        tempatTanggalLahir = "${userData.tempat_lahir}, ${formatTanggalLahir(userData.tanggal_lahir)}",
+                        tempatTanggalLahir = "${userData.tempat_lahir}, ${dateFormatterToApiFormat(userData.tanggal_lahir)}",
                         jenisKelamin = userData.jenis_kelamin,
                         agama = userData.agama,
                         pekerjaan = userData.pekerjaan,

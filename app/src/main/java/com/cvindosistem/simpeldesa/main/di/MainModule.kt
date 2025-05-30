@@ -30,6 +30,7 @@ import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratTugasUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratUsahaUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetSuratDetailUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetSuratListUseCase
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SRKeramaianViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SuratSayaViewModel
 import com.google.gson.Gson
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -71,4 +72,5 @@ val mainModule = module {
     single { CreateSuratIzinTidakKerjaUseCase(get()) }
 
     viewModel { SuratSayaViewModel(get()) }
+    viewModel { SRKeramaianViewModel(get(), get()) }
 }

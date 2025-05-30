@@ -33,8 +33,8 @@ internal fun GenderSelection(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 RadioButton(
-                    selected = selectedGender == "Laki-laki",
-                    onClick = { onGenderSelected("Laki-laki") },
+                    selected = selectedGender == "L",
+                    onClick = { onGenderSelected("L") },
                     colors = RadioButtonDefaults.colors(
                         selectedColor = MaterialTheme.colorScheme.primary
                     )
@@ -46,8 +46,8 @@ internal fun GenderSelection(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 RadioButton(
-                    selected = selectedGender == "Perempuan",
-                    onClick = { onGenderSelected("Perempuan") },
+                    selected = selectedGender == "P",
+                    onClick = { onGenderSelected("P") },
                     colors = RadioButtonDefaults.colors(
                         selectedColor = MaterialTheme.colorScheme.primary
                     )
