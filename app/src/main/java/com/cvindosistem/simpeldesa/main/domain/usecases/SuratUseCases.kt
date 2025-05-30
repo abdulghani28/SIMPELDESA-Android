@@ -1,11 +1,11 @@
 package com.cvindosistem.simpeldesa.main.domain.usecases
 
-import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.SuratIzinTidakMasukKerjaRequest
-import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.SuratKeteranganBedaIdentitasRequest
-import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.SuratKeteranganBerpergianRequest
-import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.SuratKeteranganDomisiliPerusahaanRequest
-import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.SuratKeteranganDomisiliRequest
-import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.SuratKeteranganJandaDudaRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKIzinTidakMasukKerjaRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKBedaIdentitasRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKBerpergianRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKDomisiliPerusahaanRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKDomisiliRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKJandaDudaRequest
 import com.cvindosistem.simpeldesa.main.data.repository.SuratRepository
 import com.cvindosistem.simpeldesa.main.domain.model.SuratBedaIdentitasResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratBerpergianResult
@@ -37,37 +37,37 @@ class GetSuratDetailUseCase(private val suratRepository: SuratRepository) {
 }
 
 class CreateSuratBedaIdentitasUseCase(private val suratRepository: SuratRepository) {
-    suspend operator fun invoke(request: SuratKeteranganBedaIdentitasRequest): SuratBedaIdentitasResult {
+    suspend operator fun invoke(request: SKBedaIdentitasRequest): SuratBedaIdentitasResult {
         return suratRepository.createSuratBedaIdentitas(request)
     }
 }
 
 class CreateSuratBerpergianUseCase(private val suratRepository: SuratRepository) {
-    suspend operator fun invoke(request: SuratKeteranganBerpergianRequest): SuratBerpergianResult {
+    suspend operator fun invoke(request: SKBerpergianRequest): SuratBerpergianResult {
         return suratRepository.createSuratBepergian(request)
     }
 }
 
 class CreateSuratDomisiliUseCase(private val suratRepository: SuratRepository) {
-    suspend operator fun invoke(request: SuratKeteranganDomisiliRequest): SuratDomisiliResult {
+    suspend operator fun invoke(request: SKDomisiliRequest): SuratDomisiliResult {
         return suratRepository.createSuratDomisili(request)
     }
 }
 
 class CreateSuratDomisiliPerusahaanUseCase(private val suratRepository: SuratRepository) {
-    suspend operator fun invoke(request: SuratKeteranganDomisiliPerusahaanRequest): SuratDomisiliPerusahaanResult {
+    suspend operator fun invoke(request: SKDomisiliPerusahaanRequest): SuratDomisiliPerusahaanResult {
         return suratRepository.createSuratDomisiliPerusahaan(request)
     }
 }
 
 class CreateSuratTidakMasukKerjaUseCase(private val suratRepository: SuratRepository) {
-    suspend operator fun invoke(request: SuratIzinTidakMasukKerjaRequest): SuratTidakMasukKerjaResult {
+    suspend operator fun invoke(request: SKIzinTidakMasukKerjaRequest): SuratTidakMasukKerjaResult {
         return suratRepository.createSuratTidakMasukKerja(request)
     }
 }
 
 class CreateSuratJandaDudaUseCase(private val suratRepository: SuratRepository) {
-    suspend operator fun invoke(request: SuratKeteranganJandaDudaRequest): SuratJandaDudaResult {
+    suspend operator fun invoke(request: SKJandaDudaRequest): SuratJandaDudaResult {
         return suratRepository.createSuratJandaDuda(request)
     }
 }

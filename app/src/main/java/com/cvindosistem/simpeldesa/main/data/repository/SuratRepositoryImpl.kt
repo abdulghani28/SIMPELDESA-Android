@@ -3,12 +3,12 @@ package com.cvindosistem.simpeldesa.main.data.repository
 import android.util.Log
 import com.cvindosistem.simpeldesa.auth.data.remote.dto.auth.login.ErrorResponse
 import com.cvindosistem.simpeldesa.main.data.remote.api.SuratApi
-import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.SuratIzinTidakMasukKerjaRequest
-import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.SuratKeteranganBedaIdentitasRequest
-import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.SuratKeteranganBerpergianRequest
-import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.SuratKeteranganDomisiliPerusahaanRequest
-import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.SuratKeteranganDomisiliRequest
-import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.SuratKeteranganJandaDudaRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKIzinTidakMasukKerjaRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKBedaIdentitasRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKBerpergianRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKDomisiliPerusahaanRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKDomisiliRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKJandaDudaRequest
 import com.cvindosistem.simpeldesa.main.domain.model.SuratBedaIdentitasResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratBerpergianResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratDetailResult
@@ -35,27 +35,27 @@ interface SuratRepository {
     suspend fun getSuratDetail(id: String): SuratDetailResult
 
     suspend fun createSuratBedaIdentitas(
-        request: SuratKeteranganBedaIdentitasRequest
+        request: SKBedaIdentitasRequest
     ): SuratBedaIdentitasResult
 
     suspend fun createSuratBepergian(
-        request: SuratKeteranganBerpergianRequest
+        request: SKBerpergianRequest
     ): SuratBerpergianResult
 
     suspend fun createSuratDomisili(
-        request: SuratKeteranganDomisiliRequest
+        request: SKDomisiliRequest
     ): SuratDomisiliResult
 
     suspend fun createSuratDomisiliPerusahaan(
-        request: SuratKeteranganDomisiliPerusahaanRequest
+        request: SKDomisiliPerusahaanRequest
     ): SuratDomisiliPerusahaanResult
 
     suspend fun createSuratTidakMasukKerja(
-        request: SuratIzinTidakMasukKerjaRequest
+        request: SKIzinTidakMasukKerjaRequest
     ): SuratTidakMasukKerjaResult
 
     suspend fun createSuratJandaDuda(
-        request: SuratKeteranganJandaDudaRequest
+        request: SKJandaDudaRequest
     ): SuratJandaDudaResult
 }
 
@@ -132,7 +132,7 @@ class SuratRepositoryImpl(
     }
 
     override suspend fun createSuratBedaIdentitas(
-        request: SuratKeteranganBedaIdentitasRequest
+        request: SKBedaIdentitasRequest
     ): SuratBedaIdentitasResult = withContext(Dispatchers.IO) {
         try {
             val response = suratApi.createSuratBedaIdentitas(request)
@@ -164,7 +164,7 @@ class SuratRepositoryImpl(
     }
 
     override suspend fun createSuratBepergian(
-        request: SuratKeteranganBerpergianRequest
+        request: SKBerpergianRequest
     ): SuratBerpergianResult = withContext(Dispatchers.IO) {
         try {
             val response = suratApi.createSuratBepergian(request)
@@ -196,7 +196,7 @@ class SuratRepositoryImpl(
     }
 
     override suspend fun createSuratDomisili(
-        request: SuratKeteranganDomisiliRequest
+        request: SKDomisiliRequest
     ): SuratDomisiliResult = withContext(Dispatchers.IO) {
         try {
             val response = suratApi.createSuratDomisili(request)
@@ -228,7 +228,7 @@ class SuratRepositoryImpl(
     }
 
     override suspend fun createSuratDomisiliPerusahaan(
-        request: SuratKeteranganDomisiliPerusahaanRequest
+        request: SKDomisiliPerusahaanRequest
     ): SuratDomisiliPerusahaanResult = withContext(Dispatchers.IO) {
         try {
             val response = suratApi.createSuratDomisiliPerusahaan(request)
@@ -260,7 +260,7 @@ class SuratRepositoryImpl(
     }
 
     override suspend fun createSuratTidakMasukKerja(
-        request: SuratIzinTidakMasukKerjaRequest
+        request: SKIzinTidakMasukKerjaRequest
     ): SuratTidakMasukKerjaResult = withContext(Dispatchers.IO) {
         try {
             val response = suratApi.createSuratIzinTidakKerja(request)
@@ -292,7 +292,7 @@ class SuratRepositoryImpl(
     }
 
     override suspend fun createSuratJandaDuda(
-        request: SuratKeteranganJandaDudaRequest
+        request: SKJandaDudaRequest
     ): SuratJandaDudaResult = withContext(Dispatchers.IO) {
         try {
             val response = suratApi.createSuratJandaDuda(request)
