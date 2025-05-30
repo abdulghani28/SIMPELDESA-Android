@@ -3,16 +3,20 @@ package com.cvindosistem.simpeldesa.main.data.repository
 import android.util.Log
 import com.cvindosistem.simpeldesa.auth.data.remote.dto.auth.login.ErrorResponse
 import com.cvindosistem.simpeldesa.main.data.remote.api.SuratApi
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.SuratIzinTidakMasukKerjaRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.SuratKeteranganBedaIdentitasRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.SuratKeteranganBerpergianRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.SuratKeteranganDomisiliPerusahaanRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.SuratKeteranganDomisiliRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.SuratKeteranganJandaDudaRequest
 import com.cvindosistem.simpeldesa.main.domain.model.SuratBedaIdentitasResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratBerpergianResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratDetailResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratDomisiliPerusahaanResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratDomisiliResult
+import com.cvindosistem.simpeldesa.main.domain.model.SuratJandaDudaResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratListResult
+import com.cvindosistem.simpeldesa.main.domain.model.SuratTidakMasukKerjaResult
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -42,6 +46,14 @@ interface SuratRepository {
     suspend fun createSuratDomisiliPerusahaan(
         request: SuratKeteranganDomisiliPerusahaanRequest
     ): SuratDomisiliPerusahaanResult
+
+    suspend fun createSuratTidakMasukKerja(
+        request: SuratIzinTidakMasukKerjaRequest
+    ): SuratTidakMasukKerjaResult
+
+    suspend fun createSuratJandaDuda(
+        request: SuratKeteranganJandaDudaRequest
+    ): SuratJandaDudaResult
 }
 
 class SuratRepositoryImpl(
@@ -238,6 +250,70 @@ class SuratRepositoryImpl(
         } catch (e: Exception) {
             Log.e("SuratRepository", "Surat domisili perusahaan exception", e)
             return@withContext SuratDomisiliPerusahaanResult.Error(e.message ?: "Unknown error occurred")
+        }
+    }
+
+    override suspend fun createSuratTidakMasukKerja(
+        request: SuratIzinTidakMasukKerjaRequest
+    ): SuratTidakMasukKerjaResult = withContext(Dispatchers.IO) {
+        try {
+            val response = suratApi.createSuratIzinTidakKerja(request)
+
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Log.d("SuratRepository", "Created surat tidakMasukKerja")
+                    return@withContext SuratTidakMasukKerjaResult.Success(it)
+                } ?: run {
+                    Log.e("SuratRepository", "Surat tidakMasukKerja response body is null")
+                    return@withContext SuratTidakMasukKerjaResult.Error("Unknown error occurred")
+                }
+            } else {
+                val errorBody = response.errorBody()?.string()
+                val errorResponse = try {
+                    Gson().fromJson(errorBody, ErrorResponse::class.java)
+                } catch (e: Exception) {
+                    null
+                }
+
+                val errorMessage = errorResponse?.message ?: "Failed to create surat tidakMasukKerja"
+                Log.e("SuratRepository", "Surat tidakMasukKerja failed: $errorMessage")
+                return@withContext SuratTidakMasukKerjaResult.Error(errorMessage)
+            }
+        } catch (e: Exception) {
+            Log.e("SuratRepository", "Surat tidakMasukKerja exception", e)
+            return@withContext SuratTidakMasukKerjaResult.Error(e.message ?: "Unknown error occurred")
+        }
+    }
+
+    override suspend fun createSuratJandaDuda(
+        request: SuratKeteranganJandaDudaRequest
+    ): SuratJandaDudaResult = withContext(Dispatchers.IO) {
+        try {
+            val response = suratApi.createSuratJandaDuda(request)
+
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Log.d("SuratRepository", "Created surat jandaDuda")
+                    return@withContext SuratJandaDudaResult.Success(it)
+                } ?: run {
+                    Log.e("SuratRepository", "Surat jandaDuda response body is null")
+                    return@withContext SuratJandaDudaResult.Error("Unknown error occurred")
+                }
+            } else {
+                val errorBody = response.errorBody()?.string()
+                val errorResponse = try {
+                    Gson().fromJson(errorBody, ErrorResponse::class.java)
+                } catch (e: Exception) {
+                    null
+                }
+
+                val errorMessage = errorResponse?.message ?: "Failed to create surat jandaDuda"
+                Log.e("SuratRepository", "Surat jandaDuda failed: $errorMessage")
+                return@withContext SuratJandaDudaResult.Error(errorMessage)
+            }
+        } catch (e: Exception) {
+            Log.e("SuratRepository", "Surat jandaDuda exception", e)
+            return@withContext SuratJandaDudaResult.Error(e.message ?: "Unknown error occurred")
         }
     }
 }

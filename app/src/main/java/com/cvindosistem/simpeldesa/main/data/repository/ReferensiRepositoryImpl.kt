@@ -4,7 +4,9 @@ import android.util.Log
 import com.cvindosistem.simpeldesa.auth.data.remote.dto.auth.login.ErrorResponse
 import com.cvindosistem.simpeldesa.main.data.remote.api.ReferensiApi
 import com.cvindosistem.simpeldesa.main.domain.model.AgamaResult
+import com.cvindosistem.simpeldesa.main.domain.model.BidangUsahaResult
 import com.cvindosistem.simpeldesa.main.domain.model.DisahkanOlehResult
+import com.cvindosistem.simpeldesa.main.domain.model.JenisUsahaResult
 import com.cvindosistem.simpeldesa.main.domain.model.PerbedaanIdentitasResult
 import com.cvindosistem.simpeldesa.main.domain.model.TercantumIdentitasResult
 import com.google.gson.Gson
@@ -16,6 +18,8 @@ interface ReferensiRepository {
     suspend fun getPerbedaanIdentitas(): PerbedaanIdentitasResult
     suspend fun getDisahkanOleh(): DisahkanOlehResult
     suspend fun getAgama(): AgamaResult
+    suspend fun getJenisUsaha(): JenisUsahaResult
+    suspend fun getBidangUsaha(): BidangUsahaResult
 }
 
 class ReferensiRepositoryImpl(
@@ -139,6 +143,66 @@ class ReferensiRepositoryImpl(
         } catch (e: Exception) {
             Log.e("ReferensiRepository", "Agama exception", e)
             return@withContext AgamaResult.Error(e.message ?: "Unknown error occurred")
+        }
+    }
+
+    override suspend fun getJenisUsaha(): JenisUsahaResult = withContext(Dispatchers.IO) {
+        try {
+            val response = referensiApi.getJenisUsaha()
+
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Log.d("ReferensiRepository", "Fetched jenisUsaha")
+                    return@withContext JenisUsahaResult.Success(it)
+                } ?: run {
+                    Log.e("ReferensiRepository", "JenisUsaha response body is null")
+                    return@withContext JenisUsahaResult.Error("Unknown error occurred")
+                }
+            } else {
+                val errorBody = response.errorBody()?.string()
+                val errorResponse = try {
+                    Gson().fromJson(errorBody, ErrorResponse::class.java)
+                } catch (e: Exception) {
+                    null
+                }
+
+                val errorMessage = errorResponse?.message ?: "Failed to fetch jenisUsaha"
+                Log.e("ReferensiRepository", "JenisUsaha failed: $errorMessage")
+                return@withContext JenisUsahaResult.Error(errorMessage)
+            }
+        } catch (e: Exception) {
+            Log.e("ReferensiRepository", "JenisUsaha exception", e)
+            return@withContext JenisUsahaResult.Error(e.message ?: "Unknown error occurred")
+        }
+    }
+
+    override suspend fun getBidangUsaha(): BidangUsahaResult = withContext(Dispatchers.IO) {
+        try {
+            val response = referensiApi.getBidangUsaha()
+
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Log.d("ReferensiRepository", "Fetched bidangUsaha")
+                    return@withContext BidangUsahaResult.Success(it)
+                } ?: run {
+                    Log.e("ReferensiRepository", "BidangUsaha response body is null")
+                    return@withContext BidangUsahaResult.Error("Unknown error occurred")
+                }
+            } else {
+                val errorBody = response.errorBody()?.string()
+                val errorResponse = try {
+                    Gson().fromJson(errorBody, ErrorResponse::class.java)
+                } catch (e: Exception) {
+                    null
+                }
+
+                val errorMessage = errorResponse?.message ?: "Failed to fetch bidangUsaha"
+                Log.e("ReferensiRepository", "BidangUsaha failed: $errorMessage")
+                return@withContext BidangUsahaResult.Error(errorMessage)
+            }
+        } catch (e: Exception) {
+            Log.e("ReferensiRepository", "BidangUsaha exception", e)
+            return@withContext BidangUsahaResult.Error(e.message ?: "Unknown error occurred")
         }
     }
 }

@@ -1,16 +1,20 @@
 package com.cvindosistem.simpeldesa.main.domain.usecases
 
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.SuratIzinTidakMasukKerjaRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.SuratKeteranganBedaIdentitasRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.SuratKeteranganBerpergianRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.SuratKeteranganDomisiliPerusahaanRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.SuratKeteranganDomisiliRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.SuratKeteranganJandaDudaRequest
 import com.cvindosistem.simpeldesa.main.data.repository.SuratRepository
 import com.cvindosistem.simpeldesa.main.domain.model.SuratBedaIdentitasResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratBerpergianResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratDetailResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratDomisiliPerusahaanResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratDomisiliResult
+import com.cvindosistem.simpeldesa.main.domain.model.SuratJandaDudaResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratListResult
+import com.cvindosistem.simpeldesa.main.domain.model.SuratTidakMasukKerjaResult
 
 class GetSuratListUseCase(private val suratRepository: SuratRepository) {
     suspend operator fun invoke(
@@ -50,5 +54,17 @@ class CreateSuratDomisiliUseCase(private val suratRepository: SuratRepository) {
 class CreateSuratDomisiliPerusahaanUseCase(private val suratRepository: SuratRepository) {
     suspend operator fun invoke(request: SuratKeteranganDomisiliPerusahaanRequest): SuratDomisiliPerusahaanResult {
         return suratRepository.createSuratDomisiliPerusahaan(request)
+    }
+}
+
+class CreateSuratTidakMasukKerjaUseCase(private val suratRepository: SuratRepository) {
+    suspend operator fun invoke(request: SuratIzinTidakMasukKerjaRequest): SuratTidakMasukKerjaResult {
+        return suratRepository.createSuratTidakMasukKerja(request)
+    }
+}
+
+class CreateSuratJandaDudaUseCase(private val suratRepository: SuratRepository) {
+    suspend operator fun invoke(request: SuratKeteranganJandaDudaRequest): SuratJandaDudaResult {
+        return suratRepository.createSuratJandaDuda(request)
     }
 }

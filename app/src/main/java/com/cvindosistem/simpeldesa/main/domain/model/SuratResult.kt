@@ -5,6 +5,8 @@ import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.SuratKete
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.SuratKeteranganBerpergianResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.SuratKeteranganDomisiliResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.SuratKeteranganDomisiliPerusahaanResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.SuratKeteranganIzinTidakMasukKerjaResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.SuratKeteranganJandaDudaResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.SuratListResponse
 
 sealed class SuratListResult {
@@ -35,4 +37,14 @@ sealed class SuratDomisiliResult {
 sealed class SuratDomisiliPerusahaanResult {
     data class Success(val data: SuratKeteranganDomisiliPerusahaanResponse) : SuratDomisiliPerusahaanResult()
     data class Error(val message: String) : SuratDomisiliPerusahaanResult()
+}
+
+sealed class SuratTidakMasukKerjaResult {
+    data class Success(val data: SuratKeteranganIzinTidakMasukKerjaResponse) : SuratTidakMasukKerjaResult()
+    data class Error(val message: String) : SuratTidakMasukKerjaResult()
+}
+
+sealed class SuratJandaDudaResult {
+    data class Success(val data: SuratKeteranganJandaDudaResponse) : SuratJandaDudaResult()
+    data class Error(val message: String) : SuratJandaDudaResult()
 }
