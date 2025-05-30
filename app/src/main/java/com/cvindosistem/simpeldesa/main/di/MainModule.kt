@@ -1,39 +1,36 @@
 package com.cvindosistem.simpeldesa.main.di
 
-import com.cvindosistem.simpeldesa.auth.data.remote.api.AuthApi
-import com.cvindosistem.simpeldesa.auth.data.remote.api.UserApi
-import com.cvindosistem.simpeldesa.auth.data.repository.AuthRepository
-import com.cvindosistem.simpeldesa.auth.data.repository.AuthRepositoryImpl
-import com.cvindosistem.simpeldesa.auth.data.repository.PasswordResetRepository
-import com.cvindosistem.simpeldesa.auth.data.repository.PasswordResetRepositoryImpl
-import com.cvindosistem.simpeldesa.auth.data.repository.UserRepository
-import com.cvindosistem.simpeldesa.auth.data.repository.UserRepositoryImpl
-import com.cvindosistem.simpeldesa.auth.domain.usecases.GetUserInfoUseCase
-import com.cvindosistem.simpeldesa.auth.domain.usecases.auth.LoginUseCase
-import com.cvindosistem.simpeldesa.auth.domain.usecases.auth.LogoutUseCase
-import com.cvindosistem.simpeldesa.auth.domain.usecases.auth.RequestOtpUseCase
-import com.cvindosistem.simpeldesa.auth.domain.usecases.auth.ResetPasswordUseCase
-import com.cvindosistem.simpeldesa.auth.domain.usecases.auth.ValidateOtpUseCase
-import com.cvindosistem.simpeldesa.auth.presentation.auth.login.AuthViewModel
-import com.cvindosistem.simpeldesa.auth.presentation.auth.resetpassword.PasswordResetViewModel
 import com.cvindosistem.simpeldesa.main.data.remote.api.ReferensiApi
 import com.cvindosistem.simpeldesa.main.data.remote.api.SuratApi
 import com.cvindosistem.simpeldesa.main.data.repository.ReferensiRepository
 import com.cvindosistem.simpeldesa.main.data.repository.ReferensiRepositoryImpl
 import com.cvindosistem.simpeldesa.main.data.repository.SuratRepository
 import com.cvindosistem.simpeldesa.main.data.repository.SuratRepositoryImpl
+import com.cvindosistem.simpeldesa.main.domain.usecases.CreateResiKTPSementaraUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratBedaIdentitasUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratBerpergianUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratDomisiliPerusahaanUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratDomisiliUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratGhaibUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratIzinTidakKerjaUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratJandaDudaUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratKehilanganUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratKelahiranUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratKematianUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratKeramaianUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratKuasaUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratPenghasilanUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratPernikahanUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratPindahDomisiliUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratSKCKUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratStatusPerkawinanUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratTidakMampuUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratTidakMasukKerjaUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratTugasUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratUsahaUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetSuratDetailUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetSuratListUseCase
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SuratSayaViewModel
-import com.cvindosistem.simpeldesa.main.presentation.screens.main.MainViewModel
-import com.cvindosistem.simpeldesa.main.presentation.screens.main.home.viewmodel.HomeViewModel
-import com.cvindosistem.simpeldesa.main.presentation.screens.main.profile.viewmodel.ProfileViewModel
 import com.google.gson.Gson
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -56,6 +53,22 @@ val mainModule = module {
     single { CreateSuratBedaIdentitasUseCase(get()) }
     single { CreateSuratDomisiliPerusahaanUseCase(get()) }
     single { CreateSuratTidakMasukKerjaUseCase(get()) }
+    single { CreateSuratGhaibUseCase(get()) }
+    single { CreateSuratKehilanganUseCase(get()) }
+    single { CreateSuratKelahiranUseCase(get()) }
+    single { CreateSuratKematianUseCase(get()) }
+    single { CreateSuratKeramaianUseCase(get()) }
+    single { CreateSuratKuasaUseCase(get()) }
+    single { CreateSuratPenghasilanUseCase(get()) }
+    single { CreateSuratPernikahanUseCase(get()) }
+    single { CreateSuratPindahDomisiliUseCase(get()) }
+    single { CreateResiKTPSementaraUseCase(get()) }
+    single { CreateSuratSKCKUseCase(get()) }
+    single { CreateSuratStatusPerkawinanUseCase(get()) }
+    single { CreateSuratTidakMampuUseCase(get()) }
+    single { CreateSuratUsahaUseCase(get()) }
+    single { CreateSuratTugasUseCase(get()) }
+    single { CreateSuratIzinTidakKerjaUseCase(get()) }
 
     viewModel { SuratSayaViewModel(get()) }
 }

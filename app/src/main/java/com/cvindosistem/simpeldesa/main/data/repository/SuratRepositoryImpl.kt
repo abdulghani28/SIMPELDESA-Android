@@ -24,7 +24,6 @@ import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratpenga
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratpengantar.SPPernikahanRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratpengantar.SPPindahDomisiliRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratrekomendasi.SRKeramaianRequest
-import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKIzinTidakMasukKerjaResponse
 import com.cvindosistem.simpeldesa.main.domain.model.SuratBedaIdentitasResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratBerpergianResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratDetailResult
