@@ -30,6 +30,7 @@ import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratTugasUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratUsahaUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetSuratDetailUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetSuratListUseCase
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SPCatatanKepolisianViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SRKeramaianViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SuratSayaViewModel
 import com.google.gson.Gson
@@ -73,4 +74,5 @@ val mainModule = module {
 
     viewModel { SuratSayaViewModel(get()) }
     viewModel { SRKeramaianViewModel(get(), get()) }
+    viewModel { SPCatatanKepolisianViewModel(get(), get()) }
 }

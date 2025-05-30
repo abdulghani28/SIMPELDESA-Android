@@ -2,56 +2,25 @@ package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Warning
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
 import com.cvindosistem.simpeldesa.core.components.AppBottomBar
 import com.cvindosistem.simpeldesa.core.components.AppStepAnimatedContent
@@ -61,11 +30,11 @@ import com.cvindosistem.simpeldesa.core.components.LoadingScreen
 import com.cvindosistem.simpeldesa.core.helpers.dateFormatterToApiFormat
 import com.cvindosistem.simpeldesa.main.navigation.Screen
 import com.cvindosistem.simpeldesa.main.presentation.components.BackWarningDialog
+import com.cvindosistem.simpeldesa.main.presentation.components.BaseDialog
 import com.cvindosistem.simpeldesa.main.presentation.components.PreviewItem
 import com.cvindosistem.simpeldesa.main.presentation.components.PreviewSection
 import com.cvindosistem.simpeldesa.main.presentation.components.SubmitConfirmationDialog
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SRKeramaianViewModel
-import kotlinx.coroutines.CoroutineScope
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -256,112 +225,45 @@ private fun PreviewDialog(
     onDismiss: () -> Unit,
     onSubmit: () -> Unit
 ) {
-    Dialog(
-        onDismissRequest = onDismiss,
-        properties = DialogProperties(
-            dismissOnBackPress = true,
-            dismissOnClickOutside = true,
-            usePlatformDefaultWidth = false
-        )
+    BaseDialog(
+        title = "Preview Data",
+        onDismiss = onDismiss,
+        onSubmit = onSubmit,
+        submitText = "Ajukan Sekarang",
+        dismissText = "Tutup"
     ) {
-        Card(
-            modifier = Modifier
-                .fillMaxWidth(0.95f)
-                .fillMaxHeight(0.9f),
-            shape = RoundedCornerShape(16.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surface
-            )
+        LazyColumn(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(24.dp)
-            ) {
-                // Header
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = "Preview Data",
-                        style = MaterialTheme.typography.headlineSmall,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                    IconButton(
-                        onClick = onDismiss
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Close,
-                            contentDescription = "Tutup",
-                            tint = MaterialTheme.colorScheme.onSurface
-                        )
+            item {
+                PreviewSection(
+                    title = "Informasi Pelapor",
+                    content = {
+                        PreviewItem("NIK", viewModel.nikValue)
+                        PreviewItem("Nama Lengkap", viewModel.namaValue)
+                        PreviewItem("Tempat Lahir", viewModel.tempatLahirValue)
+                        PreviewItem("Tanggal Lahir", dateFormatterToApiFormat(viewModel.tanggalLahirValue))
+                        PreviewItem("Jenis Kelamin", viewModel.selectedGender)
+                        PreviewItem("Pekerjaan", viewModel.pekerjaanValue)
+                        PreviewItem("Alamat", viewModel.alamatValue)
                     }
-                }
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                // Content
-                LazyColumn(
-                    modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    item {
-                        PreviewSection(
-                            title = "Informasi Pelapor",
-                            content = {
-                                PreviewItem("NIK", viewModel.nikValue)
-                                PreviewItem("Nama Lengkap", viewModel.namaValue)
-                                PreviewItem("Tempat Lahir", viewModel.tempatLahirValue)
-                                PreviewItem("Tanggal Lahir",
-                                    dateFormatterToApiFormat(viewModel.tanggalLahirValue)
-                                )
-                                PreviewItem("Jenis Kelamin", viewModel.selectedGender)
-                                PreviewItem("Pekerjaan", viewModel.pekerjaanValue)
-                                PreviewItem("Alamat", viewModel.alamatValue)
-                            }
-                        )
+                )
+            }
+            item {
+                PreviewSection(
+                    title = "Informasi Kegiatan",
+                    content = {
+                        PreviewItem("Nama Acara", viewModel.namaAcaraValue)
+                        PreviewItem("Tempat Acara", viewModel.tempatAcaraValue)
+                        PreviewItem("Hari", viewModel.hariValue)
+                        PreviewItem("Tanggal", dateFormatterToApiFormat(viewModel.tanggalValue))
+                        PreviewItem("Jam Mulai", viewModel.jamMulaiValue)
+                        PreviewItem("Jam Selesai", viewModel.jamSelesaiValue)
+                        PreviewItem("Penanggung Jawab", viewModel.penanggungJawabValue)
+                        PreviewItem("Kontak", viewModel.kontakValue)
                     }
-
-                    item {
-                        PreviewSection(
-                            title = "Informasi Kegiatan",
-                            content = {
-                                PreviewItem("Nama Acara", viewModel.namaAcaraValue)
-                                PreviewItem("Tempat Acara", viewModel.tempatAcaraValue)
-                                PreviewItem("Hari", viewModel.hariValue)
-                                PreviewItem("Tanggal", dateFormatterToApiFormat(viewModel.tanggalValue))
-                                PreviewItem("Jam Mulai", viewModel.jamMulaiValue)
-                                PreviewItem("Jam Selesai", viewModel.jamSelesaiValue)
-                                PreviewItem("Penanggung Jawab", viewModel.penanggungJawabValue)
-                                PreviewItem("Kontak", viewModel.kontakValue)
-                            }
-                        )
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                // Action Buttons
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    OutlinedButton(
-                        onClick = onDismiss,
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Text("Tutup")
-                    }
-                    Button(
-                        onClick = onSubmit,
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Text("Ajukan Sekarang")
-                    }
-                }
+                )
             }
         }
     }
