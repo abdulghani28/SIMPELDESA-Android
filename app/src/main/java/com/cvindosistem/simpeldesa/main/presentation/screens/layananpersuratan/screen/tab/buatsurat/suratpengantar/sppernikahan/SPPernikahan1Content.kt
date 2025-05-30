@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -16,6 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.cvindosistem.simpeldesa.core.components.AppNumberField
 import com.cvindosistem.simpeldesa.core.components.AppTextField
 import com.cvindosistem.simpeldesa.core.components.DatePickerField
 import com.cvindosistem.simpeldesa.core.components.DropdownField
@@ -25,11 +28,21 @@ import com.cvindosistem.simpeldesa.core.components.MultilineTextField
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
 import com.cvindosistem.simpeldesa.core.components.StepIndicatorFlexible
 import com.cvindosistem.simpeldesa.core.components.UseMyDataCheckbox
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SPPernikahanViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SRKeramaianViewModel
 
 @Composable
 internal fun SPPernikahan1Content(
+    viewModel: SPPernikahanViewModel,
     modifier: Modifier = Modifier
 ) {
+
+    val validationErrors by viewModel.validationErrors.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.loadAgama()
+    }
+
     FormSectionList(
         modifier = modifier,
         background = MaterialTheme.colorScheme.background
@@ -37,47 +50,51 @@ internal fun SPPernikahan1Content(
         item {
             StepIndicatorFlexible(
                 steps = listOf("Informasi Calon Suami", "Informasi Orang Tua Calon Suami", "Informasi Calon Istri", "Informasi Orang Tua Calon Istri", "Informasi Rencana Pernikahan"),
-                currentStep = 1
+                currentStep = viewModel.currentStep
             )
         }
 
         item {
-            UseMyDataCheckbox()
+            UseMyDataCheckbox(
+                checked = viewModel.useMyDataChecked,
+                onCheckedChange = viewModel::updateUseMyData,
+                isLoading = viewModel.isLoadingUserData
+            )
         }
 
         item {
-            InformasiCalonSuami()
+            InformasiCalonSuami(
+                viewModel = viewModel,
+                validationErrors = validationErrors
+            )
         }
 
         item {
-            InformasiStatusPerkawinan()
+            InformasiStatusPerkawinan(
+                viewModel = viewModel,
+                validationErrors = validationErrors
+            )
         }
     }
 }
 
 @Composable
-private fun InformasiCalonSuami() {
+private fun InformasiCalonSuami(
+    viewModel: SPPernikahanViewModel,
+    validationErrors: Map<String, String>
+) {
     Column {
         SectionTitle("Informasi Calon Suami")
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        var nikValue by remember { mutableStateOf("") }
-        var namaValue by remember { mutableStateOf("") }
-        var tempatLahirValue by remember { mutableStateOf("") }
-        var tanggalLahirValue by remember { mutableStateOf("") }
-        var selectedKewarganegaraan by remember { mutableStateOf("") }
-        var agamaValue by remember { mutableStateOf("") }
-        var pekerjaanValue by remember { mutableStateOf("") }
-        var alamatValue by remember { mutableStateOf("") }
-
         AppTextField(
             label = "Nomor Induk Kependudukan (NIK)",
             placeholder = "Masukkan NIK",
-            value = nikValue,
-            onValueChange = { nikValue = it },
-            isError = false,
-            errorMessage = null,
+            value = viewModel.nikSuamiValue,
+            onValueChange = viewModel::updateNikSuami,
+            isError = viewModel.hasFieldError("nik_suami"),
+            errorMessage = viewModel.getFieldError("nik_suami"),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
 
@@ -86,10 +103,10 @@ private fun InformasiCalonSuami() {
         AppTextField(
             label = "Nama Lengkap",
             placeholder = "Masukkan nama lengkap",
-            value = namaValue,
-            onValueChange = { namaValue = it },
-            isError = false,
-            errorMessage = null
+            value = viewModel.namaSuamiValue,
+            onValueChange = viewModel::updateNamaSuami,
+            isError = viewModel.hasFieldError("nama_suami"),
+            errorMessage = viewModel.getFieldError("nama_suami")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -102,20 +119,20 @@ private fun InformasiCalonSuami() {
                 AppTextField(
                     label = "Tempat Lahir",
                     placeholder = "Tempat lahir",
-                    value = tempatLahirValue,
-                    onValueChange = { tempatLahirValue = it },
-                    isError = false,
-                    errorMessage = null
+                    value = viewModel.tempatLahirSuamiValue,
+                    onValueChange = viewModel::updateTempatLahirSuami,
+                    isError = viewModel.hasFieldError("tempat_lahir_suami"),
+                    errorMessage = viewModel.getFieldError("tempat_lahir_suami")
                 )
             }
 
             Column(modifier = Modifier.weight(1f)) {
                 DatePickerField(
                     label = "Tanggal Lahir",
-                    value = tanggalLahirValue,
-                    onValueChange = { tanggalLahirValue = it },
-                    isError = false,
-                    errorMessage = null,
+                    value = viewModel.tanggalLahirSuamiValue,
+                    onValueChange = viewModel::updateTanggalLahirSuami,
+                    isError = viewModel.hasFieldError("tanggal_lahir_suami"),
+                    errorMessage = viewModel.getFieldError("tanggal_lahir_suami")
                 )
             }
         }
@@ -123,21 +140,22 @@ private fun InformasiCalonSuami() {
         Spacer(modifier = Modifier.height(16.dp))
 
         KewarganegaraanSection(
-            selectedKewarganegaraan = selectedKewarganegaraan,
-            onSelectedKewarganegaraan = { selectedKewarganegaraan = it },
-            isError = false,
-            errorMessage = null,
+            selectedKewarganegaraan = viewModel.kewarganegaraanSuamiValue,
+            onSelectedKewarganegaraan = viewModel::updateKewarganegaraanSuami,
+            isError = viewModel.hasFieldError("kewarganegaraan_suami"),
+            errorMessage = viewModel.getFieldError("kewarganegaraan_suami")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         DropdownField(
             label = "Agama",
-            value = agamaValue,
-            onValueChange = { agamaValue = it },
-            options = listOf("Islam", "Kristen", "Katolik", "Hindu", "Buddha", "Konghucu"),
-            isError = false,
-            errorMessage = null,
+            value = viewModel.agamaSuamiIdValue,
+            onValueChange = viewModel::updateAgamaSuamiId,
+            options = viewModel.agamaList.map { it.nama },
+            isError = viewModel.hasFieldError("agama_suami"),
+            errorMessage = viewModel.getFieldError("agama_suami"),
+            onDropdownExpanded = viewModel::loadAgama
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -145,10 +163,10 @@ private fun InformasiCalonSuami() {
         AppTextField(
             label = "Pekerjaan",
             placeholder = "Masukkan pekerjaan",
-            value = pekerjaanValue,
-            onValueChange = { pekerjaanValue = it },
-            isError = false,
-            errorMessage = null
+            value = viewModel.pekerjaanSuamiValue,
+            onValueChange = viewModel::updatePekerjaanSuami,
+            isError = viewModel.hasFieldError("pekerjaan_suami"),
+            errorMessage = viewModel.getFieldError("pekerjaan_suami")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -156,43 +174,42 @@ private fun InformasiCalonSuami() {
         MultilineTextField(
             label = "Alamat Tinggal",
             placeholder = "Masukkan alamat lengkap",
-            value = alamatValue,
-            onValueChange = { alamatValue = it },
-            isError = false,
-            errorMessage = null
+            value = viewModel.alamatSuamiValue,
+            onValueChange = viewModel::updateAlamatSuami,
+            isError = viewModel.hasFieldError("alamat_suami"),
+            errorMessage = viewModel.getFieldError("alamat_suami")
         )
     }
 }
 
 @Composable
-private fun InformasiStatusPerkawinan() {
+private fun InformasiStatusPerkawinan(
+    viewModel: SPPernikahanViewModel,
+    validationErrors: Map<String, String>
+) {
     Column {
         SectionTitle("Informasi Status Perkawinan")
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        var statusValue by remember { mutableStateOf("") }
-        var jumlahIstriValue by remember { mutableStateOf("") }
-        var namaIstriSebelumnyaValue by remember { mutableStateOf("") }
-
         DropdownField(
             label = "Status",
-            value = statusValue,
-            onValueChange = { statusValue = it },
-            options = listOf("Duda", "Lajang"),
-            isError = false,
-            errorMessage = null,
+            value = viewModel.statusKawinSuamiIdValue,
+            onValueChange = viewModel::updateStatusKawinSuamiId,
+            options = listOf("BELUM_KAWIN", "KAWIN"),
+            isError = viewModel.hasFieldError("status_kawin_suami_id"),
+            errorMessage = viewModel.getFieldError("status_kawin_suami_id")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        AppTextField(
+        AppNumberField(
             label = "Jumlah Istri",
             placeholder = "Masukkan jumlah istri",
-            value = jumlahIstriValue,
-            onValueChange = { jumlahIstriValue = it },
-            isError = false,
-            errorMessage = null,
+            value = viewModel.jumlahIstriValue,
+            onValueChange = viewModel::updateJumlahIstri,
+            isError = viewModel.hasFieldError("jumlah_istri"),
+            errorMessage = viewModel.getFieldError("jumlah_istri"),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
 
@@ -201,10 +218,10 @@ private fun InformasiStatusPerkawinan() {
         AppTextField(
             label = "Nama Istri Sebelumnya",
             placeholder = "Masukkan nama istri sebelumnya",
-            value = namaIstriSebelumnyaValue,
-            onValueChange = { namaIstriSebelumnyaValue = it },
-            isError = false,
-            errorMessage = null,
+            value = viewModel.namaIstriSebelumnyaValue,
+            onValueChange = viewModel::updateNamaIstriSebelumnya,
+            isError = viewModel.hasFieldError("nama_istri_sebelumnya"),
+            errorMessage = viewModel.getFieldError("nama_istri_sebelumnya"),
         )
     }
 }

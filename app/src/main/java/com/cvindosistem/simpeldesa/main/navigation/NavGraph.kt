@@ -37,6 +37,7 @@ import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.s
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratpengantar.sppernikahan.SPPernikahanScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratrekomendasi.SRKeramaianScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SPCatatanKepolisianViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SPPernikahanViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SRKeramaianViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SuratSayaViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.main.MainScreen
@@ -253,7 +254,9 @@ fun NavGraph(
         }
 
         composable(Screen.SPPernikahan.route) {
+            val spPernikahanViewModel: SPPernikahanViewModel = koinViewModel()
             SPPernikahanScreen(
+                spPernikahanViewModel = spPernikahanViewModel,
                 navController = navController
             )
         }

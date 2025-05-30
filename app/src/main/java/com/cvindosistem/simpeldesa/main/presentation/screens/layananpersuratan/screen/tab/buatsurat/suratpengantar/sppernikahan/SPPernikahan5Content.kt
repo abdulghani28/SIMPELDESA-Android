@@ -18,9 +18,11 @@ import com.cvindosistem.simpeldesa.core.components.FormSectionList
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
 import com.cvindosistem.simpeldesa.core.components.StepIndicatorFlexible
 import com.cvindosistem.simpeldesa.core.components.TimePickerField
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SPPernikahanViewModel
 
 @Composable
 internal fun SPPernikahan5Content(
+    viewModel: SPPernikahanViewModel,
     modifier: Modifier = Modifier
 ) {
     FormSectionList(

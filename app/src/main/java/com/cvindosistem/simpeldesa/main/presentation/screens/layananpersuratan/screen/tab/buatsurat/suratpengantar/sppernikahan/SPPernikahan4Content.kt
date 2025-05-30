@@ -25,9 +25,11 @@ import com.cvindosistem.simpeldesa.core.components.KewarganegaraanSection
 import com.cvindosistem.simpeldesa.core.components.MultilineTextField
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
 import com.cvindosistem.simpeldesa.core.components.StepIndicatorFlexible
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SPPernikahanViewModel
 
 @Composable
 internal fun SPPernikahan4Content(
+    viewModel: SPPernikahanViewModel,
     modifier: Modifier = Modifier
 ) {
     FormSectionList(

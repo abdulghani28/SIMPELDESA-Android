@@ -223,6 +223,49 @@ fun AppTextField(
     }
 }
 
+@Composable
+fun AppNumberField(
+    label: String,
+    placeholder: String,
+    value: Int,
+    onValueChange: (Int) -> Unit,
+    isError: Boolean,
+    errorMessage: String?,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default.copy(
+        keyboardType = KeyboardType.Number
+    ),
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
+) {
+    var textValue by remember(value) { mutableStateOf(if (value == 0) "" else value.toString()) }
+
+    Column {
+        LabelFieldText(label)
+
+        AppOutlinedTextField(
+            value = textValue,
+            onValueChange = { input ->
+                if (input.all { it.isDigit() } || input.isEmpty()) {
+                    textValue = input
+                    onValueChange(input.toIntOrNull() ?: 0)
+                }
+            },
+            placeholder = placeholder,
+            isError = isError,
+            keyboardOptions = keyboardOptions,
+            keyboardActions = keyboardActions
+        )
+
+        if (isError && !errorMessage.isNullOrBlank()) {
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = errorMessage,
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
+    }
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DropdownField(
@@ -232,6 +275,7 @@ fun DropdownField(
     options: List<String>,
     isError: Boolean,
     errorMessage: String?,
+    onDropdownExpanded: () -> Unit = {}
 ) {
     Column {
         LabelFieldText(label)
@@ -240,7 +284,10 @@ fun DropdownField(
 
         ExposedDropdownMenuBox(
             expanded = expanded,
-            onExpandedChange = { expanded = !expanded }
+            onExpandedChange = {
+                onDropdownExpanded()
+                expanded = !expanded
+            }
         ) {
             OutlinedTextField(
                 value = value,
