@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cvindosistem.simpeldesa.main.domain.model.SuratListResult
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetSuratListUseCase
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.tab.FilterData
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.FilterData
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
