@@ -1,4 +1,4 @@
-package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel
+package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpengantar
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -9,22 +9,28 @@ import androidx.lifecycle.viewModelScope
 import com.cvindosistem.simpeldesa.auth.domain.model.UserInfoResult
 import com.cvindosistem.simpeldesa.auth.domain.usecases.GetUserInfoUseCase
 import com.cvindosistem.simpeldesa.core.helpers.dateFormatterToApiFormat
-import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratpengantar.SPCatatanKepolisianRequest
-import com.cvindosistem.simpeldesa.main.domain.model.SuratSKCKResult
-import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratSKCKUseCase
+import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.AgamaResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.StatusKawinResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratpengantar.SPKehilanganRequest
+import com.cvindosistem.simpeldesa.main.domain.model.AgamaResult
+import com.cvindosistem.simpeldesa.main.domain.model.StatusKawinResult
+import com.cvindosistem.simpeldesa.main.domain.model.SuratKehilanganResult
+import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratKehilanganUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.GetAgamaUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.GetStatusKawinUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class SPCatatanKepolisianViewModel(
-    private val createSuratCatatanKepolisianUseCase: CreateSuratSKCKUseCase,
-    private val getUserInfoUseCase: GetUserInfoUseCase
+class SPKehilanganViewModel(
+    private val createSuratKehilanganUseCase: CreateSuratKehilanganUseCase,
+    private val getUserInfoUseCase: GetUserInfoUseCase,
 ) : ViewModel() {
 
     // UI State for the form
-    private val _uiState = MutableStateFlow(SPCatatanKepolisianUiState())
+    private val _uiState = MutableStateFlow(SPKehilanganUiState())
     val uiState = _uiState.asStateFlow()
 
     // Loading state
@@ -55,8 +61,8 @@ class SPCatatanKepolisianViewModel(
         private set
 
     // Events
-    private val _catatanKepolisianEvent = MutableSharedFlow<SPCatatanKepolisianEvent>()
-    val catatanKepolisianEvent = _catatanKepolisianEvent.asSharedFlow()
+    private val _kehilanganEvent = MutableSharedFlow<SPKehilanganEvent>()
+    val kehilanganEvent = _kehilanganEvent.asSharedFlow()
 
     // Step 1 - Informasi Pelapor
     var nikValue by mutableStateOf("")
@@ -65,16 +71,23 @@ class SPCatatanKepolisianViewModel(
         private set
     var tempatLahirValue by mutableStateOf("")
         private set
-    var tanggalLahirValue by mutableStateOf("")
+    var jenisKelaminValue by mutableStateOf("")
         private set
-    var selectedGender by mutableStateOf("")
+    var tanggalLahirValue by mutableStateOf("")
         private set
     var pekerjaanValue by mutableStateOf("")
         private set
     var alamatValue by mutableStateOf("")
         private set
 
-    var keperluanValue by mutableStateOf("")
+    // Step 2 - Informasi BarangHilang
+    var jenisBarangValue by mutableStateOf("")
+        private set
+    var ciriCiriBarangValue by mutableStateOf("")
+        private set
+    var tempatKehilanganValue by mutableStateOf("")
+        private set
+    var tanggalKehilanganValue by mutableStateOf("")
         private set
 
     // Validation states
@@ -102,26 +115,26 @@ class SPCatatanKepolisianViewModel(
                         namaValue = userData.nama_warga
                         tempatLahirValue = userData.tempat_lahir
                         tanggalLahirValue = dateFormatterToApiFormat(userData.tanggal_lahir)
-                        selectedGender = userData.jenis_kelamin
+                        jenisKelaminValue = userData.jenis_kelamin
                         pekerjaanValue = userData.pekerjaan
                         alamatValue = userData.alamat
 
                         // Clear any existing validation errors for filled fields
                         clearMultipleFieldErrors(listOf(
                             "nik", "nama", "tempat_lahir", "tanggal_lahir",
-                            "jenis_kelamin", "pekerjaan", "alamat"
+                            "pekerjaan", "alamat", "jenis_kelamin"
                         ))
                     }
                     is UserInfoResult.Error -> {
                         errorMessage = result.message
                         useMyDataChecked = false
-                        _catatanKepolisianEvent.emit(SPCatatanKepolisianEvent.UserDataLoadError(result.message))
+                        _kehilanganEvent.emit(SPKehilanganEvent.UserDataLoadError(result.message))
                     }
                 }
             } catch (e: Exception) {
                 errorMessage = e.message ?: "Gagal memuat data pengguna"
                 useMyDataChecked = false
-                _catatanKepolisianEvent.emit(SPCatatanKepolisianEvent.UserDataLoadError(errorMessage!!))
+                _kehilanganEvent.emit(SPKehilanganEvent.UserDataLoadError(errorMessage!!))
             } finally {
                 isLoadingUserData = false
             }
@@ -129,16 +142,23 @@ class SPCatatanKepolisianViewModel(
     }
 
     private fun clearUserData() {
+        // Step 1 - Calon 
         nikValue = ""
         namaValue = ""
         tempatLahirValue = ""
         tanggalLahirValue = ""
-        selectedGender = ""
         pekerjaanValue = ""
         alamatValue = ""
+        jenisKelaminValue = ""
+
+        // Step 2 - Barang
+        jenisBarangValue = ""
+        ciriCiriBarangValue = ""
+        tempatKehilanganValue = ""
+        tanggalKehilanganValue = ""
     }
 
-    // Step 1 field updates
+    // Step 1 - Pelapor
     fun updateNik(value: String) {
         nikValue = value
         clearFieldError("nik")
@@ -154,14 +174,14 @@ class SPCatatanKepolisianViewModel(
         clearFieldError("tempat_lahir")
     }
 
-    fun updateTanggalLahir(value: String) {
-        tanggalLahirValue = dateFormatterToApiFormat(value)
-        clearFieldError("tanggal_lahir")
+    fun updateJenisKelamin(value: String) {
+        tempatLahirValue = value
+        clearFieldError("jenis_kelamin")
     }
 
-    fun updateGender(value: String) {
-        selectedGender = value
-        clearFieldError("jenis_kelamin")
+    fun updateTanggalLahir(value: String) {
+        tanggalLahirValue = value
+        clearFieldError("tanggal_lahir")
     }
 
     fun updatePekerjaan(value: String) {
@@ -174,21 +194,37 @@ class SPCatatanKepolisianViewModel(
         clearFieldError("alamat")
     }
 
-    // Step 2 field updates
-    fun updateKeperluan(value: String) {
-        keperluanValue = value
-        clearFieldError("keperluan")
+    // Step 2 - Orang Tua
+    fun updateTanggalKehilangan(value: String) {
+        tanggalKehilanganValue = value
+        clearFieldError("tanggal_kehilangan")
+    }
+
+    fun updatejenisBarang(value: String) {
+        jenisBarangValue = value
+        clearFieldError("jenis_barang")
+    }
+
+    fun updateCiriCiriBarang(value: String) {
+        ciriCiriBarangValue = value
+        clearFieldError("ciri_barang")
+    }
+
+    fun updateTempatKehilangan(value: String) {
+        tempatKehilanganValue = value
+        clearFieldError("tempat_kehilangan")
     }
 
     // Preview dialog functions
     fun showPreview() {
         // Validate all steps before showing preview
         val step1Valid = validateStep1()
+        val step2Valid = validateStep2()
 
-        if (!step1Valid) {
+        if (!step1Valid || !step2Valid) {
             // Show validation errors but still allow preview
             viewModelScope.launch {
-                _catatanKepolisianEvent.emit(SPCatatanKepolisianEvent.ValidationError)
+                _kehilanganEvent.emit(SPKehilanganEvent.ValidationError)
             }
         }
 
@@ -199,12 +235,40 @@ class SPCatatanKepolisianViewModel(
         showPreviewDialog = false
     }
 
+    // Step navigation
+    fun nextStep() {
+        when (currentStep) {
+            1 -> {
+                if (validateStep1WithEvent()) {
+                    currentStep = 2
+                    viewModelScope.launch {
+                        _kehilanganEvent.emit(SPKehilanganEvent.StepChanged(currentStep))
+                    }
+                }
+            }
+            2 -> {
+                if (validateStep2WithEvent()) {
+                    showConfirmationDialog = true
+                }
+            }
+        }
+    }
+
+    fun previousStep() {
+        if (currentStep > 1) {
+            currentStep -= 1
+            viewModelScope.launch {
+                _kehilanganEvent.emit(SPKehilanganEvent.StepChanged(currentStep))
+            }
+        }
+    }
+
     fun showConfirmationDialog() {
         if (validateAllSteps()) {
             showConfirmationDialog = true
         } else {
             viewModelScope.launch {
-                _catatanKepolisianEvent.emit(SPCatatanKepolisianEvent.ValidationError)
+                _kehilanganEvent.emit(SPKehilanganEvent.ValidationError)
             }
         }
     }
@@ -218,6 +282,26 @@ class SPCatatanKepolisianViewModel(
         submitForm()
     }
 
+    private fun validateStep1WithEvent(): Boolean {
+        val isValid = validateStep1()
+        if (!isValid) {
+            viewModelScope.launch {
+                _kehilanganEvent.emit(SPKehilanganEvent.ValidationError)
+            }
+        }
+        return isValid
+    }
+
+    private fun validateStep2WithEvent(): Boolean {
+        val isValid = validateStep2()
+        if (!isValid) {
+            viewModelScope.launch {
+                _kehilanganEvent.emit(SPKehilanganEvent.ValidationError)
+            }
+        }
+        return isValid
+    }
+
     // Validation functions
     private fun validateStep1(): Boolean {
         val errors = mutableMapOf<String, String>()
@@ -228,33 +312,23 @@ class SPCatatanKepolisianViewModel(
             errors["nik"] = "NIK harus 16 digit"
         }
 
-        if (namaValue.isBlank()) {
-            errors["nama"] = "Nama lengkap tidak boleh kosong"
-        }
+        if (namaValue.isBlank()) errors["nama"] = "Nama tidak boleh kosong"
+        if (tempatLahirValue.isBlank()) errors["tempat_lahir"] = "Tempat lahir tidak boleh kosong"
+        if (tanggalLahirValue.isBlank()) errors["tanggal_lahir"] = "Tanggal lahir tidak boleh kosong"
+        if (pekerjaanValue.isBlank()) errors["pekerjaan"] = "Pekerjaan tidak boleh kosong"
+        if (alamatValue.isBlank()) errors["alamat"] = "Alamat tidak boleh kosong"
+        if (jenisKelaminValue.isBlank()) errors["jenis_kelamin"] = "Jenis kelamin tidak boleh kosong"
 
-        if (tempatLahirValue.isBlank()) {
-            errors["tempat_lahir"] = "Tempat lahir tidak boleh kosong"
-        }
+        _validationErrors.value = errors
+        return errors.isEmpty()
+    }
 
-        if (tanggalLahirValue.isBlank()) {
-            errors["tanggal_lahir"] = "Tanggal lahir tidak boleh kosong"
-        }
-
-        if (selectedGender.isBlank()) {
-            errors["jenis_kelamin"] = "Jenis kelamin harus dipilih"
-        }
-
-        if (pekerjaanValue.isBlank()) {
-            errors["pekerjaan"] = "Pekerjaan tidak boleh kosong"
-        }
-
-        if (alamatValue.isBlank()) {
-            errors["alamat"] = "Alamat tidak boleh kosong"
-        }
-
-        if (keperluanValue.isBlank()) {
-            errors["keperluan"] = "Alamat tidak boleh kosong"
-        }
+    private fun validateStep2(): Boolean {
+        val errors = mutableMapOf<String, String>()
+        if (tanggalKehilanganValue.isBlank()) errors["tanggal_kehilangan"] = "Tanggal kehilangan tidak boleh kosong"
+        if (tempatKehilanganValue.isBlank()) errors["tempat_kehilangan"] = "Tempat kehilangan tidak boleh kosong"
+        if (jenisBarangValue.isBlank()) errors["jenis_barang"] = "Jenis barang tidak boleh kosong"
+        if (ciriCiriBarangValue.isBlank()) errors["ciri_barang"] = "Ciri-ciri barang tidak boleh kosong"
 
         _validationErrors.value = errors
         return errors.isEmpty()
@@ -262,7 +336,7 @@ class SPCatatanKepolisianViewModel(
 
     // Validation helper functions
     fun validateAllSteps(): Boolean {
-        return validateStep1()
+        return validateStep1() && validateStep2()
     }
 
     private fun clearFieldError(fieldName: String) {
@@ -286,31 +360,35 @@ class SPCatatanKepolisianViewModel(
             errorMessage = null
 
             try {
-                val request = SPCatatanKepolisianRequest(
+                val request = SPKehilanganRequest(
+                    disahkan_oleh = "",
                     alamat = alamatValue,
-                    disahkan_oleh = "", // This might be set on the backend
-                    jenis_kelamin = selectedGender,
+                    ciri = ciriCiriBarangValue,
+                    jenis_barang = jenisBarangValue,
+                    jenis_kelamin = jenisKelaminValue,
+                    keperluan = "",
                     nama = namaValue,
                     nik = nikValue,
                     pekerjaan = pekerjaanValue,
-                    tanggal_lahir = dateFormatterToApiFormat(tanggalLahirValue),
+                    tanggal_lahir = tanggalLahirValue,
+                    tempat_kehilangan = tanggalKehilanganValue,
                     tempat_lahir = tempatLahirValue,
-                    keperluan = keperluanValue
+                    waktu_kehilangan = tanggalKehilanganValue,
                 )
 
-                when (val result = createSuratCatatanKepolisianUseCase(request)) {
-                    is SuratSKCKResult.Success -> {
-                        _catatanKepolisianEvent.emit(SPCatatanKepolisianEvent.SubmitSuccess)
+                when (val result = createSuratKehilanganUseCase(request)) {
+                    is SuratKehilanganResult.Success -> {
+                        _kehilanganEvent.emit(SPKehilanganEvent.SubmitSuccess)
                         resetForm()
                     }
-                    is SuratSKCKResult.Error -> {
+                    is SuratKehilanganResult.Error -> {
                         errorMessage = result.message
-                        _catatanKepolisianEvent.emit(SPCatatanKepolisianEvent.SubmitError(result.message))
+                        _kehilanganEvent.emit(SPKehilanganEvent.SubmitError(result.message))
                     }
                 }
             } catch (e: Exception) {
                 errorMessage = e.message ?: "Terjadi kesalahan"
-                _catatanKepolisianEvent.emit(SPCatatanKepolisianEvent.SubmitError(errorMessage!!))
+                _kehilanganEvent.emit(SPKehilanganEvent.SubmitError(errorMessage!!))
             } finally {
                 isLoading = false
             }
@@ -332,15 +410,20 @@ class SPCatatanKepolisianViewModel(
         currentStep = 1
         useMyDataChecked = false
 
-        // Reset Step 1 fields
+        // Step 1 - Calon 
         nikValue = ""
         namaValue = ""
         tempatLahirValue = ""
         tanggalLahirValue = ""
-        selectedGender = ""
         pekerjaanValue = ""
         alamatValue = ""
-        keperluanValue = ""
+        jenisKelaminValue = ""
+
+        // Step 2 - Orang Tua
+        jenisBarangValue = ""
+        ciriCiriBarangValue = ""
+        tempatKehilanganValue = ""
+        tanggalKehilanganValue = ""
 
         _validationErrors.value = emptyMap()
         errorMessage = null
@@ -355,22 +438,23 @@ class SPCatatanKepolisianViewModel(
 
     // Check if form has data
     fun hasFormData(): Boolean {
-        return nikValue.isNotBlank() || namaValue.isNotBlank() ||
-                keperluanValue.isNotBlank()
+        return nikValue.isNotBlank() || namaValue.isNotBlank()
     }
 
     // Events
-    sealed class SPCatatanKepolisianEvent {
-        data class StepChanged(val step: Int) : SPCatatanKepolisianEvent()
-        data object SubmitSuccess : SPCatatanKepolisianEvent()
-        data class SubmitError(val message: String) : SPCatatanKepolisianEvent()
-        data object ValidationError : SPCatatanKepolisianEvent()
-        data class UserDataLoadError(val message: String) : SPCatatanKepolisianEvent()
+    sealed class SPKehilanganEvent {
+        data class StepChanged(val step: Int) : SPKehilanganEvent()
+        data object SubmitSuccess : SPKehilanganEvent()
+        data class SubmitError(val message: String) : SPKehilanganEvent()
+        data object ValidationError : SPKehilanganEvent()
+        data class UserDataLoadError(val message: String) : SPKehilanganEvent()
     }
 }
 
 // UI State data class
-data class SPCatatanKepolisianUiState(
+data class SPKehilanganUiState(
+    val agamaList: List<AgamaResponse.Data> = emptyList(),
+    val statusKawinList: List<StatusKawinResponse.Data> = emptyList(),
     val isFormDirty: Boolean = false,
     val currentStep: Int = 1,
     val totalSteps: Int = 2

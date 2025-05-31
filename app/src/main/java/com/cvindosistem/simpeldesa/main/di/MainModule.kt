@@ -32,10 +32,11 @@ import com.cvindosistem.simpeldesa.main.domain.usecases.GetAgamaUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetStatusKawinUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetSuratDetailUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetSuratListUseCase
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SPCatatanKepolisianViewModel
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SPPernikahanViewModel
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SRKeramaianViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpengantar.SPCatatanKepolisianViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpengantar.SPPernikahanViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratrekomendasi.SRKeramaianViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SuratSayaViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpengantar.SPKehilanganViewModel
 import com.google.gson.Gson
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -81,4 +82,5 @@ val mainModule = module {
     viewModel { SRKeramaianViewModel(get(), get()) }
     viewModel { SPCatatanKepolisianViewModel(get(), get()) }
     viewModel { SPPernikahanViewModel(get(), get(), get(), get()) }
+    viewModel { SPKehilanganViewModel(get(), get()) }
 }

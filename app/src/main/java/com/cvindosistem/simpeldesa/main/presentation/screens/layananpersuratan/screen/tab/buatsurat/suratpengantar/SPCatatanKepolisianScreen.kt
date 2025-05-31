@@ -45,8 +45,7 @@ import com.cvindosistem.simpeldesa.main.presentation.components.BaseDialog
 import com.cvindosistem.simpeldesa.main.presentation.components.PreviewItem
 import com.cvindosistem.simpeldesa.main.presentation.components.PreviewSection
 import com.cvindosistem.simpeldesa.main.presentation.components.SubmitConfirmationDialog
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SPCatatanKepolisianViewModel
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SRKeramaianViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpengantar.SPCatatanKepolisianViewModel
 
 @Composable
 fun SPCatatanKepolisianScreen(

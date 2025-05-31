@@ -1,4 +1,4 @@
-package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel
+package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratrekomendasi
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf

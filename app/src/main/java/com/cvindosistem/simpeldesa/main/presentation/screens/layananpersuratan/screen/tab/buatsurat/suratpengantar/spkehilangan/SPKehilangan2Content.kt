@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -17,11 +18,15 @@ import com.cvindosistem.simpeldesa.core.components.FormSectionList
 import com.cvindosistem.simpeldesa.core.components.MultilineTextField
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
 import com.cvindosistem.simpeldesa.core.components.StepIndicator
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpengantar.SPKehilanganViewModel
 
 @Composable
 internal fun SPKehilangan2Content(
+    viewModel: SPKehilanganViewModel,
     modifier: Modifier = Modifier
 ) {
+    val validationErrors by viewModel.validationErrors.collectAsState()
+
     FormSectionList(
         modifier = modifier,
         background = MaterialTheme.colorScheme.background
@@ -29,35 +34,36 @@ internal fun SPKehilangan2Content(
         item {
             StepIndicator(
                 steps = listOf("Informasi Pelapor", "Informasi Barang Hilang"),
-                currentStep = 2
+                currentStep = viewModel.currentStep
             )
         }
 
         item {
-            InformasiBarangHilang()
+            InformasiBarangHilang(
+                viewModel = viewModel,
+                validationErrors = validationErrors
+            )
         }
     }
 }
 
 @Composable
-private fun InformasiBarangHilang() {
+private fun InformasiBarangHilang(
+    viewModel: SPKehilanganViewModel,
+    validationErrors: Map<String, String>
+) {
     Column {
         SectionTitle("Informasi Barang Hilang")
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        var jenisBarangValue by remember { mutableStateOf("") }
-        var ciriCiriValue by remember { mutableStateOf("") }
-        var tempatKehilanganValue by remember { mutableStateOf("") }
-        var waktuKehilangan by remember { mutableStateOf("") }
-
         AppTextField(
             label = "Jenis Barang",
             placeholder = "Masukkan jenis barang",
-            value = jenisBarangValue,
-            onValueChange = { jenisBarangValue = it },
-            isError = false,
-            errorMessage = ""
+            value = viewModel.jenisBarangValue,
+            onValueChange = viewModel::updatejenisBarang,
+            isError = viewModel.hasFieldError("jenis_barang"),
+            errorMessage = viewModel.getFieldError("jenis_barang")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -65,10 +71,10 @@ private fun InformasiBarangHilang() {
         MultilineTextField(
             label = "Ciri-ciri",
             placeholder = "Masukkan ciri-ciri",
-            value = ciriCiriValue,
-            onValueChange = { ciriCiriValue = it },
-            isError = false,
-            errorMessage = null
+            value = viewModel.ciriCiriBarangValue,
+            onValueChange = viewModel::updateCiriCiriBarang,
+            isError = viewModel.hasFieldError("ciri_barang"),
+            errorMessage = viewModel.getFieldError("ciri_barang")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -76,20 +82,20 @@ private fun InformasiBarangHilang() {
         MultilineTextField(
             label = "Tempat Kehilangan",
             placeholder = "Masukkan tempat kehilangan",
-            value = tempatKehilanganValue,
-            onValueChange = { tempatKehilanganValue = it },
-            isError = false,
-            errorMessage = null
+            value = viewModel.tempatKehilanganValue,
+            onValueChange = viewModel::updateTempatKehilangan,
+            isError = viewModel.hasFieldError("tempat_kehilangan"),
+            errorMessage = viewModel.getFieldError("tempat_kehilangan")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         DatePickerField(
             label = "Waktu Kehilangan",
-            value = waktuKehilangan,
-            onValueChange = { waktuKehilangan = it },
-            isError = false,
-            errorMessage = null,
+            value = viewModel.tanggalKehilanganValue,
+            onValueChange = viewModel::updateTanggalKehilangan,
+            isError = viewModel.hasFieldError("tanggal_kehilangan"),
+            errorMessage = viewModel.getFieldError("tanggal_kehilangan")
         )
     }
 }

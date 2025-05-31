@@ -36,10 +36,11 @@ import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.s
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratpengantar.spkehilangan.SPKehilanganScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratpengantar.sppernikahan.SPPernikahanScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratrekomendasi.SRKeramaianScreen
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SPCatatanKepolisianViewModel
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SPPernikahanViewModel
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SRKeramaianViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpengantar.SPCatatanKepolisianViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpengantar.SPPernikahanViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratrekomendasi.SRKeramaianViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SuratSayaViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpengantar.SPKehilanganViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.main.MainScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.main.home.viewmodel.HomeViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.main.profile.viewmodel.ProfileViewModel
@@ -248,7 +249,10 @@ fun NavGraph(
         }
 
         composable(Screen.SPKehilangan.route) {
+            val spKehilanganViewModel: SPKehilanganViewModel = koinViewModel()
+
             SPKehilanganScreen(
+                spKehilanganViewModel = spKehilanganViewModel,
                 navController = navController
             )
         }

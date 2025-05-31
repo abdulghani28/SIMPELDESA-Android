@@ -1,4 +1,4 @@
-package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel
+package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpengantar
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -678,8 +678,11 @@ class SPPernikahanViewModel(
         // Validate all steps before showing preview
         val step1Valid = validateStep1()
         val step2Valid = validateStep2()
+        val step3Valid = validateStep3()
+        val step4Valid = validateStep4()
+        val step5Valid = validateStep5()
 
-        if (!step1Valid || !step2Valid) {
+        if (!step1Valid || !step2Valid || !step3Valid || !step4Valid || !step5Valid) {
             // Show validation errors but still allow preview
             viewModelScope.launch {
                 _pernikahanEvent.emit(SPPernikahanEvent.ValidationError)
