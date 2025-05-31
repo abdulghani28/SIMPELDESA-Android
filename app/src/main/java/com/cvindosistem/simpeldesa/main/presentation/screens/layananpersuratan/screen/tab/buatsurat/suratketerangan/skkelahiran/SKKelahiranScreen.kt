@@ -49,7 +49,7 @@ fun SKKelahiranScreen(
     val showPreviewDialog by remember { derivedStateOf { skKelahiranViewModel.showPreviewDialog } }
     val isLoading by remember { derivedStateOf { skKelahiranViewModel.isLoading } }
     val hasFormData by remember { derivedStateOf { skKelahiranViewModel.hasFormData() } }
-    val totalSteps = 2
+    val totalSteps = 4
 
     var showSuccessDialog by remember { mutableStateOf(false) }
     var successDialogTitle by remember { mutableStateOf("") }

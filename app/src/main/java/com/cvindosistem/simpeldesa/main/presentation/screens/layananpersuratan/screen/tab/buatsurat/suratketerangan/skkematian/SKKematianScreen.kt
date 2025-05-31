@@ -53,7 +53,7 @@ fun SKKematianScreen(
     val showPreviewDialog by remember { derivedStateOf { skKematianViewModel.showPreviewDialog } }
     val isLoading by remember { derivedStateOf { skKematianViewModel.isLoading } }
     val hasFormData by remember { derivedStateOf { skKematianViewModel.hasFormData() } }
-    val totalSteps = 2
+    val totalSteps = 3
 
     var showSuccessDialog by remember { mutableStateOf(false) }
     var successDialogTitle by remember { mutableStateOf("") }

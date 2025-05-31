@@ -1,4 +1,4 @@
-package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skjandaduda
+package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skgaib
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -29,27 +29,28 @@ import com.cvindosistem.simpeldesa.core.components.AppStepAnimatedContent
 import com.cvindosistem.simpeldesa.core.components.AppTopBar
 import com.cvindosistem.simpeldesa.core.components.ErrorDialog
 import com.cvindosistem.simpeldesa.core.components.LoadingScreen
+import com.cvindosistem.simpeldesa.core.helpers.dateFormatterToApiFormat
 import com.cvindosistem.simpeldesa.main.navigation.Screen
 import com.cvindosistem.simpeldesa.main.presentation.components.BackWarningDialog
 import com.cvindosistem.simpeldesa.main.presentation.components.BaseDialog
 import com.cvindosistem.simpeldesa.main.presentation.components.PreviewItem
 import com.cvindosistem.simpeldesa.main.presentation.components.PreviewSection
 import com.cvindosistem.simpeldesa.main.presentation.components.SubmitConfirmationDialog
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.SKJandaDudaViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.SKGhaibViewModel
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun SKJandaDudaScreen(
-    skJandaDudaViewModel: SKJandaDudaViewModel,
+fun SKGhaibScreen(
+    skGhaibViewModel: SKGhaibViewModel,
     navController: NavController
 ) {
-    val currentStep by remember { derivedStateOf { skJandaDudaViewModel.currentStep } }
-    val showConfirmationDialog by remember { derivedStateOf { skJandaDudaViewModel.showConfirmationDialog } }
-    val showPreviewDialog by remember { derivedStateOf { skJandaDudaViewModel.showPreviewDialog } }
-    val isLoading by remember { derivedStateOf { skJandaDudaViewModel.isLoading } }
-    val hasFormData by remember { derivedStateOf { skJandaDudaViewModel.hasFormData() } }
-    val totalSteps = 3
+    val currentStep by remember { derivedStateOf { skGhaibViewModel.currentStep } }
+    val showConfirmationDialog by remember { derivedStateOf { skGhaibViewModel.showConfirmationDialog } }
+    val showPreviewDialog by remember { derivedStateOf { skGhaibViewModel.showPreviewDialog } }
+    val isLoading by remember { derivedStateOf { skGhaibViewModel.isLoading } }
+    val hasFormData by remember { derivedStateOf { skGhaibViewModel.hasFormData() } }
+    val totalSteps = 2
 
     var showSuccessDialog by remember { mutableStateOf(false) }
     var successDialogTitle by remember { mutableStateOf("") }
@@ -73,10 +74,10 @@ fun SKJandaDudaScreen(
         }
     }
 
-    LaunchedEffect(skJandaDudaViewModel.skJandaDudaEvent) {
-        skJandaDudaViewModel.skJandaDudaEvent.collect { event ->
+    LaunchedEffect(skGhaibViewModel.skGhaibEvent) {
+        skGhaibViewModel.skGhaibEvent.collect { event ->
             when (event) {
-                is SKJandaDudaViewModel.SKJandaDudaEvent.SubmitSuccess -> {
+                is SKGhaibViewModel.SKGhaibEvent.SubmitSuccess -> {
 
                     successDialogTitle = "Berhasil"
                     successDialogMessage = "Surat berhasil diajukan"
@@ -90,23 +91,23 @@ fun SKJandaDudaScreen(
                         }
                     }
                 }
-                is SKJandaDudaViewModel.SKJandaDudaEvent.SubmitError -> {
+                is SKGhaibViewModel.SKGhaibEvent.SubmitError -> {
                     errorDialogTitle = "Gagal Mengirim"
                     errorDialogMessage = event.message
                     showErrorDialog = true
                 }
-                is SKJandaDudaViewModel.SKJandaDudaEvent.UserDataLoadError -> {
+                is SKGhaibViewModel.SKGhaibEvent.UserDataLoadError -> {
                     errorDialogTitle = "Gagal Memuat Data"
                     errorDialogMessage = event.message
                     showErrorDialog = true
                 }
-                is SKJandaDudaViewModel.SKJandaDudaEvent.ValidationError -> {
+                is SKGhaibViewModel.SKGhaibEvent.ValidationError -> {
                     snackbarHostState.showSnackbar(
                         message = "Mohon lengkapi semua field yang diperlukan",
                         duration = SnackbarDuration.Short
                     )
                 }
-                is SKJandaDudaViewModel.SKJandaDudaEvent.StepChanged -> {
+                is SKGhaibViewModel.SKGhaibEvent.StepChanged -> {
                     // Optional: Show step change feedback
                     snackbarHostState.showSnackbar(
                         message = "Beralih ke langkah ${event.step}",
@@ -138,16 +139,16 @@ fun SKJandaDudaScreen(
         bottomBar = {
             AppBottomBar(
                 onPreviewClick = {
-                    skJandaDudaViewModel.showPreview()
+                    skGhaibViewModel.showPreview()
                 },
                 onBackClick = if (currentStep > 1) {
-                    { skJandaDudaViewModel.previousStep() }
+                    { skGhaibViewModel.previousStep() }
                 } else null,
                 onContinueClick = if (currentStep < totalSteps) {
-                    { skJandaDudaViewModel.nextStep() }
+                    { skGhaibViewModel.nextStep() }
                 } else null,
                 onSubmitClick = if (currentStep == totalSteps) {
-                    { skJandaDudaViewModel.showConfirmationDialog() }
+                    { skGhaibViewModel.showConfirmationDialog() }
                 } else null
             )
         }
@@ -158,16 +159,12 @@ fun SKJandaDudaScreen(
                 modifier = Modifier.fillMaxSize()
             ) { step ->
                 when (step) {
-                    1 -> SKJandaDuda1Content(
-                        viewModel = skJandaDudaViewModel,
+                    1 -> SKGhaib1Content(
+                        viewModel = skGhaibViewModel,
                         modifier = Modifier.fillMaxSize()
                     )
-                    2 -> SKJandaDuda2Content(
-                        viewModel = skJandaDudaViewModel,
-                        modifier = Modifier.fillMaxSize()
-                    )
-                    3 -> SKJandaDuda3Content(
-                        viewModel = skJandaDudaViewModel,
+                    2 -> SKGhaib2Content(
+                        viewModel = skGhaibViewModel,
                         modifier = Modifier.fillMaxSize()
                     )
                 }
@@ -176,13 +173,13 @@ fun SKJandaDudaScreen(
             // Preview Dialog
             if (showPreviewDialog) {
                 PreviewDialog(
-                    viewModel = skJandaDudaViewModel,
+                    viewModel = skGhaibViewModel,
                     onDismiss = {
-                        skJandaDudaViewModel.dismissPreview()
+                        skGhaibViewModel.dismissPreview()
                     },
                     onSubmit = {
-                        skJandaDudaViewModel.dismissPreview()
-                        skJandaDudaViewModel.showConfirmationDialog()
+                        skGhaibViewModel.dismissPreview()
+                        skGhaibViewModel.showConfirmationDialog()
                     }
                 )
             }
@@ -191,14 +188,14 @@ fun SKJandaDudaScreen(
             if (showConfirmationDialog) {
                 SubmitConfirmationDialog(
                     onConfirm = {
-                        skJandaDudaViewModel.confirmSubmit()
+                        skGhaibViewModel.confirmSubmit()
                     },
                     onDismiss = {
-                        skJandaDudaViewModel.dismissConfirmationDialog()
+                        skGhaibViewModel.dismissConfirmationDialog()
                     },
                     onPreview = {
-                        skJandaDudaViewModel.dismissConfirmationDialog()
-                        skJandaDudaViewModel.showPreview()
+                        skGhaibViewModel.dismissConfirmationDialog()
+                        skGhaibViewModel.showPreview()
                     }
                 )
             }
@@ -232,7 +229,7 @@ fun SKJandaDudaScreen(
                     message = errorDialogMessage,
                     onDismiss = {
                         showErrorDialog = false
-                        skJandaDudaViewModel.clearError()
+                        skGhaibViewModel.clearError()
                     }
                 )
             }
@@ -247,7 +244,7 @@ fun SKJandaDudaScreen(
 
 @Composable
 private fun PreviewDialog(
-    viewModel: SKJandaDudaViewModel,
+    viewModel: SKGhaibViewModel,
     onDismiss: () -> Unit,
     onSubmit: () -> Unit
 ) {
@@ -268,32 +265,19 @@ private fun PreviewDialog(
                     content = {
                         PreviewItem("NIK", viewModel.nikValue)
                         PreviewItem("Nama Lengkap", viewModel.namaValue)
-                        PreviewItem("Tempat Lahir", viewModel.tempatLahirValue)
-                        PreviewItem("Tanggal Lahir", viewModel.tanggalLahirValue)
+                        PreviewItem("Hubungan dengan Orang Hilang", viewModel.hubunganIdValue)
+                    }
+                )
+            }
+            item {
+                PreviewSection(
+                    title = "Informasi Orang Yang Hilang",
+                    content = {
+                        PreviewItem("Nama Lengkap", viewModel.namaOrangHilangValue)
                         PreviewItem("Jenis Kelamin", viewModel.jenisKelaminValue)
-                        PreviewItem("Agama", viewModel.agamaIdValue)
-                        PreviewItem("Pekerjaan", viewModel.pekerjaanValue)
-                        PreviewItem("Alamat Lengkap", viewModel.alamatValue)
-                    }
-                )
-            }
-
-            item {
-                PreviewSection(
-                    title = "Informasi Janda/Duda",
-                    content = {
-                        PreviewItem("Dasar Pengajuan", viewModel.dasarPengajuanValue)
-                        PreviewItem("Nomor Pengajuan", viewModel.nomorPengajuanValue)
-                        PreviewItem("Penyebab", viewModel.penyebabValue)
-                    }
-                )
-            }
-
-            item {
-                PreviewSection(
-                    title = "Informasi Pelengkap",
-                    content = {
-                        PreviewItem("Keperluan", viewModel.keperluanValue)
+                        PreviewItem("Usia", viewModel.usiaValue.toString())
+                        PreviewItem("Alamat", viewModel.alamatValue)
+                        PreviewItem("Hilang Sejak", viewModel.hilangSejakValue)
                     }
                 )
             }

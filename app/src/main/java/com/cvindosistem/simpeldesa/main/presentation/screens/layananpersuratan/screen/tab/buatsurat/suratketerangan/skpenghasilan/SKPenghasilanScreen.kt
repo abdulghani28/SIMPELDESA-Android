@@ -50,7 +50,7 @@ fun SKPenghasilanScreen(
     val showPreviewDialog by remember { derivedStateOf { skPenghasilanViewModel.showPreviewDialog } }
     val isLoading by remember { derivedStateOf { skPenghasilanViewModel.isLoading } }
     val hasFormData by remember { derivedStateOf { skPenghasilanViewModel.hasFormData() } }
-    val totalSteps = 2
+    val totalSteps = 3
 
     var showSuccessDialog by remember { mutableStateOf(false) }
     var successDialogTitle by remember { mutableStateOf("") }

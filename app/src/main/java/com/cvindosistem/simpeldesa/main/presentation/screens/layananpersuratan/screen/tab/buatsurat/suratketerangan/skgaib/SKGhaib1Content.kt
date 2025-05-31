@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -19,11 +20,15 @@ import com.cvindosistem.simpeldesa.core.components.FormSectionList
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
 import com.cvindosistem.simpeldesa.core.components.StepIndicator
 import com.cvindosistem.simpeldesa.core.components.UseMyDataCheckbox
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.SKGhaibViewModel
 
 @Composable
 internal fun SKGhaib1Content(
+    viewModel: SKGhaibViewModel,
     modifier: Modifier = Modifier
 ) {
+    val validationErrors by viewModel.validationErrors.collectAsState()
+
     FormSectionList(
         modifier = modifier,
         background = MaterialTheme.colorScheme.background
@@ -31,38 +36,44 @@ internal fun SKGhaib1Content(
         item {
             StepIndicator(
                 steps = listOf("Informasi Pelapor", "Informasi Orang Hilang", "Informasi Orang yang Hilang"),
-                currentStep = 1
+                currentStep = viewModel.currentStep
             )
         }
 
         item {
-            UseMyDataCheckbox()
+            UseMyDataCheckbox(
+                checked = viewModel.useMyDataChecked,
+                onCheckedChange = viewModel::updateUseMyData,
+                isLoading = viewModel.isLoadingUserData
+            )
         }
 
         item {
-            InformasiPelapor()
+            InformasiPelapor(
+                viewModel = viewModel,
+                validationErrors = validationErrors
+            )
         }
     }
 }
 
 @Composable
-private fun InformasiPelapor() {
+private fun InformasiPelapor(
+    viewModel: SKGhaibViewModel,
+    validationErrors: Map<String, String>
+) {
     Column {
         SectionTitle("Informasi Pelapor")
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        var nikValue by remember { mutableStateOf("987492837421") }
-        var namaValue by remember { mutableStateOf("Joko Subianto") }
-        var hubunganValue by remember { mutableStateOf("") }
-
         AppTextField(
             label = "Nomor Induk Kependudukan (NIK)",
             placeholder = "Masukkan NIK",
-            value = nikValue,
-            onValueChange = { nikValue = it },
-            isError = false,
-            errorMessage = null,
+            value = viewModel.nikValue,
+            onValueChange = viewModel::updateNik,
+            isError = viewModel.hasFieldError("nik"),
+            errorMessage = viewModel.getFieldError("nik"),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
 
@@ -71,21 +82,21 @@ private fun InformasiPelapor() {
         AppTextField(
             label = "Nama Lengkap",
             placeholder = "Masukkan nama lengkap",
-            value = namaValue,
-            onValueChange = { namaValue = it },
-            isError = false,
-            errorMessage = null
+            value = viewModel.namaValue,
+            onValueChange = viewModel::updateNama,
+            isError = viewModel.hasFieldError("nama"),
+            errorMessage = viewModel.getFieldError("nama")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         DropdownField(
             label = "Hubungan dengan Orang yang Hilang",
-            value = hubunganValue,
-            onValueChange = { hubunganValue = it },
+            value = viewModel.hubunganIdValue,
+            onValueChange = viewModel::updateHubunganId,
             options = listOf("Keluarga", "Kolega", "Teman", "Tetangga", "Lainnya"),
-            isError = false,
-            errorMessage = null,
+            isError = viewModel.hasFieldError("hubungan"),
+            errorMessage = viewModel.getFieldError("hubungan")
         )
     }
 }

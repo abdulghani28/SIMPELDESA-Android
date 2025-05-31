@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -13,6 +14,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.cvindosistem.simpeldesa.core.components.AppNumberField
 import com.cvindosistem.simpeldesa.core.components.GenderSelection
 import com.cvindosistem.simpeldesa.core.components.AppTextField
 import com.cvindosistem.simpeldesa.core.components.DatePickerField
@@ -20,11 +22,15 @@ import com.cvindosistem.simpeldesa.core.components.FormSectionList
 import com.cvindosistem.simpeldesa.core.components.MultilineTextField
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
 import com.cvindosistem.simpeldesa.core.components.StepIndicator
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.SKGhaibViewModel
 
 @Composable
 internal fun SKGhaib2Content(
+    viewModel: SKGhaibViewModel,
     modifier: Modifier = Modifier
 ) {
+    val validationErrors by viewModel.validationErrors.collectAsState()
+
     FormSectionList(
         modifier = modifier,
         background = MaterialTheme.colorScheme.background
@@ -32,56 +38,56 @@ internal fun SKGhaib2Content(
         item {
             StepIndicator(
                 steps = listOf("Informasi Pelapor", "Informasi Orang Hilang"),
-                currentStep = 3
+                currentStep = viewModel.currentStep
             )
         }
 
         item {
-            InformasiOrangYangHilang()
+            InformasiOrangYangHilang(
+                viewModel = viewModel,
+                validationErrors = validationErrors
+            )
         }
     }
 }
 
 @Composable
-private fun InformasiOrangYangHilang() {
+private fun InformasiOrangYangHilang(
+    viewModel: SKGhaibViewModel,
+    validationErrors: Map<String, String>
+) {
     Column {
         SectionTitle("Informasi Orang Hilang")
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        var namaValue by remember { mutableStateOf("Joko Subianto") }
-        var selectedGender by remember { mutableStateOf("Laki-laki") }
-        var usiaValue by remember { mutableStateOf("27 Tahun") }
-        var alamatValue by remember { mutableStateOf("Jl. Kangkung Lemas, Kec. Terong Belanda, Kab. Kebun Subur") }
-        var hilangSejakValue by remember { mutableStateOf("06/05/1973") }
-
         AppTextField(
             label = "Nama Lengkap",
             placeholder = "Masukkan nama lengkap",
-            value = namaValue,
-            onValueChange = { namaValue = it },
-            isError = false,
-            errorMessage = null
+            value = viewModel.namaOrangHilangValue,
+            onValueChange = viewModel::updateNamaOrangHilang,
+            isError = viewModel.hasFieldError("nama_orang_hilang"),
+            errorMessage = viewModel.getFieldError("nama_orang_hilang")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         GenderSelection(
-            selectedGender = selectedGender,
-            onGenderSelected = { selectedGender = it },
-            isError = false,
-            errorMessage = null,
+            selectedGender = viewModel.jenisKelaminValue,
+            onGenderSelected = viewModel::updateJenisKelamin,
+            isError = viewModel.hasFieldError("jenis_kelamin"),
+            errorMessage = viewModel.getFieldError("jenis_kelamin")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        AppTextField(
+        AppNumberField(
             label = "Usia (Tahun)",
             placeholder = "Masukkan usia",
-            value = usiaValue,
-            onValueChange = { usiaValue = it },
-            isError = false,
-            errorMessage = null,
+            value = viewModel.usiaValue,
+            onValueChange = viewModel::updateUsia,
+            isError = viewModel.hasFieldError("usia"),
+            errorMessage = viewModel.getFieldError("usia"),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
 
@@ -90,20 +96,20 @@ private fun InformasiOrangYangHilang() {
         MultilineTextField(
             label = "Alamat Lengkap",
             placeholder = "Masukkan alamat lengkap",
-            value = alamatValue,
-            onValueChange = { alamatValue = it },
-            isError = false,
-            errorMessage = null
+            value = viewModel.alamatValue,
+            onValueChange = viewModel::updateAlamat,
+            isError = viewModel.hasFieldError("alamat"),
+            errorMessage = viewModel.getFieldError("alamat")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         DatePickerField(
             label = "Hilang Sejak",
-            value = hilangSejakValue,
-            onValueChange = { hilangSejakValue = it },
-            isError = false,
-            errorMessage = null,
+            value = viewModel.hilangSejakValue,
+            onValueChange = viewModel::updateHilangSejak,
+            isError = viewModel.hasFieldError("hilang_sejak"),
+            errorMessage = viewModel.getFieldError("hilang_sejak")
         )
     }
 }
