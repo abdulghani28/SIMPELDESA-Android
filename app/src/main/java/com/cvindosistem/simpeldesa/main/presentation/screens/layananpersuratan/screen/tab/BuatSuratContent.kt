@@ -44,13 +44,13 @@ internal fun BuatSuratContent(
         background = MaterialTheme.colorScheme.surfaceBright,
         modifier = modifier
     ) {
-        AppSearchBarAndFilter(
-            placeholder = "Cari Jenis Surat...",
-            value = "",
-            onValueSearch = { },
-            onFilterClick = { },
-            showFilter = true
-        )
+//        AppSearchBarAndFilter(
+//            placeholder = "Cari Jenis Surat...",
+//            value = "",
+//            onValueSearch = { },
+//            onFilterClick = { },
+//            showFilter = true
+//        )
 
         Spacer(modifier = Modifier.height(24.dp))
 
@@ -58,7 +58,7 @@ internal fun BuatSuratContent(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        RecentLetterSection()
+//        RecentLetterSection()
     }
 }
 

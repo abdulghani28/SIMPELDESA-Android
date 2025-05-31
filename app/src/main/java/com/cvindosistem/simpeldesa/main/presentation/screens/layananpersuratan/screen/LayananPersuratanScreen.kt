@@ -48,7 +48,7 @@ fun LayananPersuratanScreen(
                 1 -> SuratSayaContent(
                     modifier = modifier,
                     viewModel = suratSayaViewModel,
-                    navController = navController // Pass navController
+                    navController = navController
                 )
             }
         }

@@ -76,11 +76,8 @@ fun NavGraph(
 ) {
     val isLoggedIn = userPreferences.isLoggedIn()
 
-    val activeModule = userPreferences.getActiveModule() ?: ""
-
     val initialStartDestination = when {
         !isLoggedIn -> Screen.Login.route
-        activeModule.isNotEmpty() -> activeModule
         else -> Screen.MainScreen.route
     }
 
@@ -130,11 +127,13 @@ fun NavGraph(
         composable(Screen.MainScreen.route) {
             val homeViewModel: HomeViewModel = koinViewModel()
             val profileViewModel: ProfileViewModel = koinViewModel()
+            val suratSayaViewModel: SuratSayaViewModel = koinViewModel()
 
             MainScreen(
                 navController = navController,
                 homeViewModel = homeViewModel,
-                profileViewModel = profileViewModel
+                profileViewModel = profileViewModel,
+                suratSayaViewModel = suratSayaViewModel
             )
         }
 

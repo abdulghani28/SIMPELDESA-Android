@@ -361,23 +361,23 @@ private fun AccountSettingsSection(
             modifier = Modifier.padding(bottom = 8.dp)
         )
 
-        SettingsItem(
-            icon = Icons.Default.Lock,
-            title = "Ubah Password",
-            iconTint = MaterialTheme.colorScheme.primary
-        )
-
-        SettingsItem(
-            icon = Icons.Default.Phone,
-            title = "Ubah Nomor Telepon",
-            iconTint = MaterialTheme.colorScheme.primary
-        )
-
-        SettingsItem(
-            icon = Icons.Default.Email,
-            title = "Ubah Alamat Email",
-            iconTint = MaterialTheme.colorScheme.primary
-        )
+//        SettingsItem(
+//            icon = Icons.Default.Lock,
+//            title = "Ubah Password",
+//            iconTint = MaterialTheme.colorScheme.primary
+//        )
+//
+//        SettingsItem(
+//            icon = Icons.Default.Phone,
+//            title = "Ubah Nomor Telepon",
+//            iconTint = MaterialTheme.colorScheme.primary
+//        )
+//
+//        SettingsItem(
+//            icon = Icons.Default.Email,
+//            title = "Ubah Alamat Email",
+//            iconTint = MaterialTheme.colorScheme.primary
+//        )
 
         Spacer(modifier = Modifier.height(8.dp))
 

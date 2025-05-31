@@ -21,6 +21,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.cvindosistem.simpeldesa.R
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SuratSayaViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.main.activity.AktivitasScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.main.home.screen.BerandaScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.main.home.viewmodel.HomeViewModel
@@ -49,7 +50,8 @@ private enum class BottomNavScreen(
 fun MainScreen(
     navController: NavController,
     homeViewModel: HomeViewModel,
-    profileViewModel: ProfileViewModel
+    profileViewModel: ProfileViewModel,
+    suratSayaViewModel: SuratSayaViewModel
 ) {
     val internalNavController = rememberNavController()
     val currentRoute = internalNavController.currentBackStackEntryAsState().value?.destination?.route
@@ -94,7 +96,10 @@ fun MainScreen(
             }
 
             composable(BottomNavScreen.AKTIVITAS.route) {
-                AktivitasScreen(navController = navController)
+                AktivitasScreen(
+                    navController = navController,
+                    suratSayaViewModel = suratSayaViewModel
+                )
             }
 
             composable(BottomNavScreen.PROFIL.route) {

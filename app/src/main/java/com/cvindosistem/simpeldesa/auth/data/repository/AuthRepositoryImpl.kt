@@ -53,11 +53,11 @@ class AuthRepositoryImpl(private val authApi: AuthApi) : AuthRepository {
 
             if (response.isSuccessful) {
                 response.body()?.let {
-                    if (it.message == "success") {
+                    if (it.data == "logout") { // Ubah dari message ke data
                         Log.d("AuthRepository", "Logout successful")
                         return@withContext LogoutResult.Success
                     } else {
-                        Log.e("AuthRepository", "Unexpected logout response: ${it.message}")
+                        Log.e("AuthRepository", "Unexpected logout response: ${it.data}")
                         return@withContext LogoutResult.Error("Unexpected response")
                     }
                 } ?: run {

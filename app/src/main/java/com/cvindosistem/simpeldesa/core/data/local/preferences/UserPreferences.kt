@@ -15,10 +15,7 @@ interface UserPreferences {
     fun getLicenseCode(): String?
     fun hasLicenseCode(): Boolean
 
-    // Active module methods
-    fun saveActiveModule(route: String)
-    fun getActiveModule(): String?
-    fun clearActiveModule()
+    fun clearAllUserData()
 
     // Menu cache methods
     fun saveMenuCache(menuJson: String)
@@ -35,7 +32,6 @@ class UserPreferencesImpl(context: Context) : UserPreferences {
     companion object {
         private const val KEY_AUTH_TOKEN = "auth_token"
         private const val KEY_LICENSE_CODE = "license_code"
-        private const val KEY_ACTIVE_MODULE = "active_module"
         private const val KEY_MENU_CACHE = "menu_cache"
         private const val KEY_MENU_CACHE_TIMESTAMP = "menu_cache_timestamp"
         private const val MENU_CACHE_EXPIRY_HOURS = 24L // Cache expiry in hours
@@ -69,18 +65,6 @@ class UserPreferencesImpl(context: Context) : UserPreferences {
         return getLicenseCode() != null && getLicenseCode()!!.isNotEmpty()
     }
 
-    override fun saveActiveModule(route: String) {
-        sharedPreferences.edit { putString(KEY_ACTIVE_MODULE, route) }
-    }
-
-    override fun getActiveModule(): String? {
-        return sharedPreferences.getString(KEY_ACTIVE_MODULE, null)
-    }
-
-    override fun clearActiveModule() {
-        sharedPreferences.edit { remove(KEY_ACTIVE_MODULE) }
-    }
-
     // Menu cache implementations
     override fun saveMenuCache(menuJson: String) {
         sharedPreferences.edit {
@@ -99,6 +83,16 @@ class UserPreferencesImpl(context: Context) : UserPreferences {
 
     override fun clearMenuCache() {
         sharedPreferences.edit {
+            remove(KEY_MENU_CACHE)
+            remove(KEY_MENU_CACHE_TIMESTAMP)
+        }
+    }
+
+    // Clear all user data on logout
+    override fun clearAllUserData() {
+        sharedPreferences.edit {
+            remove(KEY_AUTH_TOKEN)
+
             remove(KEY_MENU_CACHE)
             remove(KEY_MENU_CACHE_TIMESTAMP)
         }
