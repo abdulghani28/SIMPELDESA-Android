@@ -66,7 +66,7 @@ fun SPPernikahanScreen(
         }
     }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(spPernikahanViewModel.pernikahanEvent) {
         spPernikahanViewModel.pernikahanEvent.collect { event ->
             when (event) {
                 is SPPernikahanViewModel.SPPernikahanEvent.SubmitSuccess -> {
@@ -75,6 +75,10 @@ fun SPPernikahanScreen(
                             inclusive = false
                         }
                     }
+                    snackbarHostState.showSnackbar(
+                        message = "Surat kuasa berhasil diajukan",
+                        duration = SnackbarDuration.Long
+                    )
                 }
                 is SPPernikahanViewModel.SPPernikahanEvent.SubmitError -> {
                     errorDialogTitle = "Gagal Mengirim"

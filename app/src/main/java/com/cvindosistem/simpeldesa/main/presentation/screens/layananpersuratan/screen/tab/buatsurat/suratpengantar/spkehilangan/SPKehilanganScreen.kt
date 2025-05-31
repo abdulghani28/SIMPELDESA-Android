@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -66,7 +67,7 @@ fun SPKehilanganScreen(
         }
     }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(spKehilanganViewModel.kehilanganEvent) {
         spKehilanganViewModel.kehilanganEvent.collect { event ->
             when (event) {
                 is SPKehilanganViewModel.SPKehilanganEvent.SubmitSuccess -> {
@@ -75,6 +76,10 @@ fun SPKehilanganScreen(
                             inclusive = false
                         }
                     }
+                    snackbarHostState.showSnackbar(
+                        message = "Surat kuasa berhasil diajukan",
+                        duration = SnackbarDuration.Long
+                    )
                 }
                 is SPKehilanganViewModel.SPKehilanganEvent.SubmitError -> {
                     errorDialogTitle = "Gagal Mengirim"
@@ -105,10 +110,11 @@ fun SPKehilanganScreen(
     }
     
     Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             Column {
                 AppTopBar(
-                    title = "SK BedaIdentitas",
+                    title = "SP Kehilangan",
                     showBackButton = true,
                     onBackClick = {
                         if (hasFormData) {

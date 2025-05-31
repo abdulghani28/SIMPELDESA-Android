@@ -77,7 +77,7 @@ fun SPCatatanKepolisianScreen(
         }
     }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(spCatatanKepolisianViewModel.catatanKepolisianEvent) {
         spCatatanKepolisianViewModel.catatanKepolisianEvent.collect { event ->
             when (event) {
                 is SPCatatanKepolisianViewModel.SPCatatanKepolisianEvent.SubmitSuccess -> {
@@ -86,6 +86,10 @@ fun SPCatatanKepolisianScreen(
                             inclusive = false
                         }
                     }
+                    snackbarHostState.showSnackbar(
+                        message = "Surat kuasa berhasil diajukan",
+                        duration = SnackbarDuration.Long
+                    )
                 }
                 is SPCatatanKepolisianViewModel.SPCatatanKepolisianEvent.SubmitError -> {
                     errorDialogTitle = "Gagal Mengirim"

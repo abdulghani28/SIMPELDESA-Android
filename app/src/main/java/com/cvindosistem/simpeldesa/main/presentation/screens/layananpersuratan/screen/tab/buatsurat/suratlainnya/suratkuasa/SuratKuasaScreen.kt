@@ -1,64 +1,266 @@
 package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratlainnya.suratkuasa
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.cvindosistem.simpeldesa.core.components.AppBottomBar
 import com.cvindosistem.simpeldesa.core.components.AppStepAnimatedContent
 import com.cvindosistem.simpeldesa.core.components.AppTopBar
+import com.cvindosistem.simpeldesa.core.components.ErrorDialog
+import com.cvindosistem.simpeldesa.core.components.LoadingScreen
+import com.cvindosistem.simpeldesa.main.navigation.Screen
+import com.cvindosistem.simpeldesa.main.presentation.components.BackWarningDialog
+import com.cvindosistem.simpeldesa.main.presentation.components.BaseDialog
+import com.cvindosistem.simpeldesa.main.presentation.components.PreviewItem
+import com.cvindosistem.simpeldesa.main.presentation.components.PreviewSection
+import com.cvindosistem.simpeldesa.main.presentation.components.SubmitConfirmationDialog
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratlainnya.SuratKuasaViewModel
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun SuratKuasaScreen(
+    suratKuasaViewModel: SuratKuasaViewModel,
     navController: NavController
 ) {
-    var currentStep by remember { mutableIntStateOf(1) }
+    val currentStep by remember { derivedStateOf { suratKuasaViewModel.currentStep } }
+    val showConfirmationDialog by remember { derivedStateOf { suratKuasaViewModel.showConfirmationDialog } }
+    val showPreviewDialog by remember { derivedStateOf { suratKuasaViewModel.showPreviewDialog } }
+    val isLoading by remember { derivedStateOf { suratKuasaViewModel.isLoading } }
+    val hasFormData by remember { derivedStateOf { suratKuasaViewModel.hasFormData() } }
     val totalSteps = 2
 
+    // State untuk dialog dan snackbar
+    var showBackWarningDialog by remember { mutableStateOf(false) }
+    var showErrorDialog by remember { mutableStateOf(false) }
+    var errorDialogTitle by remember { mutableStateOf("") }
+    var errorDialogMessage by remember { mutableStateOf("") }
+
+    // State untuk snackbar
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    // Handle back button press dari sistem
+    BackHandler(enabled = hasFormData) {
+        if (hasFormData) {
+            showBackWarningDialog = true
+        } else {
+            navController.popBackStack()
+        }
+    }
+
+    LaunchedEffect(suratKuasaViewModel.kuasaEvent) {
+        suratKuasaViewModel.kuasaEvent.collect { event ->
+            when (event) {
+                is SuratKuasaViewModel.SuratKuasaEvent.SubmitSuccess -> {
+                    navController.navigate(Screen.MainScreen.route) {
+                        popUpTo(Screen.MainScreen.route) {
+                            inclusive = false
+                        }
+                    }
+                    snackbarHostState.showSnackbar(
+                        message = "Surat kuasa berhasil diajukan",
+                        duration = SnackbarDuration.Long
+                    )
+                }
+                is SuratKuasaViewModel.SuratKuasaEvent.SubmitError -> {
+                    errorDialogTitle = "Gagal Mengirim"
+                    errorDialogMessage = event.message
+                    showErrorDialog = true
+                }
+                is SuratKuasaViewModel.SuratKuasaEvent.UserDataLoadError -> {
+                    errorDialogTitle = "Gagal Memuat Data"
+                    errorDialogMessage = event.message
+                    showErrorDialog = true
+                }
+                is SuratKuasaViewModel.SuratKuasaEvent.ValidationError -> {
+                    snackbarHostState.showSnackbar(
+                        message = "Mohon lengkapi semua field yang diperlukan",
+                        duration = SnackbarDuration.Short
+                    )
+                }
+                is SuratKuasaViewModel.SuratKuasaEvent.StepChanged -> {
+                    // Optional: Show step change feedback
+                    snackbarHostState.showSnackbar(
+                        message = "Beralih ke langkah ${event.step}",
+                        duration = SnackbarDuration.Short
+                    )
+                }
+                else -> { /* Handle other events */ }
+            }
+        }
+    }
+
     Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             Column {
                 AppTopBar(
                     title = "Surat Kuasa",
                     showBackButton = true,
-                    onBackClick = { navController.popBackStack() }
+                    onBackClick = {
+                        if (hasFormData) {
+                            showBackWarningDialog = true
+                        } else {
+                            navController.popBackStack()
+                        }
+                    }
                 )
             }
         },
         bottomBar = {
             AppBottomBar(
                 onPreviewClick = {
-                    // Handle preview - selalu ada
+                    suratKuasaViewModel.showPreview()
                 },
                 onBackClick = if (currentStep > 1) {
-                    { currentStep -= 1 }
+                    { suratKuasaViewModel.previousStep() }
                 } else null,
                 onContinueClick = if (currentStep < totalSteps) {
-                    { currentStep += 1 }
+                    { suratKuasaViewModel.nextStep() }
                 } else null,
                 onSubmitClick = if (currentStep == totalSteps) {
-                    {
-                        // Handle final submit - Ajukan Surat
-                    }
-                } else null,
+                    { suratKuasaViewModel.showConfirmationDialog() }
+                } else null
             )
         }
     ) { paddingValues ->
-        AppStepAnimatedContent(
-            currentStep = currentStep,
-            modifier = Modifier.padding(paddingValues)
-        ) { step ->
-            when (step) {
-                1 -> SuratKuasa1Content()
-                2 -> SuratKuasa2Content()
+        Box(modifier = Modifier.padding(paddingValues)) {
+            AppStepAnimatedContent(
+                currentStep = currentStep,
+                modifier = Modifier.fillMaxSize()
+            ) { step ->
+                when (step) {
+                    1 -> SuratKuasa1Content(
+                        viewModel = suratKuasaViewModel,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                    2 -> SuratKuasa2Content(
+                        viewModel = suratKuasaViewModel,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
+            }
+
+            // Preview Dialog
+            if (showPreviewDialog) {
+                PreviewDialog(
+                    viewModel = suratKuasaViewModel,
+                    onDismiss = {
+                        suratKuasaViewModel.dismissPreview()
+                    },
+                    onSubmit = {
+                        suratKuasaViewModel.dismissPreview()
+                        suratKuasaViewModel.showConfirmationDialog()
+                    }
+                )
+            }
+
+            // Confirmation Dialog
+            if (showConfirmationDialog) {
+                SubmitConfirmationDialog(
+                    onConfirm = {
+                        suratKuasaViewModel.confirmSubmit()
+                    },
+                    onDismiss = {
+                        suratKuasaViewModel.dismissConfirmationDialog()
+                    },
+                    onPreview = {
+                        suratKuasaViewModel.dismissConfirmationDialog()
+                        suratKuasaViewModel.showPreview()
+                    }
+                )
+            }
+
+            // Back Warning Dialog
+            if (showBackWarningDialog) {
+                BackWarningDialog(
+                    onConfirm = {
+                        showBackWarningDialog = false
+                        navController.popBackStack()
+                    },
+                    onDismiss = {
+                        showBackWarningDialog = false
+                    }
+                )
+            }
+
+            // Error Dialog
+            if (showErrorDialog) {
+                ErrorDialog(
+                    title = errorDialogTitle,
+                    message = errorDialogMessage,
+                    onDismiss = {
+                        showErrorDialog = false
+                        suratKuasaViewModel.clearError()
+                    }
+                )
+            }
+
+            // Loading Overlay
+            if (isLoading) {
+                LoadingScreen()
+            }
+        }
+    }
+}
+
+@Composable
+private fun PreviewDialog(
+    viewModel: SuratKuasaViewModel,
+    onDismiss: () -> Unit,
+    onSubmit: () -> Unit
+) {
+    BaseDialog(
+        title = "Preview Data",
+        onDismiss = onDismiss,
+        onSubmit = onSubmit,
+        submitText = "Ajukan Sekarang",
+        dismissText = "Tutup"
+    ) {
+        LazyColumn(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            item {
+                PreviewSection(
+                    title = "Informasi Pemberi Kuasa",
+                    content = {
+                        PreviewItem("NIK", viewModel.nikValue)
+                        PreviewItem("Nama Lengkap", viewModel.namaValue)
+                        PreviewItem("Jabatan", viewModel.jabatanValue)
+                        PreviewItem("Disposisi Kuasa Sebagai", viewModel.kuasaSebagaiValue)
+                        PreviewItem("Disposisi Kuasa Untuk", viewModel.kuasaUntukValue)
+                    }
+                )
+            }
+            item {
+                PreviewSection(
+                    title = "Informasi Penerima Kuasa",
+                    content = {
+                        PreviewItem("NIK", viewModel.nikPenerimaValue)
+                        PreviewItem("Nama Lengkap", viewModel.namaPenerimaValue)
+                        PreviewItem("Jabatan", viewModel.jabatanPenerima)
+                    }
+                )
             }
         }
     }

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -17,11 +18,15 @@ import com.cvindosistem.simpeldesa.core.components.AppTextField
 import com.cvindosistem.simpeldesa.core.components.FormSectionList
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
 import com.cvindosistem.simpeldesa.core.components.StepIndicator
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratlainnya.SuratKuasaViewModel
 
 @Composable
 internal fun SuratKuasa2Content(
+    viewModel: SuratKuasaViewModel,
     modifier: Modifier = Modifier
 ) {
+    val validationErrors by viewModel.validationErrors.collectAsState()
+
     FormSectionList(
         modifier = modifier,
         background = MaterialTheme.colorScheme.background
@@ -29,34 +34,36 @@ internal fun SuratKuasa2Content(
         item {
             StepIndicator(
                 steps = listOf("Informasi Pemberi Kuasa", "Informasi Penerima Kuasa"),
-                currentStep = 2
+                currentStep = viewModel.currentStep
             )
         }
 
         item {
-            InformasiPenerimaKuasa()
+            InformasiPenerimaKuasa(
+                viewModel = viewModel,
+                validationErrors = validationErrors
+            )
         }
     }
 }
 
 @Composable
-private fun InformasiPenerimaKuasa() {
+private fun InformasiPenerimaKuasa(
+    viewModel: SuratKuasaViewModel,
+    validationErrors: Map<String, String>
+) {
     Column {
         SectionTitle("Informasi Penerima Kuasa")
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        var nikValue by remember { mutableStateOf("") }
-        var namaValue by remember { mutableStateOf("") }
-        var jabatanValue by remember { mutableStateOf("") }
-
         AppTextField(
             label = "Nomor Induk Kependudukan (NIK)",
             placeholder = "Masukkan NIK penerima kuasa",
-            value = nikValue,
-            onValueChange = { nikValue = it },
-            isError = false,
-            errorMessage = "",
+            value = viewModel.nikPenerimaValue,
+            onValueChange = viewModel::updateNikPenerima,
+            isError = viewModel.hasFieldError("nik_penerima"),
+            errorMessage = viewModel.getFieldError("nik_penerima"),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
 
@@ -65,10 +72,10 @@ private fun InformasiPenerimaKuasa() {
         AppTextField(
             label = "Nama Lengkap",
             placeholder = "Masukkan nama lengkap penerima kuasa",
-            value = namaValue,
-            onValueChange = { namaValue = it },
-            isError = false,
-            errorMessage = ""
+            value = viewModel.namaPenerimaValue,
+            onValueChange = viewModel::updateNamaPenerima,
+            isError = viewModel.hasFieldError("nama_penerima"),
+            errorMessage = viewModel.getFieldError("nama_penerima")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -76,10 +83,10 @@ private fun InformasiPenerimaKuasa() {
         AppTextField(
             label = "Jabatan",
             placeholder = "Masukkan jabatan penerima kuasa",
-            value = jabatanValue,
-            onValueChange = { jabatanValue = it },
-            isError = false,
-            errorMessage = ""
+            value = viewModel.jabatanPenerima,
+            onValueChange = viewModel::updateJabatanPenerima,
+            isError = viewModel.hasFieldError("jabatan_penerima"),
+            errorMessage = viewModel.getFieldError("jabatan_penerima")
         )
     }
 }

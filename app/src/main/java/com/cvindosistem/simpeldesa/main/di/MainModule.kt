@@ -36,6 +36,8 @@ import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.v
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpengantar.SPPernikahanViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratrekomendasi.SRKeramaianViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SuratSayaViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratlainnya.SuratKuasaViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratlainnya.SuratTugasViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpengantar.SPKehilanganViewModel
 import com.google.gson.Gson
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -83,4 +85,6 @@ val mainModule = module {
     viewModel { SPCatatanKepolisianViewModel(get(), get()) }
     viewModel { SPPernikahanViewModel(get(), get(), get(), get()) }
     viewModel { SPKehilanganViewModel(get(), get()) }
+    viewModel { SuratKuasaViewModel(get(), get()) }
+    viewModel { SuratTugasViewModel(get(), get()) }
 }

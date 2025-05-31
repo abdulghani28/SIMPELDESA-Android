@@ -67,7 +67,7 @@ fun SRKeramaianScreen(
         }
     }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(srKeramaianViewModel.keramaianEvent) {
         srKeramaianViewModel.keramaianEvent.collect { event ->
             when (event) {
                 is SRKeramaianViewModel.SRKeramaianEvent.SubmitSuccess -> {
@@ -76,6 +76,10 @@ fun SRKeramaianScreen(
                             inclusive = false
                         }
                     }
+                    snackbarHostState.showSnackbar(
+                        message = "Surat kuasa berhasil diajukan",
+                        duration = SnackbarDuration.Long
+                    )
                 }
                 is SRKeramaianViewModel.SRKeramaianEvent.SubmitError -> {
                     errorDialogTitle = "Gagal Mengirim"

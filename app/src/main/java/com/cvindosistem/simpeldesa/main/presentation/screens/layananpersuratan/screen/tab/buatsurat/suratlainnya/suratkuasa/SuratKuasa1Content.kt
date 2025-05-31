@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -19,12 +20,15 @@ import com.cvindosistem.simpeldesa.core.components.FormSectionList
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
 import com.cvindosistem.simpeldesa.core.components.StepIndicator
 import com.cvindosistem.simpeldesa.core.components.UseMyDataCheckbox
-
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratlainnya.SuratKuasaViewModel
 
 @Composable
 internal fun SuratKuasa1Content(
+    viewModel: SuratKuasaViewModel,
     modifier: Modifier = Modifier
 ) {
+    val validationErrors by viewModel.validationErrors.collectAsState()
+
     FormSectionList(
         modifier = modifier,
         background = MaterialTheme.colorScheme.background
@@ -32,40 +36,44 @@ internal fun SuratKuasa1Content(
         item {
             StepIndicator(
                 steps = listOf("Informasi Pemberi Kuasa", "Informasi Penerima Kuasa"),
-                currentStep = 1
+                currentStep = viewModel.currentStep
             )
         }
 
         item {
-            UseMyDataCheckbox()
+            UseMyDataCheckbox(
+                checked = viewModel.useMyDataChecked,
+                onCheckedChange = viewModel::updateUseMyData,
+                isLoading = viewModel.isLoadingUserData
+            )
         }
 
         item {
-            InformasiPemberiKuasa()
+            InformasiPemberiKuasa(
+                viewModel = viewModel,
+                validationErrors = validationErrors
+            )
         }
     }
 }
 
 @Composable
-private fun InformasiPemberiKuasa() {
+private fun InformasiPemberiKuasa(
+    viewModel: SuratKuasaViewModel,
+    validationErrors: Map<String, String>
+) {
     Column {
         SectionTitle("Informasi Pemberi Kuasa")
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        var nikValue by remember { mutableStateOf("") }
-        var namaValue by remember { mutableStateOf("") }
-        var jabatanValue by remember { mutableStateOf("") }
-        var disposisiSebagaiValue by remember { mutableStateOf("") }
-        var disposisiUntukValue by remember { mutableStateOf("") }
-
         AppTextField(
             label = "Nomor Induk Kependudukan (NIK)",
             placeholder = "Masukkan NIK",
-            value = nikValue,
-            onValueChange = { nikValue = it },
-            isError = false,
-            errorMessage = "",
+            value = viewModel.nikValue,
+            onValueChange = viewModel::updateNik,
+            isError = viewModel.hasFieldError("nik"),
+            errorMessage = viewModel.getFieldError("nik"),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
 
@@ -74,10 +82,10 @@ private fun InformasiPemberiKuasa() {
         AppTextField(
             label = "Nama Lengkap",
             placeholder = "Masukkan nama lengkap",
-            value = namaValue,
-            onValueChange = { namaValue = it },
-            isError = false,
-            errorMessage = ""
+            value = viewModel.namaValue,
+            onValueChange = viewModel::updateNama,
+            isError = viewModel.hasFieldError("nama"),
+            errorMessage = viewModel.getFieldError("nama")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -85,21 +93,21 @@ private fun InformasiPemberiKuasa() {
         AppTextField(
             label = "Jabatan",
             placeholder = "Masukkan jabatan",
-            value = jabatanValue,
-            onValueChange = { jabatanValue = it },
-            isError = false,
-            errorMessage = ""
+            value = viewModel.jabatanValue,
+            onValueChange = viewModel::updateJabatan,
+            isError = viewModel.hasFieldError("jabatan"),
+            errorMessage = viewModel.getFieldError("jabatan")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        DropdownField(
+        AppTextField(
             label = "Disposisi Kuasa Sebagai",
-            value = disposisiSebagaiValue,
-            onValueChange = { disposisiSebagaiValue = it },
-            options = listOf("Kepala Dusun", "Sekretaris Desa", "Bendahara", "Staff", "Lainnya"),
-            isError = false,
-            errorMessage = null,
+            placeholder = "Masukkan peran pemberian kuasa",
+            value = viewModel.kuasaSebagaiValue,
+            onValueChange = viewModel::updateKuasaSebagai,
+            isError = viewModel.hasFieldError("kuasa_sebagai"),
+            errorMessage = viewModel.getFieldError("kuasa_sebagai")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -107,10 +115,10 @@ private fun InformasiPemberiKuasa() {
         AppTextField(
             label = "Disposisi Kuasa Untuk",
             placeholder = "Masukkan tujuan pemberian kuasa",
-            value = disposisiUntukValue,
-            onValueChange = { disposisiUntukValue = it },
-            isError = false,
-            errorMessage = ""
+            value = viewModel.kuasaUntukValue,
+            onValueChange = viewModel::updateKuasaUntuk,
+            isError = viewModel.hasFieldError("kuasa_untuk"),
+            errorMessage = viewModel.getFieldError("kuasa_untuk")
         )
     }
 }
