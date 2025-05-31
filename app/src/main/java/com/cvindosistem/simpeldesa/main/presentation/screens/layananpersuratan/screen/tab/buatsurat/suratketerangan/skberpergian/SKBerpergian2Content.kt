@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -16,17 +17,22 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.cvindosistem.simpeldesa.core.components.AppNumberField
 import com.cvindosistem.simpeldesa.core.components.AppTextField
 import com.cvindosistem.simpeldesa.core.components.DatePickerField
 import com.cvindosistem.simpeldesa.core.components.DropdownField
 import com.cvindosistem.simpeldesa.core.components.FormSectionList
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
 import com.cvindosistem.simpeldesa.core.components.StepIndicator
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.SKBerpergianViewModel
 
 @Composable
 internal fun SKBerpergian2Content(
+    viewModel: SKBerpergianViewModel,
     modifier: Modifier = Modifier
 ) {
+    val validationErrors by viewModel.validationErrors.collectAsState()
+
     FormSectionList(
         modifier = modifier,
         background = MaterialTheme.colorScheme.background
@@ -34,48 +40,47 @@ internal fun SKBerpergian2Content(
         item {
             StepIndicator(
                 steps = listOf("Informasi Pelapor", "Informasi Kepergian", "Informasi Pelengkap"),
-                currentStep = 2
+                currentStep = viewModel.currentStep
             )
         }
 
         item {
-            InformasiKepergian()
+            InformasiKepergian(
+                viewModel = viewModel,
+                validationErrors = validationErrors
+            )
         }
     }
 }
 
 @Composable
-private fun InformasiKepergian() {
+private fun InformasiKepergian(
+    viewModel: SKBerpergianViewModel,
+    validationErrors: Map<String, String>
+) {
     Column {
         SectionTitle("Informasi Kepergian")
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        var tempatTujuanValue by remember { mutableStateOf("") }
-        var maksudTujuanValue by remember { mutableStateOf("") }
-        var jumlahWaktuValue by remember { mutableStateOf("") }
-        var satuanWaktuValue by remember { mutableStateOf("") }
-        var tanggalKeberangkatanValue by remember { mutableStateOf("") }
-        var jumlahPengikutValue by remember { mutableStateOf("") }
-
         AppTextField(
             label = "Tempat Tujuan",
-            placeholder = "Masukkan tempat tujuam",
-            value = tempatTujuanValue,
-            onValueChange = { tempatTujuanValue = it },
-            isError = false,
-            errorMessage = null
+            placeholder = "Masukkan tempat tujuan",
+            value = viewModel.tempatTujuanValue,
+            onValueChange = viewModel::updateTempatTujuan,
+            isError = viewModel.hasFieldError("tempat_tujuan"),
+            errorMessage = viewModel.getFieldError("tempat_tujuan")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         AppTextField(
             label = "Maksud Tujuan",
-            placeholder = "Masukkan maksud tujuam",
-            value = maksudTujuanValue,
-            onValueChange = { maksudTujuanValue = it },
-            isError = false,
-            errorMessage = null
+            placeholder = "Masukkan maksud tujuan",
+            value = viewModel.maksudTujuanValue,
+            onValueChange = viewModel::updateMaksudTujuan,
+            isError = viewModel.hasFieldError("maksud_tujuan"),
+            errorMessage = viewModel.getFieldError("maksud_tujuan")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -85,13 +90,13 @@ private fun InformasiKepergian() {
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Column(modifier = Modifier.weight(1f)) {
-                AppTextField(
+                AppNumberField(
                     label = "Lamanya",
                     placeholder = "0",
-                    value = jumlahWaktuValue,
-                    onValueChange = { jumlahWaktuValue = it },
-                    isError = false,
-                    errorMessage = null,
+                    value = viewModel.lamaValue,
+                    onValueChange = viewModel::updateLama,
+                    isError = viewModel.hasFieldError("lama"),
+                    errorMessage = viewModel.getFieldError("lama"),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                 )
             }
@@ -99,11 +104,11 @@ private fun InformasiKepergian() {
             Column(modifier = Modifier.weight(1f)) {
                 DropdownField(
                     label = "",
-                    value = satuanWaktuValue,
-                    onValueChange = { satuanWaktuValue = it },
-                    options = listOf("Jam", "Hari", "Bulan"),
-                    isError = false,
-                    errorMessage = null,
+                    value = viewModel.satuanLamaValue,
+                    onValueChange = viewModel::updateSatuanLama,
+                    options = listOf("hari", "bulan", "tahun"),
+                    isError = viewModel.hasFieldError("satuan_lama"),
+                    errorMessage = viewModel.getFieldError("satuan_lama")
                 )
             }
         }
@@ -112,10 +117,10 @@ private fun InformasiKepergian() {
 
         DatePickerField(
             label = "Tanggal Keberangkatan",
-            value = tanggalKeberangkatanValue,
-            onValueChange = { tanggalKeberangkatanValue = it },
-            isError = false,
-            errorMessage = null,
+            value = viewModel.tanggalKeberangkatanValue,
+            onValueChange = viewModel::updateTanggalKeberangkatan,
+            isError = viewModel.hasFieldError("tanggal_keberangkatan"),
+            errorMessage = viewModel.getFieldError("tanggal_keberangkatan")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -123,10 +128,10 @@ private fun InformasiKepergian() {
         AppTextField(
             label = "Jumlah Pengikut (Orang)",
             placeholder = "0",
-            value = jumlahPengikutValue,
-            onValueChange = { jumlahPengikutValue = it },
-            isError = false,
-            errorMessage = null,
+            value = viewModel.jumlahPengikutValue,
+            onValueChange = viewModel::updateJumlahPengikut,
+            isError = viewModel.hasFieldError("jumlah_pengikut"),
+            errorMessage = viewModel.getFieldError("jumlah_pengikut"),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
     }
