@@ -7,6 +7,7 @@ data class SKStatusPerkawinanRequest(
     val jenis_kelamin: String,
     val keperluan: String,
     val nama: String,
+    val status_kawin_id: String,
     val nik: String,
     val pekerjaan: String,
     val tanggal_lahir: String,

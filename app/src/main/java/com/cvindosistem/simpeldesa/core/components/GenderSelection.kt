@@ -85,8 +85,8 @@ internal fun StatusPerkawinanSelection(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 RadioButton(
-                    selected = selectedStatus == "Kawin",
-                    onClick = { onStatusSelected("Kawin") },
+                    selected = selectedStatus == "KAWIN",
+                    onClick = { onStatusSelected("KAWIN") },
                     colors = RadioButtonDefaults.colors(
                         selectedColor = MaterialTheme.colorScheme.primary
                     )
@@ -98,8 +98,8 @@ internal fun StatusPerkawinanSelection(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 RadioButton(
-                    selected = selectedStatus == "Belum Kawin",
-                    onClick = { onStatusSelected("Belum Kawin") },
+                    selected = selectedStatus == "BELUM_KAWIN",
+                    onClick = { onStatusSelected("BELUM_KAWIN") },
                     colors = RadioButtonDefaults.colors(
                         selectedColor = MaterialTheme.colorScheme.primary
                     )

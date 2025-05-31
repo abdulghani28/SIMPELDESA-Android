@@ -36,6 +36,7 @@ import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.v
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpengantar.SPPernikahanViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratrekomendasi.SRKeramaianViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SuratSayaViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.SKStatusPerkawinanViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.SKTidakMampuViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratlainnya.SuratKuasaViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratlainnya.SuratTugasViewModel
@@ -89,4 +90,5 @@ val mainModule = module {
     viewModel { SuratKuasaViewModel(get(), get()) }
     viewModel { SuratTugasViewModel(get(), get()) }
     viewModel { SKTidakMampuViewModel(get(), get(), get(), get()) }
+    viewModel { SKStatusPerkawinanViewModel(get(), get(), get(), get()) }
 }

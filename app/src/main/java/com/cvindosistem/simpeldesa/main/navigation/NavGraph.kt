@@ -40,6 +40,7 @@ import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.v
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpengantar.SPPernikahanViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratrekomendasi.SRKeramaianViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SuratSayaViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.SKStatusPerkawinanViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.SKTidakMampuViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratlainnya.SuratKuasaViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratlainnya.SuratTugasViewModel
@@ -210,7 +211,9 @@ fun NavGraph(
         }
 
         composable(Screen.SKStatusPerkawinan.route) {
+            val skStatusPerkawinanViewModel: SKStatusPerkawinanViewModel = koinViewModel()
             SKStatusPerkawinanScreen(
+                sKStatusPerkawinanViewModel = skStatusPerkawinanViewModel,
                 navController = navController
             )
         }
