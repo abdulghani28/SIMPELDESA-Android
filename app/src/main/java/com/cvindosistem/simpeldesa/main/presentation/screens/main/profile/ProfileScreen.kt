@@ -260,6 +260,21 @@ private fun ProfileHeaderWithExpandableInfo(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 ProfileInfoItem(
+                    label = "Dusun",
+                    value = uiState.dusun
+                )
+
+                ProfileInfoItem(
+                    label = "RT",
+                    value = uiState.rt
+                )
+
+                ProfileInfoItem(
+                    label = "RW",
+                    value = uiState.rw
+                )
+
+                ProfileInfoItem(
                     label = "Tempat & Tanggal Lahir",
                     value = uiState.tempatTanggalLahir
                 )
