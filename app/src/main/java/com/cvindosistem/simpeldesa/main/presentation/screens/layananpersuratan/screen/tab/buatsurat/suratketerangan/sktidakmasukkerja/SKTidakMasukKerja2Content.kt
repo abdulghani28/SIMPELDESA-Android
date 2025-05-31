@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -16,17 +17,22 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.cvindosistem.simpeldesa.core.components.AppNumberField
 import com.cvindosistem.simpeldesa.core.components.AppTextField
 import com.cvindosistem.simpeldesa.core.components.DatePickerField
 import com.cvindosistem.simpeldesa.core.components.FormSectionList
 import com.cvindosistem.simpeldesa.core.components.MultilineTextField
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
 import com.cvindosistem.simpeldesa.core.components.StepIndicator
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.SKTidakMasukKerjaViewModel
 
 @Composable
 internal fun SKTidakMasukKerja2Content(
+    viewModel: SKTidakMasukKerjaViewModel,
     modifier: Modifier = Modifier
 ) {
+    val validationErrors by viewModel.validationErrors.collectAsState()
+
     FormSectionList(
         modifier = modifier,
         background = MaterialTheme.colorScheme.background
@@ -39,31 +45,31 @@ internal fun SKTidakMasukKerja2Content(
         }
 
         item {
-            InformasiPerusahaan()
+            InformasiPerusahaan(
+                viewModel = viewModel,
+                validationErrors = validationErrors
+            )
         }
     }
 }
 
 @Composable
-private fun InformasiPerusahaan() {
+private fun InformasiPerusahaan(
+    viewModel: SKTidakMasukKerjaViewModel,
+    validationErrors: Map<String, String>
+) {
     Column {
         SectionTitle("Informasi Perusahaan")
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        var namaPerusahaanValue by remember { mutableStateOf("") }
-        var jabatanValue by remember { mutableStateOf("") }
-        var lamaIzinValue by remember { mutableStateOf("") }
-        var tanggalIzinValue by remember { mutableStateOf("") }
-        var alasanIzinValue by remember { mutableStateOf("") }
-
         AppTextField(
             label = "Nama Perusahaan",
             placeholder = "Masukkan nama perusahaan",
-            value = namaPerusahaanValue,
-            onValueChange = { namaPerusahaanValue = it },
-            isError = false,
-            errorMessage = null
+            value = viewModel.namaPerusahaanValue,
+            onValueChange = viewModel::updateNamaPerusahaan,
+            isError = viewModel.hasFieldError("nama_perusahaan"),
+            errorMessage = viewModel.getFieldError("nama_perusahaan"),
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -71,10 +77,10 @@ private fun InformasiPerusahaan() {
         AppTextField(
             label = "Jabatan",
             placeholder = "Masukkan jabatan",
-            value = jabatanValue,
-            onValueChange = { jabatanValue = it },
-            isError = false,
-            errorMessage = null
+            value = viewModel.jabatanValue,
+            onValueChange = viewModel::updateJabatan,
+            isError = viewModel.hasFieldError("jabatan"),
+            errorMessage = viewModel.getFieldError("jabatan"),
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -84,13 +90,13 @@ private fun InformasiPerusahaan() {
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Column(modifier = Modifier.weight(1f)) {
-                AppTextField(
+                AppNumberField(
                     label = "Lama Izin",
                     placeholder = "0",
-                    value = lamaIzinValue,
-                    onValueChange = { lamaIzinValue = it },
-                    isError = false,
-                    errorMessage = null,
+                    value = viewModel.lamaValue,
+                    onValueChange = viewModel::updateLama,
+                    isError = viewModel.hasFieldError("lama"),
+                    errorMessage = viewModel.getFieldError("lama"),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                 )
             }
@@ -98,10 +104,10 @@ private fun InformasiPerusahaan() {
             Column(modifier = Modifier.weight(1f)) {
                 DatePickerField(
                     label = "Terhitung dari tanggal",
-                    value = tanggalIzinValue,
-                    onValueChange = { tanggalIzinValue = it },
-                    isError = false,
-                    errorMessage = null,
+                    value = viewModel.terhitungDariValue,
+                    onValueChange = viewModel::updateTerhitungDari,
+                    isError = viewModel.hasFieldError("terhitung_dari"),
+                    errorMessage = viewModel.getFieldError("terhitung_dari"),
                 )
             }
         }
@@ -111,10 +117,10 @@ private fun InformasiPerusahaan() {
         MultilineTextField(
             label = "Alasan Izin",
             placeholder = "Masukkan alasan",
-            value = alasanIzinValue,
-            onValueChange = { alasanIzinValue = it },
-            isError = false,
-            errorMessage = null
+            value = viewModel.alasanIzinValue,
+            onValueChange = viewModel::updateAlasanIzin,
+            isError = viewModel.hasFieldError("alasan_izin"),
+            errorMessage = viewModel.getFieldError("alasan_izin"),
         )
     }
 }

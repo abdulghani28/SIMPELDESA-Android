@@ -18,7 +18,6 @@ import com.cvindosistem.simpeldesa.main.domain.model.SuratUsahaResult
 import com.cvindosistem.simpeldesa.main.domain.usecases.BidangUsahaUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratUsahaUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.JenisUsahaUseCase
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.SKDomisiliViewModel.SKDomisiliEvent.*
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -716,7 +715,6 @@ class SKUsahaViewModel(
 
     // Get current step for UI
     fun getCurrentStepForUI(): Int = getCurrentStep()
-    fun getTotalStepsForUI(): Int = getTotalSteps()
 
     // Get preview data
     fun getPreviewData(): Map<String, String> {

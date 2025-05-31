@@ -9,71 +9,74 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.cvindosistem.simpeldesa.core.components.GenderSelection
 import com.cvindosistem.simpeldesa.core.components.AppTextField
 import com.cvindosistem.simpeldesa.core.components.DatePickerField
 import com.cvindosistem.simpeldesa.core.components.DropdownField
 import com.cvindosistem.simpeldesa.core.components.FormSectionList
+import com.cvindosistem.simpeldesa.core.components.GenderSelection
 import com.cvindosistem.simpeldesa.core.components.MultilineTextField
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
 import com.cvindosistem.simpeldesa.core.components.StepIndicator
 import com.cvindosistem.simpeldesa.core.components.UseMyDataCheckbox
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.SKTidakMasukKerjaViewModel
 
 @Composable
 internal fun SKTidakMasukKerja1Content(
+    viewModel: SKTidakMasukKerjaViewModel,
     modifier: Modifier = Modifier
 ) {
+    val validationErrors by viewModel.validationErrors.collectAsState()
+
     FormSectionList(
         modifier = modifier,
         background = MaterialTheme.colorScheme.background
     ) {
         item {
             StepIndicator(
-                steps = listOf("Informasi Pelapor", "Informasi Perusahaan"),
-                currentStep = 1
+                steps = listOf("Informasi Pelapor", "Informasi Barang Hilang"),
+                currentStep = viewModel.currentStep
             )
         }
 
         item {
-            UseMyDataCheckbox()
+            UseMyDataCheckbox(
+                checked = viewModel.useMyDataChecked,
+                onCheckedChange = viewModel::updateUseMyData,
+                isLoading = viewModel.isLoadingUserData
+            )
         }
 
         item {
-            InformasiPelapor()
+            InformasiPelapor(
+                viewModel = viewModel,
+                validationErrors = validationErrors
+            )
         }
     }
 }
 
 @Composable
-private fun InformasiPelapor() {
+private fun InformasiPelapor(
+    viewModel: SKTidakMasukKerjaViewModel,
+    validationErrors: Map<String, String>
+) {
     Column {
         SectionTitle("Informasi Pelapor")
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        var nikValue by remember { mutableStateOf("") }
-        var namaValue by remember { mutableStateOf("") }
-        var tempatLahirValue by remember { mutableStateOf("") }
-        var tanggalLahirValue by remember { mutableStateOf("") }
-        var selectedGender by remember { mutableStateOf("") }
-        var agamaValue by remember { mutableStateOf("") }
-        var pekerjaanValue by remember { mutableStateOf("") }
-        var alamatValue by remember { mutableStateOf("") }
-
         AppTextField(
             label = "Nomor Induk Kependudukan (NIK)",
             placeholder = "Masukkan NIK",
-            value = nikValue,
-            onValueChange = { nikValue = it },
-            isError = false,
-            errorMessage = null,
+            value = viewModel.nikValue,
+            onValueChange = viewModel::updateNik,
+            isError = viewModel.hasFieldError("nik"),
+            errorMessage = viewModel.getFieldError("nik"),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
 
@@ -82,10 +85,10 @@ private fun InformasiPelapor() {
         AppTextField(
             label = "Nama Lengkap",
             placeholder = "Masukkan nama lengkap",
-            value = namaValue,
-            onValueChange = { namaValue = it },
-            isError = false,
-            errorMessage = null
+            value = viewModel.namaValue,
+            onValueChange = viewModel::updateNama,
+            isError = viewModel.hasFieldError("nama"),
+            errorMessage = viewModel.getFieldError("nama")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -98,20 +101,20 @@ private fun InformasiPelapor() {
                 AppTextField(
                     label = "Tempat Lahir",
                     placeholder = "Tempat lahir",
-                    value = tempatLahirValue,
-                    onValueChange = { tempatLahirValue = it },
-                    isError = false,
-                    errorMessage = null
+                    value = viewModel.tempatLahirValue,
+                    onValueChange = viewModel::updateTempatLahir,
+                    isError = viewModel.hasFieldError("tempat_lahir"),
+                    errorMessage = viewModel.getFieldError("tempat_lahir")
                 )
             }
 
             Column(modifier = Modifier.weight(1f)) {
                 DatePickerField(
                     label = "Tanggal Lahir",
-                    value = tanggalLahirValue,
-                    onValueChange = { tanggalLahirValue = it },
-                    isError = false,
-                    errorMessage = null,
+                    value = viewModel.tanggalLahirValue,
+                    onValueChange = viewModel::updateTanggalLahir,
+                    isError = viewModel.hasFieldError("tanggal_lahir"),
+                    errorMessage = viewModel.getFieldError("tanggal_lahir"),
                 )
             }
         }
@@ -119,21 +122,25 @@ private fun InformasiPelapor() {
         Spacer(modifier = Modifier.height(16.dp))
 
         GenderSelection(
-            selectedGender = selectedGender,
-            onGenderSelected = { selectedGender = it },
-            isError = false,
-            errorMessage = null,
+            selectedGender = viewModel.jenisKelaminValue,
+            onGenderSelected = viewModel::updateJenisKelamin,
+            isError = viewModel.hasFieldError("jenis_kelamin"),
+            errorMessage = viewModel.getFieldError("jenis_kelamin"),
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         DropdownField(
             label = "Agama",
-            value = agamaValue,
-            onValueChange = { agamaValue = it },
-            options = listOf("Islam", "Kristen", "Katolik", "Hindu", "Buddha", "Konghucu"),
-            isError = false,
-            errorMessage = null,
+            value = viewModel.agamaList.find { it.id == viewModel.agamaIdValue }?.nama.orEmpty(),
+            onValueChange = { selectedNama ->
+                val selected = viewModel.agamaList.find { it.nama == selectedNama }
+                selected?.let { viewModel.updateAgamaId(it.id) }
+            },
+            options = viewModel.agamaList.map { it.nama },
+            isError = viewModel.hasFieldError("agama_id"),
+            errorMessage = viewModel.getFieldError("agama_id"),
+            onDropdownExpanded = viewModel::loadAgama
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -141,10 +148,10 @@ private fun InformasiPelapor() {
         AppTextField(
             label = "Pekerjaan",
             placeholder = "Masukkan pekerjaan",
-            value = pekerjaanValue,
-            onValueChange = { pekerjaanValue = it },
-            isError = false,
-            errorMessage = null
+            value = viewModel.pekerjaanValue,
+            onValueChange = viewModel::updatePekerjaan,
+            isError = viewModel.hasFieldError("pekerjaan"),
+            errorMessage = viewModel.getFieldError("pekerjaan")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -152,10 +159,10 @@ private fun InformasiPelapor() {
         MultilineTextField(
             label = "Alamat Lengkap",
             placeholder = "Masukkan alamat lengkap",
-            value = alamatValue,
-            onValueChange = { alamatValue = it },
-            isError = false,
-            errorMessage = null
+            value = viewModel.alamatValue,
+            onValueChange = viewModel::updateAlamat,
+            isError = viewModel.hasFieldError("alamat"),
+            errorMessage = viewModel.getFieldError("alamat")
         )
     }
 }
