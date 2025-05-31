@@ -1,6 +1,7 @@
 package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -15,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.cvindosistem.simpeldesa.core.components.AppCard
 import com.cvindosistem.simpeldesa.core.components.AppContainer
 import com.cvindosistem.simpeldesa.core.components.AppSearchBarAndFilter
@@ -22,6 +24,7 @@ import com.cvindosistem.simpeldesa.core.components.BodySmallText
 import com.cvindosistem.simpeldesa.core.components.DatePickerField
 import com.cvindosistem.simpeldesa.core.components.DropdownField
 import com.cvindosistem.simpeldesa.core.components.TitleMediumText
+import com.cvindosistem.simpeldesa.main.navigation.Screen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.StatusSurat
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SuratSaya
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SuratSayaViewModel
@@ -29,7 +32,8 @@ import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.v
 @Composable
 internal fun SuratSayaContent(
     modifier: Modifier = Modifier,
-    viewModel: SuratSayaViewModel
+    viewModel: SuratSayaViewModel,
+    navController: NavController // Add navController parameter
 ) {
     val uiState = viewModel.uiState.collectAsState()
     val isLoading = viewModel.isLoading
@@ -91,7 +95,10 @@ internal fun SuratSayaContent(
                 SuratListSection(
                     suratList = viewModel.filteredSuratList.collectAsState().value,
                     isLoading = isLoading,
-                    onLoadMore = { viewModel.loadMoreData() }
+                    onLoadMore = { viewModel.loadMoreData() },
+                    onSuratClick = { suratId -> // Add click handler
+                        navController.navigate("${Screen.DetailSurat.route}/$suratId")
+                    }
                 )
             }
         }
@@ -112,13 +119,17 @@ internal fun SuratSayaContent(
 private fun SuratListSection(
     suratList: List<SuratSaya>,
     isLoading: Boolean,
-    onLoadMore: () -> Unit
+    onLoadMore: () -> Unit,
+    onSuratClick: (String) -> Unit // Add click handler parameter
 ) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         items(suratList) { surat ->
-            SuratSayaCard(surat = surat)
+            SuratSayaCard(
+                surat = surat,
+                onClick = { onSuratClick(surat.id) } // Pass click handler
+            )
         }
 
         if (isLoading) {
@@ -146,9 +157,12 @@ private fun SuratListSection(
 
 @Composable
 private fun SuratSayaCard(
-    surat: SuratSaya
+    surat: SuratSaya,
+    onClick: () -> Unit // Add onClick parameter
 ) {
-    AppCard {
+    AppCard(
+        modifier = Modifier.clickable { onClick() } // Make card clickable
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()

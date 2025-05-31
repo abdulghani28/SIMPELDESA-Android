@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.cvindosistem.simpeldesa.core.helpers.dateFormatterToApiFormat
 import com.cvindosistem.simpeldesa.main.domain.model.SuratListResult
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetSuratListUseCase
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.FilterData
@@ -105,7 +106,7 @@ class SuratSayaViewModel(
                             id = data.id,
                             judul = data.jenis_surat,
                             deskripsi = getDescriptionByStatus(data.status, data.jenis_surat),
-                            tanggal = formatDate(data.created_at),
+                            tanggal = dateFormatterToApiFormat(data.created_at),
                             status = mapStringToStatusSurat(data.status),
                             nik = data.nik,
                             nama = data.nama,
@@ -198,20 +199,6 @@ class SuratSayaViewModel(
             "selesai", "completed", "done" -> "Surat $jenisSurat yang Anda ajukan sudah selesai diproses dan siap untuk diambil di kantor desa."
             "dibatalkan", "rejected" -> "Mohon maaf, surat $jenisSurat yang Anda ajukan telah dibatalkan oleh pihak desa."
             else -> "Surat $jenisSurat sedang dalam proses."
-        }
-    }
-
-    // Helper function to format date
-    private fun formatDate(dateString: String): String {
-        return try {
-            // Assuming the date format from API is ISO format
-            // You might need to adjust this based on your actual API date format
-            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
-            val outputFormat = SimpleDateFormat("dd MMMM yyyy", Locale("id", "ID"))
-            val date = inputFormat.parse(dateString)
-            outputFormat.format(date ?: Date())
-        } catch (e: Exception) {
-            dateString // Return original string if parsing fails
         }
     }
 

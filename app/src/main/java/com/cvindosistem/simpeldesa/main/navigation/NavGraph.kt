@@ -2,9 +2,11 @@ package com.cvindosistem.simpeldesa.main.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.cvindosistem.simpeldesa.auth.presentation.auth.login.LoginScreen
 import com.cvindosistem.simpeldesa.auth.presentation.auth.resetpassword.ForgotPasswordScreen
 import com.cvindosistem.simpeldesa.auth.presentation.auth.resetpassword.OtpVerificationScreen
@@ -12,6 +14,7 @@ import com.cvindosistem.simpeldesa.auth.presentation.auth.resetpassword.Password
 import com.cvindosistem.simpeldesa.auth.presentation.auth.resetpassword.ResetPasswordScreen
 import com.cvindosistem.simpeldesa.core.data.local.preferences.UserPreferences
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.LayananPersuratanScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.SuratDetailScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.SuratKeteranganScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.SuratLainnyaScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.SuratPengantarScreen
@@ -36,6 +39,7 @@ import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.s
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratpengantar.spkehilangan.SPKehilanganScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratpengantar.sppernikahan.SPPernikahanScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratrekomendasi.SRKeramaianScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SuratDetailViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpengantar.SPCatatanKepolisianViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpengantar.SPPernikahanViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratrekomendasi.SRKeramaianViewModel
@@ -141,6 +145,22 @@ fun NavGraph(
             LayananPersuratanScreen(
                 navController = navController,
                 suratSayaViewModel = suratSayaViewModel
+            )
+        }
+
+        composable(
+            route = "${Screen.DetailSurat.route}/{Id}",
+            arguments = listOf(
+                navArgument("Id") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val id = backStackEntry.arguments?.getString("Id") ?: ""
+            val detailViewModel: SuratDetailViewModel = koinViewModel()
+
+            SuratDetailScreen(
+                navController = navController,
+                suratId = id,
+                viewModel = detailViewModel
             )
         }
 

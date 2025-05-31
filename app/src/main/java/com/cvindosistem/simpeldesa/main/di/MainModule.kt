@@ -34,6 +34,7 @@ import com.cvindosistem.simpeldesa.main.domain.usecases.GetStatusKawinUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetSuratDetailUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetSuratListUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.JenisUsahaUseCase
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SuratDetailViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpengantar.SPCatatanKepolisianViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpengantar.SPPernikahanViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratrekomendasi.SRKeramaianViewModel
@@ -99,6 +100,7 @@ val mainModule = module {
     single { BidangUsahaUseCase(get()) }
 
     viewModel { SuratSayaViewModel(get()) }
+    viewModel { SuratDetailViewModel(get()) }
     viewModel { SRKeramaianViewModel(get(), get()) }
     viewModel { SPCatatanKepolisianViewModel(get(), get()) }
     viewModel { SPPernikahanViewModel(get(), get(), get(), get()) }
