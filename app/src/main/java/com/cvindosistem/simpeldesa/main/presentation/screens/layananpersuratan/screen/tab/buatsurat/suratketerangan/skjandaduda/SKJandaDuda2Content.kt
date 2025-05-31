@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,44 +23,50 @@ import com.cvindosistem.simpeldesa.core.components.AppTextField
 import com.cvindosistem.simpeldesa.core.components.FormSectionList
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
 import com.cvindosistem.simpeldesa.core.components.StepIndicator
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.SKJandaDudaViewModel
 
 @Composable
 internal fun SKJandaDuda2Content(
+    viewModel: SKJandaDudaViewModel,
     modifier: Modifier = Modifier
 ) {
+    val validationErrors by viewModel.validationErrors.collectAsState()
+
     FormSectionList(
         modifier = modifier,
         background = MaterialTheme.colorScheme.background
     ) {
         item {
             StepIndicator(
-                steps = listOf("Informasi Janda/Duda", "Informasi Janda/Duda", "Informasi Pelengkap"),
-                currentStep = 2
+                steps = listOf("Informasi Pelapor", "Informasi Janda/Duda", "Informasi Pelengkap"),
+                currentStep = viewModel.currentStep
             )
         }
 
         item {
-            InformasiJandaDuda()
+            InformasiJandaDuda(
+                viewModel = viewModel,
+                validationErrors = validationErrors
+            )
         }
     }
 }
 
 @Composable
-private fun InformasiJandaDuda() {
+private fun InformasiJandaDuda(
+    viewModel: SKJandaDudaViewModel,
+    validationErrors: Map<String, String>
+) {
     Column {
         SectionTitle("Informasi Janda/Duda")
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        var dasarPengajuanValue by remember { mutableStateOf("") }
-        var noAktaValue by remember { mutableStateOf("") }
-        var penyebabStatusValue by remember { mutableStateOf("") }
-
         DasarPengajuanSelection(
-            selectedDasarPengajuan = dasarPengajuanValue,
-            onDasarPengajuanSelected = { dasarPengajuanValue = it },
-            isError = false,
-            errorMessage = null,
+            selectedDasarPengajuan = viewModel.dasarPengajuanValue,
+            onDasarPengajuanSelected = viewModel::updateDasarPengajuan,
+            isError = viewModel.hasFieldError("dasar_pengajuan"),
+            errorMessage = viewModel.getFieldError("dasar_pengajuan")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -67,24 +74,24 @@ private fun InformasiJandaDuda() {
         AppTextField(
             label = "Nomor Akta atau Nomor Surat Keterangan",
             placeholder = "Nomor Akta atau Nomor Surat Keterangan",
-            value = noAktaValue,
-            onValueChange = { noAktaValue = it },
-            isError = false,
-            errorMessage = null
+            value = viewModel.nomorPengajuanValue,
+            onValueChange = viewModel::updateNomorPengajuan,
+            isError = viewModel.hasFieldError("nomor_pengajuan"),
+            errorMessage = viewModel.getFieldError("nomor_pengajuan")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         AnimatedVisibility(
-            visible = dasarPengajuanValue == "Akta Cerai",
+            visible = viewModel.dasarPengajuanValue == "Akta Cerai",
             enter = fadeIn() + expandVertically(),
             exit = fadeOut() + shrinkVertically()
         ) {
             PenyebabStatusSelection(
-                selectedPenyebabStatus = penyebabStatusValue,
-                onPenyebabStatusSelected = { penyebabStatusValue = it },
-                isError = false,
-                errorMessage = null,
+                selectedPenyebabStatus = viewModel.penyebabValue,
+                onPenyebabStatusSelected = viewModel::updatePenyebab,
+                isError = viewModel.hasFieldError("penyebab"),
+                errorMessage = viewModel.getFieldError("penyebab")
             )
         }
     }
