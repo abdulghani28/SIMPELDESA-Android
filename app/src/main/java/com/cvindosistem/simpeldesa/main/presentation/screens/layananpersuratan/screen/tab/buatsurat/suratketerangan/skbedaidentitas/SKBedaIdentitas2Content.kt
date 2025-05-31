@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -19,11 +20,15 @@ import com.cvindosistem.simpeldesa.core.components.FormSectionList
 import com.cvindosistem.simpeldesa.core.components.LabelFieldText
 import com.cvindosistem.simpeldesa.core.components.MultilineTextField
 import com.cvindosistem.simpeldesa.core.components.StepIndicator
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.SKBedaIdentitasViewModel
 
 @Composable
 internal fun SKBedaIdentitas2Content(
+    viewModel: SKBedaIdentitasViewModel,
     modifier: Modifier = Modifier
 ) {
+    val validationErrors by viewModel.validationErrors.collectAsState()
+
     FormSectionList(
         modifier = modifier,
         background = MaterialTheme.colorScheme.background
@@ -31,27 +36,25 @@ internal fun SKBedaIdentitas2Content(
         item {
             StepIndicator(
                 steps = listOf("Informasi Identitas 1", "Informasi Identitas 2", "Informasi Pelengkap"),
-                currentStep = 2
+                currentStep = viewModel.currentStep
             )
         }
 
         item {
-            InformasiPerbedaanIdentitas()
+            InformasiPerbedaanIdentitas2(
+                viewModel = viewModel,
+                validationErrors = validationErrors
+            )
         }
     }
 }
 
 @Composable
-private fun InformasiPerbedaanIdentitas() {
+private fun InformasiPerbedaanIdentitas2(
+    viewModel: SKBedaIdentitasViewModel,
+    validationErrors: Map<String, String>
+) {
     Column {
-
-        var tercantumDalamValue by remember { mutableStateOf("") }
-        var nomorValue by remember { mutableStateOf("") }
-        var namaValue by remember { mutableStateOf("") }
-        var tempatLahirValue by remember { mutableStateOf("") }
-        var tanggalLahirValue by remember { mutableStateOf("") }
-        var alamatValue by remember { mutableStateOf("") }
-
         LabelFieldText("Identitas 2")
 
         HorizontalDivider(thickness = 0.5.dp, color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f))
@@ -60,11 +63,14 @@ private fun InformasiPerbedaanIdentitas() {
 
         DropdownField(
             label = "Tercantum Dalam",
-            value = tercantumDalamValue,
-            onValueChange = { tercantumDalamValue = it },
-            options = listOf("KTP", "KK", "Ijazah", "Akta Kelahiran", "Buku Nikah"),
-            isError = false,
-            errorMessage = null,
+            value = viewModel.tercantumIdentitasList.find { it.id == viewModel.tercantumId2Value }?.nama.orEmpty(),
+            onValueChange = { selectedNama ->
+                val selected = viewModel.tercantumIdentitasList.find { it.nama == selectedNama }
+                selected?.let { viewModel.updateTercantumId2(it.id) }
+            },
+            options = viewModel.tercantumIdentitasList.map { it.nama },
+            isError = viewModel.hasFieldError("tercantum_id_2"),
+            errorMessage = viewModel.getFieldError("tercantum_id_2")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -72,10 +78,10 @@ private fun InformasiPerbedaanIdentitas() {
         AppTextField(
             label = "Nomor",
             placeholder = "XXXX XXXX XXXX",
-            value = nomorValue,
-            onValueChange = { nomorValue = it },
-            isError = false,
-            errorMessage = ""
+            value = viewModel.nomor2Value,
+            onValueChange = viewModel::updateNomor2,
+            isError = viewModel.hasFieldError("nomor_2"),
+            errorMessage = viewModel.getFieldError("nomor_2")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -83,10 +89,10 @@ private fun InformasiPerbedaanIdentitas() {
         AppTextField(
             label = "Nama",
             placeholder = "Masukkan nama lengkap",
-            value = namaValue,
-            onValueChange = { namaValue = it },
-            isError = false,
-            errorMessage = ""
+            value = viewModel.nama2Value,
+            onValueChange = viewModel::updateNama2,
+            isError = viewModel.hasFieldError("nama_2"),
+            errorMessage = viewModel.getFieldError("nama_2")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -94,20 +100,20 @@ private fun InformasiPerbedaanIdentitas() {
         AppTextField(
             label = "Tempat Lahir",
             placeholder = "Masukkan tempat lahir",
-            value = tempatLahirValue,
-            onValueChange = { tempatLahirValue = it },
-            isError = false,
-            errorMessage = ""
+            value = viewModel.tempatLahir2Value,
+            onValueChange = viewModel::updateTempatLahir2,
+            isError = viewModel.hasFieldError("tempat_lahir_2"),
+            errorMessage = viewModel.getFieldError("tempat_lahir_2")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         DatePickerField(
             label = "Tanggal Lahir",
-            value = tanggalLahirValue,
-            onValueChange = { tanggalLahirValue = it },
-            isError = false,
-            errorMessage = null,
+            value = viewModel.tanggalLahir2Value,
+            onValueChange = viewModel::updateTanggalLahir2,
+            isError = viewModel.hasFieldError("tanggal_lahir_2"),
+            errorMessage = viewModel.getFieldError("tanggal_lahir_2")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -115,10 +121,10 @@ private fun InformasiPerbedaanIdentitas() {
         MultilineTextField(
             label = "Alamat Lengkap",
             placeholder = "Masukkan alamat lengkap",
-            value = alamatValue,
-            onValueChange = { alamatValue = it },
-            isError = false,
-            errorMessage = null
+            value = viewModel.alamat2Value,
+            onValueChange = viewModel::updateAlamat2,
+            isError = viewModel.hasFieldError("alamat_2"),
+            errorMessage = viewModel.getFieldError("alamat_2")
         )
     }
 }

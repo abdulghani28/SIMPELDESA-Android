@@ -38,6 +38,7 @@ import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.v
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpengantar.SPPernikahanViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratrekomendasi.SRKeramaianViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SuratSayaViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.SKBedaIdentitasViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.SKBerpergianViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.SKDomisiliPerusahaanViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.SKDomisiliViewModel
@@ -117,4 +118,5 @@ val mainModule = module {
     viewModel { SKGhaibViewModel(get(), get()) }
     viewModel { SKDomisiliPerusahaanViewModel(get(), get(), get(), get(), get()) }
     viewModel { SKBerpergianViewModel(get(), get()) }
+    viewModel { SKBedaIdentitasViewModel(get(), get(), get(), get()) }
 }

@@ -135,9 +135,12 @@ private fun InformasiPelapor(
 
         DropdownField(
             label = "Agama",
-            value = viewModel.agamaIdValue,
-            onValueChange = viewModel::updateAgamaId,
-            options = listOf("Islam", "Kristen", "Katolik", "Hindu", "Buddha", "Konghucu"),
+            value = viewModel.agamaList.find { it.id == viewModel.agamaIdValue }?.nama.orEmpty(),
+            onValueChange = { selectedNama ->
+                val selected = viewModel.agamaList.find { it.nama == selectedNama }
+                selected?.let { viewModel.updateAgamaId(it.id) }
+            },
+            options = viewModel.agamaList.map { it.nama },
             isError = viewModel.hasFieldError("agama_id"),
             errorMessage = viewModel.getFieldError("agama_id")
         )

@@ -18,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -36,9 +35,6 @@ import com.cvindosistem.simpeldesa.main.presentation.components.BaseDialog
 import com.cvindosistem.simpeldesa.main.presentation.components.PreviewItem
 import com.cvindosistem.simpeldesa.main.presentation.components.PreviewSection
 import com.cvindosistem.simpeldesa.main.presentation.components.SubmitConfirmationDialog
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skberpergian.SKBerpergian1Content
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skberpergian.SKBerpergian2Content
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skberpergian.SKBerpergian3Content
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.SKBerpergianViewModel
 import kotlinx.coroutines.delay
 

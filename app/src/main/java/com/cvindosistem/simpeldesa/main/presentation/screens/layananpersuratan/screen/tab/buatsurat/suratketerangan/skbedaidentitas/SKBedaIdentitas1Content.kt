@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -20,11 +21,15 @@ import com.cvindosistem.simpeldesa.core.components.MultilineTextField
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
 import com.cvindosistem.simpeldesa.core.components.StepIndicator
 import com.cvindosistem.simpeldesa.core.components.UseMyDataCheckbox
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.SKBedaIdentitasViewModel
 
 @Composable
 internal fun SKBedaIdentitas1Content(
+    viewModel: SKBedaIdentitasViewModel,
     modifier: Modifier = Modifier
 ) {
+    val validationErrors by viewModel.validationErrors.collectAsState()
+
     FormSectionList(
         modifier = modifier,
         background = MaterialTheme.colorScheme.background
@@ -32,42 +37,48 @@ internal fun SKBedaIdentitas1Content(
         item {
             StepIndicator(
                 steps = listOf("Informasi Identitas 1", "Informasi Identitas 2", "Informasi Pelengkap"),
-                currentStep = 1
+                currentStep = viewModel.currentStep
             )
         }
 
         item {
-            UseMyDataCheckbox()
+            UseMyDataCheckbox(
+                checked = viewModel.useMyDataChecked,
+                onCheckedChange = viewModel::updateUseMyData,
+                isLoading = viewModel.isLoadingUserData
+            )
         }
 
         item {
-            InformasiPerbedaanIdentitas()
+            InformasiPerbedaanIdentitas(
+                viewModel = viewModel,
+                validationErrors = validationErrors
+            )
         }
     }
 }
 
+
 @Composable
-private fun InformasiPerbedaanIdentitas() {
+private fun InformasiPerbedaanIdentitas(
+    viewModel: SKBedaIdentitasViewModel,
+    validationErrors: Map<String, String>
+) {
     Column {
         SectionTitle("Informasi Perbedaan Identitas")
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        var perbedaanDataValue by remember { mutableStateOf("") }
-        var tercantumDalamValue by remember { mutableStateOf("") }
-        var nomorValue by remember { mutableStateOf("") }
-        var namaValue by remember { mutableStateOf("") }
-        var tempatLahirValue by remember { mutableStateOf("") }
-        var tanggalLahirValue by remember { mutableStateOf("") }
-        var alamatValue by remember { mutableStateOf("") }
-
         DropdownField(
             label = "Perbedaan Data yang Akan Dilaporkan",
-            value = perbedaanDataValue,
-            onValueChange = {perbedaanDataValue = it },
-            options = listOf("NIK", "Nama", "Tempat Lahir", "Tanggal Lahir", "Alamat"),
-            isError = false,
-            errorMessage = null,
+            value = viewModel.perbedaanIdentitasList.find { it.id == viewModel.perbedaanIdValue }?.nama.orEmpty(),
+            onValueChange = { selectedNama ->
+                val selected = viewModel.perbedaanIdentitasList.find { it.nama == selectedNama }
+                selected?.let { viewModel.updatePerbedaanId(it.id) }
+            },
+            options = viewModel.perbedaanIdentitasList.map { it.nama },
+            isError = viewModel.hasFieldError("perbedaan_id"),
+            errorMessage = viewModel.getFieldError("perbedaan_id")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -78,11 +89,14 @@ private fun InformasiPerbedaanIdentitas() {
 
         DropdownField(
             label = "Tercantum Dalam",
-            value = tercantumDalamValue,
-            onValueChange = { tercantumDalamValue = it },
-            options = listOf("KTP", "KK", "Ijazah", "Akta Kelahiran", "Buku Nikah"),
-            isError = false,
-            errorMessage = null,
+            value = viewModel.tercantumIdentitasList.find { it.id == viewModel.tercantumId1Value }?.nama.orEmpty(),
+            onValueChange = { selectedNama ->
+                val selected = viewModel.tercantumIdentitasList.find { it.nama == selectedNama }
+                selected?.let { viewModel.updateTercantumId1(it.id) }
+            },
+            options = viewModel.perbedaanIdentitasList.map { it.nama },
+            isError = viewModel.hasFieldError("tercantum_id"),
+            errorMessage = viewModel.getFieldError("tercantum_id")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -90,10 +104,10 @@ private fun InformasiPerbedaanIdentitas() {
         AppTextField(
             label = "Nomor",
             placeholder = "XXXX XXXX XXXX",
-            value = nomorValue,
-            onValueChange = { nomorValue = it },
-            isError = false,
-            errorMessage = ""
+            value = viewModel.nomor1Value,
+            onValueChange = viewModel::updateNomor1,
+            isError = viewModel.hasFieldError("nomor_1"),
+            errorMessage = viewModel.getFieldError("nomor_1")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -101,10 +115,10 @@ private fun InformasiPerbedaanIdentitas() {
         AppTextField(
             label = "Nama",
             placeholder = "Masukkan nama lengkap",
-            value = namaValue,
-            onValueChange = { namaValue = it },
-            isError = false,
-            errorMessage = ""
+            value = viewModel.nama1Value,
+            onValueChange = viewModel::updateNama1,
+            isError = viewModel.hasFieldError("nama_1"),
+            errorMessage = viewModel.getFieldError("nama_1")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -112,20 +126,20 @@ private fun InformasiPerbedaanIdentitas() {
         AppTextField(
             label = "Tempat Lahir",
             placeholder = "Masukkan tempat lahir",
-            value = tempatLahirValue,
-            onValueChange = { tempatLahirValue = it },
-            isError = false,
-            errorMessage = ""
+            value = viewModel.tempatLahir1Value,
+            onValueChange = viewModel::updateTempatLahir1,
+            isError = viewModel.hasFieldError("tempat_lahir_1"),
+            errorMessage = viewModel.getFieldError("tempat_lahir_1")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         DatePickerField(
             label = "Tanggal Lahir",
-            value = tanggalLahirValue,
-            onValueChange = { tanggalLahirValue = it },
-            isError = false,
-            errorMessage = null,
+            value = viewModel.tanggalLahir1Value,
+            onValueChange = viewModel::updateTanggalLahir1,
+            isError = viewModel.hasFieldError("tanggal_lahir_1"),
+            errorMessage = viewModel.getFieldError("tanggal_lahir_1")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -133,10 +147,10 @@ private fun InformasiPerbedaanIdentitas() {
         MultilineTextField(
             label = "Alamat Lengkap",
             placeholder = "Masukkan alamat lengkap",
-            value = alamatValue,
-            onValueChange = { alamatValue = it },
-            isError = false,
-            errorMessage = null
+            value = viewModel.alamat1Value,
+            onValueChange = viewModel::updateAlamat1,
+            isError = viewModel.hasFieldError("alamat_1"),
+            errorMessage = viewModel.getFieldError("alamat_1")
         )
     }
 }
