@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -15,11 +16,15 @@ import com.cvindosistem.simpeldesa.core.components.FormSectionList
 import com.cvindosistem.simpeldesa.core.components.MultilineTextField
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
 import com.cvindosistem.simpeldesa.core.components.StepIndicator
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.SKKelahiranViewModel
 
 @Composable
 internal fun SKKelahiran4Content(
+    viewModel: SKKelahiranViewModel,
     modifier: Modifier = Modifier
 ) {
+    val validationErrors by viewModel.validationErrors.collectAsState()
+
     FormSectionList(
         modifier = modifier,
         background = MaterialTheme.colorScheme.background
@@ -27,32 +32,38 @@ internal fun SKKelahiran4Content(
         item {
             StepIndicator(
                 steps = listOf("Informasi Anak", "Informasi Ayah", "Informasi Ibu", "Informasi Pelengkap"),
-                currentStep = 4
+                currentStep = viewModel.currentStep
             )
         }
 
         item {
-            InformasiPelengkap()
+            InformasiPelengkap(
+                keperluan = viewModel.keperluanValue,
+                onKeperluanChange = viewModel::updateKeperluan,
+                error = validationErrors["keperluan"]
+            )
         }
     }
 }
 
 @Composable
-private fun InformasiPelengkap() {
+private fun InformasiPelengkap(
+    keperluan: String,
+    onKeperluanChange: (String) -> Unit,
+    error: String?
+) {
     Column {
         SectionTitle("Informasi Pelengkap")
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        var keperluanValue by remember { mutableStateOf("") }
-
         MultilineTextField(
             label = "Keperluan",
             placeholder = "Masukkan keperluan",
-            value = keperluanValue,
-            onValueChange = { keperluanValue = it },
-            isError = false,
-            errorMessage = null
+            value = keperluan,
+            onValueChange = onKeperluanChange,
+            isError = error != null,
+            errorMessage = error
         )
     }
 }

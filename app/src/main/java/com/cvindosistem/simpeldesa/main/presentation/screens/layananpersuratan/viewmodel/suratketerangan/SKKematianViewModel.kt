@@ -490,7 +490,6 @@ class SKKematianViewModel(
         data object SubmitSuccess : SKKematianEvent()
         data class SubmitError(val message: String) : SKKematianEvent()
         data object ValidationError : SKKematianEvent()
-        data class HubunganLoadError(val message: String) : SKKematianEvent()
         data class UserDataLoadError(val message: String) : SKKematianEvent()
     }
 }

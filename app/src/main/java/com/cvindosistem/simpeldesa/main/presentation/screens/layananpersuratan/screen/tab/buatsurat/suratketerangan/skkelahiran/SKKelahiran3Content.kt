@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -20,11 +21,15 @@ import com.cvindosistem.simpeldesa.core.components.FormSectionList
 import com.cvindosistem.simpeldesa.core.components.MultilineTextField
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
 import com.cvindosistem.simpeldesa.core.components.StepIndicator
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.SKKelahiranViewModel
 
 @Composable
 internal fun SKKelahiran3Content(
+    viewModel: SKKelahiranViewModel,
     modifier: Modifier = Modifier
 ) {
+    val validationErrors by viewModel.validationErrors.collectAsState()
+
     FormSectionList(
         modifier = modifier,
         background = MaterialTheme.colorScheme.background
@@ -32,36 +37,36 @@ internal fun SKKelahiran3Content(
         item {
             StepIndicator(
                 steps = listOf("Informasi Anak", "Informasi Ayah", "Informasi Ibu", "Informasi Pelengkap"),
-                currentStep = 3
+                currentStep = viewModel.currentStep
             )
         }
 
         item {
-            InformasiIbu()
+            InformasiIbu(
+                viewModel = viewModel,
+                validationErrors = validationErrors
+            )
         }
     }
 }
 
 @Composable
-private fun InformasiIbu() {
+private fun InformasiIbu(
+    viewModel: SKKelahiranViewModel,
+    validationErrors: Map<String, String>
+) {
     Column {
         SectionTitle("Informasi Ibu")
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        var nikValue by remember { mutableStateOf("") }
-        var namaValue by remember { mutableStateOf("") }
-        var tempatLahirValue by remember { mutableStateOf("") }
-        var tanggalLahirValue by remember { mutableStateOf("") }
-        var alamatValue by remember { mutableStateOf("") }
-
         AppTextField(
             label = "Nomor Induk Kependudukan (NIK)",
             placeholder = "NIK",
-            value = nikValue,
-            onValueChange = { nikValue = it },
-            isError = false,
-            errorMessage = null,
+            value = viewModel.nikIbuValue,
+            onValueChange = viewModel::updateNikIbu,
+            isError = validationErrors.containsKey("nik_ibu"),
+            errorMessage = validationErrors["nik_ibu"]
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -69,10 +74,10 @@ private fun InformasiIbu() {
         AppTextField(
             label = "Nama Lengkap",
             placeholder = "Masukkan nama lengkap",
-            value = namaValue,
-            onValueChange = { namaValue = it },
-            isError = false,
-            errorMessage = null
+            value = viewModel.namaIbuValue,
+            onValueChange = viewModel::updateNamaIbu,
+            isError = validationErrors.containsKey("nama_ibu"),
+            errorMessage = validationErrors["nama_ibu"]
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -85,20 +90,20 @@ private fun InformasiIbu() {
                 AppTextField(
                     label = "Tempat Lahir",
                     placeholder = "Masukkan tempat lahir",
-                    value = tempatLahirValue,
-                    onValueChange = { tempatLahirValue = it },
-                    isError = false,
-                    errorMessage = null
+                    value = viewModel.tempatLahirIbuValue,
+                    onValueChange = viewModel::updateTempatLahirIbu,
+                    isError = validationErrors.containsKey("tempat_lahir_ibu"),
+                    errorMessage = validationErrors["tempat_lahir_ibu"]
                 )
             }
 
             Column(modifier = Modifier.weight(1f)) {
                 DatePickerField(
                     label = "Tanggal Lahir",
-                    value = tanggalLahirValue,
-                    onValueChange = { tanggalLahirValue = it },
-                    isError = false,
-                    errorMessage = null,
+                    value = viewModel.tanggalLahirIbuValue,
+                    onValueChange = viewModel::updateTanggalLahirIbu,
+                    isError = validationErrors.containsKey("tanggal_lahir_ibu"),
+                    errorMessage = validationErrors["tanggal_lahir_ibu"]
                 )
             }
         }
@@ -108,10 +113,10 @@ private fun InformasiIbu() {
         MultilineTextField(
             label = "Alamat Lengkap",
             placeholder = "Masukkan Alamat Lengkap",
-            value = alamatValue,
-            onValueChange = { alamatValue = it },
-            isError = false,
-            errorMessage = null
+            value = viewModel.alamatIbuValue,
+            onValueChange = viewModel::updateAlamatIbu,
+            isError = validationErrors.containsKey("alamat_ibu"),
+            errorMessage = validationErrors["alamat_ibu"]
         )
     }
 }
