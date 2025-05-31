@@ -8,6 +8,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -17,87 +18,85 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.cvindosistem.simpeldesa.core.components.AppBottomBar
 import com.cvindosistem.simpeldesa.core.components.AppTextField
+import com.cvindosistem.simpeldesa.core.components.DropdownField
 import com.cvindosistem.simpeldesa.core.components.FormSectionList
 import com.cvindosistem.simpeldesa.core.components.MultilineTextField
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
 import com.cvindosistem.simpeldesa.core.components.StepIndicator
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.SKUsahaViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun UsahaWargaDesa2Content(
-    modifier: Modifier = Modifier,
-    onBackClick: () -> Unit = {},
-    onContinueClick: () -> Unit = {}
+    viewModel: SKUsahaViewModel,
+    modifier: Modifier = Modifier
 ) {
-    Scaffold(
-        bottomBar = {
-            AppBottomBar(
-                onPreviewClick = { },
-                onBackClick = onBackClick,
-                onContinueClick = onContinueClick
+    val validationErrors by viewModel.validationErrors.collectAsState()
+    FormSectionList(
+        modifier = modifier,
+        background = MaterialTheme.colorScheme.background
+    ) {
+        item {
+            StepIndicator(
+                steps = listOf("Informasi Pelapor", "Informasi Usaha", "Informasi Pelengkap"),
+                currentStep = viewModel.getCurrentStepForUI()
             )
         }
-    ) {
-        FormSectionList(
-            modifier = modifier,
-            background = MaterialTheme.colorScheme.background
-        ) {
-            item {
-                StepIndicator(
-                    steps = listOf("Informasi Pelapor", "Informasi Usaha", "Informasi Pelengkap"),
-                    currentStep = 2
-                )
-            }
 
-            item {
-                InformasiUsaha()
-            }
+        item {
+            InformasiUsaha(
+                viewModel = viewModel,
+                validationErrors = validationErrors
+            )
         }
     }
 }
 
 @Composable
-private fun InformasiUsaha() {
+private fun InformasiUsaha(
+    viewModel: SKUsahaViewModel,
+    validationErrors: Map<String, String>
+) {
     Column {
         SectionTitle("Informasi Usaha")
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        var namaUsahaValue by remember { mutableStateOf("") }
-        var jenisUsahaValue by remember { mutableStateOf("") }
-        var bidangUsahaValue by remember { mutableStateOf("") }
-        var npwpValue by remember { mutableStateOf("") }
-        var alamatUsahaValue by remember { mutableStateOf("") }
-
         AppTextField(
             label = "Nama Usaha",
             placeholder = "Masukkan nama usaha",
-            value = namaUsahaValue,
-            onValueChange = { namaUsahaValue = it },
-            isError = false,
-            errorMessage = null
+            value = viewModel.wargaNamaUsahaValue,
+            onValueChange = { viewModel.updateWargaNamaUsaha(it) },
+            isError = validationErrors.containsKey("nama_usaha"),
+            errorMessage = validationErrors["nama_usaha"],
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        AppTextField(
+        DropdownField(
             label = "Jenis Usaha",
-            placeholder = "Masukkan jenis usaha",
-            value = jenisUsahaValue,
-            onValueChange = { jenisUsahaValue = it },
-            isError = false,
-            errorMessage = null
+            value = viewModel.jenisUsahaList.find { it.id == viewModel.wargaJenisUsahaValue }?.nama.orEmpty(),
+            onValueChange = { selectedNama ->
+                val selected = viewModel.jenisUsahaList.find { it.nama == selectedNama }
+                selected?.let { viewModel.updateWargaJenisUsaha(it.id) }
+            },
+            options = viewModel.jenisUsahaList.map { it.nama },
+            isError = viewModel.hasFieldError("jenis_usaha"),
+            errorMessage = viewModel.getFieldError("jenis_usaha"),
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        AppTextField(
+        DropdownField(
             label = "Bidang Usaha",
-            placeholder = "Masukkan bidang usaha",
-            value = bidangUsahaValue,
-            onValueChange = { bidangUsahaValue = it },
-            isError = false,
-            errorMessage = null
+            value = viewModel.bidangUsahaList.find { it.id == viewModel.wargaBidangUsahaValue }?.nama.orEmpty(),
+            onValueChange = { selectedNama ->
+                val selected = viewModel.bidangUsahaList.find { it.nama == selectedNama }
+                selected?.let { viewModel.updateWargaBidangUsaha(it.id) }
+            },
+            options = viewModel.bidangUsahaList.map { it.nama },
+            isError = viewModel.hasFieldError("bidang_usaha"),
+            errorMessage = viewModel.getFieldError("bidang_usaha"),
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -105,10 +104,10 @@ private fun InformasiUsaha() {
         AppTextField(
             label = "Nomor Pajak Wajib Pajak (NPWP)",
             placeholder = "Masukkan NPWP",
-            value = npwpValue,
-            onValueChange = { npwpValue = it },
-            isError = false,
-            errorMessage = null,
+            value = viewModel.wargaNpwpValue,
+            onValueChange = { viewModel.updateWargaNpwp(it) },
+            isError = validationErrors.containsKey("npwp"),
+            errorMessage = validationErrors["npwp"],
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
 
@@ -117,10 +116,10 @@ private fun InformasiUsaha() {
         MultilineTextField(
             label = "Alamat Lengkap",
             placeholder = "Masukkan alamat lengkap",
-            value = alamatUsahaValue,
-            onValueChange = { alamatUsahaValue = it },
-            isError = false,
-            errorMessage = null
+            value = viewModel.wargaAlamatUsahaValue,
+            onValueChange = { viewModel.updateWargaAlamatUsaha(it) },
+            isError = validationErrors.containsKey("alamat_usaha"),
+            errorMessage = validationErrors["alamat_usaha"],
         )
     }
 }

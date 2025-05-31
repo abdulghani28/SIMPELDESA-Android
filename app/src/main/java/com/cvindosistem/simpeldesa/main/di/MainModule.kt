@@ -6,6 +6,7 @@ import com.cvindosistem.simpeldesa.main.data.repository.ReferensiRepository
 import com.cvindosistem.simpeldesa.main.data.repository.ReferensiRepositoryImpl
 import com.cvindosistem.simpeldesa.main.data.repository.SuratRepository
 import com.cvindosistem.simpeldesa.main.data.repository.SuratRepositoryImpl
+import com.cvindosistem.simpeldesa.main.domain.usecases.BidangUsahaUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateResiKTPSementaraUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratBedaIdentitasUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratBerpergianUseCase
@@ -32,6 +33,7 @@ import com.cvindosistem.simpeldesa.main.domain.usecases.GetAgamaUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetStatusKawinUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetSuratDetailUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetSuratListUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.JenisUsahaUseCase
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpengantar.SPCatatanKepolisianViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpengantar.SPPernikahanViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratrekomendasi.SRKeramaianViewModel
@@ -40,6 +42,7 @@ import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.v
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.SKResiKTPSementaraViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.SKStatusPerkawinanViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.SKTidakMampuViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.SKUsahaViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratlainnya.SuratKuasaViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratlainnya.SuratTugasViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpengantar.SPKehilanganViewModel
@@ -83,6 +86,8 @@ val mainModule = module {
     single { CreateSuratIzinTidakKerjaUseCase(get()) }
     single { GetAgamaUseCase(get()) }
     single { GetStatusKawinUseCase(get()) }
+    single { JenisUsahaUseCase(get()) }
+    single { BidangUsahaUseCase(get()) }
 
     viewModel { SuratSayaViewModel(get()) }
     viewModel { SRKeramaianViewModel(get(), get()) }
@@ -95,4 +100,5 @@ val mainModule = module {
     viewModel { SKResiKTPSementaraViewModel(get(), get(), get()) }
     viewModel { SKStatusPerkawinanViewModel(get(), get(), get(), get()) }
     viewModel { SKDomisiliViewModel(get(), get(), get()) }
+    viewModel { SKUsahaViewModel(get(), get(), get(), get()) }
 }
