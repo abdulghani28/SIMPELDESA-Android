@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,57 +25,61 @@ import com.cvindosistem.simpeldesa.core.components.MultilineTextField
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
 import com.cvindosistem.simpeldesa.core.components.StepIndicator
 import com.cvindosistem.simpeldesa.core.components.UseMyDataCheckbox
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.SKPenghasilanViewModel
 
 
 @Composable
 internal fun SKPenghasilan1Content(
+    viewModel: SKPenghasilanViewModel,
     modifier: Modifier = Modifier
 ) {
+    val validationErrors by viewModel.validationErrors.collectAsState()
+
     FormSectionList(
         modifier = modifier,
         background = MaterialTheme.colorScheme.background
     ) {
         item {
             StepIndicator(
-                steps = listOf("Informasi Orang Tua", "Informasi Anak", "Informasi Pelengkap"),
-                currentStep = 1
+                steps = listOf("Informasi Pelapor", "Informasi Orang Tua", "Informasi Anak"),
+                currentStep = viewModel.currentStep
             )
         }
 
         item {
-            UseMyDataCheckbox()
+            UseMyDataCheckbox(
+                checked = viewModel.useMyDataChecked,
+                onCheckedChange = viewModel::updateUseMyData,
+                isLoading = viewModel.isLoadingUserData
+            )
         }
 
         item {
-            InformasiPelapor()
+            InformasiPelapor(
+                viewModel = viewModel,
+                validationErrors = validationErrors
+            )
         }
     }
 }
 
 @Composable
-private fun InformasiPelapor() {
+private fun InformasiPelapor(
+    viewModel: SKPenghasilanViewModel,
+    validationErrors: Map<String, String>
+) {
     Column {
         SectionTitle("Informasi Pelapor")
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        var nikValue by remember { mutableStateOf("") }
-        var namaValue by remember { mutableStateOf("") }
-        var tempatLahirValue by remember { mutableStateOf("") }
-        var tanggalLahirValue by remember { mutableStateOf("") }
-        var selectedGender by remember { mutableStateOf("") }
-        var pekerjaanValue by remember { mutableStateOf("") }
-        var alamatValue by remember { mutableStateOf("") }
-        var penghasilanValue by remember { mutableStateOf("") }
-        var jumlahTanggunganValue by remember { mutableStateOf("") }
-
         AppTextField(
             label = "Nomor Induk Kependudukan (NIK)",
             placeholder = "Masukkan NIK",
-            value = nikValue,
-            onValueChange = { nikValue = it },
-            isError = false,
-            errorMessage = null,
+            value = viewModel.nikValue,
+            onValueChange = viewModel::updateNik,
+            isError = viewModel.hasFieldError("nik"),
+            errorMessage = viewModel.getFieldError("nik"),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
 
@@ -83,58 +88,10 @@ private fun InformasiPelapor() {
         AppTextField(
             label = "Nama Lengkap",
             placeholder = "Masukkan nama lengkap",
-            value = namaValue,
-            onValueChange = { namaValue = it },
-            isError = false,
-            errorMessage = null
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            Column(modifier = Modifier.weight(1f)) {
-                AppTextField(
-                    label = "Tempat Lahir",
-                    placeholder = "Tempat lahir",
-                    value = tempatLahirValue,
-                    onValueChange = { tempatLahirValue = it },
-                    isError = false,
-                    errorMessage = null
-                )
-            }
-
-            Column(modifier = Modifier.weight(1f)) {
-                DatePickerField(
-                    label = "Tanggal Lahir",
-                    value = tanggalLahirValue,
-                    onValueChange = { tanggalLahirValue = it },
-                    isError = false,
-                    errorMessage = null,
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        GenderSelection(
-            selectedGender = selectedGender,
-            onGenderSelected = { selectedGender = it },
-            isError = false,
-            errorMessage = null,
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        AppTextField(
-            label = "Pekerjaan",
-            placeholder = "Masukkan pekerjaan",
-            value = pekerjaanValue,
-            onValueChange = { pekerjaanValue = it },
-            isError = false,
-            errorMessage = null
+            value = viewModel.namaValue,
+            onValueChange = viewModel::updateNama,
+            isError = viewModel.hasFieldError("nama"),
+            errorMessage = viewModel.getFieldError("nama")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -142,34 +99,21 @@ private fun InformasiPelapor() {
         MultilineTextField(
             label = "Alamat Lengkap",
             placeholder = "Masukkan alamat lengkap",
-            value = alamatValue,
-            onValueChange = { alamatValue = it },
-            isError = false,
-            errorMessage = null
+            value = viewModel.alamatValue,
+            onValueChange = viewModel::updateAlamat,
+            isError = viewModel.hasFieldError("alamat"),
+            errorMessage = viewModel.getFieldError("alamat")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        AppTextField(
-            label = "Penghasilan Rata-rata per Bulan (Rp)",
-            placeholder = "0",
-            value = penghasilanValue,
-            onValueChange = { penghasilanValue = it },
-            isError = false,
-            errorMessage = null,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        AppTextField(
-            label = "Jumlah Tanggungan Anggota Keluarga",
-            placeholder = "0",
-            value = jumlahTanggunganValue,
-            onValueChange = { jumlahTanggunganValue = it },
-            isError = false,
-            errorMessage = null,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+        MultilineTextField(
+            label = "Keperluan",
+            placeholder = "Masukkan keperluan",
+            value = viewModel.keperluanValue,
+            onValueChange = viewModel::updateKeperluan,
+            isError = viewModel.hasFieldError("keperluan"),
+            errorMessage = viewModel.getFieldError("keperluan")
         )
     }
 }
