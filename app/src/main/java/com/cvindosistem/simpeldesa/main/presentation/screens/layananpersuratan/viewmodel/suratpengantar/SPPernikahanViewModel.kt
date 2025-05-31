@@ -273,68 +273,7 @@ class SPPernikahanViewModel(
         alamatSuamiValue = ""
         agamaSuamiIdValue = ""
         kewarganegaraanSuamiValue = ""
-        jumlahIstriValue = 0
         statusKawinSuamiIdValue = ""
-        namaIstriSebelumnyaValue = ""
-
-        // Step 2 - Orang Tua Suami
-        agamaAyahSuamiIdValue = ""
-        alamatAyahSuamiValue = ""
-        kewarganegaraanAyahSuamiValue = ""
-        namaAyahSuamiValue = ""
-        nikAyahSuamiValue = ""
-        pekerjaanAyahSuamiValue = ""
-        tempatLahirAyahSuamiValue = ""
-        tanggalLahiAyahSuamiValue = ""
-        tanggalLahirAyahSuamiValue = ""
-
-        agamaIbuSuamiIdValue = ""
-        alamatIbuSuamiValue = ""
-        kewarganegaraanIbuSuamiValue = ""
-        namaIbuSuamiValue = ""
-        nikIbuSuamiValue = ""
-        pekerjaanIbuSuamiValue = ""
-        tanggalLahiIbuSuamiValue = ""
-        tanggalLahirIbuSuamiValue = ""
-        tempatLahirIbuSuamiValue = ""
-
-        // Step 3 - Calon Istri
-        agamaIstriIdValue = ""
-        alamatIstriValue = ""
-        kewarganegaraanIstriValue = ""
-        namaIstriValue = ""
-        nikIstriValue = ""
-        pekerjaanIstriValue = ""
-        statusKawinIstriIdValue = ""
-        tanggalLahirIstriValue = ""
-        tempatLahirIstriValue = ""
-        namaSuamiSebelumnyaValue = ""
-
-        // Step 4 - Orang Tua Istri
-        agamaAyahIstriIdValue = ""
-        agamaIbuIstriIdValue = ""
-        alamatAyahIstriValue = ""
-        alamatIbuIstriValue = ""
-        kewarganegaraanAyahIstriValue = ""
-        kewarganegaraanIbuIstriValue = ""
-        namaAyahIstriValue = ""
-        namaIbuIstriValue = ""
-        nikAyahIstriValue = ""
-        nikIbuIstriValue = ""
-        pekerjaanAyahIstriValue = ""
-        pekerjaanIbuIstriValue = ""
-        tanggalLahirAyahIstriValue = ""
-        tanggalLahiIbuIstriValue = ""
-        tanggalLahirAyahIstriValue = ""
-        tanggalLahirIbuIstriValue = ""
-        tempatLahirAyahIstriValue = ""
-        tempatLahirIbuIstriValue = ""
-
-        // Step 5 - Informasi Pernikahan
-        jamPernikahanValue = ""
-        tempatPernikahanValue = ""
-        hariPernikahanValue = ""
-        tanggalPernikahanValue = ""
     }
 
     fun loadAgama() {

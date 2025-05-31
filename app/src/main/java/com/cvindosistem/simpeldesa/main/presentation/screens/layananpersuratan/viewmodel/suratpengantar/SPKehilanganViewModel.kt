@@ -150,12 +150,6 @@ class SPKehilanganViewModel(
         pekerjaanValue = ""
         alamatValue = ""
         jenisKelaminValue = ""
-
-        // Step 2 - Barang
-        jenisBarangValue = ""
-        ciriCiriBarangValue = ""
-        tempatKehilanganValue = ""
-        tanggalKehilanganValue = ""
     }
 
     // Step 1 - Pelapor
@@ -453,8 +447,6 @@ class SPKehilanganViewModel(
 
 // UI State data class
 data class SPKehilanganUiState(
-    val agamaList: List<AgamaResponse.Data> = emptyList(),
-    val statusKawinList: List<StatusKawinResponse.Data> = emptyList(),
     val isFormDirty: Boolean = false,
     val currentStep: Int = 1,
     val totalSteps: Int = 2

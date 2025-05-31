@@ -110,7 +110,7 @@ fun SRKeramaianScreen(
         topBar = {
             Column {
                 AppTopBar(
-                    title = "SK BedaIdentitas",
+                    title = "SR Keramaian",
                     showBackButton = true,
                     onBackClick = {
                         if (hasFormData) {

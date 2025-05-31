@@ -110,7 +110,13 @@ fun SPKehilanganScreen(
                 AppTopBar(
                     title = "SK BedaIdentitas",
                     showBackButton = true,
-                    onBackClick = { navController.popBackStack() }
+                    onBackClick = {
+                        if (hasFormData) {
+                            showBackWarningDialog = true
+                        } else {
+                            navController.popBackStack()
+                        }
+                    }
                 )
             }
         },
