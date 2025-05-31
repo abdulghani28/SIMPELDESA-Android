@@ -40,6 +40,8 @@ import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.v
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpengantar.SPPernikahanViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratrekomendasi.SRKeramaianViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SuratSayaViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.SKDomisiliViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.SKResiKTPSementaraViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.SKStatusPerkawinanViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.SKTidakMampuViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratlainnya.SuratKuasaViewModel
@@ -161,7 +163,9 @@ fun NavGraph(
         }
 
         composable(Screen.SKDomisiliScreen.route) {
+            val skDomisiliViewModel: SKDomisiliViewModel = koinViewModel()
             SKDomisiliScreen(
+                skDomisiliViewModel = skDomisiliViewModel,
                 navController = navController
             )
         }
@@ -219,7 +223,9 @@ fun NavGraph(
         }
 
         composable(Screen.SKResiKTPSementara.route) {
+            val skResiKTPSementaraViewModel: SKResiKTPSementaraViewModel = koinViewModel()
             SKResiKTPSementaraScreen(
+                sKResiKTPSementaraViewModel = skResiKTPSementaraViewModel,
                 navController = navController
             )
         }

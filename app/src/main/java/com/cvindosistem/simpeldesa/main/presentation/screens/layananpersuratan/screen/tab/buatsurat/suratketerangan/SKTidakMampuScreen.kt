@@ -147,7 +147,7 @@ fun SKTidakMampuScreen(
         topBar = {
             Column {
                 AppTopBar(
-                    title = "SP Catatan Kepolisian",
+                    title = "SK Tidak Mampu",
                     showBackButton = true,
                     onBackClick = {
                         if (hasFormData) {
