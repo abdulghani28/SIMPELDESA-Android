@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,51 +25,52 @@ import com.cvindosistem.simpeldesa.core.components.FormSectionList
 import com.cvindosistem.simpeldesa.core.components.MultilineTextField
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
 import com.cvindosistem.simpeldesa.core.components.StepIndicator
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.SKKematianViewModel
 
 @Composable
 internal fun SKKematian2Content(
+    viewModel: SKKematianViewModel,
     modifier: Modifier = Modifier
 ) {
+    val validationErrors by viewModel.validationErrors.collectAsState()
+
     FormSectionList(
         modifier = modifier,
         background = MaterialTheme.colorScheme.background
     ) {
         item {
             StepIndicator(
-                steps = listOf("Informasi Pelapor", "Informasi Mendiang", "Informasi Pelengkap"),
-                currentStep = 2
+                steps = listOf("Informasi Pelapor", "Informasi _mendiang", "Informasi Pelengkap"),
+                currentStep = viewModel.currentStep
             )
         }
 
         item {
-            InformasiMendiang()
+            InformasiMendiang(
+                viewModel = viewModel,
+                validationErrors = validationErrors
+            )
         }
     }
 }
 
 @Composable
-private fun InformasiMendiang() {
+private fun InformasiMendiang(
+    viewModel: SKKematianViewModel,
+    validationErrors: Map<String, String>
+) {
     Column {
-        SectionTitle("Informasi Mendiang")
+        SectionTitle("Informasi _mendiang")
 
         Spacer(modifier = Modifier.height(16.dp))
-
-        var nikValue by remember { mutableStateOf("") }
-        var namaValue by remember { mutableStateOf("") }
-        var tempatMeninggalValue by remember { mutableStateOf("") }
-        var tanggalMeninggalValue by remember { mutableStateOf("") }
-        var selectedGender by remember { mutableStateOf("") }
-        var hariMeninggalValue by remember { mutableStateOf("") }
-        var sebabMeninggalValue by remember { mutableStateOf("") }
-        var alamatValue by remember { mutableStateOf("") }
 
         AppTextField(
             label = "Nomor Induk Kependudukan (NIK)",
             placeholder = "Masukkan NIK",
-            value = nikValue,
-            onValueChange = { nikValue = it },
-            isError = false,
-            errorMessage = null,
+            value = viewModel.nikMendiangValue,
+            onValueChange = viewModel::updateNikMendiang,
+            isError = viewModel.hasFieldError("nik_mendiang"),
+            errorMessage = viewModel.getFieldError("nik_mendiang"),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
 
@@ -77,19 +79,19 @@ private fun InformasiMendiang() {
         AppTextField(
             label = "Nama Lengkap",
             placeholder = "Masukkan nama lengkap",
-            value = namaValue,
-            onValueChange = { namaValue = it },
-            isError = false,
-            errorMessage = null
+            value = viewModel.namaMendiangValue,
+            onValueChange = viewModel::updateNamaMendiang,
+            isError = viewModel.hasFieldError("nama_mendiang"),
+            errorMessage = viewModel.getFieldError("nama_mendiang")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         GenderSelection(
-            selectedGender = selectedGender,
-            onGenderSelected = { selectedGender = it },
-            isError = false,
-            errorMessage = null,
+            selectedGender = viewModel.jenisKelaminMendiangValue,
+            onGenderSelected = viewModel::updateJenisKelaminMendiang,
+            isError = viewModel.hasFieldError("jenis_kelamin_mendiang"),
+            errorMessage = viewModel.getFieldError("jenis_Kelamin_mendiang")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -97,10 +99,10 @@ private fun InformasiMendiang() {
         MultilineTextField(
             label = "Alamat Lengkap",
             placeholder = "Masukkan alamat lengkap",
-            value = alamatValue,
-            onValueChange = { alamatValue = it },
-            isError = false,
-            errorMessage = null
+            value = viewModel.alamatMendiangValue,
+            onValueChange = viewModel::updateAlamatMendiang,
+            isError = viewModel.hasFieldError("alamat_mendiang"),
+            errorMessage = viewModel.getFieldError("alamat_mendiang")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -112,21 +114,21 @@ private fun InformasiMendiang() {
             Column(modifier = Modifier.weight(1f)) {
                 DropdownField(
                     label = "Hari Meninggal",
-                    value = hariMeninggalValue,
-                    onValueChange = { hariMeninggalValue = it },
+                    value = viewModel.hariMeninggalValue,
+                    onValueChange = viewModel::updateHariMeninggal,
                     options = listOf("Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"),
-                    isError = false,
-                    errorMessage = null,
+                    isError = viewModel.hasFieldError("hari_meninggal"),
+                    errorMessage = viewModel.getFieldError("hari_meninggal")
                 )
             }
 
             Column(modifier = Modifier.weight(1f)) {
                 DatePickerField(
                     label = "Tanggal Meninggal",
-                    value = tanggalMeninggalValue,
-                    onValueChange = { tanggalMeninggalValue = it },
-                    isError = false,
-                    errorMessage = null,
+                    value = viewModel.tanggalMeninggalValue,
+                    onValueChange = viewModel::updateTanggalMeninggal,
+                    isError = viewModel.hasFieldError("tanggal_meninggal"),
+                    errorMessage = viewModel.getFieldError("tanggal_meninggal")
                 )
             }
         }
@@ -136,10 +138,10 @@ private fun InformasiMendiang() {
         AppTextField(
             label = "Tempat Meninggal",
             placeholder = "Tempat meninggal",
-            value = tempatMeninggalValue,
-            onValueChange = { tempatMeninggalValue = it },
-            isError = false,
-            errorMessage = null
+            value = viewModel.tempatMeninggalValue,
+            onValueChange = viewModel::updateTempatMeninggal,
+            isError = viewModel.hasFieldError("tempat_meninggal"),
+            errorMessage = viewModel.getFieldError("tempat_meninggal")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -147,10 +149,10 @@ private fun InformasiMendiang() {
         AppTextField(
             label = "Sebab Meninggal",
             placeholder = "Sebab meninggal",
-            value = sebabMeninggalValue,
-            onValueChange = { sebabMeninggalValue = it },
-            isError = false,
-            errorMessage = null
+            value = viewModel.sebabMeninggalValue,
+            onValueChange = viewModel::updateSebabMeninggal,
+            isError = viewModel.hasFieldError("sebab_meninggal"),
+            errorMessage = viewModel.getFieldError("sebab_meninggal")
         )
     }
 }
