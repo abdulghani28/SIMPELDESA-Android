@@ -6,6 +6,7 @@ import com.cvindosistem.simpeldesa.main.domain.model.BidangUsahaResult
 import com.cvindosistem.simpeldesa.main.domain.model.DisahkanOlehResult
 import com.cvindosistem.simpeldesa.main.domain.model.JenisUsahaResult
 import com.cvindosistem.simpeldesa.main.domain.model.PerbedaanIdentitasResult
+import com.cvindosistem.simpeldesa.main.domain.model.StatusKawinResult
 import com.cvindosistem.simpeldesa.main.domain.model.TercantumIdentitasResult
 
 class GetTercantumIdentitasUseCase(private val referensiRepository: ReferensiRepository) {
@@ -41,5 +42,11 @@ class BidangUsahaUseCase(private val referensiRepository: ReferensiRepository) {
 class JenisUsahaUseCase(private val referensiRepository: ReferensiRepository) {
     suspend operator fun invoke(): JenisUsahaResult {
         return referensiRepository.getJenisUsaha()
+    }
+}
+
+class GetStatusKawinUseCase(private val referensiRepository: ReferensiRepository) {
+    suspend operator fun invoke(): StatusKawinResult {
+        return referensiRepository.getStatusKawin()
     }
 }

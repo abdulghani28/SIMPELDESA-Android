@@ -253,8 +253,8 @@ internal fun KewarganegaraanSection(
             verticalAlignment = Alignment.CenterVertically
         ) {
             RadioButton(
-                selected = selectedKewarganegaraan == "wni",
-                onClick = { onSelectedKewarganegaraan("wni") },
+                selected = selectedKewarganegaraan == "wna",
+                onClick = { onSelectedKewarganegaraan("wna") },
                 colors = RadioButtonDefaults.colors(
                     selectedColor = MaterialTheme.colorScheme.primary
                 )

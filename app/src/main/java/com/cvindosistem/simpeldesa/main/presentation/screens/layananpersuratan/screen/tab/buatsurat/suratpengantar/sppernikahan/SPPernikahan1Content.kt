@@ -9,12 +9,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -29,7 +25,6 @@ import com.cvindosistem.simpeldesa.core.components.SectionTitle
 import com.cvindosistem.simpeldesa.core.components.StepIndicatorFlexible
 import com.cvindosistem.simpeldesa.core.components.UseMyDataCheckbox
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SPPernikahanViewModel
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SRKeramaianViewModel
 
 @Composable
 internal fun SPPernikahan1Content(
@@ -38,10 +33,6 @@ internal fun SPPernikahan1Content(
 ) {
 
     val validationErrors by viewModel.validationErrors.collectAsState()
-
-    LaunchedEffect(Unit) {
-        viewModel.loadAgama()
-    }
 
     FormSectionList(
         modifier = modifier,
@@ -150,11 +141,14 @@ private fun InformasiCalonSuami(
 
         DropdownField(
             label = "Agama",
-            value = viewModel.agamaSuamiIdValue,
-            onValueChange = viewModel::updateAgamaSuamiId,
+            value = viewModel.agamaList.find { it.id == viewModel.agamaSuamiIdValue }?.nama.orEmpty(),
+            onValueChange = { selectedNama ->
+                val selected = viewModel.agamaList.find { it.nama == selectedNama }
+                selected?.let { viewModel.updateAgamaSuamiId(it.id) }
+            },
             options = viewModel.agamaList.map { it.nama },
-            isError = viewModel.hasFieldError("agama_suami"),
-            errorMessage = viewModel.getFieldError("agama_suami"),
+            isError = viewModel.hasFieldError("agama_suami_id"),
+            errorMessage = viewModel.getFieldError("agama_suami_id"),
             onDropdownExpanded = viewModel::loadAgama
         )
 
@@ -194,34 +188,42 @@ private fun InformasiStatusPerkawinan(
 
         DropdownField(
             label = "Status",
-            value = viewModel.statusKawinSuamiIdValue,
-            onValueChange = viewModel::updateStatusKawinSuamiId,
-            options = listOf("BELUM_KAWIN", "KAWIN"),
+            value = viewModel.statusKawinList.find { it.id == viewModel.statusKawinSuamiIdValue }?.nama.orEmpty(),
+            onValueChange = { selectedNama ->
+                val selected = viewModel.statusKawinList.find { it.nama == selectedNama }
+                selected?.let { viewModel.updateStatusKawinSuamiId(it.id) }
+            },
+            options = viewModel.statusKawinList.map { it.nama },
             isError = viewModel.hasFieldError("status_kawin_suami_id"),
-            errorMessage = viewModel.getFieldError("status_kawin_suami_id")
+            errorMessage = viewModel.getFieldError("status_kawin_suami_id"),
+            onDropdownExpanded = viewModel::loadStatusKawin
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        AppNumberField(
-            label = "Jumlah Istri",
-            placeholder = "Masukkan jumlah istri",
-            value = viewModel.jumlahIstriValue,
-            onValueChange = viewModel::updateJumlahIstri,
-            isError = viewModel.hasFieldError("jumlah_istri"),
-            errorMessage = viewModel.getFieldError("jumlah_istri"),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-        )
+        if (viewModel.statusKawinSuamiIdValue in listOf("KAWIN", "KAWIN_TERCATAT", "KAWIN_TIDAK_TERCATAT")) {
+            AppNumberField(
+                label = "Jumlah Istri",
+                placeholder = "Masukkan jumlah istri",
+                value = viewModel.jumlahIstriValue,
+                onValueChange = viewModel::updateJumlahIstri,
+                isError = viewModel.hasFieldError("jumlah_istri"),
+                errorMessage = viewModel.getFieldError("jumlah_istri"),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+            )
+        }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        AppTextField(
-            label = "Nama Istri Sebelumnya",
-            placeholder = "Masukkan nama istri sebelumnya",
-            value = viewModel.namaIstriSebelumnyaValue,
-            onValueChange = viewModel::updateNamaIstriSebelumnya,
-            isError = viewModel.hasFieldError("nama_istri_sebelumnya"),
-            errorMessage = viewModel.getFieldError("nama_istri_sebelumnya"),
-        )
+        if (viewModel.statusKawinSuamiIdValue != "BELUM_KAWIN") {
+            AppTextField(
+                label = "Nama Istri Sebelumnya",
+                placeholder = "Masukkan nama istri sebelumnya",
+                value = viewModel.namaIstriSebelumnyaValue,
+                onValueChange = viewModel::updateNamaIstriSebelumnya,
+                isError = viewModel.hasFieldError("nama_istri_sebelumnya"),
+                errorMessage = viewModel.getFieldError("nama_istri_sebelumnya"),
+            )
+        }
     }
 }

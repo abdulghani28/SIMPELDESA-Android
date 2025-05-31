@@ -9,10 +9,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -32,6 +30,8 @@ internal fun SPPernikahan4Content(
     viewModel: SPPernikahanViewModel,
     modifier: Modifier = Modifier
 ) {
+    val validationErrors by viewModel.validationErrors.collectAsState()
+
     FormSectionList(
         modifier = modifier,
         background = MaterialTheme.colorScheme.background
@@ -44,26 +44,23 @@ internal fun SPPernikahan4Content(
         }
 
         item {
-            InformasiOrangTuaCalonIstri()
+            InformasiOrangTuaCalonIstri(
+                viewModel = viewModel,
+                validationErrors = validationErrors
+            )
         }
     }
 }
 
 @Composable
-private fun InformasiOrangTuaCalonIstri() {
+private fun InformasiOrangTuaCalonIstri(
+    viewModel: SPPernikahanViewModel,
+    validationErrors: Map<String, String>
+) {
     Column {
         SectionTitle("Informasi Orang Tua Calon Istri")
 
         Spacer(modifier = Modifier.height(16.dp))
-
-        var ayahNikValue by remember { mutableStateOf("") }
-        var ayahNamaValue by remember { mutableStateOf("") }
-        var ayahTempatLahirValue by remember { mutableStateOf("") }
-        var ayahTanggalLahirValue by remember { mutableStateOf("") }
-        var ayahSelectedKewarganegaraan by remember { mutableStateOf("") }
-        var ayahAgamaValue by remember { mutableStateOf("") }
-        var ayahPekerjaanValue by remember { mutableStateOf("") }
-        var ayahAlamatValue by remember { mutableStateOf("") }
 
         InformationDivider("Ayah")
 
@@ -72,10 +69,10 @@ private fun InformasiOrangTuaCalonIstri() {
         AppTextField(
             label = "Nomor Induk Kependudukan (NIK)",
             placeholder = "Masukkan NIK",
-            value = ayahNikValue,
-            onValueChange = { ayahNikValue = it },
-            isError = false,
-            errorMessage = null,
+            value = viewModel.nikAyahIstriValue,
+            onValueChange = viewModel::updateNikAyahIstri,
+            isError = viewModel.hasFieldError("nik_ayah_istri"),
+            errorMessage = viewModel.getFieldError("nik_ayah_istri"),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
 
@@ -84,10 +81,10 @@ private fun InformasiOrangTuaCalonIstri() {
         AppTextField(
             label = "Nama Lengkap",
             placeholder = "Masukkan nama lengkap",
-            value = ayahNamaValue,
-            onValueChange = { ayahNamaValue = it },
-            isError = false,
-            errorMessage = null
+            value = viewModel.namaAyahIstriValue,
+            onValueChange = viewModel::updateNamaAyahIstri,
+            isError = viewModel.hasFieldError("nama_ayah_istri"),
+            errorMessage = viewModel.getFieldError("nama_ayah_istri")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -100,20 +97,20 @@ private fun InformasiOrangTuaCalonIstri() {
                 AppTextField(
                     label = "Tempat Lahir",
                     placeholder = "Tempat lahir",
-                    value = ayahTempatLahirValue,
-                    onValueChange = { ayahTempatLahirValue = it },
-                    isError = false,
-                    errorMessage = null
+                    value = viewModel.tempatLahirAyahIstriValue,
+                    onValueChange = viewModel::updateTempatLahirAyahIstri,
+                    isError = viewModel.hasFieldError("tempat_lahir_ayah_istri"),
+                    errorMessage = viewModel.getFieldError("tempat_lahir_ayah_istri")
                 )
             }
 
             Column(modifier = Modifier.weight(1f)) {
                 DatePickerField(
                     label = "Tanggal Lahir",
-                    value = ayahTanggalLahirValue,
-                    onValueChange = { ayahTanggalLahirValue = it },
-                    isError = false,
-                    errorMessage = null,
+                    value = viewModel.tanggalLahirAyahIstriValue,
+                    onValueChange = viewModel::updateTanggalLahirAyahIstri,
+                    isError = viewModel.hasFieldError("tanggal_lahir_ayah_istri"),
+                    errorMessage = viewModel.getFieldError("tanggal_lahir_ayah_istri")
                 )
             }
         }
@@ -121,21 +118,25 @@ private fun InformasiOrangTuaCalonIstri() {
         Spacer(modifier = Modifier.height(16.dp))
 
         KewarganegaraanSection(
-            selectedKewarganegaraan = ayahSelectedKewarganegaraan,
-            onSelectedKewarganegaraan = { ayahSelectedKewarganegaraan = it },
-            isError = false,
-            errorMessage = null,
+            selectedKewarganegaraan = viewModel.kewarganegaraanAyahIstriValue,
+            onSelectedKewarganegaraan = viewModel::updateKewarganegaraanAyahIstri,
+            isError = viewModel.hasFieldError("kewarganegaraan_ayah_istri"),
+            errorMessage = viewModel.getFieldError("kewarganegaraan_ayah_istri")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         DropdownField(
             label = "Agama",
-            value = ayahAgamaValue,
-            onValueChange = { ayahAgamaValue = it },
-            options = listOf("Islam", "Kristen", "Katolik", "Hindu", "Buddha", "Konghucu"),
-            isError = false,
-            errorMessage = null,
+            value = viewModel.agamaList.find { it.id == viewModel.agamaAyahIstriIdValue }?.nama.orEmpty(),
+            onValueChange = { selectedNama ->
+                val selected = viewModel.agamaList.find { it.nama == selectedNama }
+                selected?.let { viewModel.updateAgamaAyahIstriId(it.id) }
+            },
+            options = viewModel.agamaList.map { it.nama },
+            isError = viewModel.hasFieldError("agama_ayah_istri_id"),
+            errorMessage = viewModel.getFieldError("agama_ayah_istri_id"),
+            onDropdownExpanded = viewModel::loadAgama
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -143,10 +144,10 @@ private fun InformasiOrangTuaCalonIstri() {
         AppTextField(
             label = "Pekerjaan",
             placeholder = "Masukkan pekerjaan",
-            value = ayahPekerjaanValue,
-            onValueChange = { ayahPekerjaanValue = it },
-            isError = false,
-            errorMessage = null
+            value = viewModel.pekerjaanAyahIstriValue,
+            onValueChange = viewModel::updatePekerjaanAyahIstri,
+            isError = viewModel.hasFieldError("pekerjaan_ayah_istri"),
+            errorMessage = viewModel.getFieldError("pekerjaan_ayah_istri")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -154,23 +155,14 @@ private fun InformasiOrangTuaCalonIstri() {
         MultilineTextField(
             label = "Alamat Tinggal",
             placeholder = "Masukkan alamat lengkap",
-            value = ayahAlamatValue,
-            onValueChange = { ayahAlamatValue = it },
-            isError = false,
-            errorMessage = null
+            value = viewModel.alamatAyahIstriValue,
+            onValueChange = viewModel::updateAlamatAyahIstri,
+            isError = viewModel.hasFieldError("alamat_ayah_istri"),
+            errorMessage = viewModel.getFieldError("alamat_ayah_istri")
         )
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Ibu Section
-        var ibuNikValue by remember { mutableStateOf("") }
-        var ibuNamaValue by remember { mutableStateOf("") }
-        var ibuTempatLahirValue by remember { mutableStateOf("") }
-        var ibuTanggalLahirValue by remember { mutableStateOf("") }
-        var ibuSelectedKewarganegaraan by remember { mutableStateOf("") }
-        var ibuAgamaValue by remember { mutableStateOf("") }
-        var ibuPekerjaanValue by remember { mutableStateOf("") }
-        var ibuAlamatValue by remember { mutableStateOf("") }
 
         InformationDivider("Ibu")
 
@@ -179,10 +171,10 @@ private fun InformasiOrangTuaCalonIstri() {
         AppTextField(
             label = "Nomor Induk Kependudukan (NIK)",
             placeholder = "Masukkan NIK",
-            value = ibuNikValue,
-            onValueChange = { ibuNikValue = it },
-            isError = false,
-            errorMessage = null,
+            value = viewModel.nikIbuIstriValue,
+            onValueChange = viewModel::updateNikIbuIstri,
+            isError = viewModel.hasFieldError("nik_ibu_istri"),
+            errorMessage = viewModel.getFieldError("nik_ibu_istri"),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
 
@@ -191,10 +183,10 @@ private fun InformasiOrangTuaCalonIstri() {
         AppTextField(
             label = "Nama Lengkap",
             placeholder = "Masukkan nama lengkap",
-            value = ibuNamaValue,
-            onValueChange = { ibuNamaValue = it },
-            isError = false,
-            errorMessage = null
+            value = viewModel.namaIbuIstriValue,
+            onValueChange = viewModel::updateNamaIbuIstri,
+            isError = viewModel.hasFieldError("nama_ibu_istri"),
+            errorMessage = viewModel.getFieldError("nama_ibu_istri")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -207,20 +199,20 @@ private fun InformasiOrangTuaCalonIstri() {
                 AppTextField(
                     label = "Tempat Lahir",
                     placeholder = "Tempat lahir",
-                    value = ibuTempatLahirValue,
-                    onValueChange = { ibuTempatLahirValue = it },
-                    isError = false,
-                    errorMessage = null
+                    value = viewModel.tempatLahirIbuIstriValue,
+                    onValueChange = viewModel::updateTempatLahirIbuIstri,
+                    isError = viewModel.hasFieldError("tempat_lahir_ibu_istri"),
+                    errorMessage = viewModel.getFieldError("tempat_lahir_ibu_istri")
                 )
             }
 
             Column(modifier = Modifier.weight(1f)) {
                 DatePickerField(
                     label = "Tanggal Lahir",
-                    value = ibuTanggalLahirValue,
-                    onValueChange = { ibuTanggalLahirValue = it },
-                    isError = false,
-                    errorMessage = null,
+                    value = viewModel.tanggalLahirIbuIstriValue,
+                    onValueChange = viewModel::updateTanggalLahirIbuIstri,
+                    isError = viewModel.hasFieldError("tanggal_lahir_ibu_istri"),
+                    errorMessage = viewModel.getFieldError("tanggal_lahir_ibu_istri")
                 )
             }
         }
@@ -228,21 +220,21 @@ private fun InformasiOrangTuaCalonIstri() {
         Spacer(modifier = Modifier.height(16.dp))
 
         KewarganegaraanSection(
-            selectedKewarganegaraan = ibuSelectedKewarganegaraan,
-            onSelectedKewarganegaraan = { ibuSelectedKewarganegaraan = it },
-            isError = false,
-            errorMessage = null,
+            selectedKewarganegaraan = viewModel.kewarganegaraanIbuIstriValue,
+            onSelectedKewarganegaraan = viewModel::updateKewarganegaraanIbuIstri,
+            isError = viewModel.hasFieldError("kewarganegaraan_ibu_istri"),
+            errorMessage = viewModel.getFieldError("kewarganegaraan_ibu_istri")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         DropdownField(
             label = "Agama",
-            value = ibuAgamaValue,
-            onValueChange = { ibuAgamaValue = it },
-            options = listOf("Islam", "Kristen", "Katolik", "Hindu", "Buddha", "Konghucu"),
-            isError = false,
-            errorMessage = null,
+            value = viewModel.agamaIbuIstriIdValue,
+            onValueChange = viewModel::updateAgamaIbuIstriId,
+            options = viewModel.agamaList.map { it.nama },
+            isError = viewModel.hasFieldError("agama_ibu_istri_id"),
+            errorMessage = viewModel.getFieldError("agama_ibu_istri_id")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -250,10 +242,10 @@ private fun InformasiOrangTuaCalonIstri() {
         AppTextField(
             label = "Pekerjaan",
             placeholder = "Masukkan pekerjaan",
-            value = ibuPekerjaanValue,
-            onValueChange = { ibuPekerjaanValue = it },
-            isError = false,
-            errorMessage = null
+            value = viewModel.pekerjaanIbuIstriValue,
+            onValueChange = viewModel::updatePekerjaanIbuIstri,
+            isError = viewModel.hasFieldError("pekerjaan_ibu_istri"),
+            errorMessage = viewModel.getFieldError("pekerjaan_ibu_istri")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -261,10 +253,10 @@ private fun InformasiOrangTuaCalonIstri() {
         MultilineTextField(
             label = "Alamat Tinggal",
             placeholder = "Masukkan alamat lengkap",
-            value = ibuAlamatValue,
-            onValueChange = { ibuAlamatValue = it },
-            isError = false,
-            errorMessage = null
+            value = viewModel.alamatIbuIstriValue,
+            onValueChange = viewModel::updateAlamatIbuIstri,
+            isError = viewModel.hasFieldError("alamat_ibu_istri"),
+            errorMessage = viewModel.getFieldError("alamat_ibu_istri")
         )
     }
 }

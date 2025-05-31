@@ -29,6 +29,7 @@ import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratTidakMasukKer
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratTugasUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratUsahaUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetAgamaUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.GetStatusKawinUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetSuratDetailUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetSuratListUseCase
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SPCatatanKepolisianViewModel
@@ -74,9 +75,10 @@ val mainModule = module {
     single { CreateSuratTugasUseCase(get()) }
     single { CreateSuratIzinTidakKerjaUseCase(get()) }
     single { GetAgamaUseCase(get()) }
+    single { GetStatusKawinUseCase(get()) }
 
     viewModel { SuratSayaViewModel(get()) }
     viewModel { SRKeramaianViewModel(get(), get()) }
     viewModel { SPCatatanKepolisianViewModel(get(), get()) }
-    viewModel { SPPernikahanViewModel(get(), get(), get()) }
+    viewModel { SPPernikahanViewModel(get(), get(), get(), get()) }
 }

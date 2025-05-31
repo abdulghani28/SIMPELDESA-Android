@@ -5,10 +5,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.cvindosistem.simpeldesa.core.components.AppTextField
@@ -25,6 +23,8 @@ internal fun SPPernikahan5Content(
     viewModel: SPPernikahanViewModel,
     modifier: Modifier = Modifier
 ) {
+    val validationErrors by viewModel.validationErrors.collectAsState()
+
     FormSectionList(
         modifier = modifier,
         background = MaterialTheme.colorScheme.background
@@ -37,50 +37,52 @@ internal fun SPPernikahan5Content(
         }
 
         item {
-            InformasiRencanaPernikahan()
+            InformasiRencanaPernikahan(
+                viewModel = viewModel,
+                validationErrors = validationErrors
+            )
         }
     }
 }
 
 @Composable
-private fun InformasiRencanaPernikahan() {
+private fun InformasiRencanaPernikahan(
+    viewModel: SPPernikahanViewModel,
+    validationErrors: Map<String, String>
+) {
     Column {
         SectionTitle("Informasi Rencana Pernikahan")
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        var hariValue by remember { mutableStateOf("") }
-        var tanggalPernikahanValue by remember { mutableStateOf("") }
-        var jamValue by remember { mutableStateOf("") }
-        var tempatPernikahanValue by remember { mutableStateOf("") }
-
         DropdownField(
             label = "Hari",
-            value = hariValue,
-            onValueChange = { hariValue = it },
-            options = listOf("Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"),
-            isError = false,
-            errorMessage = null,
+            value = viewModel.hariPernikahanValue.replaceFirstChar { it.uppercase() },
+            onValueChange = { viewModel.updateHariPernikahan(it.lowercase()) },
+            options = listOf("senin", "selasa", "rabu", "kamis", "jumat", "sabtu", "minggu")
+                .map { it.replaceFirstChar { c -> c.uppercase() } },
+            isError = viewModel.hasFieldError("hari_pernikahan"),
+            errorMessage = viewModel.getFieldError("hari_pernikahan"),
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         DatePickerField(
             label = "Tanggal Pernikahan",
-            value = tanggalPernikahanValue,
-            onValueChange = { tanggalPernikahanValue = it },
-            isError = false,
-            errorMessage = null,
+            value = viewModel.tanggalPernikahanValue,
+            onValueChange = viewModel::updateTanggalPernikahan,
+            isError = viewModel.hasFieldError("tanggal_pernikahan"),
+            errorMessage = viewModel.getFieldError("tanggal_pernikahan"),
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         TimePickerField(
             label = "Jam",
-            value = jamValue,
-            onValueChange = { jamValue = it },
-            isError = false,
-            errorMessage = null,
+            value = viewModel.jamPernikahanValue,
+            onValueChange = viewModel::updateJamPernikahan,
+            isError = viewModel.hasFieldError("jam_pernikahan"),
+            errorMessage = viewModel.getFieldError("jam_pernikahan"),
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -88,10 +90,10 @@ private fun InformasiRencanaPernikahan() {
         AppTextField(
             label = "Tempat Pernikahan",
             placeholder = "Masukkan tempat pernikahan",
-            value = tempatPernikahanValue,
-            onValueChange = { tempatPernikahanValue = it },
-            isError = false,
-            errorMessage = null
+            value = viewModel.tempatPernikahanValue,
+            onValueChange = viewModel::updateTempatPernikahan,
+            isError = viewModel.hasFieldError("tempat_pernikahan"),
+            errorMessage = viewModel.getFieldError("tempat_pernikahan"),
         )
     }
 }

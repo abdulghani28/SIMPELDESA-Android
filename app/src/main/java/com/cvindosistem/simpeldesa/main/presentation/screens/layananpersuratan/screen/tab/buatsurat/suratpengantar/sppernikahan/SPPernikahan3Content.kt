@@ -11,9 +11,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -125,11 +122,14 @@ private fun InformasiCalonIstri(
 
         DropdownField(
             label = "Agama",
-            value = viewModel.agamaIstriIdValue,
-            onValueChange = viewModel::updateAgamaIstriId,
+            value = viewModel.agamaList.find { it.id == viewModel.agamaIstriIdValue }?.nama.orEmpty(),
+            onValueChange = { selectedNama ->
+                val selected = viewModel.agamaList.find { it.nama == selectedNama }
+                selected?.let { viewModel.updateAgamaIstriId(it.id) }
+            },
             options = viewModel.agamaList.map { it.nama },
-            isError = viewModel.hasFieldError("agama_istri"),
-            errorMessage = viewModel.getFieldError("agama_istri"),
+            isError = viewModel.hasFieldError("agama_istri_id"),
+            errorMessage = viewModel.getFieldError("agama_istri_id"),
             onDropdownExpanded = viewModel::loadAgama
         )
 
@@ -163,22 +163,28 @@ private fun InformasiCalonIstri(
 
         DropdownField(
             label = "Status",
-            value = viewModel.statusKawinIstriIdValue,
-            onValueChange = viewModel::updateStatusKawinIstriId,
-            options = listOf("BELUM_KAWIN", "KAWIN"),
+            value = viewModel.statusKawinList.find { it.id == viewModel.statusKawinIstriIdValue }?.nama.orEmpty(),
+            onValueChange = { selectedNama ->
+                val selected = viewModel.statusKawinList.find { it.nama == selectedNama }
+                selected?.let { viewModel.updateStatusKawinIstriId(it.id) }
+            },
+            options = viewModel.statusKawinList.map { it.nama },
             isError = viewModel.hasFieldError("status_kawin_istri_id"),
             errorMessage = viewModel.getFieldError("status_kawin_istri_id"),
+            onDropdownExpanded = viewModel::loadStatusKawin
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        AppTextField(
-            label = "Nama Suami Sebelumnya",
-            placeholder = "Masukkan nama suami sebelumnya",
-            value = viewModel.namaSuamiSebelumnyaValue,
-            onValueChange = viewModel::updateNamaSuamiSebelumnya,
-            isError = viewModel.hasFieldError("nama_suami_sebelumnya"),
-            errorMessage = viewModel.getFieldError("nama_suami_sebelumnya"),
-        )
+        if (viewModel.statusKawinIstriIdValue in listOf("CERAI_HIDUP", "CERAI_MATI")) {
+            AppTextField(
+                label = "Nama Suami Sebelumnya",
+                placeholder = "Masukkan nama suami sebelumnya",
+                value = viewModel.namaSuamiSebelumnyaValue,
+                onValueChange = viewModel::updateNamaSuamiSebelumnya,
+                isError = viewModel.hasFieldError("nama_suami_sebelumnya"),
+                errorMessage = viewModel.getFieldError("nama_suami_sebelumnya"),
+            )
+        }
     }
 }

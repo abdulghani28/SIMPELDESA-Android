@@ -5,6 +5,7 @@ import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.BidangUsahaRes
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.DisahkanOlehResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.JenisUsahaResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.PerbedaanIdentitasResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.StatusKawinResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.TercantumIdentitasResponse
 
 sealed class TercantumIdentitasResult {
@@ -37,3 +38,7 @@ sealed class BidangUsahaResult {
     data class Error(val message: String) : BidangUsahaResult()
 }
 
+sealed class StatusKawinResult {
+    data class Success(val data: StatusKawinResponse) : StatusKawinResult()
+    data class Error(val message: String) : StatusKawinResult()
+}

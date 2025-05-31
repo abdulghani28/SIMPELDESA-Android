@@ -8,6 +8,7 @@ import com.cvindosistem.simpeldesa.main.domain.model.BidangUsahaResult
 import com.cvindosistem.simpeldesa.main.domain.model.DisahkanOlehResult
 import com.cvindosistem.simpeldesa.main.domain.model.JenisUsahaResult
 import com.cvindosistem.simpeldesa.main.domain.model.PerbedaanIdentitasResult
+import com.cvindosistem.simpeldesa.main.domain.model.StatusKawinResult
 import com.cvindosistem.simpeldesa.main.domain.model.TercantumIdentitasResult
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
@@ -20,6 +21,7 @@ interface ReferensiRepository {
     suspend fun getAgama(): AgamaResult
     suspend fun getJenisUsaha(): JenisUsahaResult
     suspend fun getBidangUsaha(): BidangUsahaResult
+    suspend fun getStatusKawin(): StatusKawinResult
 }
 
 class ReferensiRepositoryImpl(
@@ -203,6 +205,36 @@ class ReferensiRepositoryImpl(
         } catch (e: Exception) {
             Log.e("ReferensiRepository", "BidangUsaha exception", e)
             return@withContext BidangUsahaResult.Error(e.message ?: "Unknown error occurred")
+        }
+    }
+
+    override suspend fun getStatusKawin(): StatusKawinResult = withContext(Dispatchers.IO) {
+        try {
+            val response = referensiApi.getStatusKawin()
+
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Log.d("ReferensiRepository", "Fetched statusKawin")
+                    return@withContext StatusKawinResult.Success(it)
+                } ?: run {
+                    Log.e("ReferensiRepository", "StatusKawin response body is null")
+                    return@withContext StatusKawinResult.Error("Unknown error occurred")
+                }
+            } else {
+                val errorBody = response.errorBody()?.string()
+                val errorResponse = try {
+                    Gson().fromJson(errorBody, ErrorResponse::class.java)
+                } catch (e: Exception) {
+                    null
+                }
+
+                val errorMessage = errorResponse?.message ?: "Failed to fetch statusKawin"
+                Log.e("ReferensiRepository", "StatusKawin failed: $errorMessage")
+                return@withContext StatusKawinResult.Error(errorMessage)
+            }
+        } catch (e: Exception) {
+            Log.e("ReferensiRepository", "StatusKawin exception", e)
+            return@withContext StatusKawinResult.Error(e.message ?: "Unknown error occurred")
         }
     }
 }

@@ -11,13 +11,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.cvindosistem.simpeldesa.core.components.AppTextField
 import com.cvindosistem.simpeldesa.core.components.DatePickerField
 import com.cvindosistem.simpeldesa.core.components.DropdownField
@@ -132,11 +128,15 @@ private fun InformasiOrangTuaCalonSuami(
 
         DropdownField(
             label = "Agama",
-            value = viewModel.agamaAyahSuamiIdValue,
-            onValueChange = viewModel::updateAgamaAyahSuamiId,
+            value = viewModel.agamaList.find { it.id == viewModel.agamaAyahSuamiIdValue }?.nama.orEmpty(),
+            onValueChange = { selectedNama ->
+                val selected = viewModel.agamaList.find { it.nama == selectedNama }
+                selected?.let { viewModel.updateAgamaAyahSuamiId(it.id) }
+            },
             options = viewModel.agamaList.map { it.nama },
             isError = viewModel.hasFieldError("agama_ayah_suami_id"),
-            errorMessage = viewModel.getFieldError("agama_ayah_suami_id")
+            errorMessage = viewModel.getFieldError("agama_ayah_suami_id"),
+            onDropdownExpanded = viewModel::loadAgama
         )
 
         Spacer(modifier = Modifier.height(16.dp))

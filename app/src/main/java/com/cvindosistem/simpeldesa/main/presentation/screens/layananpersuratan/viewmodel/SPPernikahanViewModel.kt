@@ -10,29 +10,30 @@ import com.cvindosistem.simpeldesa.auth.domain.model.UserInfoResult
 import com.cvindosistem.simpeldesa.auth.domain.usecases.GetUserInfoUseCase
 import com.cvindosistem.simpeldesa.core.helpers.dateFormatterToApiFormat
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.AgamaResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.StatusKawinResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratpengantar.SPPernikahanRequest
 import com.cvindosistem.simpeldesa.main.domain.model.AgamaResult
+import com.cvindosistem.simpeldesa.main.domain.model.StatusKawinResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratPernikahanResult
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratPernikahanUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetAgamaUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.GetStatusKawinUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SPPernikahanViewModel(
     private val createSuratPernikahanUseCase: CreateSuratPernikahanUseCase,
     private val getUserInfoUseCase: GetUserInfoUseCase,
-    private val getAgamaUseCase: GetAgamaUseCase
+    private val getAgamaUseCase: GetAgamaUseCase,
+    private val getStatusKawinUseCase: GetStatusKawinUseCase
 ) : ViewModel() {
 
     // UI State for the form
     private val _uiState = MutableStateFlow(SPPernikahanUiState())
     val uiState = _uiState.asStateFlow()
-
-    private var agamaLoaded = false
 
     // Loading state
     var isLoading by mutableStateOf(false)
@@ -49,6 +50,10 @@ class SPPernikahanViewModel(
     var agamaList by mutableStateOf<List<AgamaResponse.Data>>(emptyList())
     var isLoadingAgama by mutableStateOf(false)
     var agamaErrorMessage by mutableStateOf<String?>(null)
+
+    var statusKawinList by mutableStateOf<List<StatusKawinResponse.Data>>(emptyList())
+    var isLoadingStatusKawin by mutableStateOf(false)
+    var statusKawinErrorMessage by mutableStateOf<String?>(null)
 
 
     // Use My Data state
@@ -211,6 +216,8 @@ class SPPernikahanViewModel(
         useMyDataChecked = checked
         if (checked) {
             loadUserData()
+            loadAgama()
+            loadStatusKawin()
         } else {
             clearUserData()
         }
@@ -349,6 +356,29 @@ class SPPernikahanViewModel(
                 _pernikahanEvent.emit(SPPernikahanEvent.AgamaLoadError(agamaErrorMessage!!))
             } finally {
                 isLoadingAgama = false
+            }
+        }
+    }
+
+    fun loadStatusKawin() {
+        viewModelScope.launch {
+            isLoadingStatusKawin = true
+            statusKawinErrorMessage = null
+            try {
+                when (val result = getStatusKawinUseCase()) {
+                    is StatusKawinResult.Success -> {
+                        statusKawinList = result.data.data // <- ini penting!
+                    }
+                    is StatusKawinResult.Error -> {
+                        statusKawinErrorMessage = result.message
+                        _pernikahanEvent.emit(SPPernikahanEvent.StatusKawinLoadError(result.message))
+                    }
+                }
+            } catch (e: Exception) {
+                statusKawinErrorMessage = e.message ?: "Gagal memuat data statusKawin"
+                _pernikahanEvent.emit(SPPernikahanEvent.StatusKawinLoadError(statusKawinErrorMessage!!))
+            } finally {
+                isLoadingStatusKawin = false
             }
         }
     }
@@ -1154,12 +1184,14 @@ class SPPernikahanViewModel(
         data object ValidationError : SPPernikahanEvent()
         data class UserDataLoadError(val message: String) : SPPernikahanEvent()
         data class AgamaLoadError(val message: String) : SPPernikahanEvent()
+        data class StatusKawinLoadError(val message: String) : SPPernikahanEvent()
     }
 }
 
 // UI State data class
 data class SPPernikahanUiState(
     val agamaList: List<AgamaResponse.Data> = emptyList(),
+    val statusKawinList: List<StatusKawinResponse.Data> = emptyList(),
     val isFormDirty: Boolean = false,
     val currentStep: Int = 1,
     val totalSteps: Int = 2
