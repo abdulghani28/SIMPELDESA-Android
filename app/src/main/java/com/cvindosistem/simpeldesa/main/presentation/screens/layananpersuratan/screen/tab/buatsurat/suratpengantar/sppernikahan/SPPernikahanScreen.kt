@@ -8,10 +8,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -35,6 +37,7 @@ import com.cvindosistem.simpeldesa.main.presentation.components.PreviewItem
 import com.cvindosistem.simpeldesa.main.presentation.components.PreviewSection
 import com.cvindosistem.simpeldesa.main.presentation.components.SubmitConfirmationDialog
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpengantar.SPPernikahanViewModel
+import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -48,6 +51,10 @@ fun SPPernikahanScreen(
     val isLoading by remember { derivedStateOf { spPernikahanViewModel.isLoading } }
     val hasFormData by remember { derivedStateOf { spPernikahanViewModel.hasFormData() } }
     val totalSteps = 5
+
+    var showSuccessDialog by remember { mutableStateOf(false) }
+    var successDialogTitle by remember { mutableStateOf("") }
+    var successDialogMessage by remember { mutableStateOf("") }
 
     // State untuk dialog dan snackbar
     var showBackWarningDialog by remember { mutableStateOf(false) }
@@ -70,15 +77,20 @@ fun SPPernikahanScreen(
         spPernikahanViewModel.pernikahanEvent.collect { event ->
             when (event) {
                 is SPPernikahanViewModel.SPPernikahanEvent.SubmitSuccess -> {
+                    // Tampilkan dialog sukses
+                    successDialogTitle = "Berhasil"
+                    successDialogMessage = "Surat berhasil diajukan"
+                    showSuccessDialog = true
+
+                    // Delay 2 detik kemudian tutup dialog dan navigasi
+                    delay(1500)
+                    showSuccessDialog = false
+
                     navController.navigate(Screen.MainScreen.route) {
                         popUpTo(Screen.MainScreen.route) {
                             inclusive = false
                         }
                     }
-                    snackbarHostState.showSnackbar(
-                        message = "Surat kuasa berhasil diajukan",
-                        duration = SnackbarDuration.Long
-                    )
                 }
                 is SPPernikahanViewModel.SPPernikahanEvent.SubmitError -> {
                     errorDialogTitle = "Gagal Mengirim"
@@ -196,6 +208,15 @@ fun SPPernikahanScreen(
                     onDismiss = {
                         showBackWarningDialog = false
                     }
+                )
+            }
+
+            if (showSuccessDialog) {
+                AlertDialog(
+                    onDismissRequest = {},
+                    title = { Text(text = successDialogTitle) },
+                    text = { Text(text = successDialogMessage) },
+                    confirmButton = {}
                 )
             }
 

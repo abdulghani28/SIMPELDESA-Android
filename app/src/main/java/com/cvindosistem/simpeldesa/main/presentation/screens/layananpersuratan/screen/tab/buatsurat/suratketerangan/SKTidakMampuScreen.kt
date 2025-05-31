@@ -1,4 +1,4 @@
-package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratpengantar
+package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
@@ -33,6 +33,7 @@ import com.cvindosistem.simpeldesa.core.components.AppBottomBar
 import com.cvindosistem.simpeldesa.core.components.AppTextField
 import com.cvindosistem.simpeldesa.core.components.AppTopBar
 import com.cvindosistem.simpeldesa.core.components.DatePickerField
+import com.cvindosistem.simpeldesa.core.components.DropdownField
 import com.cvindosistem.simpeldesa.core.components.ErrorDialog
 import com.cvindosistem.simpeldesa.core.components.FormSectionList
 import com.cvindosistem.simpeldesa.core.components.GenderSelection
@@ -47,23 +48,24 @@ import com.cvindosistem.simpeldesa.main.presentation.components.BaseDialog
 import com.cvindosistem.simpeldesa.main.presentation.components.PreviewItem
 import com.cvindosistem.simpeldesa.main.presentation.components.PreviewSection
 import com.cvindosistem.simpeldesa.main.presentation.components.SubmitConfirmationDialog
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpengantar.SPCatatanKepolisianViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.SKTidakMampuViewModel
 import kotlinx.coroutines.delay
 
 @Composable
-fun SPCatatanKepolisianScreen(
-    spCatatanKepolisianViewModel: SPCatatanKepolisianViewModel,
+fun SKTidakMampuScreen(
+    sKTidakMampuViewModel: SKTidakMampuViewModel,
     navController: NavController
 ) {
-    val showConfirmationDialog by remember { derivedStateOf { spCatatanKepolisianViewModel.showConfirmationDialog } }
-    val showPreviewDialog by remember { derivedStateOf { spCatatanKepolisianViewModel.showPreviewDialog } }
-    val isLoading by remember { derivedStateOf { spCatatanKepolisianViewModel.isLoading } }
-    val hasFormData by remember { derivedStateOf { spCatatanKepolisianViewModel.hasFormData() } }
-    val validationErrors by spCatatanKepolisianViewModel.validationErrors.collectAsState()
+    val showConfirmationDialog by remember { derivedStateOf { sKTidakMampuViewModel.showConfirmationDialog } }
+    val showPreviewDialog by remember { derivedStateOf { sKTidakMampuViewModel.showPreviewDialog } }
+    val isLoading by remember { derivedStateOf { sKTidakMampuViewModel.isLoading } }
+    val hasFormData by remember { derivedStateOf { sKTidakMampuViewModel.hasFormData() } }
+    val validationErrors by sKTidakMampuViewModel.validationErrors.collectAsState()
 
     var showSuccessDialog by remember { mutableStateOf(false) }
     var successDialogTitle by remember { mutableStateOf("") }
     var successDialogMessage by remember { mutableStateOf("") }
+
 
     // State untuk dialog dan snackbar
     var showBackWarningDialog by remember { mutableStateOf(false) }
@@ -83,10 +85,10 @@ fun SPCatatanKepolisianScreen(
         }
     }
 
-    LaunchedEffect(spCatatanKepolisianViewModel.catatanKepolisianEvent) {
-        spCatatanKepolisianViewModel.catatanKepolisianEvent.collect { event ->
+    LaunchedEffect(sKTidakMampuViewModel.catatanTidakMampuEvent) {
+        sKTidakMampuViewModel.catatanTidakMampuEvent.collect { event ->
             when (event) {
-                is SPCatatanKepolisianViewModel.SPCatatanKepolisianEvent.SubmitSuccess -> {
+                is SKTidakMampuViewModel.SKTidakMampuEvent.SubmitSuccess -> {
                     // Tampilkan dialog sukses
                     successDialogTitle = "Berhasil"
                     successDialogMessage = "Surat berhasil diajukan"
@@ -102,28 +104,38 @@ fun SPCatatanKepolisianScreen(
                         }
                     }
                 }
-                is SPCatatanKepolisianViewModel.SPCatatanKepolisianEvent.SubmitError -> {
+                is SKTidakMampuViewModel.SKTidakMampuEvent.SubmitError -> {
                     errorDialogTitle = "Gagal Mengirim"
                     errorDialogMessage = event.message
                     showErrorDialog = true
                 }
-                is SPCatatanKepolisianViewModel.SPCatatanKepolisianEvent.UserDataLoadError -> {
+                is SKTidakMampuViewModel.SKTidakMampuEvent.UserDataLoadError -> {
                     errorDialogTitle = "Gagal Memuat Data"
                     errorDialogMessage = event.message
                     showErrorDialog = true
                 }
-                is SPCatatanKepolisianViewModel.SPCatatanKepolisianEvent.ValidationError -> {
+                is SKTidakMampuViewModel.SKTidakMampuEvent.ValidationError -> {
                     snackbarHostState.showSnackbar(
                         message = "Mohon lengkapi semua field yang diperlukan",
                         duration = SnackbarDuration.Short
                     )
                 }
-                is SPCatatanKepolisianViewModel.SPCatatanKepolisianEvent.StepChanged -> {
+                is SKTidakMampuViewModel.SKTidakMampuEvent.StepChanged -> {
                     // Optional: Show step change feedback
                     snackbarHostState.showSnackbar(
                         message = "Beralih ke langkah ${event.step}",
                         duration = SnackbarDuration.Short
                     )
+                }
+                is SKTidakMampuViewModel.SKTidakMampuEvent.AgamaLoadError -> {
+                    errorDialogTitle = "Gagal Memuat Agama"
+                    errorDialogMessage = event.message
+                    showErrorDialog = true
+                }
+                is SKTidakMampuViewModel.SKTidakMampuEvent.StatusKawinLoadError -> {
+                    errorDialogTitle = "Gagal Memuat Status"
+                    errorDialogMessage = event.message
+                    showErrorDialog = true
                 }
             }
         }
@@ -149,8 +161,8 @@ fun SPCatatanKepolisianScreen(
         },
         bottomBar = {
             AppBottomBar(
-                onPreviewClick = { spCatatanKepolisianViewModel.showPreview() },
-                onSubmitClick = { spCatatanKepolisianViewModel.showConfirmationDialog() }
+                onPreviewClick = { sKTidakMampuViewModel.showPreview() },
+                onSubmitClick = { sKTidakMampuViewModel.showConfirmationDialog() }
             )
         }
     ) { paddingValues ->
@@ -160,28 +172,28 @@ fun SPCatatanKepolisianScreen(
         ) {
             item {
                 UseMyDataCheckbox(
-                    checked = spCatatanKepolisianViewModel.useMyDataChecked,
-                    onCheckedChange = spCatatanKepolisianViewModel::updateUseMyData,
-                    isLoading = spCatatanKepolisianViewModel.isLoadingUserData
+                    checked = sKTidakMampuViewModel.useMyDataChecked,
+                    onCheckedChange = sKTidakMampuViewModel::updateUseMyData,
+                    isLoading = sKTidakMampuViewModel.isLoadingUserData
                 )
             }
 
             item {
                 InformasiPelapor(
-                    viewModel = spCatatanKepolisianViewModel,
+                    viewModel = sKTidakMampuViewModel,
                     validationErrors = validationErrors
                 )
             }
         }
         if (showPreviewDialog) {
             PreviewDialog(
-                viewModel = spCatatanKepolisianViewModel,
+                viewModel = sKTidakMampuViewModel,
                 onDismiss = {
-                    spCatatanKepolisianViewModel.dismissPreview()
+                    sKTidakMampuViewModel.dismissPreview()
                 },
                 onSubmit = {
-                    spCatatanKepolisianViewModel.dismissPreview()
-                    spCatatanKepolisianViewModel.showConfirmationDialog()
+                    sKTidakMampuViewModel.dismissPreview()
+                    sKTidakMampuViewModel.showConfirmationDialog()
                 }
             )
         }
@@ -190,14 +202,14 @@ fun SPCatatanKepolisianScreen(
         if (showConfirmationDialog) {
             SubmitConfirmationDialog(
                 onConfirm = {
-                    spCatatanKepolisianViewModel.confirmSubmit()
+                    sKTidakMampuViewModel.confirmSubmit()
                 },
                 onDismiss = {
-                    spCatatanKepolisianViewModel.dismissConfirmationDialog()
+                    sKTidakMampuViewModel.dismissConfirmationDialog()
                 },
                 onPreview = {
-                    spCatatanKepolisianViewModel.dismissConfirmationDialog()
-                    spCatatanKepolisianViewModel.showPreview()
+                    sKTidakMampuViewModel.dismissConfirmationDialog()
+                    sKTidakMampuViewModel.showPreview()
                 }
             )
         }
@@ -231,7 +243,7 @@ fun SPCatatanKepolisianScreen(
                 message = errorDialogMessage,
                 onDismiss = {
                     showErrorDialog = false
-                    spCatatanKepolisianViewModel.clearError()
+                    sKTidakMampuViewModel.clearError()
                 }
             )
         }
@@ -245,7 +257,7 @@ fun SPCatatanKepolisianScreen(
 
 @Composable
 private fun InformasiPelapor(
-    viewModel: SPCatatanKepolisianViewModel,
+    viewModel: SKTidakMampuViewModel,
     validationErrors: Map<String, String>
 ) {
     Column {
@@ -313,6 +325,21 @@ private fun InformasiPelapor(
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        DropdownField(
+            label = "Agama",
+            value = viewModel.agamaList.find { it.id == viewModel.agamaValue }?.nama.orEmpty(),
+            onValueChange = { selectedNama ->
+                val selected = viewModel.agamaList.find { it.nama == selectedNama }
+                selected?.let { viewModel.updateAgama(it.id) }
+            },
+            options = viewModel.agamaList.map { it.nama },
+            isError = viewModel.hasFieldError("agama_id"),
+            errorMessage = viewModel.getFieldError("agama_id"),
+            onDropdownExpanded = viewModel::loadAgama
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         AppTextField(
             label = "Pekerjaan",
             placeholder = "Masukkan pekerjaan",
@@ -348,7 +375,7 @@ private fun InformasiPelapor(
 
 @Composable
 private fun PreviewDialog(
-    viewModel: SPCatatanKepolisianViewModel,
+    viewModel: SKTidakMampuViewModel,
     onDismiss: () -> Unit,
     onSubmit: () -> Unit
 ) {
@@ -372,6 +399,7 @@ private fun PreviewDialog(
                         PreviewItem("Tempat Lahir", viewModel.tempatLahirValue)
                         PreviewItem("Tanggal Lahir", dateFormatterToApiFormat(viewModel.tanggalLahirValue))
                         PreviewItem("Jenis Kelamin", viewModel.selectedGender)
+                        PreviewItem("Agama", viewModel.agamaValue)
                         PreviewItem("Pekerjaan", viewModel.pekerjaanValue)
                         PreviewItem("Alamat", viewModel.alamatValue)
                         PreviewItem("Keperluan", viewModel.alamatValue)
