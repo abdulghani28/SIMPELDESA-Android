@@ -30,6 +30,9 @@ class SuratTugasViewModel(
     var isLoading by mutableStateOf(false)
         private set
 
+    var additionalRecipients by mutableStateOf<List<AdditionalRecipient>>(emptyList())
+        private set
+
     // Error state
     var errorMessage by mutableStateOf<String?>(null)
         private set
@@ -76,6 +79,56 @@ class SuratTugasViewModel(
     // Validation states
     private val _validationErrors = MutableStateFlow<Map<String, String>>(emptyMap())
     val validationErrors = _validationErrors.asStateFlow()
+
+    fun addAdditionalRecipient() {
+        additionalRecipients = additionalRecipients + AdditionalRecipient()
+    }
+
+    fun removeAdditionalRecipient(index: Int) {
+        if (index >= 0 && index < additionalRecipients.size) {
+            additionalRecipients = additionalRecipients.toMutableList().apply {
+                removeAt(index)
+            }
+
+            // Clear validation errors untuk recipient yang dihapus
+            clearAdditionalRecipientErrors(index)
+        }
+    }
+
+    fun updateAdditionalRecipientNik(index: Int, value: String) {
+        if (index >= 0 && index < additionalRecipients.size) {
+            additionalRecipients = additionalRecipients.toMutableList().apply {
+                this[index] = this[index].copy(nik = value)
+            }
+            clearFieldError("nik_$index")
+        }
+    }
+
+    fun updateAdditionalRecipientNama(index: Int, value: String) {
+        if (index >= 0 && index < additionalRecipients.size) {
+            additionalRecipients = additionalRecipients.toMutableList().apply {
+                this[index] = this[index].copy(nama = value)
+            }
+            clearFieldError("nama_$index")
+        }
+    }
+
+    fun updateAdditionalRecipientJabatan(index: Int, value: String) {
+        if (index >= 0 && index < additionalRecipients.size) {
+            additionalRecipients = additionalRecipients.toMutableList().apply {
+                this[index] = this[index].copy(jabatan = value)
+            }
+            clearFieldError("jabatan_$index")
+        }
+    }
+
+    private fun clearAdditionalRecipientErrors(index: Int) {
+        val currentErrors = _validationErrors.value.toMutableMap()
+        currentErrors.remove("nik_$index")
+        currentErrors.remove("nama_$index")
+        currentErrors.remove("jabatan_$index")
+        _validationErrors.value = currentErrors
+    }
 
     // Use My Data functionality
     fun updateUseMyData(checked: Boolean) {
@@ -244,6 +297,7 @@ class SuratTugasViewModel(
     private fun validateStep1(): Boolean {
         val errors = mutableMapOf<String, String>()
 
+        // Validate primary recipient
         if (nikValue.isBlank()) {
             errors["nik"] = "NIK tidak boleh kosong"
         } else if (nikValue.length != 16) {
@@ -252,6 +306,23 @@ class SuratTugasViewModel(
 
         if (namaValue.isBlank()) errors["nama"] = "Nama tidak boleh kosong"
         if (jabatanValue.isBlank()) errors["jabatan"] = "Jabatan tidak boleh kosong"
+
+        // Validate additional recipients
+        additionalRecipients.forEachIndexed { index, recipient ->
+            if (recipient.nik.isBlank()) {
+                errors["nik_$index"] = "NIK tidak boleh kosong"
+            } else if (recipient.nik.length != 16) {
+                errors["nik_$index"] = "NIK harus 16 digit"
+            }
+
+            if (recipient.nama.isBlank()) {
+                errors["nama_$index"] = "Nama tidak boleh kosong"
+            }
+
+            if (recipient.jabatan.isBlank()) {
+                errors["jabatan_$index"] = "Jabatan tidak boleh kosong"
+            }
+        }
 
         _validationErrors.value = errors
         return errors.isEmpty()
@@ -293,17 +364,34 @@ class SuratTugasViewModel(
             errorMessage = null
 
             try {
-                val penerima = SuratTugasRequest.Penerima(
-                    jabatan = jabatanValue,
-                    nama = namaValue,
-                    nik = nikValue
+                // Create list of all recipients (primary + additional)
+                val allRecipients = mutableListOf<SuratTugasRequest.Penerima>()
+
+                // Add primary recipient
+                allRecipients.add(
+                    SuratTugasRequest.Penerima(
+                        jabatan = jabatanValue,
+                        nama = namaValue,
+                        nik = nikValue
+                    )
                 )
+
+                // Add additional recipients
+                additionalRecipients.forEach { recipient ->
+                    allRecipients.add(
+                        SuratTugasRequest.Penerima(
+                            jabatan = recipient.jabatan,
+                            nama = recipient.nama,
+                            nik = recipient.nik
+                        )
+                    )
+                }
 
                 val request = SuratTugasRequest(
                     deskripsi = deskripsiValue,
                     disahkan_oleh = disahkanOlehValue,
                     ditugaskan_untuk = ditugaskanUntukValue,
-                    penerima = listOf(penerima)
+                    penerima = allRecipients
                 )
 
                 when (val result = createSuratTugasUseCase(request)) {
@@ -344,6 +432,7 @@ class SuratTugasViewModel(
         nikValue = ""
         namaValue = ""
         jabatanValue = ""
+        additionalRecipients = emptyList()
 
         // Step 2 - Informasi Tugas
         ditugaskanUntukValue = ""
@@ -363,9 +452,21 @@ class SuratTugasViewModel(
 
     // Check if form has data
     fun hasFormData(): Boolean {
-        return nikValue.isNotBlank() || namaValue.isNotBlank() ||
+        val hasMainData = nikValue.isNotBlank() || namaValue.isNotBlank() ||
                 ditugaskanUntukValue.isNotBlank() || deskripsiValue.isNotBlank()
+
+        val hasAdditionalData = additionalRecipients.any { recipient ->
+            recipient.nik.isNotBlank() || recipient.nama.isNotBlank() || recipient.jabatan.isNotBlank()
+        }
+
+        return hasMainData || hasAdditionalData
     }
+
+    data class AdditionalRecipient(
+        val nik: String = "",
+        val nama: String = "",
+        val jabatan: String = ""
+    )
 
     // Events
     sealed class SuratTugasEvent {

@@ -41,6 +41,7 @@ import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.v
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratrekomendasi.SRKeramaianViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SuratSayaViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratlainnya.SuratKuasaViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratlainnya.SuratTugasViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpengantar.SPKehilanganViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.main.MainScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.main.home.viewmodel.HomeViewModel
@@ -283,7 +284,9 @@ fun NavGraph(
         }
 
         composable(Screen.SuratTugas.route) {
+            val suratTugasViewModel: SuratTugasViewModel = koinViewModel()
             SuratTugasScreen(
+                suratTugasViewModel = suratTugasViewModel,
                 navController = navController
             )
         }
