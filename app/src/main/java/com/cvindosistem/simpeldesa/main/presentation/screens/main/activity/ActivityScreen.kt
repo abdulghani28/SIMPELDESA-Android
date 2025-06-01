@@ -28,7 +28,8 @@ fun AktivitasScreen(
     suratSayaViewModel: SuratSayaViewModel
 ) {
     var selectedTab by remember { mutableIntStateOf(0) }
-    val tabs = listOf("Surat Saya", "Laporan", "Pesanan")
+    val tabs = listOf("Surat Saya")
+//    val tabs = listOf("Surat Saya", "Laporan", "Pesanan")
 
     Scaffold(
         topBar = {
@@ -54,8 +55,8 @@ fun AktivitasScreen(
                 )
 //                1 -> AktivitasLaporanSayaTab(modifier)
 //                2 -> AktivitasPesananTab(modifier)
-                1 -> Text("Laporan", modifier.fillMaxSize())
-                2 -> Text("Pesanan", modifier.fillMaxSize())
+//                1 -> Text("Laporan", modifier.fillMaxSize())
+//                2 -> Text("Pesanan", modifier.fillMaxSize())
             }
         }
     }
