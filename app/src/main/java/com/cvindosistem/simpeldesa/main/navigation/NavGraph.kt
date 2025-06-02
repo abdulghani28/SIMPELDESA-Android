@@ -14,7 +14,7 @@ import com.cvindosistem.simpeldesa.auth.presentation.auth.resetpassword.Password
 import com.cvindosistem.simpeldesa.auth.presentation.auth.resetpassword.ResetPasswordScreen
 import com.cvindosistem.simpeldesa.core.data.local.preferences.UserPreferences
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.LayananPersuratanScreen
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.SuratDetailScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.detail.SuratDetailScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.SuratKeteranganScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.SuratLainnyaScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.SuratPengantarScreen
