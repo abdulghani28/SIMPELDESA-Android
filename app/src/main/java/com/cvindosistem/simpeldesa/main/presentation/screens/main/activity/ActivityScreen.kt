@@ -2,10 +2,8 @@ package com.cvindosistem.simpeldesa.main.presentation.screens.main.activity
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -20,7 +18,6 @@ import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.s
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SuratSayaViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.main.activity.section.AktivitasLaporanSayaTab
 import com.cvindosistem.simpeldesa.main.presentation.screens.main.activity.section.AktivitasPesananTab
-import com.cvindosistem.simpeldesa.main.presentation.screens.main.activity.section.AktivitasSuratSayaTab
 
 @Composable
 fun AktivitasScreen(

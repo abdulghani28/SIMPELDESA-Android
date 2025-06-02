@@ -2,16 +2,21 @@ package com.cvindosistem.simpeldesa.core.components
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DatePicker
@@ -37,6 +42,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -603,4 +609,63 @@ fun AppTimePickerDialog(
             )
         }
     )
+}
+
+@Composable
+fun PhotoUploadField(
+    label: String,
+    onPhotoSelected: () -> Unit,
+    isError: Boolean,
+    errorMessage: String?
+) {
+    Column {
+        LabelFieldText(label)
+
+        OutlinedTextField(
+            value = "",
+            onValueChange = {},
+            placeholder = {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Add, // Using default Material icon
+                        contentDescription = "Upload",
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = "Upload Foto",
+                        color = MaterialTheme.colorScheme.primary,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+            },
+            readOnly = true,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp)
+                .clickable { onPhotoSelected() },
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = if (isError) Color(0xFFF1706A) else Color(0xFFDCE2FB),
+                unfocusedBorderColor = if (isError) Color(0xFFF1706A) else Color(0xFFDCE2FB),
+                errorBorderColor = Color(0xFFF1706A),
+                focusedContainerColor = Color(0xFFF8F7FD),
+                unfocusedContainerColor = Color(0xFFF8F7FD)
+            ),
+            shape = RoundedCornerShape(8.dp)
+        )
+
+        if (isError && errorMessage != null) {
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = errorMessage,
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
+    }
 }

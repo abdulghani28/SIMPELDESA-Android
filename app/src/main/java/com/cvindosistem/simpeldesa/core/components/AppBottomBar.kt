@@ -26,7 +26,7 @@ import com.cvindosistem.simpeldesa.R
 
 @Composable
 fun AppBottomBar(
-    onPreviewClick: () -> Unit = {},
+    onPreviewClick: (() -> Unit)? = null,
     onBackClick: (() -> Unit)? = null,
     onContinueClick: (() -> Unit)? = null,
     onSubmitClick: (() -> Unit)? = null,
@@ -46,22 +46,24 @@ fun AppBottomBar(
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             // Preview Button (always present)
-            OutlinedButton(
-                onClick = onPreviewClick,
-                modifier = Modifier.weight(1f),
-                colors = ButtonDefaults.outlinedButtonColors(
-                    contentColor = MaterialTheme.colorScheme.primary
-                ),
-                shape = RoundedCornerShape(8.dp),
-                border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.background)
-            ) {
-                Text(
-                    text = "Preview",
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        fontWeight = FontWeight.Medium
+            onPreviewClick?.let { previewClick ->
+                OutlinedButton(
+                    onClick = previewClick,
+                    modifier = Modifier.weight(1f),
+                    colors = ButtonDefaults.outlinedButtonColors(
+                        contentColor = MaterialTheme.colorScheme.primary
                     ),
-                    modifier = Modifier.padding(vertical = 4.dp)
-                )
+                    shape = RoundedCornerShape(8.dp),
+                    border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.background)
+                ) {
+                    Text(
+                        text = "Preview",
+                        style = MaterialTheme.typography.bodyMedium.copy(
+                            fontWeight = FontWeight.Medium
+                        ),
+                        modifier = Modifier.padding(vertical = 4.dp)
+                    )
+                }
             }
 
             // Back Button (conditional)
