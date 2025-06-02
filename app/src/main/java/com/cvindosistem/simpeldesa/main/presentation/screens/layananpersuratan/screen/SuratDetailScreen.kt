@@ -7,7 +7,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -1501,7 +1500,7 @@ private fun CompanyDataSection(suratDetail: SuratDetail) {
         dataUsaha.statusKepemilikan?.takeIf { it.isNotBlank() }?.let {
             DataRow("Status Kepemilikan", it)
         }
-        dataUsaha.alamatPerusahaa?.takeIf { it.isNotBlank() }?.let {
+        dataUsaha.alamatPerusahaan?.takeIf { it.isNotBlank() }?.let {
             DataRow("Alamat Usaha", it)
         }
         dataUsaha.npwp?.takeIf { it.isNotBlank() }?.let {
@@ -1945,7 +1944,7 @@ private fun hasCompanyData(suratDetail: SuratDetail): Boolean {
     val dataUsaha = suratDetail.dataPerusahaan ?: return false
     return listOf(
         dataUsaha.namaPerusahaan,
-        dataUsaha.alamatPerusahaa,
+        dataUsaha.alamatPerusahaan,
         dataUsaha.bidangUsahaId,
         dataUsaha.jenisUsahaId,
         dataUsaha.noAkta,

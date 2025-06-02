@@ -396,7 +396,7 @@ class SuratDetailViewModel(
                         // Data Usaha (untuk SK Usaha)
                         dataPerusahaan = DataPerusahaan(
                             namaPerusahaan = detailData.nama_perusahaan,
-                            alamatPerusahaa = detailData.alamat_perusahaan,
+                            alamatPerusahaan = detailData.alamat_perusahaan,
                             bidangUsahaId = detailData.bidang_usaha_id,
                             jenisUsahaId = detailData.jenis_usaha_id,
                             npwp = detailData.npwp,
@@ -811,7 +811,7 @@ data class DataUsaha(
 
 data class DataPerusahaan(
     val namaPerusahaan: String?,
-    val alamatPerusahaa : String?,
+    val alamatPerusahaan : String?,
     val bidangUsahaId: String?,
     val jenisUsahaId: String?,
     val statusKepemilikan: String?,
