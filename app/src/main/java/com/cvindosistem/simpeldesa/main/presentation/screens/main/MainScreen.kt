@@ -25,7 +25,7 @@ import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.v
 import com.cvindosistem.simpeldesa.main.presentation.screens.main.activity.AktivitasScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.main.home.screen.BerandaScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.main.home.viewmodel.HomeViewModel
-import com.cvindosistem.simpeldesa.main.presentation.screens.main.profile.ProfilScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.main.profile.screen.ProfilScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.main.profile.viewmodel.ProfileViewModel
 
 // Data class untuk item bottom navigation

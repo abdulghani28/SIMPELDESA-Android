@@ -57,7 +57,7 @@ internal fun HeaderSection(
         ) {
             BodyLargeText(uiState.value.greeting)
 
-//            NotificationIcon(onNotifikasiClick)
+            NotificationIcon(onNotifikasiClick)
         }
 
         LargeText(homeViewModel.getDisplayName())
@@ -65,7 +65,7 @@ internal fun HeaderSection(
         Spacer(modifier = Modifier.height(16.dp))
 
         DesaInformationCard(
-            onDesaClick = { },
+            onDesaClick = onDesaClick,
             dusun = villageInfo.dusun,
             rt = villageInfo.rt,
             rw = villageInfo.rw

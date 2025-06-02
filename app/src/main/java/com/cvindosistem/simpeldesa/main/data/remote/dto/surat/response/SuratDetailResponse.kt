@@ -75,7 +75,7 @@ data class SuratDetailResponse(
         val jenis_usaha: String?,
         val jenis_usaha_id: String?,
         val jumlah_anggota: Int,
-        val jumlah_istri: String?,
+        val jumlah_istri: Int?,
         val jumlah_karyawan: String?,
         val jumlah_pengikut: Int,
         val kelas_anak: String?,
@@ -147,7 +147,7 @@ data class SuratDetailResponse(
         val pekerjaan_ortu: String?,
         val pekerjaan_suami: String?,
         val penanggung_jawab: String?,
-        val penerima: List<Penerima>,
+        val penerima: List<Penerima>?,
         val penghasilan_ortu: String?,
         val penyebab: String?,
         val perbedaan: String?,
@@ -213,9 +213,9 @@ data class SuratDetailResponse(
         val warga_desa: Boolean
     ) {
         data class Penerima(
-            val jabatan: String,
-            val nama: String,
-            val nik: String
+            val jabatan: String?,
+            val nama: String?,
+            val nik: String?
         )
     }
     data class Meta(

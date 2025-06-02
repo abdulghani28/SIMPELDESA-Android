@@ -82,72 +82,72 @@ fun BerandaScreen(
             ServicesGrid(navController = navController)
         }
 
-//        item {
-//            RecentActivitySection(
-//                status = "Menunggu",
-//                date = "25 September 2024",
-//                title = "Surat Keterangan Status Perkawinan",
-//                description = "Surat ini berhasil diajukan ke pihak desa dan akan segera diproses.",
-//                onSeeAllClick = {}
-//            )
-//        }
-//
-//        item {
-//            val blogSample = listOf(
-//                BlogItem(R.drawable.sample_blog, "Potensi Desa", "Keindahan Alam dan Kekayaan Tradisi di Desa Sukaramai Baru"),
-//                BlogItem(R.drawable.sample_blog, "Potensi Desa", "Keindahan Alam dan Kekayaan Tradisi di Desa Sukaramai Baru"),
-//                BlogItem(R.drawable.sample_blog, "Potensi Desa", "Keindahan Alam dan Kekayaan Tradisi di Desa Sukaramai Baru"),
-//                BlogItem(R.drawable.sample_blog, "Potensi Desa", "Keindahan Alam dan Kekayaan Tradisi di Desa Sukaramai Baru"),
-//                BlogItem(R.drawable.sample_blog, "Potensi Desa", "Keindahan Alam dan Kekayaan Tradisi di Desa Sukaramai Baru")
-//            )
-//            BlogSection(blogList = blogSample, onSeeAllClick = {})
-//        }
-//
-//        item {
-//            val products = listOf(
-//                ProductItem(R.drawable.telur, "Telur Ayam 1 Papan", "Rp 15,179"),
-//                ProductItem(R.drawable.telur, "Telur Ayam 1 Papan", "Rp 15,179"),
-//                ProductItem(R.drawable.telur, "Telur Ayam 1 Papan", "Rp 15,179"),
-//                ProductItem(R.drawable.telur, "Telur Ayam 1 Papan", "Rp 15,179"),
-//                ProductItem(R.drawable.telur, "Daging Sapi Wagyu A69 1 Kg", "Rp 15,179")
-//            )
-//
-//            ProductSection("Sedang Laris 🤑", products)
-//        }
-//
-//        item {
-//            val donations = listOf(
-//                DonationItem(
-//                    imageRes = R.drawable.sample_blog,
-//                    title = "Bantuan Untuk Korban Banjir",
-//                    collected = "Rp 35,000,000",
-//                    target = "Rp 50,000,000",
-//                    period = "11 Maret 2024 s/d 30 April 2024"
-//                ),
-//                DonationItem(
-//                    imageRes = R.drawable.sample_blog,
-//                    title = "Bantuan Untuk Korban Banjir",
-//                    collected = "Rp 35,000,000",
-//                    target = "Rp 50,000,000",
-//                    period = "11 Maret 2024 s/d 30 April 2024"
-//                ),
-//                DonationItem(
-//                    imageRes = R.drawable.sample_blog,
-//                    title = "Bantuan Untuk Korban Banjir",
-//                    collected = "Rp 35,000,000",
-//                    target = "Rp 50,000,000",
-//                    period = "11 Maret 2024 s/d 30 April 2024"
-//                ),
-//                DonationItem(
-//                    imageRes = R.drawable.sample_blog,
-//                    title = "Bantuan Untuk Korban Banjir",
-//                    collected = "Rp 35,000,000",
-//                    target = "Rp 50,000,000",
-//                    period = "11 Maret 2024 s/d 30 April 2024"
-//                ),
-//            )
-//            DonationSection("Donasi Aktif ❤️", donations)
-//        }
+        item {
+            RecentActivitySection(
+                status = "Menunggu",
+                date = "25 September 2024",
+                title = "Surat Keterangan Status Perkawinan",
+                description = "Surat ini berhasil diajukan ke pihak desa dan akan segera diproses.",
+                onSeeAllClick = {}
+            )
+        }
+
+        item {
+            val blogSample = listOf(
+                BlogItem(R.drawable.sample_blog, "Potensi Desa", "Keindahan Alam dan Kekayaan Tradisi di Desa Sukaramai Baru"),
+                BlogItem(R.drawable.sample_blog, "Potensi Desa", "Keindahan Alam dan Kekayaan Tradisi di Desa Sukaramai Baru"),
+                BlogItem(R.drawable.sample_blog, "Potensi Desa", "Keindahan Alam dan Kekayaan Tradisi di Desa Sukaramai Baru"),
+                BlogItem(R.drawable.sample_blog, "Potensi Desa", "Keindahan Alam dan Kekayaan Tradisi di Desa Sukaramai Baru"),
+                BlogItem(R.drawable.sample_blog, "Potensi Desa", "Keindahan Alam dan Kekayaan Tradisi di Desa Sukaramai Baru")
+            )
+            BlogSection(blogList = blogSample, onSeeAllClick = {})
+        }
+
+        item {
+            val products = listOf(
+                ProductItem(R.drawable.telur, "Telur Ayam 1 Papan", "Rp 15,179"),
+                ProductItem(R.drawable.telur, "Telur Ayam 1 Papan", "Rp 15,179"),
+                ProductItem(R.drawable.telur, "Telur Ayam 1 Papan", "Rp 15,179"),
+                ProductItem(R.drawable.telur, "Telur Ayam 1 Papan", "Rp 15,179"),
+                ProductItem(R.drawable.telur, "Daging Sapi Wagyu A69 1 Kg", "Rp 15,179")
+            )
+
+            ProductSection("Sedang Laris 🤑", products)
+        }
+
+        item {
+            val donations = listOf(
+                DonationItem(
+                    imageRes = R.drawable.sample_blog,
+                    title = "Bantuan Untuk Korban Banjir",
+                    collected = "Rp 35,000,000",
+                    target = "Rp 50,000,000",
+                    period = "11 Maret 2024 s/d 30 April 2024"
+                ),
+                DonationItem(
+                    imageRes = R.drawable.sample_blog,
+                    title = "Bantuan Untuk Korban Banjir",
+                    collected = "Rp 35,000,000",
+                    target = "Rp 50,000,000",
+                    period = "11 Maret 2024 s/d 30 April 2024"
+                ),
+                DonationItem(
+                    imageRes = R.drawable.sample_blog,
+                    title = "Bantuan Untuk Korban Banjir",
+                    collected = "Rp 35,000,000",
+                    target = "Rp 50,000,000",
+                    period = "11 Maret 2024 s/d 30 April 2024"
+                ),
+                DonationItem(
+                    imageRes = R.drawable.sample_blog,
+                    title = "Bantuan Untuk Korban Banjir",
+                    collected = "Rp 35,000,000",
+                    target = "Rp 50,000,000",
+                    period = "11 Maret 2024 s/d 30 April 2024"
+                ),
+            )
+            DonationSection("Donasi Aktif ❤️", donations)
+        }
     }
 
     // Refresh greeting setiap menit (opsional)

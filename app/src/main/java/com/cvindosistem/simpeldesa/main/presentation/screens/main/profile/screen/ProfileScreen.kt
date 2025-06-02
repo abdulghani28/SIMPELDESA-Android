@@ -1,4 +1,4 @@
-package com.cvindosistem.simpeldesa.main.presentation.screens.main.profile
+package com.cvindosistem.simpeldesa.main.presentation.screens.main.profile.screen
 
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
@@ -26,20 +26,13 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.Phone
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -59,12 +52,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.cvindosistem.simpeldesa.core.components.AppCard
-import com.cvindosistem.simpeldesa.core.components.AppTopBar
 import com.cvindosistem.simpeldesa.core.components.BodyLargeText
 import com.cvindosistem.simpeldesa.core.components.BodyMediumText
 import com.cvindosistem.simpeldesa.core.components.ClickableText
-import com.cvindosistem.simpeldesa.core.components.LargeText
-import com.cvindosistem.simpeldesa.core.components.NavigationSectionTitle
 import com.cvindosistem.simpeldesa.core.components.TitleLargeText
 import com.cvindosistem.simpeldesa.core.components.TitleMediumText
 import com.cvindosistem.simpeldesa.core.helpers.ImageLoader

@@ -16,3 +16,10 @@ fun dateFormatterToApiFormat(dateString: String): String {
         dateString
     }
 }
+
+fun formatDateTime(isoString: String): String {
+    val zonedDateTime = ZonedDateTime.parse(isoString)
+        .withZoneSameInstant(java.time.ZoneId.systemDefault()) // konversi ke zona lokal
+    val formatter = DateTimeFormatter.ofPattern("EEEE, dd-MMM-yyyy, HH:mm", Locale("id"))
+    return zonedDateTime.format(formatter)
+}
