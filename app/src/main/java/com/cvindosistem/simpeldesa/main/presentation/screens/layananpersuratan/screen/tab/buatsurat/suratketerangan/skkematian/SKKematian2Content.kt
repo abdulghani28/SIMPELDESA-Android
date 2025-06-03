@@ -37,7 +37,7 @@ internal fun SKKematian2Content(
     ) {
         item {
             StepIndicator(
-                steps = listOf("Informasi Pelapor", "Informasi _mendiang", "Informasi Pelengkap"),
+                steps = listOf("Informasi Pelapor", "Informasi Mendiang", "Informasi Pelengkap"),
                 currentStep = viewModel.currentStep
             )
         }
@@ -57,7 +57,7 @@ private fun InformasiMendiang(
     validationErrors: Map<String, String>
 ) {
     Column {
-        SectionTitle("Informasi _mendiang")
+        SectionTitle("Informasi Mendiang")
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -81,6 +81,34 @@ private fun InformasiMendiang(
             isError = viewModel.hasFieldError("nama_mendiang"),
             errorMessage = viewModel.getFieldError("nama_mendiang")
         )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
+                AppTextField(
+                    label = "Tempat Lahir Mendiang",
+                    value = viewModel.tempatLahirMendiangValue,
+                    onValueChange = viewModel::updateTempatLahirMendiang,
+                    isError = viewModel.hasFieldError("tempat_lahir_mendiang"),
+                    errorMessage = viewModel.getFieldError("tempat_lahir_mendiang"),
+                    placeholder = "Isi tempat lahir mendiang",
+                )
+            }
+
+            Column(modifier = Modifier.weight(1f)) {
+                DatePickerField(
+                    label = "Tanggal Lahir Mendiang",
+                    value = viewModel.tanggalLahirMendiangValue,
+                    onValueChange = viewModel::updateTanggalLahirMendiang,
+                    isError = viewModel.hasFieldError("tanggal_lahir_mendiang"),
+                    errorMessage = viewModel.getFieldError("tanggal_lahir_mendiang")
+                )
+            }
+        }
 
         Spacer(modifier = Modifier.height(16.dp))
 

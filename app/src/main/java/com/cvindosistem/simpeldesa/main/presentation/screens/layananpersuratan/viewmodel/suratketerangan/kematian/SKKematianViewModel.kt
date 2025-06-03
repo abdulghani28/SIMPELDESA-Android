@@ -1,15 +1,11 @@
 package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.kematian
 
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cvindosistem.simpeldesa.auth.domain.model.UserInfoResult
 import com.cvindosistem.simpeldesa.auth.domain.usecases.GetUserInfoUseCase
-import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKKematianRequest
-import com.cvindosistem.simpeldesa.main.domain.model.SuratKematianResult
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratKematianUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,34 +18,26 @@ class SKKematianViewModel(
     private val getUserInfoUseCase: GetUserInfoUseCase,
 ) : ViewModel() {
 
-    // UI State for the form
+    // Components
+    private val stateManager = SKKematianStateManager()
+    private val validator = SKKematianValidator(stateManager)
+    private val dataLoader = SKKematianDataLoader(
+        getUserInfoUseCase, stateManager, validator, viewModelScope
+    )
+    private val formSubmitter = SKKematianFormSubmitter(
+        createSKKematianUseCase, stateManager, viewModelScope
+    )
+    private val stepManager = SKKematianStepManager(validator, viewModelScope)
+
+    // UI State
     private val _uiState = MutableStateFlow(SKKematianUiState())
     val uiState = _uiState.asStateFlow()
 
-    // Loading state
-    var isLoading by mutableStateOf(false)
-        private set
-
-    // Error state
+    // Consolidated state
     var errorMessage by mutableStateOf<String?>(null)
         private set
-
-    // Current step
-    var currentStep by mutableIntStateOf(1)
-        private set
-
-    // Use My Data state
-    var useMyDataChecked by mutableStateOf(false)
-        private set
-
-    var isLoadingUserData by mutableStateOf(false)
-        private set
-
-    // Show confirmation dialog
     var showConfirmationDialog by mutableStateOf(false)
         private set
-
-    // Show preview dialog
     var showPreviewDialog by mutableStateOf(false)
         private set
 
@@ -57,221 +45,178 @@ class SKKematianViewModel(
     private val _skKematianEvent = MutableSharedFlow<SKKematianEvent>()
     val skKematianEvent = _skKematianEvent.asSharedFlow()
 
-    // Step 1 - Informasi Pelapor
-    var namaValue by mutableStateOf("")
-        private set
-    var alamatValue by mutableStateOf("")
-        private set
-    var hubunganIdValue by mutableStateOf("")
-        private set
+    // Delegated properties
+    val currentStep: Int get() = stepManager.currentStep
+    val isLoading: Boolean get() = formSubmitter.isLoading
+    val useMyDataChecked: Boolean get() = dataLoader.useMyDataChecked
+    val isLoadingUserData: Boolean get() = dataLoader.isLoadingUserData
+    val validationErrors = validator.validationErrors
 
-    // Step 2 - Informasi Mendiang
-    var nikMendiangValue by mutableStateOf("")
-        private set
-    var namaMendiangValue by mutableStateOf("")
-        private set
-    var tempatLahirMendiangValue by mutableStateOf("")
-        private set
-    var tanggalLahirMendiangValue by mutableStateOf("")
-        private set
-    var jenisKelaminMendiangValue by mutableStateOf("")
-        private set
-    var alamatMendiangValue by mutableStateOf("")
-        private set
-    var hariMeninggalValue by mutableStateOf("")
-        private set
-    var tanggalMeninggalValue by mutableStateOf("")
-        private set
-    var tempatMeninggalValue by mutableStateOf("")
-        private set
-    var sebabMeninggalValue by mutableStateOf("")
-        private set
+    // State access properties
+    val namaValue: String get() = stateManager.namaValue
+    val alamatValue: String get() = stateManager.alamatValue
+    val hubunganIdValue: String get() = stateManager.hubunganIdValue
 
-    // Step 3 - Keperluan
-    var keperluanValue by mutableStateOf("")
-        private set
+    val nikMendiangValue: String get() = stateManager.nikMendiangValue
+    val namaMendiangValue: String get() = stateManager.namaMendiangValue
+    val tempatLahirMendiangValue: String get() = stateManager.tempatLahirMendiangValue
+    val tanggalLahirMendiangValue: String get() = stateManager.tanggalLahirMendiangValue
+    val jenisKelaminMendiangValue: String get() = stateManager.jenisKelaminMendiangValue
+    val alamatMendiangValue: String get() = stateManager.alamatMendiangValue
+    val hariMeninggalValue: String get() = stateManager.hariMeninggalValue
+    val tanggalMeninggalValue: String get() = stateManager.tanggalMeninggalValue
+    val tempatMeninggalValue: String get() = stateManager.tempatMeninggalValue
+    val sebabMeninggalValue: String get() = stateManager.sebabMeninggalValue
 
-    // Validation states
-    private val _validationErrors = MutableStateFlow<Map<String, String>>(emptyMap())
-    val validationErrors = _validationErrors.asStateFlow()
+    val keperluanValue: String get() = stateManager.keperluanValue
 
-    // Use My Data functionality
-    fun updateUseMyData(checked: Boolean) {
-        useMyDataChecked = checked
-        if (checked) {
-            loadUserData()
-        } else {
-            clearUserData()
-        }
+    init {
+        observeEvents()
     }
 
-    private fun loadUserData() {
+    private fun observeEvents() {
         viewModelScope.launch {
-            isLoadingUserData = true
-            try {
-                when (val result = getUserInfoUseCase()) {
-                    is UserInfoResult.Success -> {
-                        val userData = result.data.data
-                        namaValue = userData.nama_warga
-                        alamatValue = userData.alamat
-
-                        // Clear any existing validation errors for filled fields
-                        clearMultipleFieldErrors(listOf("nama", "alamat"))
+            // Observe step events
+            stepManager.events.collect { event ->
+                when (event) {
+                    is SKKematianStepManager.StepEvent.StepChanged -> {
+                        _skKematianEvent.emit(SKKematianEvent.StepChanged(event.step))
                     }
-                    is UserInfoResult.Error -> {
-                        errorMessage = result.message
-                        useMyDataChecked = false
-                        _skKematianEvent.emit(SKKematianEvent.UserDataLoadError(result.message))
+                    is SKKematianStepManager.StepEvent.ValidationError -> {
+                        _skKematianEvent.emit(SKKematianEvent.ValidationError)
+                    }
+                    is SKKematianStepManager.StepEvent.ReadyToSubmit -> {
+                        showConfirmationDialog = true
                     }
                 }
-            } catch (e: Exception) {
-                errorMessage = e.message ?: "Gagal memuat data pengguna"
-                useMyDataChecked = false
-                _skKematianEvent.emit(SKKematianEvent.UserDataLoadError(errorMessage!!))
-            } finally {
-                isLoadingUserData = false
+            }
+        }
+
+        viewModelScope.launch {
+            // Observe data loader events
+            dataLoader.events.collect { event ->
+                when (event) {
+                    is SKKematianDataLoader.DataLoaderEvent.LoadError -> {
+                        errorMessage = event.message
+                        _skKematianEvent.emit(SKKematianEvent.UserDataLoadError(event.message))
+                    }
+                    is SKKematianDataLoader.DataLoaderEvent.UserDataLoaded -> {
+                        // Handle successful data load if needed
+                    }
+                }
+            }
+        }
+
+        viewModelScope.launch {
+            // Observe form submitter events
+            formSubmitter.events.collect { event ->
+                when (event) {
+                    is SKKematianFormSubmitter.SubmitterEvent.SubmitSuccess -> {
+                        _skKematianEvent.emit(SKKematianEvent.SubmitSuccess)
+                        resetForm()
+                    }
+                    is SKKematianFormSubmitter.SubmitterEvent.SubmitError -> {
+                        errorMessage = event.message
+                        _skKematianEvent.emit(SKKematianEvent.SubmitError(event.message))
+                    }
+                }
             }
         }
     }
 
-    private fun clearUserData() {
-        // Step 1 - Informasi Pelapor
-        namaValue = ""
-        alamatValue = ""
-    }
-
-    // Step 1 - Informasi Pelapor Update Functions
+    // Public interface methods - sama seperti original
     fun updateNama(value: String) {
-        namaValue = value
-        clearFieldError("nama")
+        stateManager.updateNama(value)
+        validator.clearFieldError("nama")
     }
 
     fun updateAlamat(value: String) {
-        alamatValue = value
-        clearFieldError("alamat")
+        stateManager.updateAlamat(value)
+        validator.clearFieldError("alamat")
     }
+
 
     fun updateHubunganId(value: String) {
-        hubunganIdValue = value
-        clearFieldError("hubungan_id")
+        stateManager.updateHubunganId(value)
+        validator.clearFieldError("hubungan_id")
     }
 
-    // Step 2 - Informasi Mendiang Update Functions
+    // Step 2 Update Functions
     fun updateNikMendiang(value: String) {
-        nikMendiangValue = value
-        clearFieldError("nik_mendiang")
+        stateManager.updateNikMendiang(value)
+        validator.clearFieldError("nik_mendiang")
     }
 
     fun updateNamaMendiang(value: String) {
-        namaMendiangValue = value
-        clearFieldError("nama_mendiang")
+        stateManager.updateNamaMendiang(value)
+        validator.clearFieldError("nama_mendiang")
     }
 
     fun updateTempatLahirMendiang(value: String) {
-        tempatLahirMendiangValue = value
-        clearFieldError("tempat_lahir_mendiang")
+        stateManager.updateTempatLahirMendiang(value)
+        validator.clearFieldError("tempat_lahir_mendiang")
     }
 
     fun updateTanggalLahirMendiang(value: String) {
-        tanggalLahirMendiangValue = value
-        clearFieldError("tanggal_lahir_mendiang")
+        stateManager.updateTanggalLahirMendiang(value)
+        validator.clearFieldError("tanggal_lahir_mendiang")
     }
 
     fun updateJenisKelaminMendiang(value: String) {
-        jenisKelaminMendiangValue = value
-        clearFieldError("jenis_kelamin_mendiang")
+        stateManager.updateJenisKelaminMendiang(value)
+        validator.clearFieldError("jenis_kelamin_mendiang")
     }
 
     fun updateAlamatMendiang(value: String) {
-        alamatMendiangValue = value
-        clearFieldError("alamat_mendiang")
+        stateManager.updateAlamatMendiang(value)
+        validator.clearFieldError("alamat_mendiang")
     }
 
     fun updateHariMeninggal(value: String) {
-        hariMeninggalValue = value
-        clearFieldError("hari_meninggal")
+        stateManager.updateHariMeninggal(value)
+        validator.clearFieldError("hari_meninggal")
     }
 
     fun updateTanggalMeninggal(value: String) {
-        tanggalMeninggalValue = value
-        clearFieldError("tanggal_meninggal")
+        stateManager.updateTanggalMeninggal(value)
+        validator.clearFieldError("tanggal_meninggal")
     }
 
     fun updateTempatMeninggal(value: String) {
-        tempatMeninggalValue = value
-        clearFieldError("tempat_meninggal")
+        stateManager.updateTempatMeninggal(value)
+        validator.clearFieldError("tempat_meninggal")
     }
 
     fun updateSebabMeninggal(value: String) {
-        sebabMeninggalValue = value
-        clearFieldError("sebab_meninggal")
+        stateManager.updateSebabMeninggal(value)
+        validator.clearFieldError("sebab_meninggal")
     }
 
-    // Step 3 - Keperluan Update Functions
+    // Step 3 Update Function
     fun updateKeperluan(value: String) {
-        keperluanValue = value
-        clearFieldError("keperluan")
+        stateManager.updateKeperluan(value)
+        validator.clearFieldError("keperluan")
     }
 
-    // Preview dialog functions
-    fun showPreview() {
-        // Validate all steps before showing preview
-        val step1Valid = validateStep1()
-        val step2Valid = validateStep2()
-        val step3Valid = validateStep3()
 
-        if (!step1Valid || !step2Valid || !step3Valid) {
-            // Show validation errors but still allow preview
+    fun updateUseMyData(checked: Boolean) = dataLoader.updateUseMyData(checked)
+    fun nextStep() = stepManager.nextStep()
+    fun previousStep() = stepManager.previousStep()
+
+    fun showPreview() {
+        val allValid = validator.validateAllSteps()
+        if (!allValid) {
             viewModelScope.launch {
                 _skKematianEvent.emit(SKKematianEvent.ValidationError)
             }
         }
-
         showPreviewDialog = true
     }
 
-    fun dismissPreview() {
-        showPreviewDialog = false
-    }
-
-    // Step navigation
-    fun nextStep() {
-        when (currentStep) {
-            1 -> {
-                if (validateStep1WithEvent()) {
-                    currentStep = 2
-                    viewModelScope.launch {
-                        _skKematianEvent.emit(SKKematianEvent.StepChanged(currentStep))
-                    }
-                }
-            }
-            2 -> {
-                if (validateStep2WithEvent()) {
-                    currentStep = 3
-                    viewModelScope.launch {
-                        _skKematianEvent.emit(SKKematianEvent.StepChanged(currentStep))
-                    }
-                }
-            }
-            3 -> {
-                if (validateStep3WithEvent()) {
-                    showConfirmationDialog = true
-                }
-            }
-        }
-    }
-
-    fun previousStep() {
-        if (currentStep > 1) {
-            currentStep -= 1
-            viewModelScope.launch {
-                _skKematianEvent.emit(SKKematianEvent.StepChanged(currentStep))
-            }
-        }
-    }
+    fun dismissPreview() { showPreviewDialog = false }
 
     fun showConfirmationDialog() {
-        if (validateAllSteps()) {
+        if (validator.validateAllSteps()) {
             showConfirmationDialog = true
         } else {
             viewModelScope.launch {
@@ -280,210 +225,27 @@ class SKKematianViewModel(
         }
     }
 
-    fun dismissConfirmationDialog() {
-        showConfirmationDialog = false
-    }
-
+    fun dismissConfirmationDialog() { showConfirmationDialog = false }
     fun confirmSubmit() {
         showConfirmationDialog = false
-        submitForm()
+        formSubmitter.submitForm()
     }
 
-    private fun validateStep1WithEvent(): Boolean {
-        val isValid = validateStep1()
-        if (!isValid) {
-            viewModelScope.launch {
-                _skKematianEvent.emit(SKKematianEvent.ValidationError)
-            }
-        }
-        return isValid
-    }
+    fun getFieldError(fieldName: String): String? = validator.getFieldError(fieldName)
+    fun hasFieldError(fieldName: String): Boolean = validator.hasFieldError(fieldName)
+    fun hasFormData(): Boolean = stateManager.hasFormData()
+    fun clearError() { errorMessage = null }
 
-    private fun validateStep2WithEvent(): Boolean {
-        val isValid = validateStep2()
-        if (!isValid) {
-            viewModelScope.launch {
-                _skKematianEvent.emit(SKKematianEvent.ValidationError)
-            }
-        }
-        return isValid
-    }
-
-    private fun validateStep3WithEvent(): Boolean {
-        val isValid = validateStep3()
-        if (!isValid) {
-            viewModelScope.launch {
-                _skKematianEvent.emit(SKKematianEvent.ValidationError)
-            }
-        }
-        return isValid
-    }
-
-    // Validation functions
-    private fun validateStep1(): Boolean {
-        val errors = mutableMapOf<String, String>()
-
-        if (namaValue.isBlank()) errors["nama"] = "Nama pelapor tidak boleh kosong"
-        if (alamatValue.isBlank()) errors["alamat"] = "Alamat pelapor tidak boleh kosong"
-        if (hubunganIdValue.isBlank()) errors["hubungan_id"] = "Hubungan dengan mendiang tidak boleh kosong"
-
-        _validationErrors.value = errors
-        return errors.isEmpty()
-    }
-
-    private fun validateStep2(): Boolean {
-        val errors = mutableMapOf<String, String>()
-
-        if (nikMendiangValue.isBlank()) {
-            errors["nik_mendiang"] = "NIK mendiang tidak boleh kosong"
-        } else if (nikMendiangValue.length != 16) {
-            errors["nik_mendiang"] = "NIK mendiang harus 16 digit"
-        }
-
-        if (namaMendiangValue.isBlank()) errors["nama_mendiang"] = "Nama mendiang tidak boleh kosong"
-        if (tempatLahirMendiangValue.isBlank()) errors["tempat_lahir_mendiang"] = "Tempat lahir mendiang tidak boleh kosong"
-        if (tanggalLahirMendiangValue.isBlank()) errors["tanggal_lahir_mendiang"] = "Tanggal lahir mendiang tidak boleh kosong"
-        if (jenisKelaminMendiangValue.isBlank()) errors["jenis_kelamin_mendiang"] = "Jenis kelamin mendiang tidak boleh kosong"
-        if (alamatMendiangValue.isBlank()) errors["alamat_mendiang"] = "Alamat mendiang tidak boleh kosong"
-        if (hariMeninggalValue.isBlank()) errors["hari_meninggal"] = "Hari meninggal tidak boleh kosong"
-        if (tanggalMeninggalValue.isBlank()) errors["tanggal_meninggal"] = "Tanggal meninggal tidak boleh kosong"
-        if (tempatMeninggalValue.isBlank()) errors["tempat_meninggal"] = "Tempat meninggal tidak boleh kosong"
-        if (sebabMeninggalValue.isBlank()) errors["sebab_meninggal"] = "Sebab meninggal tidak boleh kosong"
-
-        _validationErrors.value = errors
-        return errors.isEmpty()
-    }
-
-    private fun validateStep3(): Boolean {
-        val errors = mutableMapOf<String, String>()
-
-        if (keperluanValue.isBlank()) errors["keperluan"] = "Keperluan tidak boleh kosong"
-
-        _validationErrors.value = errors
-        return errors.isEmpty()
-    }
-
-    // Validation helper functions
-    fun validateAllSteps(): Boolean {
-        return validateStep1() && validateStep2() && validateStep3()
-    }
-
-    private fun clearFieldError(fieldName: String) {
-        val currentErrors = _validationErrors.value.toMutableMap()
-        currentErrors.remove(fieldName)
-        _validationErrors.value = currentErrors
-    }
-
-    private fun clearMultipleFieldErrors(fieldNames: List<String>) {
-        val currentErrors = _validationErrors.value.toMutableMap()
-        fieldNames.forEach { fieldName ->
-            currentErrors.remove(fieldName)
-        }
-        _validationErrors.value = currentErrors
-    }
-
-    // Form submission
-    private fun submitForm() {
-        viewModelScope.launch {
-            isLoading = true
-            errorMessage = null
-
-            try {
-                val request = SKKematianRequest(
-                    disahkan_oleh = "",
-                    alamat = alamatValue,
-                    alamat_mendiang = alamatMendiangValue,
-                    hari_meninggal = hariMeninggalValue,
-                    hubungan_id = hubunganIdValue,
-                    jenis_kelamin_mendiang = jenisKelaminMendiangValue,
-                    keperluan = keperluanValue,
-                    nama = namaValue,
-                    nama_mendiang = namaMendiangValue,
-                    nik_mendiang = nikMendiangValue,
-                    sebab_meninggal = sebabMeninggalValue,
-                    tanggal_lahir_mendiang = tanggalLahirMendiangValue,
-                    tanggal_meninggal = tanggalMeninggalValue,
-                    tempat_lahir_mendiang = tempatLahirMendiangValue,
-                    tempat_meninggal = tempatMeninggalValue
-                )
-
-                when (val result = createSKKematianUseCase(request)) {
-                    is SuratKematianResult.Success -> {
-                        _skKematianEvent.emit(SKKematianEvent.SubmitSuccess)
-                        resetForm()
-                    }
-                    is SuratKematianResult.Error -> {
-                        errorMessage = result.message
-                        _skKematianEvent.emit(SKKematianEvent.SubmitError(result.message))
-                    }
-                }
-            } catch (e: Exception) {
-                errorMessage = e.message ?: "Terjadi kesalahan"
-                _skKematianEvent.emit(SKKematianEvent.SubmitError(errorMessage!!))
-            } finally {
-                isLoading = false
-            }
-        }
-    }
-
-    // Get validation error for specific field
-    fun getFieldError(fieldName: String): String? {
-        return _validationErrors.value[fieldName]
-    }
-
-    // Check if field has error
-    fun hasFieldError(fieldName: String): Boolean {
-        return _validationErrors.value.containsKey(fieldName)
-    }
-
-    // Reset form
     private fun resetForm() {
-        currentStep = 1
-        useMyDataChecked = false
-
-        // Step 1 - Informasi Pelapor
-        namaValue = ""
-        alamatValue = ""
-        hubunganIdValue = ""
-
-        // Step 2 - Informasi Mendiang
-        nikMendiangValue = ""
-        namaMendiangValue = ""
-        tempatLahirMendiangValue = ""
-        tanggalLahirMendiangValue = ""
-        jenisKelaminMendiangValue = ""
-        alamatMendiangValue = ""
-        hariMeninggalValue = ""
-        tanggalMeninggalValue = ""
-        tempatMeninggalValue = ""
-        sebabMeninggalValue = ""
-
-        // Step 3 - Keperluan
-        keperluanValue = ""
-
-        _validationErrors.value = emptyMap()
+        stepManager.resetToFirstStep()
+        stateManager.resetAll()
+        validator.clearAllErrors()
         errorMessage = null
         showConfirmationDialog = false
         showPreviewDialog = false
     }
 
-    // Clear error message
-    fun clearError() {
-        errorMessage = null
-    }
-
-    // Check if form has data
-    fun hasFormData(): Boolean {
-        return namaValue.isNotBlank() || alamatValue.isNotBlank() ||
-                hubunganIdValue.isNotBlank() || nikMendiangValue.isNotBlank() ||
-                namaMendiangValue.isNotBlank() || tempatLahirMendiangValue.isNotBlank() ||
-                tanggalLahirMendiangValue.isNotBlank() || jenisKelaminMendiangValue.isNotBlank() ||
-                alamatMendiangValue.isNotBlank() || hariMeninggalValue.isNotBlank() ||
-                tanggalMeninggalValue.isNotBlank() || tempatMeninggalValue.isNotBlank() ||
-                sebabMeninggalValue.isNotBlank() || keperluanValue.isNotBlank()
-    }
-
-    // Events
+    // Events - copy langsung dari kode asli
     sealed class SKKematianEvent {
         data class StepChanged(val step: Int) : SKKematianEvent()
         data object SubmitSuccess : SKKematianEvent()
@@ -493,7 +255,6 @@ class SKKematianViewModel(
     }
 }
 
-// UI State data class
 data class SKKematianUiState(
     val isFormDirty: Boolean = false,
     val currentStep: Int = 1,
