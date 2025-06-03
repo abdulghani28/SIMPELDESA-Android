@@ -29,14 +29,13 @@ import com.cvindosistem.simpeldesa.core.components.AppStepAnimatedContent
 import com.cvindosistem.simpeldesa.core.components.AppTopBar
 import com.cvindosistem.simpeldesa.core.components.ErrorDialog
 import com.cvindosistem.simpeldesa.core.components.LoadingScreen
-import com.cvindosistem.simpeldesa.core.helpers.dateFormatterToApiFormat
 import com.cvindosistem.simpeldesa.main.navigation.Screen
 import com.cvindosistem.simpeldesa.main.presentation.components.BackWarningDialog
 import com.cvindosistem.simpeldesa.main.presentation.components.BaseDialog
 import com.cvindosistem.simpeldesa.main.presentation.components.PreviewItem
 import com.cvindosistem.simpeldesa.main.presentation.components.PreviewSection
 import com.cvindosistem.simpeldesa.main.presentation.components.SubmitConfirmationDialog
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.SKPenghasilanViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.penghasilan.SKPenghasilanViewModel
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalAnimationApi::class)

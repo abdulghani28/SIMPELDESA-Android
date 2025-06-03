@@ -71,8 +71,7 @@ fun StepIndicator(
             verticalAlignment = Alignment.Top
         ) {
             steps.forEachIndexed { index, title ->
-                val isCompleted = index < currentStep
-                val isCurrent = index == currentStep
+                val isCurrent = index < currentStep
 
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -82,17 +81,17 @@ fun StepIndicator(
                         modifier = Modifier
                             .size(18.dp)
                             .background(
-                                color = if (isCompleted) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.background,
+                                color = if (isCurrent) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.background,
                                 shape = RectangleShape
                             )
                             .border(
                                 width = 0.2.dp,
-                                color = if (isCompleted) MaterialTheme.colorScheme.primary
+                                color = if (isCurrent) MaterialTheme.colorScheme.primary
                                 else MaterialTheme.colorScheme.onBackground.copy(alpha = 0.4f),
                                 shape = RectangleShape
                             )
                     ) {
-                        if (isCompleted) {
+                        if (isCurrent) {
                             Icon(
                                 imageVector = Icons.Default.Check,
                                 contentDescription = null,
@@ -109,7 +108,6 @@ fun StepIndicator(
                         style = MaterialTheme.typography.bodySmall,
                         color = when {
                             isCurrent -> MaterialTheme.colorScheme.onBackground
-                            isCompleted -> MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
                             else -> MaterialTheme.colorScheme.onBackground.copy(alpha = 0.4f)
                         },
                         fontWeight = if (isCurrent) FontWeight.Bold else FontWeight.Normal,

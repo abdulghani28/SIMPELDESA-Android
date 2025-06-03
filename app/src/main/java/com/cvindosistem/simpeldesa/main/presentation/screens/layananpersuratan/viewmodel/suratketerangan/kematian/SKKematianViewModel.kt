@@ -14,8 +14,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class SKKematianViewModel(
-    private val createSKKematianUseCase: CreateSuratKematianUseCase,
-    private val getUserInfoUseCase: GetUserInfoUseCase,
+    createSKKematianUseCase: CreateSuratKematianUseCase,
+    getUserInfoUseCase: GetUserInfoUseCase,
 ) : ViewModel() {
 
     // Components
@@ -254,9 +254,3 @@ class SKKematianViewModel(
         data class UserDataLoadError(val message: String) : SKKematianEvent()
     }
 }
-
-data class SKKematianUiState(
-    val isFormDirty: Boolean = false,
-    val currentStep: Int = 1,
-    val totalSteps: Int = 3
-)
