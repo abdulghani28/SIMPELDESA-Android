@@ -1,4 +1,4 @@
-package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan
+package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.domisiliperusahaan
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,12 +8,6 @@ import com.cvindosistem.simpeldesa.main.domain.usecases.BidangUsahaUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratDomisiliPerusahaanUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetAgamaUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.JenisUsahaUseCase
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.SKDomisiliPerusahaanViewModel.SKDomisiliPerusahaanEvent.*
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.domisiliperusahaan.SKDomisiliPerusahaanDataLoader
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.domisiliperusahaan.SKDomisiliPerusahaanFormSubmitter
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.domisiliperusahaan.SKDomisiliPerusahaanStateManager
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.domisiliperusahaan.SKDomisiliPerusahaanUiState
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.domisiliperusahaan.SKDomisiliPerusahaanValidator
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -141,16 +135,16 @@ class SKDomisiliPerusahaanViewModel(
             dataLoader.dataEvents.collect { event ->
                 when (event) {
                     is SKDomisiliPerusahaanDataLoader.DataLoaderEvent.BidangUsahaLoadError -> {
-                        _domisiliEvent.emit(BidangUsahaLoadError(event.message))
+                        _domisiliEvent.emit(SKDomisiliPerusahaanEvent.BidangUsahaLoadError(event.message))
                     }
                     is SKDomisiliPerusahaanDataLoader.DataLoaderEvent.AgamaLoadError -> {
-                        _domisiliEvent.emit(AgamaLoadError(event.message))
+                        _domisiliEvent.emit(SKDomisiliPerusahaanEvent.AgamaLoadError(event.message))
                     }
                     is SKDomisiliPerusahaanDataLoader.DataLoaderEvent.JenisUsahaLoadError -> {
-                        _domisiliEvent.emit(JenisUsahaLoadError(event.message))
+                        _domisiliEvent.emit(SKDomisiliPerusahaanEvent.JenisUsahaLoadError(event.message))
                     }
                     is SKDomisiliPerusahaanDataLoader.DataLoaderEvent.UserDataLoadError -> {
-                        _domisiliEvent.emit(UserDataLoadError(event.message))
+                        _domisiliEvent.emit(SKDomisiliPerusahaanEvent.UserDataLoadError(event.message))
                     }
                 }
             }
@@ -161,10 +155,10 @@ class SKDomisiliPerusahaanViewModel(
             formSubmitter.submitEvents.collect { event ->
                 when (event) {
                     is SKDomisiliPerusahaanFormSubmitter.SubmitEvent.Success -> {
-                        _domisiliEvent.emit(SubmitSuccess)
+                        _domisiliEvent.emit(SKDomisiliPerusahaanEvent.SubmitSuccess)
                     }
                     is SKDomisiliPerusahaanFormSubmitter.SubmitEvent.Error -> {
-                        _domisiliEvent.emit(SubmitError(event.message))
+                        _domisiliEvent.emit(SKDomisiliPerusahaanEvent.SubmitError(event.message))
                     }
                 }
             }
@@ -192,14 +186,14 @@ class SKDomisiliPerusahaanViewModel(
             if (currentStep < 3) {
                 stateManager.nextStep()
                 viewModelScope.launch {
-                    _domisiliEvent.emit(StepChanged(stateManager.getCurrentStep()))
+                    _domisiliEvent.emit(SKDomisiliPerusahaanEvent.StepChanged(stateManager.getCurrentStep()))
                 }
             } else {
                 stateManager.showConfirmation()
             }
         } else {
             viewModelScope.launch {
-                _domisiliEvent.emit(ValidationError)
+                _domisiliEvent.emit(SKDomisiliPerusahaanEvent.ValidationError)
             }
         }
     }
@@ -208,7 +202,7 @@ class SKDomisiliPerusahaanViewModel(
         if (stateManager.getCurrentStep() > 1) {
             stateManager.previousStep()
             viewModelScope.launch {
-                _domisiliEvent.emit(StepChanged(stateManager.getCurrentStep()))
+                _domisiliEvent.emit(SKDomisiliPerusahaanEvent.StepChanged(stateManager.getCurrentStep()))
             }
         }
     }
@@ -423,7 +417,7 @@ class SKDomisiliPerusahaanViewModel(
             stateManager.showPreview()
         } else {
             viewModelScope.launch {
-                _domisiliEvent.emit(ValidationError)
+                _domisiliEvent.emit(SKDomisiliPerusahaanEvent.ValidationError)
             }
         }
     }
