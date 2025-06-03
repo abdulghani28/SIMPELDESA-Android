@@ -12,9 +12,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.cvindosistem.simpeldesa.core.components.DasarPengajuanSelection
@@ -23,7 +20,7 @@ import com.cvindosistem.simpeldesa.core.components.AppTextField
 import com.cvindosistem.simpeldesa.core.components.FormSectionList
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
 import com.cvindosistem.simpeldesa.core.components.StepIndicator
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.SKJandaDudaViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.jandaduda.SKJandaDudaViewModel
 
 @Composable
 internal fun SKJandaDuda2Content(
@@ -87,11 +84,15 @@ private fun InformasiJandaDuda(
             enter = fadeIn() + expandVertically(),
             exit = fadeOut() + shrinkVertically()
         ) {
+            val isAktaCerai = viewModel.dasarPengajuanValue == "Akta Cerai"
+            val isError = if (isAktaCerai) viewModel.hasFieldError("penyebab") else false
+            val errorMessage = if (isAktaCerai) viewModel.getFieldError("penyebab") else null
+
             PenyebabStatusSelection(
                 selectedPenyebabStatus = viewModel.penyebabValue,
                 onPenyebabStatusSelected = viewModel::updatePenyebab,
-                isError = viewModel.hasFieldError("penyebab"),
-                errorMessage = viewModel.getFieldError("penyebab")
+                isError = isError,
+                errorMessage = errorMessage
             )
         }
     }

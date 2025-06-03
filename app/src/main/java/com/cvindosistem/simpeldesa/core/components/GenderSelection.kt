@@ -188,8 +188,8 @@ internal fun PenyebabStatusSelection(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 RadioButton(
-                    selected = selectedPenyebabStatus == "Cerai Hidup",
-                    onClick = { onPenyebabStatusSelected("Cerai Hidup") },
+                    selected = selectedPenyebabStatus == "cerai_hidup",
+                    onClick = { onPenyebabStatusSelected("cerai_hidup") },
                     colors = RadioButtonDefaults.colors(
                         selectedColor = MaterialTheme.colorScheme.primary
                     )
@@ -201,8 +201,8 @@ internal fun PenyebabStatusSelection(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 RadioButton(
-                    selected = selectedPenyebabStatus == "Cerai Mati",
-                    onClick = { onPenyebabStatusSelected("Cerai Mati") },
+                    selected = selectedPenyebabStatus == "cerai_mati",
+                    onClick = { onPenyebabStatusSelected("cerai_mati") },
                     colors = RadioButtonDefaults.colors(
                         selectedColor = MaterialTheme.colorScheme.primary
                     )
