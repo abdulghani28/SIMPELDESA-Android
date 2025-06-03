@@ -35,7 +35,7 @@ import com.cvindosistem.simpeldesa.main.presentation.components.BaseDialog
 import com.cvindosistem.simpeldesa.main.presentation.components.PreviewItem
 import com.cvindosistem.simpeldesa.main.presentation.components.PreviewSection
 import com.cvindosistem.simpeldesa.main.presentation.components.SubmitConfirmationDialog
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.SKKelahiranViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.kelahiran.SKKelahiranViewModel
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -123,7 +123,7 @@ fun SKKelahiranScreen(
         topBar = {
             Column {
                 AppTopBar(
-                    title = "SK Tidak Masuk Kerja",
+                    title = "SK Kelahiran",
                     showBackButton = true,
                     onBackClick = {
                         if (hasFormData) {

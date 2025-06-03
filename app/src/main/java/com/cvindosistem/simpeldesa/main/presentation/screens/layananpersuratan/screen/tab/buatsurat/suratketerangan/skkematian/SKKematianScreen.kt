@@ -18,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -36,10 +35,7 @@ import com.cvindosistem.simpeldesa.main.presentation.components.BaseDialog
 import com.cvindosistem.simpeldesa.main.presentation.components.PreviewItem
 import com.cvindosistem.simpeldesa.main.presentation.components.PreviewSection
 import com.cvindosistem.simpeldesa.main.presentation.components.SubmitConfirmationDialog
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skkematian.SKKematian1Content
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skkematian.SKKematian2Content
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skkematian.SKKematian3Content
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.SKKematianViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.kematian.SKKematianViewModel
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -127,7 +123,7 @@ fun SKKematianScreen(
         topBar = {
             Column {
                 AppTopBar(
-                    title = "SK Tidak Masuk Kerja",
+                    title = "SK Kematian",
                     showBackButton = true,
                     onBackClick = {
                         if (hasFormData) {
