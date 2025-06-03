@@ -7,9 +7,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.cvindosistem.simpeldesa.core.components.AppTextField
@@ -21,7 +18,7 @@ import com.cvindosistem.simpeldesa.core.components.MultilineTextField
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
 import com.cvindosistem.simpeldesa.core.components.StepIndicator
 import com.cvindosistem.simpeldesa.core.components.UseMyDataCheckbox
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.SKBedaIdentitasViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.bedaidentitas.SKBedaIdentitasViewModel
 
 @Composable
 internal fun SKBedaIdentitas1Content(
@@ -94,7 +91,7 @@ private fun InformasiPerbedaanIdentitas(
                 val selected = viewModel.tercantumIdentitasList.find { it.nama == selectedNama }
                 selected?.let { viewModel.updateTercantumId1(it.id) }
             },
-            options = viewModel.perbedaanIdentitasList.map { it.nama },
+            options = viewModel.tercantumIdentitasList.map { it.nama },
             isError = viewModel.hasFieldError("tercantum_id"),
             errorMessage = viewModel.getFieldError("tercantum_id")
         )
