@@ -71,7 +71,6 @@ class SRKeramaianViewModel(
     val penanggungJawabValue: String get() = stateManager.penanggungJawabValue
     val kontakValue: String get() = stateManager.kontakValue
 
-
     // Expose validation
     val validationErrors = validator.validationErrors
 
