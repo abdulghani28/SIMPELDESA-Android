@@ -1,17 +1,11 @@
 package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratrekomendasi
 
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cvindosistem.simpeldesa.auth.data.remote.dto.user.response.UserInfoResponse
-import com.cvindosistem.simpeldesa.auth.domain.model.UserInfoResult
 import com.cvindosistem.simpeldesa.auth.domain.usecases.GetUserInfoUseCase
-import com.cvindosistem.simpeldesa.core.helpers.dateFormatterToApiFormat
-import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratrekomendasi.SRKeramaianRequest
-import com.cvindosistem.simpeldesa.main.domain.model.SuratKeramaianResult
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratKeramaianUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -164,7 +158,7 @@ class SRKeramaianViewModel(
 
     private fun loadUserData() {
         viewModelScope.launch {
-            stateManager.setLoadingUserData(true)
+            stateManager.updateLoadingUserData(true)
             try {
                 dataLoader.loadUserData()
                     .onSuccess { userData ->
@@ -180,7 +174,7 @@ class SRKeramaianViewModel(
                         _keramaianEvent.emit(SRKeramaianEvent.UserDataLoadError(errorMessage!!))
                     }
             } finally {
-                stateManager.setLoadingUserData(false)
+                stateManager.updateLoadingUserData(false)
             }
         }
     }

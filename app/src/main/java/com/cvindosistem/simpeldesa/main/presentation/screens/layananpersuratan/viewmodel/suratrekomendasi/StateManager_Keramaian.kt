@@ -113,7 +113,7 @@ class SRKeramaianStateManager {
 
     // Use My Data functions
     fun setUseMyData(checked: Boolean) { useMyDataChecked = checked }
-    fun setLoadingUserData(loading: Boolean) { isLoadingUserData = loading }
+    fun updateLoadingUserData(loading: Boolean) { isLoadingUserData = loading }
 
     // Bulk update user data
     fun updateUserData(userData: UserInfoResponse.Data) {
