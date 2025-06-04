@@ -1,18 +1,8 @@
 package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.statusperkawinan
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cvindosistem.simpeldesa.auth.domain.model.UserInfoResult
 import com.cvindosistem.simpeldesa.auth.domain.usecases.GetUserInfoUseCase
-import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.AgamaResponse
-import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.StatusKawinResponse
-import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKStatusPerkawinanRequest
-import com.cvindosistem.simpeldesa.main.domain.model.AgamaResult
-import com.cvindosistem.simpeldesa.main.domain.model.StatusKawinResult
-import com.cvindosistem.simpeldesa.main.domain.model.SuratStatusPerkawinanResult
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratStatusPerkawinanUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetAgamaUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetStatusKawinUseCase
@@ -22,215 +12,12 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-// 2. Validator - Mengelola validasi form
-class SKStatusPerkawinanValidator {
-    private val _validationErrors = MutableStateFlow<Map<String, String>>(emptyMap())
-    val validationErrors = _validationErrors.asStateFlow()
-
-    fun validateStep1(stateManager: SKStatusPerkawinanStateManager): Boolean {
-        val errors = mutableMapOf<String, String>()
-
-        if (stateManager.nikValue.isBlank()) {
-            errors["nik"] = "NIK tidak boleh kosong"
-        } else if (stateManager.nikValue.length != 16) {
-            errors["nik"] = "NIK harus 16 digit"
-        }
-
-        if (stateManager.namaValue.isBlank()) {
-            errors["nama"] = "Nama lengkap tidak boleh kosong"
-        }
-
-        if (stateManager.tempatLahirValue.isBlank()) {
-            errors["tempat_lahir"] = "Tempat lahir tidak boleh kosong"
-        }
-
-        if (stateManager.tanggalLahirValue.isBlank()) {
-            errors["tanggal_lahir"] = "Tanggal lahir tidak boleh kosong"
-        }
-
-        if (stateManager.selectedGender.isBlank()) {
-            errors["jenis_kelamin"] = "Jenis kelamin harus dipilih"
-        }
-
-        if (stateManager.pekerjaanValue.isBlank()) {
-            errors["pekerjaan"] = "Pekerjaan tidak boleh kosong"
-        }
-
-        if (stateManager.alamatValue.isBlank()) {
-            errors["alamat"] = "Alamat tidak boleh kosong"
-        }
-
-        if (stateManager.agamaValue.isBlank()) {
-            errors["agama_id"] = "Agama tidak boleh kosong"
-        }
-
-        if (stateManager.statusKawinValue.isBlank()) {
-            errors["status_kawin_id"] = "Status kawin tidak boleh kosong"
-        }
-
-        if (stateManager.keperluanValue.isBlank()) {
-            errors["keperluan"] = "Keperluan tidak boleh kosong"
-        }
-
-        _validationErrors.value = errors
-        return errors.isEmpty()
-    }
-
-    fun validateAllSteps(stateManager: SKStatusPerkawinanStateManager): Boolean {
-        return validateStep1(stateManager)
-    }
-
-    fun clearFieldError(fieldName: String) {
-        val currentErrors = _validationErrors.value.toMutableMap()
-        currentErrors.remove(fieldName)
-        _validationErrors.value = currentErrors
-    }
-
-    fun clearMultipleFieldErrors(fieldNames: List<String>) {
-        val currentErrors = _validationErrors.value.toMutableMap()
-        fieldNames.forEach { fieldName ->
-            currentErrors.remove(fieldName)
-        }
-        _validationErrors.value = currentErrors
-    }
-
-    fun getFieldError(fieldName: String): String? {
-        return _validationErrors.value[fieldName]
-    }
-
-    fun hasFieldError(fieldName: String): Boolean {
-        return _validationErrors.value.containsKey(fieldName)
-    }
-
-    fun clearAllErrors() {
-        _validationErrors.value = emptyMap()
-    }
-}
-
-// 3. Data Loader - Mengelola loading data dropdown dan user data
-class SKStatusPerkawinanDataLoader(
-    private val getUserInfoUseCase: GetUserInfoUseCase,
-    private val getAgamaUseCase: GetAgamaUseCase,
-    private val getStatusKawinUseCase: GetStatusKawinUseCase
-) {
-    var agamaList by mutableStateOf<List<AgamaResponse.Data>>(emptyList())
-    var isLoadingAgama by mutableStateOf(false)
-    var agamaErrorMessage by mutableStateOf<String?>(null)
-
-    var statusKawinList by mutableStateOf<List<StatusKawinResponse.Data>>(emptyList())
-    var isLoadingStatusKawin by mutableStateOf(false)
-    var statusKawinErrorMessage by mutableStateOf<String?>(null)
-
-    suspend fun loadUserData(
-        stateManager: SKStatusPerkawinanStateManager,
-        validator: SKStatusPerkawinanValidator,
-        onSuccess: () -> Unit,
-        onError: suspend (String) -> Unit
-    ) {
-        stateManager.setUserDataLoading(true)
-        try {
-            when (val result = getUserInfoUseCase()) {
-                is UserInfoResult.Success -> {
-                    val userData = result.data.data
-                    stateManager.populateUserData(userData)
-
-                    // Clear validation errors for populated fields
-                    validator.clearMultipleFieldErrors(listOf(
-                        "nik", "nama", "tempat_lahir", "tanggal_lahir",
-                        "jenis_kelamin", "pekerjaan", "alamat", "status_kawin_id",
-                        "agama_id"
-                    ))
-                    onSuccess()
-                }
-                is UserInfoResult.Error -> {
-                    stateManager.setUseMyData(false)
-                    onError(result.message)
-                }
-            }
-        } catch (e: Exception) {
-            val message = e.message ?: "Gagal memuat data pengguna"
-            stateManager.setUseMyData(false)
-            onError(message)
-        } finally {
-            stateManager.setUserDataLoading(false)
-        }
-    }
-
-    suspend fun loadAgama(onError: suspend (String) -> Unit) {
-        isLoadingAgama = true
-        agamaErrorMessage = null
-        try {
-            when (val result = getAgamaUseCase()) {
-                is AgamaResult.Success -> {
-                    agamaList = result.data.data
-                }
-                is AgamaResult.Error -> {
-                    agamaErrorMessage = result.message
-                    onError(result.message)
-                }
-            }
-        } catch (e: Exception) {
-            val message = e.message ?: "Gagal memuat data agama"
-            agamaErrorMessage = message
-            onError(message)
-        } finally {
-            isLoadingAgama = false
-        }
-    }
-
-    suspend fun loadStatusKawin(onError: suspend (String) -> Unit) {
-        isLoadingStatusKawin = true
-        statusKawinErrorMessage = null
-        try {
-            when (val result = getStatusKawinUseCase()) {
-                is StatusKawinResult.Success -> {
-                    statusKawinList = result.data.data
-                }
-                is StatusKawinResult.Error -> {
-                    statusKawinErrorMessage = result.message
-                    onError(result.message)
-                }
-            }
-        } catch (e: Exception) {
-            val message = e.message ?: "Gagal memuat data status kawin"
-            statusKawinErrorMessage = message
-            onError(message)
-        } finally {
-            isLoadingStatusKawin = false
-        }
-    }
-}
-
-// 4. Form Submitter - Mengelola submit form
-class SKStatusPerkawinanFormSubmitter(
-    private val createSuratCatatanStatusPerkawinanUseCase: CreateSuratStatusPerkawinanUseCase
-) {
-    suspend fun submitForm(
-        request: SKStatusPerkawinanRequest,
-        onSuccess: suspend () -> Unit,
-        onError: suspend (String) -> Unit
-    ) {
-        try {
-            when (val result = createSuratCatatanStatusPerkawinanUseCase(request)) {
-                is SuratStatusPerkawinanResult.Success -> {
-                    onSuccess()
-                }
-                is SuratStatusPerkawinanResult.Error -> {
-                    onError(result.message)
-                }
-            }
-        } catch (e: Exception) {
-            onError(e.message ?: "Terjadi kesalahan")
-        }
-    }
-}
-
 // 5. Refactored ViewModel menggunakan composition
 class SKStatusPerkawinanViewModel(
-    private val createSuratCatatanStatusPerkawinanUseCase: CreateSuratStatusPerkawinanUseCase,
-    private val getUserInfoUseCase: GetUserInfoUseCase,
-    private val getAgamaUseCase: GetAgamaUseCase,
-    private val getStatusKawinUseCase: GetStatusKawinUseCase
+    createSuratCatatanStatusPerkawinanUseCase: CreateSuratStatusPerkawinanUseCase,
+    getUserInfoUseCase: GetUserInfoUseCase,
+    getAgamaUseCase: GetAgamaUseCase,
+    getStatusKawinUseCase: GetStatusKawinUseCase
 ) : ViewModel() {
 
     // Composition components
@@ -439,12 +226,3 @@ class SKStatusPerkawinanViewModel(
         data class StatusKawinLoadError(val message: String) : SKStatusPerkawinanEvent()
     }
 }
-
-// UI State - copy langsung dari kode asli
-data class SKStatusPerkawinanUiState(
-    val isFormDirty: Boolean = false,
-    val agamaList: List<AgamaResponse.Data> = emptyList(),
-    val statusKawinList: List<StatusKawinResponse.Data> = emptyList(),
-    val currentStep: Int = 1,
-    val totalSteps: Int = 2
-)
