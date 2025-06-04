@@ -22,7 +22,7 @@ import com.cvindosistem.simpeldesa.core.components.MultilineTextField
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
 import com.cvindosistem.simpeldesa.core.components.StepIndicator
 import com.cvindosistem.simpeldesa.core.components.UseMyDataCheckbox
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpengantar.SPKehilanganViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpengantar.kehilangan.SPKehilanganViewModel
 
 @Composable
 internal fun SPKehilangan1Content(
