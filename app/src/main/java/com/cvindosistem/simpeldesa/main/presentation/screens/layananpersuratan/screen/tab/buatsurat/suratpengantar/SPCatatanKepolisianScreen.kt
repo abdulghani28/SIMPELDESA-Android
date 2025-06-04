@@ -47,7 +47,7 @@ import com.cvindosistem.simpeldesa.main.presentation.components.BaseDialog
 import com.cvindosistem.simpeldesa.main.presentation.components.PreviewItem
 import com.cvindosistem.simpeldesa.main.presentation.components.PreviewSection
 import com.cvindosistem.simpeldesa.main.presentation.components.SubmitConfirmationDialog
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpengantar.SPCatatanKepolisianViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpengantar.catatankepolisian.SPCatatanKepolisianViewModel
 import kotlinx.coroutines.delay
 
 @Composable
@@ -374,7 +374,7 @@ private fun PreviewDialog(
                         PreviewItem("Jenis Kelamin", viewModel.selectedGender)
                         PreviewItem("Pekerjaan", viewModel.pekerjaanValue)
                         PreviewItem("Alamat", viewModel.alamatValue)
-                        PreviewItem("Keperluan", viewModel.alamatValue)
+                        PreviewItem("Keperluan", viewModel.keperluanValue)
                     }
                 )
             }
