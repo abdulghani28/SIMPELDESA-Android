@@ -17,7 +17,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.cvindosistem.simpeldesa.main.presentation.screens.submain.home.village.tab.infoapbdes.section.APBDesItemCard
+import com.cvindosistem.simpeldesa.main.presentation.screens.submain.home.village.tab.infoapbdes.section.AlokasiAnggaranRadarChart
 import com.cvindosistem.simpeldesa.main.presentation.screens.submain.home.village.tab.infoapbdes.section.DistribusiAnggaranSection
+import com.cvindosistem.simpeldesa.main.presentation.screens.submain.home.village.tab.infoapbdes.section.DistribusiPendapatanSection
 import com.cvindosistem.simpeldesa.main.presentation.screens.submain.home.village.tab.infoapbdes.section.PresentasiRealisasiSection
 
 @Composable
@@ -54,6 +56,14 @@ internal fun InfoAPBDesContent(
         }
 
         item {
+            DistribusiPendapatanSection(apbDesData = apbDesData)
+        }
+
+        item {
+            AlokasiAnggaranRadarChart()
+        }
+
+        item {
             Spacer(modifier = Modifier.height(16.dp))
         }
     }
@@ -68,7 +78,8 @@ private fun getAPBDesData(): List<APBDesItem> {
             numericAmount = 846310544L,
             icon = Icons.Default.ShoppingCart,
             color = Color(0xFF00E396),
-            realisasiPercentage = 100
+            realisasiPercentage = 100,
+            barChartValue = 19f
         ),
         APBDesItem(
             id = "2",
@@ -77,7 +88,8 @@ private fun getAPBDesData(): List<APBDesItem> {
             numericAmount = 387185155L,
             icon = Icons.Default.ShoppingCart,
             color = Color(0xFFFF4560),
-            realisasiPercentage = 83
+            realisasiPercentage = 83,
+            barChartValue = 11f
         ),
         APBDesItem(
             id = "3",
@@ -86,7 +98,8 @@ private fun getAPBDesData(): List<APBDesItem> {
             numericAmount = 533625813L,
             icon = Icons.Default.ShoppingCart,
             color = Color(0xFFFEB019),
-            realisasiPercentage = 96
+            realisasiPercentage = 96,
+            barChartValue = 7f
         )
     )
 }
@@ -98,5 +111,6 @@ data class APBDesItem(
     val numericAmount: Long,
     val icon: ImageVector,
     val color: Color,
-    val realisasiPercentage: Int
+    val realisasiPercentage: Int,
+    val barChartValue: Float
 )

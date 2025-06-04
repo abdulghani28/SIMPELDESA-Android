@@ -1,0 +1,235 @@
+package com.cvindosistem.simpeldesa.main.presentation.screens.submain.home.village.tab.infoapbdes.section
+
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.cvindosistem.simpeldesa.core.components.AppCard
+import com.cvindosistem.simpeldesa.core.components.BodyLargeText
+import com.cvindosistem.simpeldesa.core.components.BodySmallText
+import com.cvindosistem.simpeldesa.main.presentation.screens.submain.home.village.tab.infoapbdes.APBDesItem
+import kotlin.collections.forEach
+import kotlin.math.cos
+import kotlin.math.sin
+
+@Composable
+fun AlokasiAnggaranRadarChart(
+    modifier: Modifier = Modifier,
+    chartSize: Dp = 280.dp
+) {
+    val radarData = getRadarChartData()
+
+    AppCard {
+        Column(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            BodyLargeText(
+                text = "Alokasi Anggaran Bidang Belanja",
+                fontWeight = FontWeight.SemiBold
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            HorizontalDivider(
+                thickness = 0.5.dp,
+                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f)
+            )
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            RadarChart(
+                data = radarData,
+                modifier = Modifier.size(chartSize)
+            )
+        }
+    }
+}
+
+@Composable
+fun RadarChart(
+    data: List<RadarChartItem>,
+    modifier: Modifier = Modifier,
+    maxValue: Float = 100f,
+    gridLevels: Int = 5,
+    gridColor: Color = Color.Gray.copy(alpha = 0.3f),
+    dataColor: Color = Color(0xFF8B5CF6),
+    dataAlpha: Float = 0.3f,
+    strokeWidth: Dp = 2.dp
+) {
+    Box(modifier = modifier) {
+        // Canvas for the chart
+        Canvas(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(40.dp) // Space for labels
+        ) {
+            val center = Offset(size.width / 2, size.height / 2)
+            val radius = minOf(size.width, size.height) / 2
+            val angleStep = 360f / data.size
+
+            // Draw grid circles
+            for (level in 1..gridLevels) {
+                val levelRadius = radius * (level.toFloat() / gridLevels)
+                drawCircle(
+                    color = gridColor,
+                    radius = levelRadius,
+                    center = center,
+                    style = Stroke(width = 1.dp.toPx())
+                )
+            }
+
+            // Draw grid lines and calculate data points
+            val dataPoints = mutableListOf<Offset>()
+
+            data.forEachIndexed { index, item ->
+                val angle = Math.toRadians((angleStep * index - 90).toDouble())
+                val lineEndX = center.x + radius * cos(angle).toFloat()
+                val lineEndY = center.y + radius * sin(angle).toFloat()
+
+                // Draw grid line
+                drawLine(
+                    color = gridColor,
+                    start = center,
+                    end = Offset(lineEndX, lineEndY),
+                    strokeWidth = 1.dp.toPx()
+                )
+
+                // Calculate data point position
+                val dataRadius = radius * (item.value / maxValue)
+                val dataX = center.x + dataRadius * cos(angle).toFloat()
+                val dataY = center.y + dataRadius * sin(angle).toFloat()
+                dataPoints.add(Offset(dataX, dataY))
+            }
+
+            // Draw filled area
+            if (dataPoints.isNotEmpty()) {
+                val path = Path()
+                path.moveTo(dataPoints[0].x, dataPoints[0].y)
+
+                for (i in 1 until dataPoints.size) {
+                    path.lineTo(dataPoints[i].x, dataPoints[i].y)
+                }
+                path.close()
+
+                // Fill the area
+                drawPath(
+                    path = path,
+                    color = dataColor.copy(alpha = dataAlpha)
+                )
+
+                // Draw the outline
+                drawPath(
+                    path = path,
+                    color = dataColor,
+                    style = Stroke(width = strokeWidth.toPx())
+                )
+            }
+
+            // Draw data points
+            dataPoints.forEach { point ->
+                drawCircle(
+                    color = dataColor,
+                    radius = 4.dp.toPx(),
+                    center = point
+                )
+            }
+        }
+
+        // Labels as Compose Text elements
+        data.forEachIndexed { index, item ->
+            val angleStep = 360f / data.size
+            val angle = Math.toRadians((angleStep * index - 90).toDouble())
+            val labelDistance = 140.dp // Distance from center
+
+            val offsetX = (labelDistance.value * cos(angle)).dp
+            val offsetY = (labelDistance.value * sin(angle)).dp
+
+            RadarChartLabel(
+                text = item.label,
+                modifier = Modifier
+                    .offset(
+                        x = offsetX,
+                        y = offsetY
+                    )
+                    .wrapContentSize()
+            )
+        }
+    }
+}
+
+@Composable
+private fun RadarChartLabel(
+    text: String,
+    modifier: Modifier = Modifier
+) {
+    Text(
+        text = text,
+        style = MaterialTheme.typography.bodySmall.copy(
+            fontSize = 10.sp,
+            textAlign = TextAlign.Center
+        ),
+        color = MaterialTheme.colorScheme.onSurface,
+        modifier = modifier
+            .width(60.dp)
+            .wrapContentHeight(),
+        maxLines = 2,
+        overflow = TextOverflow.Ellipsis
+    )
+}
+
+data class RadarChartItem(
+    val label: String,
+    val value: Float
+)
+
+private fun getRadarChartData(): List<RadarChartItem> {
+    return listOf(
+        RadarChartItem("Infrastruktur", 85f),
+        RadarChartItem("Pendidikan", 75f),
+        RadarChartItem("Kesehatan", 80f),
+        RadarChartItem("Sosial", 65f),
+        RadarChartItem("Ekonomi Desa", 70f),
+        RadarChartItem("Penyelenggaraan Pemerintah Desa", 60f),
+        RadarChartItem("Perencanaan & Pengembangan", 55f),
+        RadarChartItem("Pembangunan & Pemeliharaan Fasilitas Umum", 90f),
+        RadarChartItem("Kebudayaan & Pariwisata", 45f),
+        RadarChartItem("Lingkungan", 72f)
+    )
+}
