@@ -29,7 +29,7 @@ sealed class Screen(val route: String) {
     object SKPenghasilan : Screen("sk_penghasilan")
     object SKStatusPerkawinan : Screen("sk_status_perkawinan")
     object SKResiKTPSementara : Screen("sk_resi_ktp_sementara")
-    object SKDomisiliPerusahaan : Screen("sk_resi_ktp_sementara")
+    object SKDomisiliPerusahaan : Screen("sk_domisili_perusahaan")
     object SKJandaDuda : Screen("sk_janda_duda")
     object SKBedaIdentitas : Screen("sk_beda_identitas")
     object SKGhaib : Screen("sk_ghaib")

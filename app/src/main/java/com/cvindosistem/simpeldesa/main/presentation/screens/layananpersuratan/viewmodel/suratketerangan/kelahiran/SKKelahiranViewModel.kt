@@ -2,7 +2,6 @@ package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKKelahiranRequest
 import com.cvindosistem.simpeldesa.main.domain.model.SuratKelahiranResult
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratKelahiranUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow

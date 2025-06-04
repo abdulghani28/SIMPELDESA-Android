@@ -2,11 +2,8 @@ package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cvindosistem.simpeldesa.auth.domain.model.UserInfoResult
 import com.cvindosistem.simpeldesa.auth.domain.usecases.GetUserInfoUseCase
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.AgamaResponse
-import com.cvindosistem.simpeldesa.main.domain.model.AgamaResult
-import com.cvindosistem.simpeldesa.main.domain.model.SuratJandaDudaResult
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratJandaDudaUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetAgamaUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -258,11 +255,3 @@ class SKJandaDudaViewModel(
         data class AgamaLoadError(val message: String) : SKJandaDudaEvent()
     }
 }
-
-// UI State - copy langsung dari kode asli
-data class SKJandaDudaUiState(
-    val isFormDirty: Boolean = false,
-    val agamaList: List<AgamaResponse.Data> = emptyList(),
-    val currentStep: Int = 1,
-    val totalSteps: Int = 3
-)
