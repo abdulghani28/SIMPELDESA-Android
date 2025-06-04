@@ -122,7 +122,7 @@ private fun InformasiPelapor(
 
         GenderSelection(
             selectedGender = viewModel.selectedGender,
-            onGenderSelected = viewModel::updateGender,
+            onGenderSelected = viewModel::updateSelectedGender,
             isError = viewModel.hasFieldError("jenis_kelamin"),
             errorMessage = viewModel.getFieldError("jenis_kelamin"),
         )
