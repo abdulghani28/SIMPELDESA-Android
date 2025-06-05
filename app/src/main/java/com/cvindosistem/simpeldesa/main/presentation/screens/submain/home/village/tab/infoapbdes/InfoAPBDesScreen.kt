@@ -21,6 +21,7 @@ import com.cvindosistem.simpeldesa.main.presentation.screens.submain.home.villag
 import com.cvindosistem.simpeldesa.main.presentation.screens.submain.home.village.tab.infoapbdes.section.DistribusiAnggaranSection
 import com.cvindosistem.simpeldesa.main.presentation.screens.submain.home.village.tab.infoapbdes.section.DistribusiPendapatanSection
 import com.cvindosistem.simpeldesa.main.presentation.screens.submain.home.village.tab.infoapbdes.section.PresentasiRealisasiSection
+import com.cvindosistem.simpeldesa.main.presentation.screens.submain.home.village.tab.infoapbdes.section.TrenPenggunaanAnggaranSection
 
 @Composable
 internal fun InfoAPBDesContent(
@@ -61,6 +62,14 @@ internal fun InfoAPBDesContent(
 
         item {
             AlokasiAnggaranRadarChart()
+        }
+
+        item {
+            DistribusiAnggaranSection()
+        }
+
+        item {
+            TrenPenggunaanAnggaranSection()
         }
 
         item {
