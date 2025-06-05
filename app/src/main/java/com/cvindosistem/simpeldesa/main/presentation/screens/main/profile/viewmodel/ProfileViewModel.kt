@@ -96,7 +96,6 @@ class ProfileViewModel(
 
             when (val result = logoutUseCase()) {
                 is LogoutResult.Success -> {
-                    // Gunakan clearAllUserData instead of clearAuthToken
                     userPreferences.clearAllUserData()
                     _profileEvent.emit(ProfileEvent.LogoutSuccess)
                     Log.d("ProfileViewModel", "Logout successful")
@@ -106,7 +105,6 @@ class ProfileViewModel(
                     _profileEvent.emit(ProfileEvent.Error(result.data))
                 }
             }
-
             isLoading = false
         }
     }
