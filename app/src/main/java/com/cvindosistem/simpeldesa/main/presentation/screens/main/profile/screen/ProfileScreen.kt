@@ -27,8 +27,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -366,23 +369,23 @@ private fun AccountSettingsSection(
             modifier = Modifier.padding(bottom = 8.dp)
         )
 
-//        SettingsItem(
-//            icon = Icons.Default.Lock,
-//            title = "Ubah Password",
-//            iconTint = MaterialTheme.colorScheme.primary
-//        )
-//
-//        SettingsItem(
-//            icon = Icons.Default.Phone,
-//            title = "Ubah Nomor Telepon",
-//            iconTint = MaterialTheme.colorScheme.primary
-//        )
-//
-//        SettingsItem(
-//            icon = Icons.Default.Email,
-//            title = "Ubah Alamat Email",
-//            iconTint = MaterialTheme.colorScheme.primary
-//        )
+        SettingsItem(
+            icon = Icons.Default.Lock,
+            title = "Ubah Password",
+            iconTint = MaterialTheme.colorScheme.primary
+        )
+
+        SettingsItem(
+            icon = Icons.Default.Phone,
+            title = "Ubah Nomor Telepon",
+            iconTint = MaterialTheme.colorScheme.primary
+        )
+
+        SettingsItem(
+            icon = Icons.Default.Email,
+            title = "Ubah Alamat Email",
+            iconTint = MaterialTheme.colorScheme.primary
+        )
 
         Spacer(modifier = Modifier.height(8.dp))
 
