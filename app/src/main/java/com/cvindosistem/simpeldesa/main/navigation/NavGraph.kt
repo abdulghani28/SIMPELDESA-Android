@@ -13,6 +13,7 @@ import com.cvindosistem.simpeldesa.auth.presentation.auth.resetpassword.OtpVerif
 import com.cvindosistem.simpeldesa.auth.presentation.auth.resetpassword.PasswordResetViewModel
 import com.cvindosistem.simpeldesa.auth.presentation.auth.resetpassword.ResetPasswordScreen
 import com.cvindosistem.simpeldesa.core.data.local.preferences.UserPreferences
+import com.cvindosistem.simpeldesa.main.presentation.screens.blogdesa.BlogDesaScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.laporpemdes.LaporPemdesScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.LayananPersuratanScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.detail.SuratDetailScreen
@@ -367,6 +368,10 @@ fun NavGraph(
 
         composable(Screen.LaporPemdes.route) {
             LaporPemdesScreen(navController)
+        }
+
+        composable(Screen.BlogDesa.route) {
+            BlogDesaScreen(navController)
         }
     }
 }

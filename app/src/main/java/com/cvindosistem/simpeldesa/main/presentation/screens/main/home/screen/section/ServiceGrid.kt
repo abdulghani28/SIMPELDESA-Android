@@ -30,7 +30,7 @@ internal fun ServicesGrid(navController: NavController) {
     val services = listOf(
         ServiceItem(R.drawable.ic_persuratan, "Layanan\nPersuratan") {navController.navigate(Screen.LayananPersuratan.route)},
         ServiceItem(R.drawable.ic_lapor, "Lapor\nPemdes") {navController.navigate(Screen.LaporPemdes.route)},
-        ServiceItem(R.drawable.ic_artikel, "Artikel &\nBlog Desa") {},
+        ServiceItem(R.drawable.ic_artikel, "Artikel &\nBlog Desa") {navController.navigate(Screen.BlogDesa.route)},
         ServiceItem(R.drawable.ic_donasi, "Donasi\nDesa") {},
         ServiceItem(R.drawable.ic_kesehatan, "Layanan\nKesehatan") {},
         ServiceItem(R.drawable.ic_bumdes, "Bumdes &\nPasar Desa") {}

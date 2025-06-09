@@ -48,4 +48,7 @@ sealed class Screen(val route: String) {
 
     // Lapor Pemdes
     object LaporPemdes : Screen("lapor_pemdes")
+
+    // Blog Desa
+    object BlogDesa : Screen("blog_desa")
 }
