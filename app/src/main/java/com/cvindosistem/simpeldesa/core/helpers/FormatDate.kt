@@ -12,7 +12,7 @@ fun dateFormatterToApiFormat(dateString: String): String {
         val parsedDate = OffsetDateTime.parse(dateString)
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         parsedDate.format(formatter)
-    } catch (e: Exception) {
+    } catch (_: Exception) {
         dateString
     }
 }
