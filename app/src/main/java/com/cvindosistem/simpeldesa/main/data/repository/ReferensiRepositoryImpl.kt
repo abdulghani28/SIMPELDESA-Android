@@ -44,7 +44,7 @@ class ReferensiRepositoryImpl(
                 val errorBody = response.errorBody()?.string()
                 val errorResponse = try {
                     Gson().fromJson(errorBody, ErrorResponse::class.java)
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     null
                 }
 
