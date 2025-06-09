@@ -2,12 +2,19 @@ package com.cvindosistem.simpeldesa.app
 
 import android.app.Application
 import android.graphics.Bitmap
+import org.koin.android.ext.android.get
+import android.util.Log
 import com.cvindosistem.simpeldesa.app.di.appModule
 import com.cvindosistem.simpeldesa.auth.di.authModule
+import com.cvindosistem.simpeldesa.core.data.fcm.FcmManager
+import com.cvindosistem.simpeldesa.core.data.fcm.fcmModule
 import com.cvindosistem.simpeldesa.core.di.coreModule
 import com.cvindosistem.simpeldesa.core.di.networkModule
 import com.cvindosistem.simpeldesa.main.di.mainModule
-import com.zynksoftware.documentscanner.ui.DocumentScanner
+import com.google.firebase.FirebaseApp
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -17,12 +24,8 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        // Initialize Document Scanner first
-        val configuration = DocumentScanner.Configuration()
-        configuration.imageQuality = 100
-        configuration.imageSize = 1000000
-        configuration.imageType = Bitmap.CompressFormat.JPEG
-        DocumentScanner.init(this, configuration)
+        // Initialize Firebase first
+        FirebaseApp.initializeApp(this)
 
         // Then initialize Koin
         startKoin {
@@ -34,9 +37,23 @@ class App : Application() {
                     coreModule,
                     networkModule,
                     authModule,
-                    mainModule
+                    mainModule,
+                    fcmModule
                 )
             )
+        }
+
+        initializeFcm()
+    }
+
+    private fun initializeFcm() {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val fcmManager = get<FcmManager>()
+                fcmManager.initializeFcm()
+            } catch (e: Exception) {
+                Log.e("App", "Failed to initialize FCM", e)
+            }
         }
     }
 }

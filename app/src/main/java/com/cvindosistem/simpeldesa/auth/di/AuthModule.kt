@@ -9,6 +9,7 @@ import com.cvindosistem.simpeldesa.auth.data.repository.PasswordResetRepositoryI
 import com.cvindosistem.simpeldesa.auth.data.repository.UserRepository
 import com.cvindosistem.simpeldesa.auth.data.repository.UserRepositoryImpl
 import com.cvindosistem.simpeldesa.auth.domain.usecases.GetUserInfoUseCase
+import com.cvindosistem.simpeldesa.auth.domain.usecases.UpdateFcmTokenUseCase
 import com.cvindosistem.simpeldesa.auth.domain.usecases.auth.LoginUseCase
 import com.cvindosistem.simpeldesa.auth.domain.usecases.auth.LogoutUseCase
 import com.cvindosistem.simpeldesa.auth.domain.usecases.auth.RequestOtpUseCase
@@ -16,7 +17,6 @@ import com.cvindosistem.simpeldesa.auth.domain.usecases.auth.ResetPasswordUseCas
 import com.cvindosistem.simpeldesa.auth.domain.usecases.auth.ValidateOtpUseCase
 import com.cvindosistem.simpeldesa.auth.presentation.auth.login.AuthViewModel
 import com.cvindosistem.simpeldesa.auth.presentation.auth.resetpassword.PasswordResetViewModel
-import com.cvindosistem.simpeldesa.main.presentation.screens.main.MainViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.main.home.viewmodel.HomeViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.main.profile.viewmodel.ProfileViewModel
 import com.google.gson.Gson
@@ -30,7 +30,7 @@ val authModule = module {
 
     single { Gson() }
 
-    single<AuthRepository> { AuthRepositoryImpl(get()) }
+    single<AuthRepository> { AuthRepositoryImpl(get(), get()) } // Add FcmManager dependency
     single<PasswordResetRepository> { PasswordResetRepositoryImpl(get()) }
     single<UserRepository> { UserRepositoryImpl(get()) }
 
@@ -40,9 +40,9 @@ val authModule = module {
     single { ValidateOtpUseCase(get()) }
     single { ResetPasswordUseCase(get()) }
     single { GetUserInfoUseCase(get()) }
+    single { UpdateFcmTokenUseCase(get()) } // Add this
 
-    viewModel { AuthViewModel(get(), get()) }
-    viewModel { MainViewModel() }
+    viewModel { AuthViewModel(get(), get(), get()) } // Add FcmManager parameter
     viewModel { PasswordResetViewModel(get(), get(), get(), get()) }
     viewModel { HomeViewModel(get()) }
     viewModel { ProfileViewModel(get(), get(), get()) }

@@ -4,8 +4,11 @@ import android.util.Log
 import com.cvindosistem.simpeldesa.auth.data.remote.api.AuthApi
 import com.cvindosistem.simpeldesa.auth.data.remote.dto.auth.login.ErrorResponse
 import com.cvindosistem.simpeldesa.auth.data.remote.dto.auth.login.LoginRequest
+import com.cvindosistem.simpeldesa.auth.data.remote.dto.fcm.FcmTokenRequest
+import com.cvindosistem.simpeldesa.auth.domain.model.FcmTokenResult
 import com.cvindosistem.simpeldesa.auth.domain.model.LoginResult
 import com.cvindosistem.simpeldesa.auth.domain.model.LogoutResult
+import com.cvindosistem.simpeldesa.core.data.fcm.FcmManager
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -13,9 +16,13 @@ import kotlinx.coroutines.withContext
 interface AuthRepository {
     suspend fun login(email: String, password: String, licenseCode: String): LoginResult
     suspend fun logout(): LogoutResult
+    suspend fun updateFcmToken(fcmToken: String): FcmTokenResult // Add this method
 }
 
-class AuthRepositoryImpl(private val authApi: AuthApi) : AuthRepository {
+class AuthRepositoryImpl(
+    private val authApi: AuthApi,
+    private val fcmManager: FcmManager
+) : AuthRepository {
 
     override suspend fun login(email: String, password: String, licenseCode: String): LoginResult = withContext(Dispatchers.IO) {
         try {
@@ -79,6 +86,23 @@ class AuthRepositoryImpl(private val authApi: AuthApi) : AuthRepository {
         } catch (e: Exception) {
             Log.e("AuthRepository", "Logout exception", e)
             return@withContext LogoutResult.Error(e.message ?: "Unknown error occurred")
+        }
+    }
+
+    override suspend fun updateFcmToken(fcmToken: String): FcmTokenResult = withContext(Dispatchers.IO) {
+        try {
+            val response = authApi.updateFcmToken(FcmTokenRequest(fcmToken))
+            if (response.isSuccessful) {
+                Log.d("AuthRepository", "FCM token updated successfully")
+                FcmTokenResult.Success
+            } else {
+                val errorMessage = response.errorBody()?.string() ?: "Failed to update FCM token"
+                Log.e("AuthRepository", "FCM token update failed: $errorMessage")
+                FcmTokenResult.Error(errorMessage)
+            }
+        } catch (e: Exception) {
+            Log.e("AuthRepository", "FCM token update exception", e)
+            FcmTokenResult.Error(e.message ?: "Failed to update FCM token")
         }
     }
 }

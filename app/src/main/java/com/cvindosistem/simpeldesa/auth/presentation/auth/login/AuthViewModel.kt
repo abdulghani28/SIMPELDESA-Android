@@ -10,6 +10,7 @@ import com.cvindosistem.simpeldesa.auth.domain.model.LoginResult
 import com.cvindosistem.simpeldesa.auth.domain.model.LogoutResult
 import com.cvindosistem.simpeldesa.auth.domain.usecases.auth.LoginUseCase
 import com.cvindosistem.simpeldesa.auth.domain.usecases.auth.LogoutUseCase
+import com.cvindosistem.simpeldesa.core.data.fcm.FcmManager
 import com.cvindosistem.simpeldesa.core.data.local.preferences.UserPreferences
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -18,6 +19,7 @@ import kotlinx.coroutines.launch
 class AuthViewModel(
     private val loginUseCase: LoginUseCase,
     private val userPreferences: UserPreferences,
+    private val fcmManager: FcmManager
 ) : ViewModel() {
 
     var email by mutableStateOf("")
@@ -167,10 +169,16 @@ class AuthViewModel(
                     userPreferences.saveAuthToken(result.token)
 
                     // Save license code only after successful login
-                    // This ensures wrong license codes are not saved
                     if (licenseCode.isNotEmpty() && !userPreferences.hasLicenseCode()) {
                         userPreferences.saveLicenseCode(licenseCode)
                         hasLicenseCode = true
+                    }
+
+                    // Update FCM token after successful login
+                    try {
+                        fcmManager.initializeFcm()
+                    } catch (e: Exception) {
+                        Log.e("LoginViewModel", "Failed to initialize FCM after login", e)
                     }
 
                     _loginEvent.emit(LoginEvent.Success)

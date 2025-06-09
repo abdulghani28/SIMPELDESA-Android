@@ -87,6 +87,7 @@ objectDetectionCommon = "18.0.0"
 mlkit-object-detection = "17.0.2"
 media3Ui = "1.6.0"
 waveformview = "2.0.0"
+firebase-bom = "33.15.0"
 
 [libraries]
 amplituda = { module = "com.github.lincollincol:amplituda", version.ref = "amplituda" }
@@ -221,6 +222,9 @@ androidx-constraintlayout-compose = { group = "androidx.constraintlayout", name 
 object-detection-common = { group = "com.google.mlkit", name = "object-detection-common", version.ref = "objectDetectionCommon" }
 androidx-media3-ui = { group = "androidx.media3", name = "media3-ui", version.ref = "media3Ui" }
 waveformview = { module = "com.github.massoudss:waveformview", version.ref = "waveformview" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
+firebase-messaging = { module = "com.google.firebase:firebase-messaging-ktx" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

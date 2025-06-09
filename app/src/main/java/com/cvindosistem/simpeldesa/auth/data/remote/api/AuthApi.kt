@@ -9,6 +9,8 @@ import com.cvindosistem.simpeldesa.auth.data.remote.dto.auth.resetpassword.reque
 import com.cvindosistem.simpeldesa.auth.data.remote.dto.auth.resetpassword.response.RequestOtpResponse
 import com.cvindosistem.simpeldesa.auth.data.remote.dto.auth.resetpassword.response.ResetPasswordResponse
 import com.cvindosistem.simpeldesa.auth.data.remote.dto.auth.resetpassword.response.ValidateOtpResponse
+import com.cvindosistem.simpeldesa.auth.data.remote.dto.fcm.FcmTokenRequest
+import com.cvindosistem.simpeldesa.auth.data.remote.dto.fcm.FcmTokenResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -29,4 +31,7 @@ interface AuthApi {
 
     @POST("portal-desa/auth/reset-password")
     suspend fun resetPassword(@Body resetPasswordRequest: ResetPasswordRequest): Response<ResetPasswordResponse>
+
+    @POST("/warga-desa/auth/fcm-token")
+    suspend fun updateFcmToken(@Body fcmTokenRequest: FcmTokenRequest): Response<FcmTokenResponse>
 }
