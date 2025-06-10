@@ -30,13 +30,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.cvindosistem.simpeldesa.R
 import com.cvindosistem.simpeldesa.core.components.AppCard
 import com.cvindosistem.simpeldesa.core.components.AppTopBar
+import com.cvindosistem.simpeldesa.core.components.BodyLargeText
+import com.cvindosistem.simpeldesa.core.components.BodyMediumText
+import com.cvindosistem.simpeldesa.core.components.LargeText
 
 @Composable
 fun LayananKesehatanScreen(
@@ -46,26 +51,26 @@ fun LayananKesehatanScreen(
         HealthService(
             id = 1,
             title = "Pemeriksaan WUS/PUS",
-            icon = Icons.Default.Person,
-            iconColor = Color(0xFF4A90E2)
+            icon = R.drawable.ic_wus,
+            iconColor = Color.Unspecified
         ),
         HealthService(
             id = 2,
             title = "Pemeriksaan Ibu",
-            icon = Icons.Default.Favorite,
-            iconColor = Color(0xFFFF8C42)
+            icon = R.drawable.ic_ibu,
+            iconColor = Color.Unspecified
         ),
         HealthService(
             id = 3,
             title = "Pemeriksaan Balita",
-            icon = Icons.Default.Face,
-            iconColor = Color(0xFFFFD700)
+            icon = R.drawable.ic_balita,
+            iconColor = Color.Unspecified
         ),
         HealthService(
             id = 4,
             title = "Layanan Donor Darah",
-            icon = Icons.Default.FavoriteBorder,
-            iconColor = Color(0xFF4A90E2)
+            icon = R.drawable.ic_donor,
+            iconColor = Color.Unspecified
         )
     )
 
@@ -95,9 +100,12 @@ fun LayananKesehatanScreen(
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.surfaceBright)
                 .padding(paddingValues)
-                .padding(24.dp),
+                .padding(horizontal = 24.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            item {
+                Spacer(modifier = Modifier.height(8.dp))
+            }
             // Health Services Grid
             items(healthServices.chunked(2)) { serviceRow ->
                 Row(
@@ -139,6 +147,10 @@ fun LayananKesehatanScreen(
                     modifier = Modifier.fillMaxWidth()
                 )
             }
+
+            item {
+                Spacer(modifier = Modifier.height(24.dp))
+            }
         }
     }
 }
@@ -155,38 +167,27 @@ private fun HealthServiceCard(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(150.dp)
-                .padding(20.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .height(200.dp)
+                .padding(24.dp),
+            horizontalAlignment = Alignment.Start,
+            verticalArrangement = Arrangement.Center
         ) {
             Box(
                 modifier = Modifier
-                    .size(48.dp)
-                    .background(
-                        service.iconColor.copy(alpha = 0.1f),
-                        CircleShape
-                    ),
+                    .size(48.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
-                    imageVector = service.icon,
+                    painter = painterResource(service.icon),
                     contentDescription = service.title,
-                    modifier = Modifier.size(24.dp),
+                    modifier = Modifier.size(48.dp),
                     tint = service.iconColor
                 )
             }
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            Text(
-                text = service.title,
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    fontWeight = FontWeight.Medium
-                ),
-                color = MaterialTheme.colorScheme.onSurface,
-                textAlign = TextAlign.Center,
-                lineHeight = 18.sp
-            )
+            BodyLargeText(service.title, FontWeight.Medium)
         }
     }
 }
@@ -301,7 +302,7 @@ private fun CheckupRecordCard(
 
             CheckupInfoRow(
                 label = "Tanggal Perkiraan Persalinan:",
-                value = ""
+                value = "30 Februari 2145"
             )
         }
     }
@@ -333,7 +334,7 @@ private fun CheckupInfoRow(
 data class HealthService(
     val id: Int,
     val title: String,
-    val icon: ImageVector,
+    val icon: Int,
     val iconColor: Color
 )
 
