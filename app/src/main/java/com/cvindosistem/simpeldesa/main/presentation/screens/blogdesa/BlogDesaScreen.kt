@@ -60,7 +60,8 @@ fun BlogDesaScreen(
     var searchQuery by remember { mutableStateOf("") }
     var selectedCategory by remember { mutableStateOf("Semua") }
 
-    val categories = listOf("Berita Desa", "Potensi Desa", "Pemberdayaan Masyarakat")
+    // Tambahkan "Semua" ke daftar kategori
+    val categories = listOf("Semua", "Berita Desa", "Potensi Desa", "Pemberdayaan Masyarakat", "Teknologi & Inovasi")
     val allBlogPosts = getAllBlogPosts()
 
     val filteredPosts = remember(searchQuery, selectedCategory) {
@@ -72,6 +73,9 @@ fun BlogDesaScreen(
             matchesSearch && matchesCategory
         }
     }
+
+    // Tentukan apakah menggunakan layout filter (ketika kategori bukan "Semua")
+    val isFilterLayout = selectedCategory != "Semua"
 
     Scaffold(
         topBar = {
@@ -110,38 +114,73 @@ fun BlogDesaScreen(
                 )
             }
 
-            // Latest Posts Section
-            item {
-                SectionTitle(
-                    title = "Postingan Terbaru"
-                )
-            }
-
-            // Featured Blog Post (Large Card with Description)
-            val featuredPost = filteredPosts.firstOrNull()
-            if (featuredPost != null) {
+            if (isFilterLayout) {
+                // Layout untuk kategori yang dipilih (filter aktif)
                 item {
-                    FeaturedBlogPostCard(
-                        post = featuredPost,
-                        modifier = Modifier.fillMaxWidth()
+                    Text(
+                        text = "Kategori $selectedCategory",
+                        style = MaterialTheme.typography.titleMedium.copy(
+                            fontWeight = FontWeight.SemiBold
+                        ),
+                        color = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier.padding(vertical = 8.dp)
                     )
                 }
-            }
 
-            // Popular Posts Section
-            if (filteredPosts.size > 1) {
-                // Horizontal Scrollable Cards
-                item {
-                    val popularPosts = filteredPosts.drop(1)
-                    LazyRow(
-                        horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        contentPadding = PaddingValues(horizontal = 0.dp)
+                // Grid layout dengan 2 kolom untuk tampilan filter
+                val chunkedPosts = filteredPosts.chunked(2)
+                items(chunkedPosts) { rowPosts ->
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
-                        items(popularPosts) { post ->
-                            CompactBlogPostCard(
+                        rowPosts.forEach { post ->
+                            FilterBlogPostCard(
                                 post = post,
-                                modifier = Modifier.width(280.dp)
+                                modifier = Modifier.weight(1f)
                             )
+                        }
+                        // Tambahkan spacer jika hanya ada 1 item di row terakhir
+                        if (rowPosts.size == 1) {
+                            Spacer(modifier = Modifier.weight(1f))
+                        }
+                    }
+                }
+            } else {
+                // Layout default (semua kategori)
+                // Latest Posts Section
+                item {
+                    SectionTitle(
+                        title = "Postingan Terbaru"
+                    )
+                }
+
+                // Featured Blog Post (Large Card with Description)
+                val featuredPost = filteredPosts.firstOrNull()
+                if (featuredPost != null) {
+                    item {
+                        FeaturedBlogPostCard(
+                            post = featuredPost,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
+                }
+
+                // Popular Posts Section
+                if (filteredPosts.size > 1) {
+                    // Horizontal Scrollable Cards
+                    item {
+                        val popularPosts = filteredPosts.drop(1)
+                        LazyRow(
+                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                            contentPadding = PaddingValues(horizontal = 0.dp)
+                        ) {
+                            items(popularPosts) { post ->
+                                CompactBlogPostCard(
+                                    post = post,
+                                    modifier = Modifier.width(280.dp)
+                                )
+                            }
                         }
                     }
                 }
@@ -150,6 +189,57 @@ fun BlogDesaScreen(
             // Bottom spacing
             item {
                 Spacer(modifier = Modifier.height(16.dp))
+            }
+        }
+    }
+}
+
+// Card untuk tampilan filter (grid 2 kolom)
+@Composable
+private fun FilterBlogPostCard(
+    post: BlogPost,
+    modifier: Modifier = Modifier
+) {
+    AppCard(modifier) {
+        Column {
+            // Image
+            AsyncImage(
+                model = post.imageRes,
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(120.dp)
+                    .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)),
+                contentScale = ContentScale.Crop
+            )
+
+            // Content
+            Column(
+                modifier = Modifier.padding(12.dp)
+            ) {
+                // Title
+                Text(
+                    text = post.title,
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontWeight = FontWeight.SemiBold
+                    ),
+                    color = MaterialTheme.colorScheme.onSurface,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                    lineHeight = 18.sp
+                )
+
+                Spacer(modifier = Modifier.height(6.dp))
+
+                // Description
+                Text(
+                    text = post.description,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                    lineHeight = 16.sp
+                )
             }
         }
     }
@@ -278,7 +368,7 @@ data class BlogPost(
     val description: String
 )
 
-// Sample Data
+// Sample Data dengan kategori "Teknologi & Inovasi" ditambahkan
 private fun getAllBlogPosts(): List<BlogPost> {
     return listOf(
         BlogPost(
@@ -305,23 +395,30 @@ private fun getAllBlogPosts(): List<BlogPost> {
         BlogPost(
             id = 4,
             imageRes = R.drawable.sample_blog,
-            category = "Pertanian & Kehutanan",
-            title = "Cara Efektif Meningkatkan Hasil Pertanian di Desa",
+            category = "Teknologi & Inovasi",
+            title = "Memanfaatkan Teknologi untuk Pembangunan Desa",
             description = "Eget pellentesque tortor a vel justo id ultrices. Venenatis in sed semper donec. Nam pulvinar a felis ultricies tristique. Sed vitae volutpat vitae r..."
         ),
         BlogPost(
             id = 5,
             imageRes = R.drawable.sample_blog,
-            category = "Potensi Desa",
-            title = "Keindahan Alam dan Kekayaan Tradisi di Desa Sukaramai Baru",
-            description = "Desa dengan panorama alam yang indah dan budaya tradisional yang masih lestari..."
+            category = "Teknologi & Inovasi",
+            title = "Teknologi Pertanian yang Meningkatkan Produktivitas Petani Desa",
+            description = "Eget pellentesque tortor a vel justo id ultrices. Venenatis in sed semper donec..."
         ),
         BlogPost(
             id = 6,
             imageRes = R.drawable.sample_blog,
-            category = "Pemberdayaan Masyarakat",
-            title = "Kisah Sukses Pemberdayaan Masyarakat Bersama UMKM",
-            description = "Transformasi ekonomi desa melalui pengembangan usaha mikro, kecil, dan menengah..."
+            category = "Teknologi & Inovasi",
+            title = "Membangun Koneksi untuk Mempercepat Pembangunan Ekonomi",
+            description = "Eget pellentesque tortor a vel justo id ultrices. Venenatis in sed semper donec..."
+        ),
+        BlogPost(
+            id = 7,
+            imageRes = R.drawable.sample_blog,
+            category = "Teknologi & Inovasi",
+            title = "Solusi Energi Ramah Lingkungan untuk Desa",
+            description = "Eget pellentesque tortor a vel justo id ultrices. Venenatis in sed semper donec. Nam pulvinar a felis ultricies tristique. Sed vitae volutpat vitae r..."
         )
     )
 }
