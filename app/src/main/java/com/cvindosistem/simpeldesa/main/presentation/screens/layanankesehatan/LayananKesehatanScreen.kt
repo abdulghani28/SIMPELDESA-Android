@@ -15,12 +15,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -29,19 +25,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.cvindosistem.simpeldesa.R
 import com.cvindosistem.simpeldesa.core.components.AppCard
 import com.cvindosistem.simpeldesa.core.components.AppTopBar
 import com.cvindosistem.simpeldesa.core.components.BodyLargeText
-import com.cvindosistem.simpeldesa.core.components.BodyMediumText
-import com.cvindosistem.simpeldesa.core.components.LargeText
+import com.cvindosistem.simpeldesa.main.navigation.Screen
 
 @Composable
 fun LayananKesehatanScreen(
@@ -52,25 +44,29 @@ fun LayananKesehatanScreen(
             id = 1,
             title = "Pemeriksaan WUS/PUS",
             icon = R.drawable.ic_wus,
-            iconColor = Color.Unspecified
+            iconColor = Color.Unspecified,
+            route = Screen.PemeriksaanWusPus.route
         ),
         HealthService(
             id = 2,
             title = "Pemeriksaan Ibu",
             icon = R.drawable.ic_ibu,
-            iconColor = Color.Unspecified
+            iconColor = Color.Unspecified,
+            route = Screen.PemeriksaanIbu.route
         ),
         HealthService(
             id = 3,
             title = "Pemeriksaan Balita",
             icon = R.drawable.ic_balita,
-            iconColor = Color.Unspecified
+            iconColor = Color.Unspecified,
+            route = Screen.PemeriksaanBalita.route
         ),
         HealthService(
             id = 4,
             title = "Layanan Donor Darah",
             icon = R.drawable.ic_donor,
-            iconColor = Color.Unspecified
+            iconColor = Color.Unspecified,
+            route = "Screen.PemeriksaanWusPus.route"
         )
     )
 
@@ -116,7 +112,7 @@ fun LayananKesehatanScreen(
                         HealthServiceCard(
                             service = service,
                             modifier = Modifier.weight(1f),
-                            onClick = { /* Handle service click */ }
+                            onClick = { navController.navigate(service.route) }
                         )
                     }
                     // Add empty space if odd number of items
@@ -335,7 +331,8 @@ data class HealthService(
     val id: Int,
     val title: String,
     val icon: Int,
-    val iconColor: Color
+    val iconColor: Color,
+    val route: String
 )
 
 data class CheckupRecord(
