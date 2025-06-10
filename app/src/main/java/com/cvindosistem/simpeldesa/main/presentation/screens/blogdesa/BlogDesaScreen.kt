@@ -44,6 +44,7 @@ import com.cvindosistem.simpeldesa.core.components.AppTopBar
 import com.cvindosistem.simpeldesa.core.components.CategoryChips
 import com.cvindosistem.simpeldesa.core.components.DropdownField
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
+import com.cvindosistem.simpeldesa.main.navigation.Screen
 
 @Composable
 fun BlogDesaScreen(
@@ -85,7 +86,9 @@ fun BlogDesaScreen(
             AppTopBar(
                 title = "Blog Desa",
                 showBackButton = true,
-                onBackClick = { navController.popBackStack() }
+                onBackClick = { navController.popBackStack() },
+                showNavigation = true,
+                onNavigateClick = { navController.navigate(Screen.Postingan.route) }
             )
         }
     ) { paddingValues ->

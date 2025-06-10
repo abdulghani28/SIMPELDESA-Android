@@ -14,6 +14,7 @@ import com.cvindosistem.simpeldesa.auth.presentation.auth.resetpassword.Password
 import com.cvindosistem.simpeldesa.auth.presentation.auth.resetpassword.ResetPasswordScreen
 import com.cvindosistem.simpeldesa.core.data.local.preferences.UserPreferences
 import com.cvindosistem.simpeldesa.main.presentation.screens.blogdesa.BlogDesaScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.blogdesa.PostinganScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.laporpemdes.LaporPemdesScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.LayananPersuratanScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.detail.SuratDetailScreen
@@ -78,12 +79,12 @@ fun NavGraph(
 ) {
     val isLoggedIn = userPreferences.isLoggedIn()
 
-    val initialStartDestination = when {
-        !isLoggedIn -> Screen.Login.route
-        else -> Screen.MainScreen.route
-    }
+//    val initialStartDestination = when {
+//        !isLoggedIn -> Screen.Login.route
+//        else -> Screen.MainScreen.route
+//    }
 
-//    val initialStartDestination = Screen.MainScreen.route
+    val initialStartDestination = Screen.Postingan.route
 
     val passwordResetViewModel: PasswordResetViewModel = koinViewModel()
 
@@ -372,6 +373,10 @@ fun NavGraph(
 
         composable(Screen.BlogDesa.route) {
             BlogDesaScreen(navController)
+        }
+
+        composable(Screen.Postingan.route) {
+            PostinganScreen(navController)
         }
     }
 }
