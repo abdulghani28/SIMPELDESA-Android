@@ -80,12 +80,12 @@ fun NavGraph(
 ) {
     val isLoggedIn = userPreferences.isLoggedIn()
 
-//    val initialStartDestination = when {
-//        !isLoggedIn -> Screen.Login.route
-//        else -> Screen.MainScreen.route
-//    }
+    val initialStartDestination = when {
+        !isLoggedIn -> Screen.Login.route
+        else -> Screen.MainScreen.route
+    }
 
-    val initialStartDestination = Screen.BuatPostingan.route
+//    val initialStartDestination = Screen.BuatPostingan.route
 
     val passwordResetViewModel: PasswordResetViewModel = koinViewModel()
 

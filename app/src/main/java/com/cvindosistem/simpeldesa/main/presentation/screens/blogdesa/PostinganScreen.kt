@@ -1,5 +1,6 @@
 package com.cvindosistem.simpeldesa.main.presentation.screens.blogdesa
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -165,7 +166,7 @@ fun PostinganScreen(
 private fun PostinganItemCard(
     post: PostinganItem,
     showStats: Boolean = true,
-    modifier: Modifier = Modifier
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
 ) {
     AppCard(modifier) {
         Row(
