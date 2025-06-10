@@ -48,6 +48,7 @@ import com.cvindosistem.simpeldesa.core.components.AppSearchBarAndFilter
 import com.cvindosistem.simpeldesa.core.components.AppTab
 import com.cvindosistem.simpeldesa.core.components.AppTopBar
 import com.cvindosistem.simpeldesa.core.components.DropdownField
+import com.cvindosistem.simpeldesa.main.navigation.Screen
 
 @Composable
 fun PostinganScreen(
@@ -131,7 +132,7 @@ fun PostinganScreen(
                     showBackButton = true,
                     onBackClick = { navController.popBackStack() },
                     showCreate = true,
-                    onCreateClick = {}
+                    onCreateClick = { navController.navigate(Screen.BuatPostingan.route) }
                 )
                 AppTab(
                     selectedTab = selectedTab,

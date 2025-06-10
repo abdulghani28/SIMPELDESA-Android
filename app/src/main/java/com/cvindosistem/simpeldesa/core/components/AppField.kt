@@ -284,7 +284,9 @@ fun DropdownField(
     onDropdownExpanded: () -> Unit = {}
 ) {
     Column {
-        LabelFieldText(label)
+        if (label != "") {
+            LabelFieldText(label)
+        }
 
         var expanded by remember { mutableStateOf(false) }
 

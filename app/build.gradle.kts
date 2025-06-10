@@ -1,20 +1,27 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-    id("com.google.devtools.ksp") version "1.9.0-1.0.13"
+
+    // Plugin KSP (versi cocok dengan Kotlin 2.0)
+    id("com.google.devtools.ksp") version "2.0.0-1.0.21"
+
+    // ✨ Tambahkan plugin Compose Compiler
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.0"
+
     id("kotlin-parcelize")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
 }
 
+
 android {
     namespace = "com.cvindosistem.simpeldesa"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.cvindosistem.simpeldesa"
         minSdk = 26
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -68,6 +75,7 @@ dependencies {
     implementation(libs.ui.graphics)
     implementation(libs.material3)
     implementation(libs.ui.tooling.preview)
+    implementation("androidx.compose.material:material-icons-extended")
 
     // Navigation
     implementation(libs.androidx.navigation.compose.v277)
@@ -126,4 +134,7 @@ dependencies {
     testImplementation(libs.mockk)
     androidTestImplementation(libs.androidx.junit.v115)
     androidTestImplementation(libs.androidx.espresso.core.v351)
+
+    // Text Editor
+    implementation("com.mohamedrejeb.richeditor:richeditor-compose:1.0.0-rc12")
 }

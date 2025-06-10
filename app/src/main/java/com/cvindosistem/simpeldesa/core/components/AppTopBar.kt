@@ -110,6 +110,7 @@ fun AppTopBar(
             navigationIconContentColor = MaterialTheme.colorScheme.onBackground,
             titleContentColor = MaterialTheme.colorScheme.onBackground,
             actionIconContentColor = MaterialTheme.colorScheme.onBackground,
+            subtitleContentColor = MaterialTheme.colorScheme.onBackground,
         ),
         actions = {
             // Action buttons dasar

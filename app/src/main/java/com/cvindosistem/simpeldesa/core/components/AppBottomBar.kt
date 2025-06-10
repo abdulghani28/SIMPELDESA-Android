@@ -28,6 +28,7 @@ import com.cvindosistem.simpeldesa.R
 fun AppBottomBar(
     onPreviewClick: (() -> Unit)? = null,
     onBackClick: (() -> Unit)? = null,
+    onDraftClick:  (() -> Unit)? = null,
     onContinueClick: (() -> Unit)? = null,
     onSubmitClick: (() -> Unit)? = null,
     continueText: String = "Lanjutkan",
@@ -78,6 +79,27 @@ fun AppBottomBar(
                 ) {
                     Text(
                         text = "Kembali",
+                        style = MaterialTheme.typography.bodyMedium.copy(
+                            fontWeight = FontWeight.Medium
+                        ),
+                        modifier = Modifier.padding(vertical = 4.dp)
+                    )
+                }
+            }
+
+            // Draft Button (conditional)
+            onDraftClick?.let { draftClick ->
+                OutlinedButton(
+                    onClick = draftClick,
+                    modifier = Modifier.weight(1f),
+                    colors = ButtonDefaults.outlinedButtonColors(
+                        contentColor = MaterialTheme.colorScheme.primary
+                    ),
+                    shape = RoundedCornerShape(8.dp),
+                    border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.background)
+                ) {
+                    Text(
+                        text = "Simpan Draft",
                         style = MaterialTheme.typography.bodyMedium.copy(
                             fontWeight = FontWeight.Medium
                         ),

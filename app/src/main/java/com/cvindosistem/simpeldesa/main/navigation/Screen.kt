@@ -52,4 +52,5 @@ sealed class Screen(val route: String) {
     // Blog Desa
     object BlogDesa : Screen("blog_desa")
     object Postingan : Screen("postingan")
+    object BuatPostingan : Screen("buat_postingan")
 }
