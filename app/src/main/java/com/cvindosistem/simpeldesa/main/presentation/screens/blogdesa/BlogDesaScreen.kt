@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -20,10 +19,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.FilterChip
-import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -46,11 +41,8 @@ import com.cvindosistem.simpeldesa.R
 import com.cvindosistem.simpeldesa.core.components.AppCard
 import com.cvindosistem.simpeldesa.core.components.AppSearchBarAndFilter
 import com.cvindosistem.simpeldesa.core.components.AppTopBar
-import com.cvindosistem.simpeldesa.core.components.BodyLargeText
-import com.cvindosistem.simpeldesa.core.components.BodyMediumText
 import com.cvindosistem.simpeldesa.core.components.CategoryChips
-import com.cvindosistem.simpeldesa.core.components.LabelSmallText
-import com.cvindosistem.simpeldesa.core.components.LargeText
+import com.cvindosistem.simpeldesa.core.components.DropdownField
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
 
 @Composable
@@ -59,23 +51,34 @@ fun BlogDesaScreen(
 ) {
     var searchQuery by remember { mutableStateOf("") }
     var selectedCategory by remember { mutableStateOf("Semua") }
+    var selectedSort by remember { mutableStateOf("Terbaru") }
+    var showFilter by remember { mutableStateOf(false) }
 
     // Tambahkan "Semua" ke daftar kategori
     val categories = listOf("Semua", "Berita Desa", "Potensi Desa", "Pemberdayaan Masyarakat", "Teknologi & Inovasi")
+    val sortOptions = listOf("Terbaru", "Terlama", "Populer")
     val allBlogPosts = getAllBlogPosts()
 
-    val filteredPosts = remember(searchQuery, selectedCategory) {
-        allBlogPosts.filter { post ->
+    val filteredPosts = remember(searchQuery, selectedCategory, selectedSort) {
+        var posts = allBlogPosts.filter { post ->
             val matchesSearch = searchQuery.isEmpty() ||
                     post.title.contains(searchQuery, ignoreCase = true) ||
                     post.description.contains(searchQuery, ignoreCase = true)
             val matchesCategory = selectedCategory == "Semua" || post.category == selectedCategory
             matchesSearch && matchesCategory
         }
+
+        // Sort berdasarkan pilihan
+        when (selectedSort) {
+            "Terbaru" -> posts.sortedByDescending { it.id }
+            "Terlama" -> posts.sortedBy { it.id }
+            "Populer" -> posts // Bisa ditambahkan logic untuk sorting populer
+            else -> posts
+        }
     }
 
-    // Tentukan apakah menggunakan layout filter (ketika kategori bukan "Semua")
-    val isFilterLayout = selectedCategory != "Semua"
+    // Tentukan apakah menggunakan layout filter (ketika kategori bukan "Semua" atau filter aktif)
+    val isFilterLayout = selectedCategory != "Semua" || showFilter
 
     Scaffold(
         topBar = {
@@ -99,9 +102,9 @@ fun BlogDesaScreen(
                 AppSearchBarAndFilter(
                     value = searchQuery,
                     onValueSearch = { searchQuery = it },
-                    placeholder = "Cari...",
-                    onFilterClick = {},
-                    showFilter = false
+                    placeholder = "Cari Keyword",
+                    onFilterClick = { },
+                    showFilter = true
                 )
             }
 
@@ -117,34 +120,35 @@ fun BlogDesaScreen(
             if (isFilterLayout) {
                 // Layout untuk kategori yang dipilih (filter aktif)
                 item {
-                    Text(
-                        text = "Kategori $selectedCategory",
-                        style = MaterialTheme.typography.titleMedium.copy(
-                            fontWeight = FontWeight.SemiBold
-                        ),
-                        color = MaterialTheme.colorScheme.onSurface,
-                        modifier = Modifier.padding(vertical = 8.dp)
-                    )
+                    Column(
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(
+                            text = "Kategori $selectedCategory",
+                            style = MaterialTheme.typography.titleMedium.copy(
+                                fontWeight = FontWeight.SemiBold
+                            ),
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+
+                        // Dropdown untuk sorting
+                        DropdownField(
+                            label = "",
+                            value = selectedSort,
+                            onValueChange = { selectedSort = it },
+                            options = sortOptions,
+                            isError = false,
+                            errorMessage = null
+                        )
+                    }
                 }
 
-                // Grid layout dengan 2 kolom untuk tampilan filter
-                val chunkedPosts = filteredPosts.chunked(2)
-                items(chunkedPosts) { rowPosts ->
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        rowPosts.forEach { post ->
-                            FilterBlogPostCard(
-                                post = post,
-                                modifier = Modifier.weight(1f)
-                            )
-                        }
-                        // Tambahkan spacer jika hanya ada 1 item di row terakhir
-                        if (rowPosts.size == 1) {
-                            Spacer(modifier = Modifier.weight(1f))
-                        }
-                    }
+                // Vertical list layout untuk tampilan filter
+                items(filteredPosts) { post ->
+                    FilterBlogPostCard(
+                        post = post,
+                        modifier = Modifier.fillMaxWidth()
+                    )
                 }
             } else {
                 // Layout default (semua kategori)
@@ -194,42 +198,45 @@ fun BlogDesaScreen(
     }
 }
 
-// Card untuk tampilan filter (grid 2 kolom)
+// Updated Card untuk tampilan filter (vertical list dengan gambar di kiri)
 @Composable
 private fun FilterBlogPostCard(
     post: BlogPost,
     modifier: Modifier = Modifier
 ) {
     AppCard(modifier) {
-        Column {
-            // Image
+        Row(
+            modifier = Modifier.padding(12.dp)
+        ) {
+            // Image - smaller size untuk list view
             AsyncImage(
                 model = post.imageRes,
                 contentDescription = null,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(120.dp)
-                    .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)),
+                    .size(80.dp)
+                    .clip(RoundedCornerShape(8.dp)),
                 contentScale = ContentScale.Crop
             )
 
+            Spacer(modifier = Modifier.width(12.dp))
+
             // Content
             Column(
-                modifier = Modifier.padding(12.dp)
+                modifier = Modifier.weight(1f)
             ) {
                 // Title
                 Text(
                     text = post.title,
-                    style = MaterialTheme.typography.bodyMedium.copy(
+                    style = MaterialTheme.typography.bodyLarge.copy(
                         fontWeight = FontWeight.SemiBold
                     ),
                     color = MaterialTheme.colorScheme.onSurface,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
-                    lineHeight = 18.sp
+                    lineHeight = 20.sp
                 )
 
-                Spacer(modifier = Modifier.height(6.dp))
+                Spacer(modifier = Modifier.height(4.dp))
 
                 // Description
                 Text(
