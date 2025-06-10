@@ -39,7 +39,6 @@ fun BuatPostinganScreen(
     var judulValue by remember { mutableStateOf("") }
     var isiBlogValue by remember { mutableStateOf("") }
     var tagsValue by remember { mutableStateOf("") }
-    var showKategoriDropdown by remember { mutableStateOf(false) }
 
     val kategoriOptions = listOf(
         "Teknologi",
