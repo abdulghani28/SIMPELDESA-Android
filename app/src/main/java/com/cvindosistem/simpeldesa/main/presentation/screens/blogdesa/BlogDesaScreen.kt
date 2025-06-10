@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -19,6 +20,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
@@ -37,11 +40,18 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.cvindosistem.simpeldesa.R
 import com.cvindosistem.simpeldesa.core.components.AppCard
 import com.cvindosistem.simpeldesa.core.components.AppSearchBarAndFilter
 import com.cvindosistem.simpeldesa.core.components.AppTopBar
+import com.cvindosistem.simpeldesa.core.components.BodyLargeText
+import com.cvindosistem.simpeldesa.core.components.BodyMediumText
+import com.cvindosistem.simpeldesa.core.components.CategoryChips
+import com.cvindosistem.simpeldesa.core.components.LabelSmallText
+import com.cvindosistem.simpeldesa.core.components.LargeText
+import com.cvindosistem.simpeldesa.core.components.SectionTitle
 
 @Composable
 fun BlogDesaScreen(
@@ -75,7 +85,9 @@ fun BlogDesaScreen(
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues),
+                .background(MaterialTheme.colorScheme.surfaceBright)
+                .padding(paddingValues)
+                .padding(24.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             // Search Bar
@@ -94,43 +106,44 @@ fun BlogDesaScreen(
                 CategoryChips(
                     categories = categories,
                     selectedCategory = selectedCategory,
-                    onCategorySelected = { selectedCategory = it },
-                    modifier = Modifier.padding(horizontal = 16.dp)
+                    onCategorySelected = { selectedCategory = it }
                 )
             }
 
             // Latest Posts Section
             item {
                 SectionTitle(
-                    title = "Postingan Terbaru",
-                    modifier = Modifier.padding(horizontal = 16.dp)
+                    title = "Postingan Terbaru"
                 )
             }
 
-            // Blog Posts
-            val latestPosts = filteredPosts.take(2)
-            items(latestPosts) { post ->
-                BlogPostCard(
-                    post = post,
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                )
+            // Featured Blog Post (Large Card with Description)
+            val featuredPost = filteredPosts.firstOrNull()
+            if (featuredPost != null) {
+                item {
+                    FeaturedBlogPostCard(
+                        post = featuredPost,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
             }
 
             // Popular Posts Section
-            if (filteredPosts.size > 2) {
+            if (filteredPosts.size > 1) {
+                // Horizontal Scrollable Cards
                 item {
-                    SectionTitle(
-                        title = "Postingan Terpopuler",
-                        modifier = Modifier.padding(horizontal = 16.dp)
-                    )
-                }
-
-                val popularPosts = filteredPosts.drop(2)
-                items(popularPosts) { post ->
-                    BlogPostCard(
-                        post = post,
-                        modifier = Modifier.padding(horizontal = 16.dp)
-                    )
+                    val popularPosts = filteredPosts.drop(1)
+                    LazyRow(
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                        contentPadding = PaddingValues(horizontal = 0.dp)
+                    ) {
+                        items(popularPosts) { post ->
+                            CompactBlogPostCard(
+                                post = post,
+                                modifier = Modifier.width(280.dp)
+                            )
+                        }
+                    }
                 }
             }
 
@@ -142,124 +155,115 @@ fun BlogDesaScreen(
     }
 }
 
+// Featured Blog Post Card (Large with description)
 @Composable
-private fun CategoryChips(
-    categories: List<String>,
-    selectedCategory: String,
-    onCategorySelected: (String) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    LazyRow(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        contentPadding = PaddingValues(horizontal = 0.dp)
-    ) {
-        items(categories) { category ->
-            FilterChip(
-                onClick = { onCategorySelected(category) },
-                label = {
-                    Text(
-                        text = category,
-                        style = MaterialTheme.typography.labelMedium
-                    )
-                },
-                selected = selectedCategory == category,
-                colors = FilterChipDefaults.filterChipColors(
-                    selectedContainerColor = MaterialTheme.colorScheme.primary,
-                    selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    labelColor = MaterialTheme.colorScheme.onSurface
-                ),
-                border = FilterChipDefaults.filterChipBorder(
-                    enabled = true,
-                    selected = selectedCategory == category,
-                    borderColor = if (selectedCategory == category)
-                        MaterialTheme.colorScheme.primary
-                    else
-                        MaterialTheme.colorScheme.outline.copy(alpha = 0.5f)
-                )
-            )
-        }
-    }
-}
-
-@Composable
-private fun SectionTitle(
-    title: String,
-    modifier: Modifier = Modifier
-) {
-    Text(
-        text = title,
-        style = MaterialTheme.typography.titleMedium.copy(
-            fontWeight = FontWeight.SemiBold
-        ),
-        color = MaterialTheme.colorScheme.onSurface,
-        modifier = modifier
-    )
-}
-
-@Composable
-private fun BlogPostCard(
+private fun FeaturedBlogPostCard(
     post: BlogPost,
     modifier: Modifier = Modifier
 ) {
-    AppCard {
-        Row(
-            modifier = Modifier.padding(12.dp)
-        ) {
+    AppCard(modifier) {
+        Column {
             // Image
             AsyncImage(
                 model = post.imageRes,
                 contentDescription = null,
                 modifier = Modifier
-                    .size(80.dp)
-                    .clip(RoundedCornerShape(8.dp)),
+                    .fillMaxWidth()
+                    .height(200.dp)
+                    .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)),
                 contentScale = ContentScale.Crop
             )
 
-            Spacer(modifier = Modifier.width(12.dp))
+            // Content
+            Column(
+                modifier = Modifier.padding(16.dp)
+            ) {
+                // Category
+                Text(
+                    text = post.category.uppercase(),
+                    style = MaterialTheme.typography.labelSmall.copy(
+                        fontWeight = FontWeight.Bold,
+                        letterSpacing = 0.5.sp
+                    ),
+                    color = MaterialTheme.colorScheme.primary
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                // Title
+                Text(
+                    text = post.title,
+                    style = MaterialTheme.typography.headlineSmall.copy(
+                        fontWeight = FontWeight.SemiBold
+                    ),
+                    color = MaterialTheme.colorScheme.onSurface,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                    lineHeight = 20.sp
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                // Description
+                Text(
+                    text = post.description,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    maxLines = 3,
+                    overflow = TextOverflow.Ellipsis,
+                    lineHeight = 20.sp
+                )
+            }
+        }
+    }
+}
+
+// Compact Blog Post Card (Horizontal scrollable, title only)
+@Composable
+private fun CompactBlogPostCard(
+    post: BlogPost,
+    modifier: Modifier = Modifier
+) {
+    AppCard(modifier) {
+        Column {
+            // Image
+            AsyncImage(
+                model = post.imageRes,
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(160.dp)
+                    .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)),
+                contentScale = ContentScale.Crop
+            )
 
             // Content
             Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxHeight(),
-                verticalArrangement = Arrangement.SpaceBetween
+                modifier = Modifier.padding(12.dp)
             ) {
-                Column {
-                    // Category
-                    Text(
-                        text = post.category.uppercase(),
-                        style = MaterialTheme.typography.labelSmall.copy(
-                            fontWeight = FontWeight.Bold
-                        ),
-                        color = MaterialTheme.colorScheme.primary
-                    )
+                // Category
+                Text(
+                    text = post.category.uppercase(),
+                    style = MaterialTheme.typography.labelSmall.copy(
+                        fontWeight = FontWeight.Bold,
+                        letterSpacing = 0.5.sp
+                    ),
+                    color = MaterialTheme.colorScheme.primary
+                )
 
-                    Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(6.dp))
 
-                    // Title
-                    Text(
-                        text = post.title,
-                        style = MaterialTheme.typography.bodyMedium.copy(
-                            fontWeight = FontWeight.SemiBold
-                        ),
-                        color = MaterialTheme.colorScheme.onSurface,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis
-                    )
-
-                    Spacer(modifier = Modifier.height(4.dp))
-
-                    // Description
-                    Text(
-                        text = post.description,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
+                // Title (no description for compact cards)
+                Text(
+                    text = post.title,
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        fontWeight = FontWeight.SemiBold
+                    ),
+                    color = MaterialTheme.colorScheme.onSurface,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                    lineHeight = 20.sp
+                )
             }
         }
     }
