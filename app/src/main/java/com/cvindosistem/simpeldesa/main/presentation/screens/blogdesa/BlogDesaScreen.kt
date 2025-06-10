@@ -55,8 +55,13 @@ fun BlogDesaScreen(
     var selectedSort by remember { mutableStateOf("Terbaru") }
     var showFilter by remember { mutableStateOf(false) }
 
-    // Tambahkan "Semua" ke daftar kategori
-    val categories = listOf("Semua", "Berita Desa", "Potensi Desa", "Pemberdayaan Masyarakat", "Teknologi & Inovasi")
+    val categories = listOf(
+        "Semua",
+        "Berita Desa",
+        "Potensi Desa",
+        "Pemberdayaan Masyarakat",
+        "Teknologi & Inovasi"
+    )
     val sortOptions = listOf("Terbaru", "Terlama", "Populer")
     val allBlogPosts = getAllBlogPosts()
 
@@ -69,16 +74,14 @@ fun BlogDesaScreen(
             matchesSearch && matchesCategory
         }
 
-        // Sort berdasarkan pilihan
         when (selectedSort) {
             "Terbaru" -> posts.sortedByDescending { it.id }
             "Terlama" -> posts.sortedBy { it.id }
-            "Populer" -> posts // Bisa ditambahkan logic untuk sorting populer
+            "Populer" -> posts
             else -> posts
         }
     }
 
-    // Tentukan apakah menggunakan layout filter (ketika kategori bukan "Semua" atau filter aktif)
     val isFilterLayout = selectedCategory != "Semua" || showFilter
 
     Scaffold(
@@ -100,7 +103,6 @@ fun BlogDesaScreen(
                 .padding(24.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // Search Bar
             item {
                 AppSearchBarAndFilter(
                     value = searchQuery,
@@ -111,7 +113,6 @@ fun BlogDesaScreen(
                 )
             }
 
-            // Category Chips
             item {
                 CategoryChips(
                     categories = categories,
@@ -121,7 +122,6 @@ fun BlogDesaScreen(
             }
 
             if (isFilterLayout) {
-                // Layout untuk kategori yang dipilih (filter aktif)
                 item {
                     Column(
                         modifier = Modifier.fillMaxWidth()
@@ -134,7 +134,6 @@ fun BlogDesaScreen(
                             color = MaterialTheme.colorScheme.onSurface
                         )
 
-                        // Dropdown untuk sorting
                         DropdownField(
                             label = "",
                             value = selectedSort,
@@ -146,7 +145,6 @@ fun BlogDesaScreen(
                     }
                 }
 
-                // Vertical list layout untuk tampilan filter
                 items(filteredPosts) { post ->
                     FilterBlogPostCard(
                         post = post,
@@ -154,15 +152,12 @@ fun BlogDesaScreen(
                     )
                 }
             } else {
-                // Layout default (semua kategori)
-                // Latest Posts Section
                 item {
                     SectionTitle(
                         title = "Postingan Terbaru"
                     )
                 }
 
-                // Featured Blog Post (Large Card with Description)
                 val featuredPost = filteredPosts.firstOrNull()
                 if (featuredPost != null) {
                     item {
@@ -173,9 +168,7 @@ fun BlogDesaScreen(
                     }
                 }
 
-                // Popular Posts Section
                 if (filteredPosts.size > 1) {
-                    // Horizontal Scrollable Cards
                     item {
                         val popularPosts = filteredPosts.drop(1)
                         LazyRow(
@@ -193,7 +186,6 @@ fun BlogDesaScreen(
                 }
             }
 
-            // Bottom spacing
             item {
                 Spacer(modifier = Modifier.height(16.dp))
             }
@@ -201,7 +193,6 @@ fun BlogDesaScreen(
     }
 }
 
-// Updated Card untuk tampilan filter (vertical list dengan gambar di kiri)
 @Composable
 private fun FilterBlogPostCard(
     post: BlogPost,
@@ -211,7 +202,6 @@ private fun FilterBlogPostCard(
         Row(
             modifier = Modifier.padding(12.dp)
         ) {
-            // Image - smaller size untuk list view
             AsyncImage(
                 model = post.imageRes,
                 contentDescription = null,
@@ -223,11 +213,9 @@ private fun FilterBlogPostCard(
 
             Spacer(modifier = Modifier.width(12.dp))
 
-            // Content
             Column(
                 modifier = Modifier.weight(1f)
             ) {
-                // Title
                 Text(
                     text = post.title,
                     style = MaterialTheme.typography.bodyLarge.copy(
@@ -241,7 +229,6 @@ private fun FilterBlogPostCard(
 
                 Spacer(modifier = Modifier.height(4.dp))
 
-                // Description
                 Text(
                     text = post.description,
                     style = MaterialTheme.typography.bodySmall,
@@ -255,7 +242,6 @@ private fun FilterBlogPostCard(
     }
 }
 
-// Featured Blog Post Card (Large with description)
 @Composable
 private fun FeaturedBlogPostCard(
     post: BlogPost,
@@ -263,7 +249,6 @@ private fun FeaturedBlogPostCard(
 ) {
     AppCard(modifier) {
         Column {
-            // Image
             AsyncImage(
                 model = post.imageRes,
                 contentDescription = null,
@@ -274,11 +259,9 @@ private fun FeaturedBlogPostCard(
                 contentScale = ContentScale.Crop
             )
 
-            // Content
             Column(
                 modifier = Modifier.padding(16.dp)
             ) {
-                // Category
                 Text(
                     text = post.category.uppercase(),
                     style = MaterialTheme.typography.labelSmall.copy(
@@ -290,7 +273,6 @@ private fun FeaturedBlogPostCard(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // Title
                 Text(
                     text = post.title,
                     style = MaterialTheme.typography.headlineSmall.copy(
@@ -304,7 +286,6 @@ private fun FeaturedBlogPostCard(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // Description
                 Text(
                     text = post.description,
                     style = MaterialTheme.typography.bodyMedium,
@@ -318,7 +299,6 @@ private fun FeaturedBlogPostCard(
     }
 }
 
-// Compact Blog Post Card (Horizontal scrollable, title only)
 @Composable
 private fun CompactBlogPostCard(
     post: BlogPost,
@@ -326,7 +306,6 @@ private fun CompactBlogPostCard(
 ) {
     AppCard(modifier) {
         Column {
-            // Image
             AsyncImage(
                 model = post.imageRes,
                 contentDescription = null,
@@ -337,11 +316,9 @@ private fun CompactBlogPostCard(
                 contentScale = ContentScale.Crop
             )
 
-            // Content
             Column(
                 modifier = Modifier.padding(12.dp)
             ) {
-                // Category
                 Text(
                     text = post.category.uppercase(),
                     style = MaterialTheme.typography.labelSmall.copy(
@@ -353,7 +330,6 @@ private fun CompactBlogPostCard(
 
                 Spacer(modifier = Modifier.height(6.dp))
 
-                // Title (no description for compact cards)
                 Text(
                     text = post.title,
                     style = MaterialTheme.typography.bodyLarge.copy(
@@ -369,7 +345,6 @@ private fun CompactBlogPostCard(
     }
 }
 
-// Data Classes
 data class BlogPost(
     val id: Int,
     val imageRes: Int,
@@ -378,7 +353,6 @@ data class BlogPost(
     val description: String
 )
 
-// Sample Data dengan kategori "Teknologi & Inovasi" ditambahkan
 private fun getAllBlogPosts(): List<BlogPost> {
     return listOf(
         BlogPost(
@@ -440,7 +414,6 @@ fun AsyncImage(
     modifier: Modifier = Modifier,
     contentScale: ContentScale = ContentScale.Fit
 ) {
-    // Placeholder for AsyncImage - replace with actual implementation
     Box(
         modifier = modifier.background(
             MaterialTheme.colorScheme.surfaceVariant,

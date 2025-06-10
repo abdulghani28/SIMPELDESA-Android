@@ -17,6 +17,7 @@ import com.cvindosistem.simpeldesa.main.presentation.screens.blogdesa.BlogDesaSc
 import com.cvindosistem.simpeldesa.main.presentation.screens.blogdesa.BuatPostinganScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.blogdesa.PostinganScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.laporpemdes.LaporPemdesScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layanankesehatan.LayananKesehatanScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.LayananPersuratanScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.detail.SuratDetailScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.SuratKeteranganScreen
@@ -80,12 +81,12 @@ fun NavGraph(
 ) {
     val isLoggedIn = userPreferences.isLoggedIn()
 
-    val initialStartDestination = when {
-        !isLoggedIn -> Screen.Login.route
-        else -> Screen.MainScreen.route
-    }
+//    val initialStartDestination = when {
+//        !isLoggedIn -> Screen.Login.route
+//        else -> Screen.MainScreen.route
+//    }
 
-//    val initialStartDestination = Screen.BuatPostingan.route
+    val initialStartDestination = Screen.LayananKesehatan.route
 
     val passwordResetViewModel: PasswordResetViewModel = koinViewModel()
 
@@ -382,6 +383,10 @@ fun NavGraph(
 
         composable(Screen.BuatPostingan.route) {
             BuatPostinganScreen(navController)
+        }
+
+        composable(Screen.LayananKesehatan.route) {
+            LayananKesehatanScreen(navController)
         }
     }
 }
