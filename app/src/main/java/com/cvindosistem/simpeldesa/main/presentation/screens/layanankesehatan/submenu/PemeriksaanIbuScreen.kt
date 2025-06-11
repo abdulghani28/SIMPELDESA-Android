@@ -21,6 +21,7 @@ fun IbuScreen(navController: NavController) {
         title = "Ibu",
         records = records,
         navController = navController,
+        route = "",
         getDate = { it.date }
     ) { record ->
         IbuRecordContent(record)

@@ -66,6 +66,7 @@ fun WusPusScreen(navController: NavController) {
         title = "WUS/PUS",
         records = records,
         navController = navController,
+        route = "",
         getDate = { it.date }
     ) { record ->
         WusPusRecordContent(record)

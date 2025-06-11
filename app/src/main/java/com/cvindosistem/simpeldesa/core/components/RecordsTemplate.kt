@@ -30,6 +30,7 @@ fun <T> RecordsScreen(
     records: List<T>,
     navController: NavController,
     getDate: (T) -> String,
+    route: String,
     content: @Composable (T) -> Unit
 ) {
     var selectedYear by remember { mutableStateOf("2024") }
@@ -40,7 +41,12 @@ fun <T> RecordsScreen(
             AppTopBar(
                 title = title,
                 showBackButton = true,
-                onBackClick = { navController.popBackStack() }
+                onBackClick = { navController.popBackStack() },
+                showCreate = true,
+                onCreateClick = {
+                    navController.navigate(route)
+                },
+                add = "Tambah Data"
             )
         }
     ) { paddingValues ->

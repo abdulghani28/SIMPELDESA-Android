@@ -39,6 +39,7 @@ import com.cvindosistem.simpeldesa.R
 @Composable
 fun AppTopBar(
     title: String,
+    add: String = "Buat",
     showBackButton: Boolean = false,
     showAdd: Boolean = false,
     showEdit: Boolean = false,
@@ -139,7 +140,7 @@ fun AppTopBar(
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
-                        text = "Buat",
+                        text = add,
                         color = MaterialTheme.colorScheme.background
                     )
                 }

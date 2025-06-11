@@ -20,7 +20,8 @@ fun BalitaScreen(navController: NavController) {
         title = "Balita",
         records = records,
         navController = navController,
-        getDate = { it.date }
+        route = "",
+        getDate = { it.date },
     ) { record ->
         BalitaRecordContent(record)
     }
