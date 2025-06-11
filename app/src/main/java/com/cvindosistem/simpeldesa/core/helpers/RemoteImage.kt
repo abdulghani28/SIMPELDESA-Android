@@ -24,6 +24,23 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 
+/**
+ * Composable untuk menampilkan gambar dari fileId remote.
+ * Secara otomatis menangani:
+ * - Loading (menampilkan CircularProgress)
+ * - Error (menampilkan ikon fallback)
+ * - Caching internal melalui [ImageLoader]
+ *
+ * @param fileId ID file gambar yang akan dimuat.
+ * @param imageLoader Instance [ImageLoader] untuk memuat dan cache gambar.
+ * @param contentDescription Deskripsi untuk aksesibilitas.
+ * @param modifier Modifier Compose.
+ * @param contentScale Penyesuaian skala gambar.
+ * @param alignment Posisi gambar di dalam komponen.
+ * @param colorFilter Filter warna opsional.
+ * @param placeholder Composable yang ditampilkan selama loading.
+ * @param error Composable yang ditampilkan jika terjadi kesalahan.
+ */
 @Composable
 fun RemoteImage(
     fileId: String,
@@ -61,6 +78,7 @@ fun RemoteImage(
     var isLoading by remember { mutableStateOf(true) }
     var isError by remember { mutableStateOf(false) }
 
+    // Side-effect untuk memuat gambar saat fileId berubah
     LaunchedEffect(fileId) {
         isLoading = true
         isError = false

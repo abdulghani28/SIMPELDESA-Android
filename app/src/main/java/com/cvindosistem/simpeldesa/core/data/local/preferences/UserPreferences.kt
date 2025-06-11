@@ -24,6 +24,15 @@ interface UserPreferences {
     fun clearMenuCache()
 }
 
+/**
+ * Implementation of [UserPreferences] using Android's SharedPreferences to persist user data.
+ *
+ * This class handles storage and retrieval of:
+ * - Authentication token
+ * - License code
+ * - Cached menu data (with timestamp for expiry)
+ * - Login status checking
+ */
 class UserPreferencesImpl(context: Context) : UserPreferences {
 
     private val sharedPreferences: SharedPreferences =
@@ -37,35 +46,62 @@ class UserPreferencesImpl(context: Context) : UserPreferences {
         private const val MENU_CACHE_EXPIRY_HOURS = 24L // Cache expiry in hours
     }
 
+    /**
+     * Saves the authentication token to SharedPreferences.
+     */
     override fun saveAuthToken(token: String) {
         sharedPreferences.edit { putString(KEY_AUTH_TOKEN, token) }
     }
 
+    /**
+     * Retrieves the authentication token from SharedPreferences.
+     */
     override fun getAuthToken(): String? {
         return sharedPreferences.getString(KEY_AUTH_TOKEN, null)
     }
 
+    /**
+     * Clears the authentication token from SharedPreferences.
+     */
     override fun clearAuthToken() {
         sharedPreferences.edit { remove(KEY_AUTH_TOKEN) }
     }
 
+    /**
+     * Returns true if an authentication token exists (i.e., user is logged in).
+     */
     override fun isLoggedIn(): Boolean {
         return getAuthToken() != null
     }
 
+    /**
+     * Saves the license code (typically used for device/instance registration).
+     */
     override fun saveLicenseCode(code: String) {
         sharedPreferences.edit { putString(KEY_LICENSE_CODE, code) }
     }
 
+    /**
+     * Retrieves the license code.
+     */
     override fun getLicenseCode(): String? {
         return sharedPreferences.getString(KEY_LICENSE_CODE, null)
     }
 
+    /**
+     * Checks whether a license code exists and is not empty.
+     */
     override fun hasLicenseCode(): Boolean {
         return getLicenseCode() != null && getLicenseCode()!!.isNotEmpty()
     }
 
-    // Menu cache implementations
+    // ----------------------
+    // Menu cache methods
+    // ----------------------
+
+    /**
+     * Saves the menu JSON and a timestamp to indicate when it was cached.
+     */
     override fun saveMenuCache(menuJson: String) {
         sharedPreferences.edit {
             putString(KEY_MENU_CACHE, menuJson)
@@ -73,14 +109,23 @@ class UserPreferencesImpl(context: Context) : UserPreferences {
         }
     }
 
+    /**
+     * Retrieves the cached menu JSON (if exists).
+     */
     override fun getMenuCache(): String? {
         return sharedPreferences.getString(KEY_MENU_CACHE, null)
     }
 
+    /**
+     * Retrieves the timestamp of when the menu cache was last saved.
+     */
     override fun getMenuCacheTimestamp(): Long {
         return sharedPreferences.getLong(KEY_MENU_CACHE_TIMESTAMP, 0)
     }
 
+    /**
+     * Clears the cached menu data and its timestamp.
+     */
     override fun clearMenuCache() {
         sharedPreferences.edit {
             remove(KEY_MENU_CACHE)
@@ -88,11 +133,12 @@ class UserPreferencesImpl(context: Context) : UserPreferences {
         }
     }
 
-    // Clear all user data on logout
+    /**
+     * Clears all user-related data from SharedPreferences, typically called on logout.
+     */
     override fun clearAllUserData() {
         sharedPreferences.edit {
             remove(KEY_AUTH_TOKEN)
-
             remove(KEY_MENU_CACHE)
             remove(KEY_MENU_CACHE_TIMESTAMP)
         }

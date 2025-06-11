@@ -8,16 +8,47 @@ import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
+/**
+ * Abstraksi untuk operasi terkait data pengguna (user).
+ * Biasanya digunakan untuk mengambil informasi pengguna, organisasi, atau melakukan update profil.
+ */
 interface UserRepository {
+
+    /**
+     * Mengambil informasi pengguna yang sedang login.
+     *
+     * @return [UserInfoResult] hasil permintaan data user (berhasil/gagal)
+     */
     suspend fun getUserInfo(): UserInfoResult
+
+//    /**
+//     * Mengambil informasi organisasi tempat pengguna terdaftar.
+//     *
+//     * @return [OrganizationInfoResult] hasil permintaan data organisasi
+//     */
 //    suspend fun getOrganizationInfo(): OrganizationInfoResult
+//
+//    /**
+//     * Mengirim permintaan untuk mengubah data profil pengguna.
+//     *
+//     * @param request data baru profil pengguna
+//     * @return [EditProfileResult] hasil update profil
+//     */
 //    suspend fun editProfile(request: EditProfileRequest): EditProfileResult
 }
 
+/**
+ * Implementasi dari [UserRepository] menggunakan [UserApi] (biasanya Retrofit) untuk
+ * komunikasi dengan server.
+ */
 class UserRepositoryImpl(
     private val authApi: UserApi
 ) : UserRepository {
 
+    /**
+     * Mengambil informasi pengguna dari endpoint `getUserInfo()`.
+     * Biasanya digunakan saat login atau saat membuka halaman profil.
+     */
     override suspend fun getUserInfo(): UserInfoResult = withContext(Dispatchers.IO) {
         try {
             val response = authApi.getUserInfo()
@@ -26,15 +57,14 @@ class UserRepositoryImpl(
                 response.body()?.let {
                     Log.d("AuthRepository", "Fetched user info")
                     return@withContext UserInfoResult.Success(it)
-                } ?: run {
-                    Log.e("AuthRepository", "User info response body is null")
-                    return@withContext UserInfoResult.Error("Unknown error occurred")
                 }
+                Log.e("AuthRepository", "User info response body is null")
+                return@withContext UserInfoResult.Error("Unknown error occurred")
             } else {
                 val errorBody = response.errorBody()?.string()
                 val errorResponse = try {
                     Gson().fromJson(errorBody, ErrorResponse::class.java)
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     null
                 }
 
@@ -48,6 +78,9 @@ class UserRepositoryImpl(
         }
     }
 
+//    /**
+//     * Mengambil informasi organisasi pengguna, misalnya nama instansi atau peran pengguna.
+//     */
 //    override suspend fun getOrganizationInfo(): OrganizationInfoResult = withContext(Dispatchers.IO) {
 //        try {
 //            val response = authApi.getOrganizationInfo()
@@ -56,17 +89,14 @@ class UserRepositoryImpl(
 //                response.body()?.let {
 //                    Log.d("AuthRepository", "Fetched organization info")
 //                    return@withContext OrganizationInfoResult.Success(it)
-//                } ?: run {
-//                    Log.e("AuthRepository", "Organization info response body is null")
-//                    return@withContext OrganizationInfoResult.Error("Unknown error occurred")
 //                }
+//                Log.e("AuthRepository", "Organization info response body is null")
+//                return@withContext OrganizationInfoResult.Error("Unknown error occurred")
 //            } else {
 //                val errorBody = response.errorBody()?.string()
 //                val errorResponse = try {
 //                    Gson().fromJson(errorBody, ErrorResponse::class.java)
-//                } catch (e: Exception) {
-//                    null
-//                }
+//                } catch (_: Exception) { null }
 //
 //                val errorMessage = errorResponse?.message ?: "Failed to fetch organization info"
 //                Log.e("AuthRepository", "Organization info failed: $errorMessage")
@@ -78,6 +108,9 @@ class UserRepositoryImpl(
 //        }
 //    }
 //
+//    /**
+//     * Mengedit profil pengguna, biasanya setelah pengguna mengubah data dirinya.
+//     */
 //    override suspend fun editProfile(request: EditProfileRequest): EditProfileResult = withContext(Dispatchers.IO) {
 //        try {
 //            val response = authApi.editProfile(request)
@@ -86,17 +119,14 @@ class UserRepositoryImpl(
 //                response.body()?.let {
 //                    Log.d("AuthRepository", "Successfully edited profile")
 //                    return@withContext EditProfileResult.Success(it)
-//                } ?: run {
-//                    Log.e("AuthRepository", "Edit profile response body is null")
-//                    return@withContext EditProfileResult.Error("Unknown error occurred")
 //                }
+//                Log.e("AuthRepository", "Edit profile response body is null")
+//                return@withContext EditProfileResult.Error("Unknown error occurred")
 //            } else {
 //                val errorBody = response.errorBody()?.string()
 //                val errorResponse = try {
 //                    Gson().fromJson(errorBody, ErrorResponse::class.java)
-//                } catch (e: Exception) {
-//                    null
-//                }
+//                } catch (_: Exception) { null }
 //
 //                val errorMessage = errorResponse?.message ?: "Failed to edit profile"
 //                Log.e("AuthRepository", "Edit profile failed: $errorMessage")

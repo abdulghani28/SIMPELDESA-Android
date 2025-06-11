@@ -11,6 +11,7 @@ plugins {
     id("kotlin-parcelize")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
+    id("org.jetbrains.dokka") version "1.9.10"
 }
 
 
@@ -58,6 +59,16 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    tasks.dokkaHtml {
+        outputDirectory.set(buildDir.resolve("dokka"))
+        dokkaSourceSets {
+            named("main") {
+                skipEmptyPackages.set(true)
+                skipDeprecated.set(true)
+            }
+        }
+    }
+
 }
 
 dependencies {

@@ -8,6 +8,17 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.tasks.await
 
+/**
+ * Manajer untuk mengelola Firebase Cloud Messaging (FCM).
+ *
+ * Bertanggung jawab untuk:
+ * - Menginisialisasi FCM dan mengambil token perangkat.
+ * - Mengirim token FCM ke server jika pengguna telah login.
+ * - Berlangganan dan berhenti berlangganan dari topik FCM.
+ *
+ * @property authApi API otentikasi untuk mengirim token FCM ke server.
+ * @property userPreferences Preferensi lokal untuk mengecek status login pengguna.
+ */
 class FcmManager(
     private val authApi: AuthApi,
     private val userPreferences: UserPreferences
@@ -16,19 +27,24 @@ class FcmManager(
         private const val TAG = "FcmManager"
     }
 
+    /**
+     * Menginisialisasi Firebase Cloud Messaging:
+     * - Memastikan Firebase sudah diinisialisasi.
+     * - Mengambil token FCM terbaru dari Firebase.
+     * - Jika pengguna login, token dikirim ke server.
+     *
+     * Harus dipanggil setelah Firebase diinisialisasi.
+     */
     suspend fun initializeFcm() {
         try {
-            // Check if Firebase is initialized
             if (FirebaseApp.getApps(FirebaseApp.getInstance().applicationContext).isEmpty()) {
                 Log.e(TAG, "Firebase is not initialized")
                 return
             }
 
-            // Get FCM token
             val token = FirebaseMessaging.getInstance().token.await()
             Log.d(TAG, "FCM Token: $token")
 
-            // Send token to server if user is logged in
             if (userPreferences.isLoggedIn()) {
                 updateFcmTokenOnServer(token)
             } else {
@@ -40,6 +56,11 @@ class FcmManager(
         }
     }
 
+    /**
+     * Mengirim token FCM ke server backend.
+     *
+     * @param token Token FCM yang akan dikirim ke server.
+     */
     suspend fun updateFcmTokenOnServer(token: String) {
         try {
             if (!userPreferences.isLoggedIn()) {
@@ -58,6 +79,11 @@ class FcmManager(
         }
     }
 
+    /**
+     * Mendaftarkan perangkat ke sebuah topik FCM.
+     *
+     * @param topic Nama topik yang akan dilanggan.
+     */
     fun subscribeToTopic(topic: String) {
         try {
             FirebaseMessaging.getInstance().subscribeToTopic(topic)
@@ -73,6 +99,11 @@ class FcmManager(
         }
     }
 
+    /**
+     * Menghapus langganan perangkat dari sebuah topik FCM.
+     *
+     * @param topic Nama topik yang akan dihentikan langganannya.
+     */
     fun unsubscribeFromTopic(topic: String) {
         try {
             FirebaseMessaging.getInstance().unsubscribeFromTopic(topic)

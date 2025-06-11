@@ -13,17 +13,54 @@ import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
+/**
+ * Abstraksi untuk manajemen autentikasi pengguna.
+ *
+ * Implementasi default disediakan oleh [AuthRepositoryImpl].
+ */
 interface AuthRepository {
+
+    /**
+     * Melakukan proses login menggunakan email, password, dan license code.
+     *
+     * @param email alamat email atau NIK
+     * @param password kata sandi pengguna
+     * @param licenseCode kode lisensi untuk verifikasi wilayah/akses
+     * @return [LoginResult] yang berisi token jika berhasil, atau pesan error
+     */
     suspend fun login(email: String, password: String, licenseCode: String): LoginResult
+
+    /**
+     * Melakukan logout pengguna dari server dan mengakhiri sesi.
+     *
+     * @return [LogoutResult] status logout
+     */
     suspend fun logout(): LogoutResult
-    suspend fun updateFcmToken(fcmToken: String): FcmTokenResult // Add this method
+
+    /**
+     * Mengirim dan memperbarui token FCM milik pengguna ke backend.
+     *
+     * @param fcmToken token Firebase Cloud Messaging
+     * @return [FcmTokenResult] hasil update token
+     */
+    suspend fun updateFcmToken(fcmToken: String): FcmTokenResult
 }
 
+/**
+ * Implementasi dari [AuthRepository] yang menggunakan [AuthApi] untuk komunikasi jaringan
+ * dan [FcmManager] untuk manajemen token notifikasi.
+ *
+ * ⚠️ Pastikan instance Retrofit dan FcmManager sudah diinject melalui Koin atau Hilt.
+ */
 class AuthRepositoryImpl(
     private val authApi: AuthApi,
     private val fcmManager: FcmManager
 ) : AuthRepository {
 
+    /**
+     * Melakukan login dan menangani semua kemungkinan hasil dengan error handling.
+     * Jika berhasil, mengembalikan token dari backend.
+     */
     override suspend fun login(email: String, password: String, licenseCode: String): LoginResult = withContext(Dispatchers.IO) {
         try {
             val response = authApi.login(LoginRequest(email, password, licenseCode))
@@ -32,18 +69,16 @@ class AuthRepositoryImpl(
                 response.body()?.let {
                     Log.d("AuthRepository", "Login successful: ${it.token}")
                     return@withContext LoginResult.Success(it.token)
-                } ?: run {
-                    Log.e("AuthRepository", "Login response body is null")
-                    return@withContext LoginResult.Error("Unknown error occurred")
                 }
+                Log.e("AuthRepository", "Login response body is null")
+                return@withContext LoginResult.Error("Unknown error occurred")
             } else {
                 val errorBody = response.errorBody()?.string()
                 val errorResponse = try {
                     Gson().fromJson(errorBody, ErrorResponse::class.java)
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     null
                 }
-
                 val errorMessage = errorResponse?.message ?: "Authentication failed"
                 Log.e("AuthRepository", "Login failed: $errorMessage")
                 return@withContext LoginResult.Error(errorMessage)
@@ -54,31 +89,32 @@ class AuthRepositoryImpl(
         }
     }
 
+    /**
+     * Melakukan logout dan memverifikasi respons logout dari backend.
+     * Logout dianggap berhasil jika field `data == "logout"`.
+     */
     override suspend fun logout(): LogoutResult = withContext(Dispatchers.IO) {
         try {
             val response = authApi.logout()
 
             if (response.isSuccessful) {
                 response.body()?.let {
-                    if (it.data == "logout") { // Ubah dari message ke data
+                    if (it.data == "logout") {
                         Log.d("AuthRepository", "Logout successful")
                         return@withContext LogoutResult.Success
-                    } else {
-                        Log.e("AuthRepository", "Unexpected logout response: ${it.data}")
-                        return@withContext LogoutResult.Error("Unexpected response")
                     }
-                } ?: run {
-                    Log.e("AuthRepository", "Logout response body is null")
-                    return@withContext LogoutResult.Error("Unknown error occurred")
+                    Log.e("AuthRepository", "Unexpected logout response: ${it.data}")
+                    return@withContext LogoutResult.Error("Unexpected response")
                 }
+                Log.e("AuthRepository", "Logout response body is null")
+                return@withContext LogoutResult.Error("Unknown error occurred")
             } else {
                 val errorBody = response.errorBody()?.string()
                 val errorResponse = try {
                     Gson().fromJson(errorBody, ErrorResponse::class.java)
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     null
                 }
-
                 val errorMessage = errorResponse?.message ?: "Logout failed"
                 Log.e("AuthRepository", "Logout failed: $errorMessage")
                 return@withContext LogoutResult.Error(errorMessage)
@@ -89,6 +125,10 @@ class AuthRepositoryImpl(
         }
     }
 
+    /**
+     * Mengirim token FCM ke backend agar pengguna dapat menerima push notification.
+     * Pastikan token valid sebelum mengirim.
+     */
     override suspend fun updateFcmToken(fcmToken: String): FcmTokenResult = withContext(Dispatchers.IO) {
         try {
             val response = authApi.updateFcmToken(FcmTokenRequest(fcmToken))

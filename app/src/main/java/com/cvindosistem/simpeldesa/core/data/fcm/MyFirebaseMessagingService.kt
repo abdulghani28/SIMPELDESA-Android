@@ -22,6 +22,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.get
 
+/**
+ * Layanan untuk menerima pesan dari Firebase Cloud Messaging (FCM).
+ *
+ * - Menangani token baru dari FCM.
+ * - Menangani pesan notifikasi dan data.
+ * - Menampilkan notifikasi lokal ke pengguna.
+ */
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     companion object {
@@ -30,18 +37,25 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         private const val NOTIFICATION_CHANNEL_NAME = "Portal Desa Notifications"
     }
 
+    /**
+     * Membuat channel notifikasi saat service dibuat.
+     */
     override fun onCreate() {
         super.onCreate()
         createNotificationChannel()
     }
 
+    /**
+     * Dipanggil saat pesan FCM diterima.
+     *
+     * @param remoteMessage Pesan yang diterima dari FCM.
+     */
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
 
         Log.d(TAG, "From: ${remoteMessage.from}")
         Log.d(TAG, "Message data: ${remoteMessage.data}")
 
-        // Handle notification payload
         remoteMessage.notification?.let { notification ->
             Log.d(TAG, "Message Notification Body: ${notification.body}")
             showNotification(
@@ -51,17 +65,20 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             )
         }
 
-        // Handle data payload (when app is in foreground)
         if (remoteMessage.data.isNotEmpty()) {
             handleDataMessage(remoteMessage.data)
         }
     }
 
+    /**
+     * Dipanggil saat token FCM baru dibuat.
+     *
+     * @param token Token baru dari FCM.
+     */
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         Log.d(TAG, "Refreshed token: $token")
 
-        // Send token to server
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val fcmManager = get<FcmManager>()
@@ -72,33 +89,39 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         }
     }
 
+    /**
+     * Menangani payload data dari pesan FCM.
+     *
+     * @param data Map data dari pesan.
+     */
     private fun handleDataMessage(data: Map<String, String>) {
-        // Handle custom data payload
         val type = data["type"]
         val title = data["title"] ?: "Portal Desa"
         val body = data["body"] ?: ""
 
         when (type) {
             "surat_update" -> {
-                // Handle letter status update
                 showNotification(title, body, data)
             }
             "announcement" -> {
-                // Handle general announcements
                 showNotification(title, body, data)
             }
             else -> {
-                // Default notification
                 showNotification(title, body, data)
             }
         }
     }
 
+    /**
+     * Menampilkan notifikasi ke pengguna.
+     *
+     * @param title Judul notifikasi.
+     * @param body Isi pesan notifikasi.
+     * @param data Payload tambahan untuk intent (opsional).
+     */
     private fun showNotification(title: String, body: String, data: Map<String, String> = emptyMap()) {
         val intent = Intent(this, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-
-            // Add extra data for deep linking
             data.forEach { (key, value) ->
                 putExtra(key, value)
             }
@@ -112,7 +135,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         )
 
         val notificationBuilder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_notification) // Add your notification icon
+            .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(title)
             .setContentText(body)
             .setAutoCancel(true)
@@ -131,6 +154,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         }
     }
 
+    /**
+     * Membuat notification channel untuk perangkat Android 8+.
+     */
     private fun createNotificationChannel() {
         val channel = NotificationChannel(
             NOTIFICATION_CHANNEL_ID,

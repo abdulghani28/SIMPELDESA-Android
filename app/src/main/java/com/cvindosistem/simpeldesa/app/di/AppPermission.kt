@@ -26,14 +26,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 
-// 2. Fungsi Pemeriksaan Izin
-fun checkPermissions(context: Context, permissions: Array<String>): Boolean {
-    return permissions.all {
-        ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
-    }
-}
 
-// 4. Fungsi untuk meminta izin saat runtime di tempat spesifik
+// MARK: Gak dipake
+
+// Fungsi untuk meminta izin saat runtime di tempat spesifik
 @Composable
 fun CheckAndRequestPermissions(
     permissions: Array<String>,
@@ -93,5 +89,11 @@ fun CheckAndRequestPermissions(
                 Text("Berikan Izin")
             }
         }
+    }
+}
+
+fun checkPermissions(context: Context, permissions: Array<String>): Boolean {
+    return permissions.all {
+        ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
     }
 }

@@ -13,16 +13,34 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
 
+/**
+ * Modul Koin untuk dependency injection di level aplikasi.
+ *
+ * Mendaftarkan:
+ * - Retrofit service [FileApi]
+ * - Preferences [UserPreferences]
+ * - Repository [FileRepository]
+ * - Use case [UploadFileUseCase]
+ * - Loader gambar [ImageLoader]
+ * - ViewModel [FileUploadViewModel]
+ */
 val appModule = module {
 
+    // Retrofit API service untuk file
     single { get<Retrofit>().create(FileApi::class.java) }
 
+    // Preference penyimpanan lokal untuk user
     single<UserPreferences> { UserPreferencesImpl(androidContext()) }
+
+    // Repository file
     single<FileRepository> { FileRepositoryImpl(get()) }
 
+    // Use case untuk upload file
     single { UploadFileUseCase(get()) }
+
+    // Loader gambar
     single { ImageLoader(get()) }
 
+    // ViewModel untuk pengunggahan file
     viewModel { FileUploadViewModel(get()) }
-
 }

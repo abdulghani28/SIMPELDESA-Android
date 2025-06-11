@@ -16,8 +16,12 @@ import androidx.core.content.ContextCompat
 import com.cvindosistem.simpeldesa.main.navigation.NavGraph
 import com.cvindosistem.simpeldesa.ui.theme.SimpelDesaTheme
 
+/**
+ * Aktivitas utama yang menampilkan UI dan menangani izin notifikasi.
+ */
 class MainActivity : ComponentActivity() {
 
+    // Launcher untuk meminta izin notifikasi (khusus Android 13+)
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
@@ -31,7 +35,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Request notification permission for Android 13+
+        // Minta izin notifikasi jika Android 13 ke atas
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -39,6 +43,7 @@ class MainActivity : ComponentActivity() {
             }
         }
 
+        // Tampilkan UI utama dengan tema SimpelDesa
         setContent {
             SimpelDesaTheme(darkTheme = false) {
                 Surface(

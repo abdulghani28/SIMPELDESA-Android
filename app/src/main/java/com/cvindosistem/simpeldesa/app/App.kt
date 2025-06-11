@@ -20,14 +20,17 @@ import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 
+/**
+ * Kelas aplikasi utama yang menginisialisasi Firebase dan Koin saat aplikasi diluncurkan.
+ */
 class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        // Initialize Firebase first
+        // Inisialisasi Firebase sebelum library lainnya
         FirebaseApp.initializeApp(this)
 
-        // Then initialize Koin
+        // Inisialisasi Koin dengan berbagai modul DI
         startKoin {
             androidLogger(Level.ERROR)
             androidContext(this@App)
@@ -43,9 +46,13 @@ class App : Application() {
             )
         }
 
+        // Inisialisasi FCM (Firebase Cloud Messaging) secara async
         initializeFcm()
     }
 
+    /**
+     * Inisialisasi Firebase Cloud Messaging secara asinkron.
+     */
     private fun initializeFcm() {
         CoroutineScope(Dispatchers.IO).launch {
             try {

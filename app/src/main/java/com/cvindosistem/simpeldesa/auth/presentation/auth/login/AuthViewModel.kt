@@ -16,12 +16,23 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 
+/**
+ * ViewModel untuk menangani logika otentikasi pengguna.
+ *
+ * Mengelola input login (email, password, dan kode lisensi), validasi form,
+ * serta menangani alur login dan penyimpanan token ke `UserPreferences`.
+ *
+ * @property loginUseCase Use case untuk menjalankan login API call.
+ * @property userPreferences Penyimpanan lokal untuk token, kode lisensi, dll.
+ * @property fcmManager Manager untuk inisialisasi token FCM setelah login.
+ */
 class AuthViewModel(
     private val loginUseCase: LoginUseCase,
     private val userPreferences: UserPreferences,
     private val fcmManager: FcmManager
 ) : ViewModel() {
 
+    // === Input States ===
     var email by mutableStateOf("")
         private set
 
@@ -31,13 +42,14 @@ class AuthViewModel(
     var licenseCode by mutableStateOf(userPreferences.getLicenseCode() ?: "")
         private set
 
+    // === UI States ===
     var isLoading by mutableStateOf(false)
         private set
 
     var hasLicenseCode = userPreferences.hasLicenseCode()
         private set
 
-    // Validation states
+    // === Validation Errors ===
     var emailError by mutableStateOf<String?>(null)
         private set
 
@@ -50,45 +62,36 @@ class AuthViewModel(
     var loginError by mutableStateOf<String?>(null)
         private set
 
+    // === One-time Event (Login Result) ===
     private val _loginEvent = MutableSharedFlow<LoginEvent>()
     val loginEvent = _loginEvent.asSharedFlow()
 
+    // === Input Updaters ===
+
+    /** Memperbarui input email dan menghapus error terkait jika ada */
     fun onEmailChanged(value: String) {
         email = value
-        // Clear email error when user starts typing
-        if (emailError != null) {
-            emailError = null
-        }
-        // Clear general login error when user modifies input
-        if (loginError != null) {
-            loginError = null
-        }
+        emailError = null
+        loginError = null
     }
 
+    /** Memperbarui input password dan menghapus error terkait jika ada */
     fun onPasswordChanged(value: String) {
         password = value
-        // Clear password error when user starts typing
-        if (passwordError != null) {
-            passwordError = null
-        }
-        // Clear general login error when user modifies input
-        if (loginError != null) {
-            loginError = null
-        }
+        passwordError = null
+        loginError = null
     }
 
+    /** Memperbarui input kode lisensi dan menghapus error terkait jika ada */
     fun onLicenseCodeChanged(value: String) {
         licenseCode = value
-
-        if (licenseCodeError != null) {
-            licenseCodeError = null
-        }
-
-        if (loginError != null) {
-            loginError = null
-        }
+        licenseCodeError = null
+        loginError = null
     }
 
+    // === Validation ===
+
+    /** Validasi format dan kekosongan email */
     private fun validateEmail(): Boolean {
         return when {
             email.isEmpty() -> {
@@ -99,13 +102,11 @@ class AuthViewModel(
                 emailError = "Format email tidak valid"
                 false
             }
-            else -> {
-                emailError = null
-                true
-            }
+            else -> true
         }
     }
 
+    /** Validasi panjang dan kekosongan password */
     private fun validatePassword(): Boolean {
         return when {
             password.isEmpty() -> {
@@ -116,44 +117,43 @@ class AuthViewModel(
                 passwordError = "Password minimal 6 karakter"
                 false
             }
-            else -> {
-                passwordError = null
-                true
-            }
+            else -> true
         }
     }
 
+    /** Memastikan format email valid atau merupakan nomor telepon */
     private fun isValidEmail(email: String): Boolean {
-        // Simple email validation pattern
         val emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
         return email.matches(emailPattern.toRegex()) || isValidPhoneNumber(email)
     }
 
+    /** Validasi nomor telepon Indonesia */
     private fun isValidPhoneNumber(phone: String): Boolean {
-        // Indonesian phone number validation (starts with 08 or +62)
         val phonePattern = "^(\\+62|62|0)[0-9]{9,13}$"
         return phone.matches(phonePattern.toRegex())
     }
 
+    // === Login Action ===
+
+    /**
+     * Mengeksekusi proses login:
+     * - Validasi input
+     * - Kirim request login
+     * - Simpan token dan kode lisensi jika berhasil
+     * - Emit event [LoginEvent]
+     */
     fun login() {
         viewModelScope.launch {
-            // Clear previous errors
             loginError = null
 
-            // Validate inputs
             val isEmailValid = validateEmail()
             val isPasswordValid = validatePassword()
 
-            if (!isEmailValid || !isPasswordValid) {
-                return@launch
-            }
+            if (!isEmailValid || !isPasswordValid) return@launch
 
             isLoading = true
-
-            // Use stored license code if available, otherwise use the one entered
             val codeToUse = userPreferences.getLicenseCode() ?: licenseCode
 
-            // Validate license code is provided
             if (codeToUse.isEmpty()) {
                 loginError = "Kode lisensi harus diisi"
                 _loginEvent.emit(LoginEvent.Error("Kode lisensi harus diisi"))
@@ -164,17 +164,13 @@ class AuthViewModel(
             when (val result = loginUseCase(email, password, codeToUse)) {
                 is LoginResult.Success -> {
                     Log.d("LoginViewModel", "Login successful: ${result.token}")
-
-                    // Save auth token
                     userPreferences.saveAuthToken(result.token)
 
-                    // Save license code only after successful login
                     if (licenseCode.isNotEmpty() && !userPreferences.hasLicenseCode()) {
                         userPreferences.saveLicenseCode(licenseCode)
                         hasLicenseCode = true
                     }
 
-                    // Update FCM token after successful login
                     try {
                         fcmManager.initializeFcm()
                     } catch (e: Exception) {
@@ -183,6 +179,7 @@ class AuthViewModel(
 
                     _loginEvent.emit(LoginEvent.Success)
                 }
+
                 is LoginResult.Error -> {
                     Log.e("LoginViewModel", "Login failed: ${result.message}")
                     loginError = result.message
@@ -194,7 +191,7 @@ class AuthViewModel(
         }
     }
 
-    // Function to manually trigger validation (useful for submit button state)
+    /** Menentukan apakah form saat ini valid, berguna untuk enable tombol submit */
     fun isFormValid(): Boolean {
         return email.isNotEmpty() &&
                 password.isNotEmpty() &&
@@ -202,6 +199,11 @@ class AuthViewModel(
                 password.length >= 6
     }
 
+    // === Login Events ===
+
+    /**
+     * Event satu arah yang menunjukkan hasil dari proses login.
+     */
     sealed class LoginEvent {
         data object Success : LoginEvent()
         data class Error(val message: String) : LoginEvent()
