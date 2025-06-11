@@ -8,6 +8,7 @@ import androidx.navigation.NavController
 import com.cvindosistem.simpeldesa.core.components.InfoRow
 import com.cvindosistem.simpeldesa.core.components.RecordsScreen
 import com.cvindosistem.simpeldesa.core.components.TwoColumnInfoRow
+import com.cvindosistem.simpeldesa.main.navigation.Screen
 
 @Composable
 fun IbuScreen(navController: NavController) {
@@ -21,7 +22,7 @@ fun IbuScreen(navController: NavController) {
         title = "Ibu",
         records = records,
         navController = navController,
-        route = "",
+        route = Screen.TambahPemeriksaanIbu.route,
         getDate = { it.date }
     ) { record ->
         IbuRecordContent(record)

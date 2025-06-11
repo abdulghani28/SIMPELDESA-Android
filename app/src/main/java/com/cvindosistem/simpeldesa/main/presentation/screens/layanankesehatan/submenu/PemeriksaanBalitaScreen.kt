@@ -8,6 +8,7 @@ import androidx.navigation.NavController
 import com.cvindosistem.simpeldesa.core.components.InfoRow
 import com.cvindosistem.simpeldesa.core.components.RecordsScreen
 import com.cvindosistem.simpeldesa.core.components.TwoColumnInfoRow
+import com.cvindosistem.simpeldesa.main.navigation.Screen
 
 @Composable
 fun BalitaScreen(navController: NavController) {
@@ -20,7 +21,7 @@ fun BalitaScreen(navController: NavController) {
         title = "Balita",
         records = records,
         navController = navController,
-        route = "",
+        route = Screen.TambahPemeriksaanBalita.route,
         getDate = { it.date },
     ) { record ->
         BalitaRecordContent(record)

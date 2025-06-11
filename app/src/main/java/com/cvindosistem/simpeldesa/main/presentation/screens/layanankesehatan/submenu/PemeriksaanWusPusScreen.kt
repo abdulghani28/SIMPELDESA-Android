@@ -8,6 +8,7 @@ import androidx.navigation.NavController
 import com.cvindosistem.simpeldesa.core.components.InfoRow
 import com.cvindosistem.simpeldesa.core.components.RecordsScreen
 import com.cvindosistem.simpeldesa.core.components.TwoColumnInfoRow
+import com.cvindosistem.simpeldesa.main.navigation.Screen
 
 data class WusPusRecord(
     val id: Int,
@@ -66,7 +67,7 @@ fun WusPusScreen(navController: NavController) {
         title = "WUS/PUS",
         records = records,
         navController = navController,
-        route = "",
+        route = Screen.TambahPemeriksaanWusPus.route,
         getDate = { it.date }
     ) { record ->
         WusPusRecordContent(record)

@@ -21,6 +21,9 @@ import com.cvindosistem.simpeldesa.main.presentation.screens.layanankesehatan.La
 import com.cvindosistem.simpeldesa.main.presentation.screens.layanankesehatan.submenu.BalitaScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layanankesehatan.submenu.IbuScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layanankesehatan.submenu.WusPusScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layanankesehatan.submenu.tambahdata.TambahDataBalitaScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layanankesehatan.submenu.tambahdata.TambahDataIbuScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layanankesehatan.submenu.tambahdata.TambahDataWUSPUSScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.LayananPersuratanScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.detail.SuratDetailScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.SuratKeteranganScreen
@@ -402,6 +405,18 @@ fun NavGraph(
 
         composable(Screen.PemeriksaanWusPus.route) {
             WusPusScreen(navController)
+        }
+
+        composable(Screen.TambahPemeriksaanWusPus.route) {
+            TambahDataWUSPUSScreen(navController)
+        }
+
+        composable(Screen.TambahPemeriksaanIbu.route) {
+            TambahDataIbuScreen(navController)
+        }
+
+        composable(Screen.TambahPemeriksaanBalita.route) {
+            TambahDataBalitaScreen(navController)
         }
     }
 }
