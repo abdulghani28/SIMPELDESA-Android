@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.cvindosistem.simpeldesa.core.components.AppCard
+import com.cvindosistem.simpeldesa.core.components.AppDivider
 import com.cvindosistem.simpeldesa.core.components.BodyLargeText
 
 @Composable
@@ -49,10 +50,7 @@ internal fun DistribusiAnggaranSection(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            HorizontalDivider(
-                thickness = 0.5.dp,
-                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f)
-            )
+            AppDivider()
 
             Spacer(modifier = Modifier.height(16.dp))
 

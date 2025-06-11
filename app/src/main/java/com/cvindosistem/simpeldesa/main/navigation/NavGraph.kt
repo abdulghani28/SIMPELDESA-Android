@@ -16,11 +16,13 @@ import com.cvindosistem.simpeldesa.core.data.local.preferences.UserPreferences
 import com.cvindosistem.simpeldesa.main.presentation.screens.blogdesa.BlogDesaScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.blogdesa.BuatPostinganScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.blogdesa.PostinganScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.donasi.DonasiDesaScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.laporpemdes.LaporPemdesScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layanankesehatan.LayananKesehatanScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layanankesehatan.submenu.BalitaScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layanankesehatan.submenu.IbuScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layanankesehatan.submenu.WusPusScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layanankesehatan.submenu.donor.LayananDonorDarahScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layanankesehatan.submenu.tambahdata.TambahDataBalitaScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layanankesehatan.submenu.tambahdata.TambahDataIbuScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layanankesehatan.submenu.tambahdata.TambahDataWUSPUSScreen
@@ -92,7 +94,7 @@ fun NavGraph(
         else -> Screen.MainScreen.route
     }
 
-//    val initialStartDestination = Screen.LayananKesehatan.route
+//    val initialStartDestination = Screen.DonasiDesa.route
 
     val passwordResetViewModel: PasswordResetViewModel = koinViewModel()
 
@@ -417,6 +419,14 @@ fun NavGraph(
 
         composable(Screen.TambahPemeriksaanBalita.route) {
             TambahDataBalitaScreen(navController)
+        }
+
+        composable(Screen.LayananDonorDarah.route) {
+            LayananDonorDarahScreen(navController)
+        }
+
+        composable(Screen.DonasiDesa.route) {
+            DonasiDesaScreen(navController)
         }
     }
 }

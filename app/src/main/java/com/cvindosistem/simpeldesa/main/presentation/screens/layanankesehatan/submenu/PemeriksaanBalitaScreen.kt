@@ -5,9 +5,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.cvindosistem.simpeldesa.core.components.InfoRow
-import com.cvindosistem.simpeldesa.core.components.RecordsScreen
-import com.cvindosistem.simpeldesa.core.components.TwoColumnInfoRow
+import com.cvindosistem.simpeldesa.main.presentation.components.InfoRow
+import com.cvindosistem.simpeldesa.main.presentation.components.RecordsScreen
+import com.cvindosistem.simpeldesa.main.presentation.components.TwoColumnInfoRow
 import com.cvindosistem.simpeldesa.main.navigation.Screen
 
 @Composable

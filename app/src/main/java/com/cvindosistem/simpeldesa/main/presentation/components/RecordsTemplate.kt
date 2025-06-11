@@ -1,4 +1,4 @@
-package com.cvindosistem.simpeldesa.core.components
+package com.cvindosistem.simpeldesa.main.presentation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -23,6 +23,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.cvindosistem.simpeldesa.core.components.AppCard
+import com.cvindosistem.simpeldesa.core.components.AppTopBar
+import com.cvindosistem.simpeldesa.core.components.DropdownField
 
 @Composable
 fun <T> RecordsScreen(
