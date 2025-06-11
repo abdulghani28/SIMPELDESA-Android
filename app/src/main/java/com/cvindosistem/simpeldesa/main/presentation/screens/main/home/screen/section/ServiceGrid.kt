@@ -32,7 +32,7 @@ internal fun ServicesGrid(navController: NavController) {
         ServiceItem(R.drawable.ic_lapor, "Lapor\nPemdes") {navController.navigate(Screen.LaporPemdes.route)},
         ServiceItem(R.drawable.ic_artikel, "Artikel &\nBlog Desa") {navController.navigate(Screen.BlogDesa.route)},
         ServiceItem(R.drawable.ic_donasi, "Donasi\nDesa") {},
-        ServiceItem(R.drawable.ic_kesehatan, "Layanan\nKesehatan") {},
+        ServiceItem(R.drawable.ic_kesehatan, "Layanan\nKesehatan") {navController.navigate(Screen.LayananKesehatan.route)},
         ServiceItem(R.drawable.ic_bumdes, "Bumdes &\nPasar Desa") {}
     )
 
