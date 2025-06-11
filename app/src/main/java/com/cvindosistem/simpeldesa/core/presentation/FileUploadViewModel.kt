@@ -26,11 +26,11 @@ class FileUploadViewModel(
 
     /**
      * State publik yang dapat diamati oleh UI, mencerminkan status proses unggah:
-     * - [isLoading]: sedang mengunggah atau tidak
-     * - [isSuccess]: apakah unggahan berhasil
-     * - [fileId]: ID file yang berhasil diunggah
-     * - [createdAt]: waktu pembuatan file di server
-     * - [error]: pesan kesalahan jika terjadi error
+     * - [FileUploadState.isLoading]: sedang mengunggah atau tidak
+     * - [FileUploadState.isSuccess]: apakah unggahan berhasil
+     * - [FileUploadState.fileId]: ID file yang berhasil diunggah
+     * - [FileUploadState.createdAt]: waktu pembuatan file di server
+     * - [FileUploadState.error]: pesan kesalahan jika terjadi error
      */
     val state = _state.asStateFlow()
 
