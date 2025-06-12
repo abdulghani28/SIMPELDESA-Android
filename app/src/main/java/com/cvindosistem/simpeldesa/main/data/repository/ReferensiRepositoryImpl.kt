@@ -14,13 +14,54 @@ import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
+/**
+ * Repository untuk mengambil data referensi yang digunakan dalam berbagai form dan modul aplikasi.
+ *
+ * Setiap fungsi dalam repository ini mewakili permintaan data referensi dari API yang bersifat statis
+ * seperti agama, status kawin, jenis usaha, dan lainnya.
+ */
 interface ReferensiRepository {
+
+    /**
+     * Mengambil daftar referensi keterangan identitas tercantum.
+     * @return [TercantumIdentitasResult] berisi data atau pesan kesalahan.
+     */
     suspend fun getTercantumIdentitas(): TercantumIdentitasResult
+
+    /**
+     * Mengambil daftar referensi perbedaan identitas.
+     * @return [PerbedaanIdentitasResult] berisi data atau pesan kesalahan.
+     */
     suspend fun getPerbedaanIdentitas(): PerbedaanIdentitasResult
+
+    /**
+     * Mengambil daftar referensi pihak yang mengesahkan dokumen.
+     * @return [DisahkanOlehResult] berisi data atau pesan kesalahan.
+     */
     suspend fun getDisahkanOleh(): DisahkanOlehResult
+
+    /**
+     * Mengambil daftar referensi agama.
+     * @return [AgamaResult] berisi data atau pesan kesalahan.
+     */
     suspend fun getAgama(): AgamaResult
+
+    /**
+     * Mengambil daftar referensi jenis usaha.
+     * @return [JenisUsahaResult] berisi data atau pesan kesalahan.
+     */
     suspend fun getJenisUsaha(): JenisUsahaResult
+
+    /**
+     * Mengambil daftar referensi bidang usaha.
+     * @return [BidangUsahaResult] berisi data atau pesan kesalahan.
+     */
     suspend fun getBidangUsaha(): BidangUsahaResult
+
+    /**
+     * Mengambil daftar referensi status perkawinan.
+     * @return [StatusKawinResult] berisi data atau pesan kesalahan.
+     */
     suspend fun getStatusKawin(): StatusKawinResult
 }
 

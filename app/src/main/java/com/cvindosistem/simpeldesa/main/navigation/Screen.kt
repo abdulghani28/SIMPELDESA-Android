@@ -1,5 +1,29 @@
 package com.cvindosistem.simpeldesa.main.navigation
 
+/**
+ * Representasi seluruh rute (halaman) yang tersedia dalam aplikasi.
+ *
+ * `Screen` adalah sealed class yang digunakan sebagai sumber kebenaran tunggal
+ * untuk semua rute navigasi dalam aplikasi ini.
+ *
+ * Setiap object di dalamnya mewakili satu screen dan memiliki nilai `route` unik
+ * yang digunakan oleh `NavHost` dalam fungsi `NavGraph` untuk mendefinisikan tujuan navigasi.
+ *
+ * Keuntungan utama pendekatan ini:
+ * - Menghindari hardcoded string route di berbagai tempat.
+ * - Memudahkan navigasi yang konsisten dan aman terhadap kesalahan ketik.
+ * - Mempermudah refactor dan pencarian rute secara global.
+ *
+ * Contoh penggunaan:
+ * ```kotlin
+ * navController.navigate(Screen.SKPenghasilan.route)
+ * ```
+ *
+ * Catatan:
+ * - Gunakan nama object yang deskriptif dan konsisten.
+ * - Rute harus unik dan tidak mengandung karakter ilegal untuk URI.
+ */
+
 sealed class Screen(val route: String) {
     // ===== Auth =====
     object Login : Screen("login")

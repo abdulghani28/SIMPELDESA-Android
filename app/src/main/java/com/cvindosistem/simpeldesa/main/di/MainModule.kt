@@ -63,15 +63,63 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
 
+/**
+ * Modul utama (mainModule) untuk dependency injection menggunakan Koin.
+ *
+ * Semua komponen yang digunakan dalam package `main` harus dideklarasikan di sini agar bisa di-*inject* dengan benar,
+ * termasuk:
+ * - API Service (Retrofit interface)
+ * - Repository (implementasi dan interface)
+ * - Use Case (untuk mengatur logika domain per jenis surat)
+ * - ViewModel (untuk semua form dan tampilan surat)
+ *
+ * Komponen ini digunakan untuk memastikan seluruh dependensi diatur secara terpusat dan mudah dikelola.
+ *
+ * Aturan:
+ * - Jika menambahkan `UseCase` baru, daftarkan di sini.
+ * - Jika menambahkan `ViewModel` baru (misalnya untuk jenis surat baru), daftarkan di sini.
+ * - Semua ViewModel harus menggunakan `viewModel { ... }` agar bisa digunakan oleh Jetpack Compose / Fragment.
+ * - Selalu gunakan interface untuk Repository agar implementasi mudah diuji atau diganti.
+ *
+ * Contoh penambahan baru:
+ * ```kotlin
+ * single { CreateSuratBaruUseCase(get()) }
+ * viewModel { SuratBaruViewModel(get(), get()) }
+ * ```
+ */
+
+/**
+ * Modul utama untuk Dependency Injection menggunakan Koin.
+ *
+ * Modul ini mencakup:
+ * - Inisialisasi Retrofit API (SuratApi, ReferensiApi)
+ * - Registrasi Gson untuk parsing JSON
+ * - Registrasi Repository (SuratRepository, ReferensiRepository)
+ * - Registrasi semua UseCase untuk fitur surat dan referensi
+ * - Registrasi semua ViewModel yang digunakan dalam aplikasi
+ *
+ * Semua class yang terdapat di dalam package `main` seperti:
+ * - UseCase
+ * - Repository
+ * - ViewModel
+ * harus didaftarkan di dalam `mainModule` agar dapat diinject oleh Koin.
+ *
+ * Pastikan setiap penambahan fitur baru dalam package `main` juga menambahkan
+ * dependensinya di sini, agar tersedia secara otomatis untuk layer yang membutuhkannya.
+ */
 val mainModule = module {
+    // API
     single { get<Retrofit>().create(SuratApi::class.java) }
     single { get<Retrofit>().create(ReferensiApi::class.java) }
 
+    // JSON Parser
     single { Gson() }
 
+    // Repository
     single<SuratRepository> { SuratRepositoryImpl(get()) }
     single<ReferensiRepository> { ReferensiRepositoryImpl(get()) }
 
+    // UseCases - Surat
     single { GetSuratListUseCase(get()) }
     single { GetSuratDetailUseCase(get()) }
     single { CreateSuratDomisiliUseCase(get()) }
@@ -96,6 +144,8 @@ val mainModule = module {
     single { CreateSuratUsahaUseCase(get()) }
     single { CreateSuratTugasUseCase(get()) }
     single { CreateSuratIzinTidakKerjaUseCase(get()) }
+
+    // UseCases - Referensi
     single { GetAgamaUseCase(get()) }
     single { GetStatusKawinUseCase(get()) }
     single { GetTercantumIdentitasUseCase(get()) }
@@ -103,6 +153,7 @@ val mainModule = module {
     single { JenisUsahaUseCase(get()) }
     single { BidangUsahaUseCase(get()) }
 
+    // ViewModel - Surat
     viewModel { SuratSayaViewModel(get()) }
     viewModel { SuratDetailViewModel(get()) }
     viewModel { SRKeramaianViewModel(get(), get()) }
@@ -111,6 +162,8 @@ val mainModule = module {
     viewModel { SPKehilanganViewModel(get(), get()) }
     viewModel { SuratKuasaViewModel(get(), get()) }
     viewModel { SuratTugasViewModel(get(), get()) }
+
+    // ViewModel - SK
     viewModel { SKTidakMampuViewModel(get(), get(), get(), get()) }
     viewModel { SKResiKTPSementaraViewModel(get(), get(), get()) }
     viewModel { SKStatusPerkawinanViewModel(get(), get(), get(), get()) }

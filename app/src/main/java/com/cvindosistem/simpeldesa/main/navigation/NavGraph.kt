@@ -82,6 +82,20 @@ import com.cvindosistem.simpeldesa.main.presentation.screens.submain.home.villag
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 
+/**
+ * NavGraph adalah fungsi utama yang mendefinisikan seluruh rute navigasi aplikasi.
+ *
+ * @param navController digunakan untuk mengatur navigasi antar layar.
+ * @param userPreferences digunakan untuk mengecek status login pengguna.
+ *
+ * Catatan:
+ * - `startDestination` akan ditentukan berdasarkan status login pengguna.
+ * - ViewModel yang dideklarasikan **di luar blok composable** (seperti `passwordResetViewModel`)
+ *   berarti akan dipakai **di banyak screen**, sehingga dibuat satu kali untuk digunakan ulang.
+ * - ViewModel yang dideklarasikan **di dalam blok composable** berarti hanya dibuat saat screen tersebut tampil,
+ *   dan akan di-destroy saat screen tidak aktif.
+ */
+
 @Composable
 fun NavGraph(
     navController: NavHostController = rememberNavController(),
