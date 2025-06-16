@@ -1,6 +1,6 @@
 package com.cvindosistem.simpeldesa.core.domain.usecases
 
-import com.cvindosistem.simpeldesa.core.domain.model.FileUploadResult
+import com.cvindosistem.simpeldesa.core.domain.model.file.FileUploadResult
 import com.cvindosistem.simpeldesa.core.domain.repository.FileRepository
 import java.io.File
 

@@ -86,7 +86,7 @@ val authModule = module {
     viewModel { PasswordResetViewModel(get(), get(), get(), get()) }
 
     // ViewModel utama untuk dashboard/home
-    viewModel { HomeViewModel(get()) }
+    viewModel { HomeViewModel(get(), get()) }
 
     // ViewModel untuk tampilan profil pengguna
     viewModel { ProfileViewModel(get(), get(), get()) }

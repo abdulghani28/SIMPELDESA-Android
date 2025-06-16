@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -44,6 +45,7 @@ internal fun HeaderSection(
     onDesaClick: () -> Unit = {}
 ) {
     val uiState = homeViewModel.uiState.collectAsState()
+    val hasUnreadNotifications = homeViewModel.hasUnreadNotifications.collectAsState()
     val villageInfo = homeViewModel.getVillageInfo()
 
     Column(modifier = Modifier
@@ -57,7 +59,13 @@ internal fun HeaderSection(
         ) {
             BodyLargeText(uiState.value.greeting)
 
-            NotificationIcon(onNotifikasiClick)
+            NotificationIcon(
+                hasUnreadNotifications = hasUnreadNotifications.value,
+                onNotifikasiClick = {
+                    // Mark notifications as read when clicked
+                    onNotifikasiClick()
+                }
+            )
         }
 
         LargeText(homeViewModel.getDisplayName())
@@ -118,23 +126,41 @@ private fun DesaInformationCard(
 }
 
 @Composable
-private fun NotificationIcon(onNotifikasiClick: () -> Unit) {
-    Card(
-        modifier = Modifier
-            .size(40.dp),
-        shape = CircleShape,
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background),
-        elevation = CardDefaults.cardElevation(2.dp)
-    ) {
-        IconButton(
-            onClick = onNotifikasiClick,
-            modifier = Modifier.fillMaxSize()
+private fun NotificationIcon(
+    hasUnreadNotifications: Boolean,
+    onNotifikasiClick: () -> Unit
+) {
+    Box {
+        Card(
+            modifier = Modifier.size(40.dp),
+            shape = CircleShape,
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background),
+            elevation = CardDefaults.cardElevation(2.dp)
         ) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_notification), // pakai drawable custom
-                contentDescription = "Notifikasi",
-                tint = Color.Unspecified,
-                modifier = Modifier.size(20.dp)
+            IconButton(
+                onClick = onNotifikasiClick,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_notification),
+                    contentDescription = "Notifikasi",
+                    tint = Color.Unspecified,
+                    modifier = Modifier.size(20.dp)
+                )
+            }
+        }
+
+        // Red dot indicator for unread notifications
+        if (hasUnreadNotifications) {
+            Box(
+                modifier = Modifier
+                    .size(12.dp)
+                    .background(
+                        color = Color.Red,
+                        shape = CircleShape
+                    )
+                    .align(Alignment.TopEnd)
+                    .offset(x = (-2).dp, y = 2.dp)
             )
         }
     }

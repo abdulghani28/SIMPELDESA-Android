@@ -40,7 +40,7 @@ class AuthInterceptor(
         val newRequestBuilder = originalRequest.newBuilder()
 
         // Optionally set origin header if CORS or backend validation requires it.
-        // newRequestBuilder.header("Origin", "https://digitaldesa.avnet.id")
+        newRequestBuilder.header("Origin", "https://digitaldesa.avnet.id")
 
         if (!token.isNullOrEmpty()) {
             newRequestBuilder.header("Authorization", "Bearer $token")

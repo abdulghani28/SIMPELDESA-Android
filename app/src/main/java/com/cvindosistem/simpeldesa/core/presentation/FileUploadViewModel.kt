@@ -3,7 +3,7 @@ package com.cvindosistem.simpeldesa.core.presentation
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cvindosistem.simpeldesa.core.domain.model.FileUploadResult
+import com.cvindosistem.simpeldesa.core.domain.model.file.FileUploadResult
 import com.cvindosistem.simpeldesa.core.domain.usecases.UploadFileUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

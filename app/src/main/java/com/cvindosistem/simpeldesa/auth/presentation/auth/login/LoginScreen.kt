@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -36,6 +38,8 @@ fun LoginScreen(
 ) {
     val context = LocalContext.current
     var isPasswordVisible by remember { mutableStateOf(false) }
+
+    val scrollState = rememberScrollState()
 
     LaunchedEffect(Unit) {
         if (userPreferences.isLoggedIn()) {
@@ -67,14 +71,15 @@ fun LoginScreen(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        Spacer(modifier = Modifier.height(16.dp))
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .verticalScroll(scrollState)
                 .padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Spacer(modifier = Modifier.height(16.dp))
+
             LoginHeader()
 
             Spacer(modifier = Modifier.height(16.dp))

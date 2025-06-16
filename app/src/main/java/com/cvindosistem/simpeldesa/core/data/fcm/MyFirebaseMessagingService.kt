@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -55,6 +56,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         Log.d(TAG, "From: ${remoteMessage.from}")
         Log.d(TAG, "Message data: ${remoteMessage.data}")
+
+        // Set unread notification indicator when new message received
+        setUnreadNotificationState()
 
         remoteMessage.notification?.let { notification ->
             Log.d(TAG, "Message Notification Body: ${notification.body}")
@@ -171,5 +175,23 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(channel)
+    }
+
+    /**
+     * Menyimpan state notifikasi yang belum dibaca ke SharedPreferences
+     * dan broadcast ke aplikasi
+     */
+    private fun setUnreadNotificationState() {
+        try {
+            val sharedPrefs = getSharedPreferences("notification_prefs", Context.MODE_PRIVATE)
+            sharedPrefs.edit().putBoolean("has_unread_notifications", true).apply()
+
+            // Broadcast ke aplikasi jika sedang berjalan
+            val intent = Intent("com.cvindosistem.simpeldesa.NOTIFICATION_RECEIVED")
+            intent.putExtra("has_unread", true)
+            sendBroadcast(intent)
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to set unread notification state", e)
+        }
     }
 }

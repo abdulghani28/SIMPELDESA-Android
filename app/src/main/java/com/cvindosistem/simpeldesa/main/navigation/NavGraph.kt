@@ -380,7 +380,9 @@ fun NavGraph(
         }
 
         composable(Screen.Notification.route) {
+            val homeViewModel: HomeViewModel = koinViewModel()
             NotificationScreen(
+                homeViewModel = homeViewModel,
                 navController = navController
             )
         }

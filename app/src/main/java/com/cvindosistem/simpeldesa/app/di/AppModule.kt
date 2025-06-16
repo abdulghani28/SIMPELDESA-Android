@@ -3,8 +3,12 @@ package com.cvindosistem.simpeldesa.app.di
 import com.cvindosistem.simpeldesa.core.data.local.preferences.UserPreferences
 import com.cvindosistem.simpeldesa.core.data.local.preferences.UserPreferencesImpl
 import com.cvindosistem.simpeldesa.core.data.remote.api.FileApi
+import com.cvindosistem.simpeldesa.core.data.remote.api.NotificationApi
 import com.cvindosistem.simpeldesa.core.domain.repository.FileRepository
 import com.cvindosistem.simpeldesa.core.domain.repository.FileRepositoryImpl
+import com.cvindosistem.simpeldesa.core.domain.repository.NotifikasiRepository
+import com.cvindosistem.simpeldesa.core.domain.repository.NotifikasiRepositoryImpl
+import com.cvindosistem.simpeldesa.core.domain.usecases.GetNotifikasiUseCase
 import com.cvindosistem.simpeldesa.core.domain.usecases.UploadFileUseCase
 import com.cvindosistem.simpeldesa.core.helpers.ImageLoader
 import com.cvindosistem.simpeldesa.core.presentation.FileUploadViewModel
@@ -28,15 +32,20 @@ val appModule = module {
 
     // Retrofit API service untuk file
     single { get<Retrofit>().create(FileApi::class.java) }
+    single { get<Retrofit>().create(NotificationApi::class.java) }
 
     // Preference penyimpanan lokal untuk user
     single<UserPreferences> { UserPreferencesImpl(androidContext()) }
 
     // Repository file
     single<FileRepository> { FileRepositoryImpl(get()) }
+    single<NotifikasiRepository> { NotifikasiRepositoryImpl(get()) }
 
     // Use case untuk upload file
     single { UploadFileUseCase(get()) }
+
+    // Use case untuk notifikasi
+    single { GetNotifikasiUseCase(get()) }
 
     // Loader gambar
     single { ImageLoader(get()) }

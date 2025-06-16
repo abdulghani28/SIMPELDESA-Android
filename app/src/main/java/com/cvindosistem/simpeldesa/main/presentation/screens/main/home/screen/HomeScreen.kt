@@ -1,18 +1,25 @@
 package com.cvindosistem.simpeldesa.main.presentation.screens.main.home.screen
 
+import android.content.Context
+import android.content.IntentFilter
+import android.os.Build
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.cvindosistem.simpeldesa.R
@@ -34,6 +41,45 @@ fun BerandaScreen(
     navController: NavController,
     homeViewModel: HomeViewModel
 ) {
+    val context = LocalContext.current
+
+    // Initialize notification state
+    LaunchedEffect(Unit) {
+        // Check initial notification state
+        homeViewModel.checkInitialNotificationState(context)
+    }
+
+    // Register broadcast receiver for real-time updates
+    DisposableEffect(context, homeViewModel) {
+        val intentFilter = IntentFilter("com.cvindosistem.simpeldesa.NOTIFICATION_RECEIVED")
+        val receiver = object : android.content.BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: android.content.Intent?) {
+                if (context == null || intent == null) return
+
+                val hasUnread = intent.getBooleanExtra("has_unread", false)
+                homeViewModel.setHasUnreadNotifications(hasUnread)
+            }
+        }
+
+        // Register receiver with proper flags
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            context.registerReceiver(receiver, intentFilter, Context.RECEIVER_NOT_EXPORTED)
+        } else {
+            @Suppress("UnspecifiedRegisterReceiverFlag")
+            context.registerReceiver(receiver, intentFilter)
+        }
+
+        // Cleanup receiver when composable is disposed
+        onDispose {
+            try {
+                context.unregisterReceiver(receiver)
+            } catch (e: Exception) {
+                // Receiver might already be unregistered
+                Log.w("BerandaScreen", "Failed to unregister receiver: ${e.message}")
+            }
+        }
+    }
+
     // Handle events
     LaunchedEffect(homeViewModel) {
         homeViewModel.homeEvent.collect { event ->
@@ -44,6 +90,10 @@ fun BerandaScreen(
                 is HomeViewModel.HomeEvent.Error -> {
                     // Handle error, maybe show snackbar
                     Log.e("BerandaScreen", "Error loading data: ${event.message}")
+                }
+
+                HomeViewModel.HomeEvent.NotificationsLoaded -> {
+
                 }
             }
         }
@@ -147,6 +197,18 @@ fun BerandaScreen(
                 ),
             )
             DonationSection("Donasi Aktif ❤️", donations)
+        }
+
+        // Testing button - hapus ini setelah testing selesai
+        item {
+            Button(
+                onClick = {
+                    homeViewModel.onNewNotificationReceived()
+                },
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Text("Simulate New Notification (Testing)")
+            }
         }
     }
 

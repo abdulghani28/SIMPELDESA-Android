@@ -15,12 +15,13 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun BodyMediumText(
     text: String,
+    color: Color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
     fontWeight: FontWeight = FontWeight.Normal
 ) {
     Text(
         text = text,
         style = MaterialTheme.typography.bodyMedium.copy(
-            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
+            color = color,
             textAlign = TextAlign.Start,
             lineHeight = 20.sp
         ),
@@ -71,12 +72,13 @@ fun TitleMediumText(
 @Composable
 fun BodySmallText(
     text: String,
+    color: Color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
     textAlign: TextAlign = TextAlign.Start
 ) {
     Text(
         text = text,
         style = MaterialTheme.typography.bodySmall.copy(
-            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
+            color = color,
             textAlign = textAlign,
             lineHeight = 20.sp
         )

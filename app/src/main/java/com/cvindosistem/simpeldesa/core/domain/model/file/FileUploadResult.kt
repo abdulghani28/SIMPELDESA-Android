@@ -1,4 +1,4 @@
-package com.cvindosistem.simpeldesa.core.domain.model
+package com.cvindosistem.simpeldesa.core.domain.model.file
 
 sealed class FileUploadResult {
     data class Success(val data: FileUploadResponse) : FileUploadResult()

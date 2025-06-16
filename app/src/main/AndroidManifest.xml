@@ -54,6 +54,13 @@
             </intent-filter>
         </activity>
 
+        <receiver android:name=".core.data.local.preferences.NotificationReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.portalDesa.NOTIFICATION_RECEIVED" />
+            </intent-filter>
+        </receiver>
+
         <!-- Firebase Messaging Service -->
         <service
             android:name=".core.data.fcm.MyFirebaseMessagingService"

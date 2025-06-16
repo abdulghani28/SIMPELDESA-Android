@@ -1,6 +1,6 @@
 package com.cvindosistem.simpeldesa.core.data.remote.api
 
-import com.cvindosistem.simpeldesa.core.domain.model.FileUploadResponse
+import com.cvindosistem.simpeldesa.core.domain.model.file.FileUploadResponse
 import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import retrofit2.Response

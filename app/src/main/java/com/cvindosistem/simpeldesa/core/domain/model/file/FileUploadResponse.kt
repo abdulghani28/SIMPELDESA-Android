@@ -1,4 +1,4 @@
-package com.cvindosistem.simpeldesa.core.domain.model
+package com.cvindosistem.simpeldesa.core.domain.model.file
 
 data class FileUploadResponse(
     val data: FileData

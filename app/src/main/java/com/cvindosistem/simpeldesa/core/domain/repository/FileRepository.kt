@@ -3,7 +3,7 @@ package com.cvindosistem.simpeldesa.core.domain.repository
 import android.util.Log
 import com.cvindosistem.simpeldesa.auth.data.remote.dto.auth.login.ErrorResponse
 import com.cvindosistem.simpeldesa.core.data.remote.api.FileApi
-import com.cvindosistem.simpeldesa.core.domain.model.FileUploadResult
+import com.cvindosistem.simpeldesa.core.domain.model.file.FileUploadResult
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
