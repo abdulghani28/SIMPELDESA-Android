@@ -1,4 +1,4 @@
-package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.belummemilikipbb
+package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.ktpdalamproses
 
 import com.cvindosistem.simpeldesa.auth.domain.model.UserInfoResult
 import com.cvindosistem.simpeldesa.auth.domain.usecases.GetUserInfoUseCase
@@ -7,12 +7,12 @@ import com.cvindosistem.simpeldesa.main.domain.model.StatusKawinResult
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetAgamaUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetStatusKawinUseCase
 
-class SKBelumMemilikiPBBDataLoader(
+class SKKTPDalamProsesDataLoader(
     private val getUserInfoUseCase: GetUserInfoUseCase,
     private val getAgamaUseCase: GetAgamaUseCase,
-    private val stateManager: SKBelumMemilikiPBBStateManager,
-    private val validator: SKBelumMemilikiPBBValidator,
-    private val getStatusKawinUseCase: GetStatusKawinUseCase,
+    private val stateManager: SKKTPDalamProsesStateManager,
+    private val validator: SKKTPDalamProsesValidator,
+    private val getStatusKawinUseCase: GetStatusKawinUseCase
 ) {
     suspend fun loadUserData(): Result<Unit> {
         return try {
@@ -21,8 +21,8 @@ class SKBelumMemilikiPBBDataLoader(
                 is UserInfoResult.Success -> {
                     stateManager.populateUserData(result.data.data)
                     validator.clearMultipleFieldErrors(listOf(
-                        "nik", "nama", "alamat", "jenis_kelamin", "agama_id",
-                        "pekerjaan", "status_kawin_id", "tanggal_lahir", "tempat_lahir"
+                        "nik", "nama", "alamat", "jenis_kelamin", "agama_id", "pekerjaan",
+                        "status_kawin_id", "tanggal_lahir", "tempat_lahir", "kewarganegaraan"
                     ))
                     Result.success(Unit)
                 }
@@ -42,23 +42,22 @@ class SKBelumMemilikiPBBDataLoader(
         }
     }
 
-    suspend fun loadAgama(): Result<Unit> {
+    suspend fun loadAgamaData(): Result<Unit> {
         return try {
             stateManager.updateAgamaLoading(true)
-            stateManager.updateAgamaErrorMessage(null)
             when (val result = getAgamaUseCase()) {
                 is AgamaResult.Success -> {
                     stateManager.updateAgamaList(result.data.data)
                     Result.success(Unit)
                 }
                 is AgamaResult.Error -> {
-                    stateManager.updateAgamaErrorMessage(result.message)
+                    stateManager.updateErrorMessage(result.message)
                     Result.failure(Exception(result.message))
                 }
             }
         } catch (e: Exception) {
             val errorMsg = e.message ?: "Gagal memuat data agama"
-            stateManager.updateAgamaErrorMessage(errorMsg)
+            stateManager.updateErrorMessage(errorMsg)
             Result.failure(Exception(errorMsg))
         } finally {
             stateManager.updateAgamaLoading(false)
@@ -68,20 +67,19 @@ class SKBelumMemilikiPBBDataLoader(
     suspend fun loadStatusKawin(): Result<Unit> {
         return try {
             stateManager.updateStatusKawinLoading(true)
-            stateManager.updateStatusKawinErrorMessage(null)
             when (val result = getStatusKawinUseCase()) {
                 is StatusKawinResult.Success -> {
                     stateManager.updateStatusKawinList(result.data.data)
                     Result.success(Unit)
                 }
                 is StatusKawinResult.Error -> {
-                    stateManager.updateStatusKawinErrorMessage(result.message)
+                    stateManager.updateErrorMessage(result.message)
                     Result.failure(Exception(result.message))
                 }
             }
         } catch (e: Exception) {
-            val errorMsg = e.message ?: "Gagal memuat data Status Kawin"
-            stateManager.updateStatusKawinErrorMessage(errorMsg)
+            val errorMsg = e.message ?: "Gagal memuat data status kawin"
+            stateManager.updateErrorMessage(errorMsg)
             Result.failure(Exception(errorMsg))
         } finally {
             stateManager.updateStatusKawinLoading(false)

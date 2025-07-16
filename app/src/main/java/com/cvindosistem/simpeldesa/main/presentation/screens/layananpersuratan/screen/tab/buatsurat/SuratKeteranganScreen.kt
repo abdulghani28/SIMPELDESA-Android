@@ -268,6 +268,30 @@ private fun getSuratKeteranganList(): List<SuratKeteranganItem> {
             emoji = "\uD83D\uDC64",
             iconBackgroundColor = Color(0xFFF8F0FF),
             rute = Screen.SKGhaib.route
+        ),
+        SuratKeteranganItem(
+            id = "belummemilikipbb",
+            title = "Surat Keterangan Belum Memiliki PBB",
+            description = "Menyatakan seseorang belum memiliki PBB.",
+            emoji = "\uD83C\uDFE1",
+            iconBackgroundColor = Color(0xFFF8F0FF),
+            rute = Screen.SKBelumMemilikiPBB.route
+        ),
+        SuratKeteranganItem(
+            id = "jualbeli",
+            title = "Surat Keterangan Jual Beli",
+            description = "Menyatakan dua belah pihak yang melakukan jual beli.",
+            emoji = "\uD83E\uDD1D",
+            iconBackgroundColor = Color(0xFFF8F0FF),
+            rute = Screen.SKJualBeli.route
+        ),
+        SuratKeteranganItem(
+            id = "ktpdalamproses",
+            title = "Surat Keterangan KTP Dalam Proses",
+            description = "Menyatakan KTP seseorang yang masih dalam proses.",
+            emoji = "\uD83E\uDD1D",
+            iconBackgroundColor = Color(0xFFF8F0FF),
+            rute = Screen.SKKTPDalamProses.route
         )
     )
 }

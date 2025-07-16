@@ -1,4 +1,4 @@
-package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.belummemilikipbb
+package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.ktpdalamproses
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -8,9 +8,9 @@ import com.cvindosistem.simpeldesa.auth.data.remote.dto.user.response.UserInfoRe
 import com.cvindosistem.simpeldesa.core.helpers.dateFormatterToApiFormat
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.AgamaResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.StatusKawinResponse
-import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKBelumMemilikiPBBRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKKTPDalamProsesRequest
 
-class SKBelumMemilikiPBBStateManager {
+class SKKTPDalamProsesStateManager {
     // Form Data States - Step 1
     var nikValue by mutableStateOf("")
         private set
@@ -29,6 +29,8 @@ class SKBelumMemilikiPBBStateManager {
     var tanggalLahirValue by mutableStateOf("")
         private set
     var tempatLahirValue by mutableStateOf("")
+        private set
+    var kewarganegaraanValue by mutableStateOf("")
         private set
 
     // Form Data States - Step 2
@@ -58,12 +60,8 @@ class SKBelumMemilikiPBBStateManager {
     // Error States
     var errorMessage by mutableStateOf<String?>(null)
         private set
-    var agamaErrorMessage by mutableStateOf<String?>(null)
-        private set
-    var statusKawinErrorMessage by mutableStateOf<String?>(null)
-        private set
 
-    // Agama Data
+    // Data Lists
     var agamaList by mutableStateOf<List<AgamaResponse.Data>>(emptyList())
         private set
     var statusKawinList by mutableStateOf<List<StatusKawinResponse.Data>>(emptyList())
@@ -79,8 +77,9 @@ class SKBelumMemilikiPBBStateManager {
     fun updateStatusKawinId(value: String) { statusKawinIdValue = value }
     fun updateTanggalLahir(value: String) { tanggalLahirValue = value }
     fun updateTempatLahir(value: String) { tempatLahirValue = value }
+    fun updateKewarganegaraan(value: String) { kewarganegaraanValue = value }
 
-    // Step 2 Update Function
+    // Step 2 Update Functions
     fun updateKeperluan(value: String) { keperluanValue = value }
 
     // Navigation Functions
@@ -105,13 +104,15 @@ class SKBelumMemilikiPBBStateManager {
 
     // Error Handling
     fun updateErrorMessage(message: String?) { errorMessage = message }
-    fun updateAgamaErrorMessage(message: String?) { agamaErrorMessage = message }
-    fun updateStatusKawinErrorMessage(message: String?) { statusKawinErrorMessage = message }
     fun clearError() { errorMessage = null }
 
-    // Data Setter
-    fun updateAgamaList(list: List<AgamaResponse.Data>) { agamaList = list }
-    fun updateStatusKawinList(list: List<StatusKawinResponse.Data>) { statusKawinList = list }
+    // Data Updates
+    fun updateAgamaList(agamaList: List<AgamaResponse.Data>) {
+        this.agamaList = agamaList
+    }
+    fun updateStatusKawinList(statusKawinList: List<StatusKawinResponse.Data>) {
+        this.statusKawinList = statusKawinList
+    }
 
     // Populate / Clear User Data
     fun populateUserData(userData: UserInfoResponse.Data) {
@@ -119,11 +120,12 @@ class SKBelumMemilikiPBBStateManager {
         namaValue = userData.nama_warga
         alamatValue = userData.alamat
         jenisKelaminValue = userData.jenis_kelamin
-        agamaIdValue = userData.agama_id
+        agamaIdValue = userData.agama_id.toString()
         pekerjaanValue = userData.pekerjaan
-        statusKawinIdValue = userData.status_kawin_id
+        statusKawinIdValue = userData.status_kawin_id.toString()
         tanggalLahirValue = dateFormatterToApiFormat(userData.tanggal_lahir)
         tempatLahirValue = userData.tempat_lahir
+        kewarganegaraanValue = userData.kewarganegaraan
     }
 
     fun clearUserData() {
@@ -136,13 +138,17 @@ class SKBelumMemilikiPBBStateManager {
         statusKawinIdValue = ""
         tanggalLahirValue = ""
         tempatLahirValue = ""
+        kewarganegaraanValue = ""
     }
 
     fun resetForm() {
         currentStep = 1
         useMyDataChecked = false
         clearUserData()
+
+        // Clear step 2 data
         keperluanValue = ""
+
         errorMessage = null
         showConfirmationDialog = false
         showPreviewDialog = false
@@ -153,15 +159,17 @@ class SKBelumMemilikiPBBStateManager {
                 alamatValue.isNotBlank() || jenisKelaminValue.isNotBlank() ||
                 agamaIdValue.isNotBlank() || pekerjaanValue.isNotBlank() ||
                 statusKawinIdValue.isNotBlank() || tanggalLahirValue.isNotBlank() ||
-                tempatLahirValue.isNotBlank() || keperluanValue.isNotBlank()
+                tempatLahirValue.isNotBlank() || kewarganegaraanValue.isNotBlank() ||
+                keperluanValue.isNotBlank()
     }
 
-    fun toRequest(): SKBelumMemilikiPBBRequest {
-        return SKBelumMemilikiPBBRequest(
+    fun toRequest(): SKKTPDalamProsesRequest {
+        return SKKTPDalamProsesRequest(
             agama_id = agamaIdValue,
             alamat = alamatValue,
             jenis_kelamin = jenisKelaminValue,
             keperluan = keperluanValue,
+            kewarganegaraan = kewarganegaraanValue,
             nama = namaValue,
             nik = nikValue,
             pekerjaan = pekerjaanValue,

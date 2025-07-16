@@ -1,11 +1,9 @@
-package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.belummemilikipbb
+package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.ktpdalamproses
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cvindosistem.simpeldesa.auth.domain.usecases.GetUserInfoUseCase
-import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.AgamaResponse
-import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.StatusKawinResponse
-import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratBelumMemilikiPBBUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratKTPDalamProsesUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetAgamaUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetStatusKawinUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -14,43 +12,40 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class SKBelumMemilikiPBBViewModel(
-    createSKBelumMemilikiPBBUseCase: CreateSuratBelumMemilikiPBBUseCase,
+class SKKTPDalamProsesViewModel(
+    createSKKTPDalamProsesUseCase: CreateSuratKTPDalamProsesUseCase,
     getUserInfoUseCase: GetUserInfoUseCase,
     getAgamaUseCase: GetAgamaUseCase,
     getStatusKawinUseCase: GetStatusKawinUseCase
 ) : ViewModel() {
 
     // Composition of components
-    private val stateManager = SKBelumMemilikiPBBStateManager()
-    private val validator = SKBelumMemilikiPBBValidator(stateManager)
-    private val dataLoader = SKBelumMemilikiPBBDataLoader(getUserInfoUseCase, getAgamaUseCase, stateManager, validator, getStatusKawinUseCase)
-    private val formSubmitter = SKBelumMemilikiPBBFormSubmitter(createSKBelumMemilikiPBBUseCase, stateManager)
+    private val stateManager = SKKTPDalamProsesStateManager()
+    private val validator = SKKTPDalamProsesValidator(stateManager)
+    private val dataLoader = SKKTPDalamProsesDataLoader(getUserInfoUseCase, getAgamaUseCase, stateManager, validator, getStatusKawinUseCase)
+    private val formSubmitter = SKKTPDalamProsesFormSubmitter(createSKKTPDalamProsesUseCase, stateManager)
 
     // Events
-    private val _skBelumMemilikiPBBEvent = MutableSharedFlow<SKBelumMemilikiPBBEvent>()
-    val skBelumMemilikiPBBEvent = _skBelumMemilikiPBBEvent.asSharedFlow()
+    private val _skKTPDalamProsesEvent = MutableSharedFlow<SKKTPDalamProsesEvent>()
+    val skKTPDalamProsesEvent = _skKTPDalamProsesEvent.asSharedFlow()
 
     // Expose necessary properties from stateManager
-    val uiState = MutableStateFlow(SKBelumMemilikiPBBUiState()).asStateFlow()
+    val uiState = MutableStateFlow(SKKTPDalamProsesUiState()).asStateFlow()
 
     // Delegate properties to stateManager (public interface unchanged)
-    val agamaList: List<AgamaResponse.Data> get() = stateManager.agamaList
-    val isLoadingAgama: Boolean get() = stateManager.isLoadingAgama
-    val agamaErrorMessage: String? get() = stateManager.agamaErrorMessage
-    val statusKawinList: List<StatusKawinResponse.Data> get() = stateManager.statusKawinList
-    val isLoadingStatusKawin: Boolean get() = stateManager.isLoadingStatusKawin
-    val statusKawinErrorMessage: String? get() = stateManager.statusKawinErrorMessage
     val isLoading: Boolean get() = stateManager.isLoading
     val errorMessage: String? get() = stateManager.errorMessage
     val currentStep: Int get() = stateManager.currentStep
     val useMyDataChecked: Boolean get() = stateManager.useMyDataChecked
     val isLoadingUserData: Boolean get() = stateManager.isLoadingUserData
+    val isLoadingAgama: Boolean get() = stateManager.isLoadingAgama
     val showConfirmationDialog: Boolean get() = stateManager.showConfirmationDialog
     val showPreviewDialog: Boolean get() = stateManager.showPreviewDialog
+    val agamaList get() = stateManager.agamaList
+    val statusKawinList get() = stateManager.statusKawinList
     val validationErrors = validator.validationErrors
 
-    // Form field properties - delegate to stateManager (Step 1)
+    // Form field properties - Step 1
     val nikValue: String get() = stateManager.nikValue
     val namaValue: String get() = stateManager.namaValue
     val alamatValue: String get() = stateManager.alamatValue
@@ -60,31 +55,15 @@ class SKBelumMemilikiPBBViewModel(
     val statusKawinIdValue: String get() = stateManager.statusKawinIdValue
     val tanggalLahirValue: String get() = stateManager.tanggalLahirValue
     val tempatLahirValue: String get() = stateManager.tempatLahirValue
+    val kewarganegaraanValue: String get() = stateManager.kewarganegaraanValue
 
-    // Form Data States - Step 2
+    // Form field properties - Step 2
     val keperluanValue: String get() = stateManager.keperluanValue
-
-    // Public functions - delegate to appropriate components
-    fun updateUseMyData(checked: Boolean) {
-        stateManager.updateUseMyDataChecked(checked)
-        if (checked) {
-            viewModelScope.launch {
-                dataLoader.loadUserData().onFailure {
-                    _skBelumMemilikiPBBEvent.emit(SKBelumMemilikiPBBEvent.UserDataLoadError(it.message ?: "Error"))
-                }
-                dataLoader.loadAgama().onFailure {
-                    _skBelumMemilikiPBBEvent.emit(SKBelumMemilikiPBBEvent.AgamaLoadError(it.message ?: "Error"))
-                }
-            }
-        } else {
-            stateManager.clearUserData()
-        }
-    }
 
     fun loadAgama() {
         viewModelScope.launch {
-            dataLoader.loadAgama().onFailure {
-                _skBelumMemilikiPBBEvent.emit(SKBelumMemilikiPBBEvent.AgamaLoadError(it.message ?: "Error"))
+            dataLoader.loadAgamaData().onFailure {
+                _skKTPDalamProsesEvent.emit(SKKTPDalamProsesEvent.AgamaDataLoadError(it.message ?: "Error"))
             }
         }
     }
@@ -92,8 +71,23 @@ class SKBelumMemilikiPBBViewModel(
     fun loadStatusKawin() {
         viewModelScope.launch {
             dataLoader.loadStatusKawin().onFailure {
-                _skBelumMemilikiPBBEvent.emit(SKBelumMemilikiPBBEvent.StatusKawinLoadError(it.message ?: "Error"))
+                _skKTPDalamProsesEvent.emit(SKKTPDalamProsesEvent.StatusKawinDataLoadError(it.message ?: "Error"))
             }
+        }
+    }
+
+    // Public functions - delegate to appropriate components
+    fun updateUseMyData(checked: Boolean) {
+        stateManager.updateUseMyDataChecked(checked)
+        if (checked) {
+            viewModelScope.launch {
+                dataLoader.loadUserData().onFailure {
+                    _skKTPDalamProsesEvent.emit(SKKTPDalamProsesEvent.UserDataLoadError(it.message ?: "Error"))
+                }
+                loadAgama()
+            }
+        } else {
+            stateManager.clearUserData()
         }
     }
 
@@ -143,7 +137,12 @@ class SKBelumMemilikiPBBViewModel(
         validator.clearFieldError("tempat_lahir")
     }
 
-    // Step 2 Update Function
+    fun updateKewarganegaraan(value: String) {
+        stateManager.updateKewarganegaraan(value)
+        validator.clearFieldError("kewarganegaraan")
+    }
+
+    // Step 2 Update Functions
     fun updateKeperluan(value: String) {
         stateManager.updateKeperluan(value)
         validator.clearFieldError("keperluan")
@@ -177,7 +176,7 @@ class SKBelumMemilikiPBBViewModel(
     fun showPreview() {
         if (!validator.validateAllSteps()) {
             viewModelScope.launch {
-                _skBelumMemilikiPBBEvent.emit(SKBelumMemilikiPBBEvent.ValidationError)
+                _skKTPDalamProsesEvent.emit(SKKTPDalamProsesEvent.ValidationError)
             }
         }
         stateManager.showPreview()
@@ -190,7 +189,7 @@ class SKBelumMemilikiPBBViewModel(
             stateManager.showConfirmation()
         } else {
             viewModelScope.launch {
-                _skBelumMemilikiPBBEvent.emit(SKBelumMemilikiPBBEvent.ValidationError)
+                _skKTPDalamProsesEvent.emit(SKKTPDalamProsesEvent.ValidationError)
             }
         }
     }
@@ -201,8 +200,8 @@ class SKBelumMemilikiPBBViewModel(
         stateManager.hideConfirmation()
         viewModelScope.launch {
             formSubmitter.submitForm()
-                .onSuccess { _skBelumMemilikiPBBEvent.emit(SKBelumMemilikiPBBEvent.SubmitSuccess) }
-                .onFailure { _skBelumMemilikiPBBEvent.emit(SKBelumMemilikiPBBEvent.SubmitError(it.message ?: "Error")) }
+                .onSuccess { _skKTPDalamProsesEvent.emit(SKKTPDalamProsesEvent.SubmitSuccess) }
+                .onFailure { _skKTPDalamProsesEvent.emit(SKKTPDalamProsesEvent.SubmitError(it.message ?: "Error")) }
         }
     }
 
@@ -223,7 +222,7 @@ class SKBelumMemilikiPBBViewModel(
         }
         if (!isValid) {
             viewModelScope.launch {
-                _skBelumMemilikiPBBEvent.emit(SKBelumMemilikiPBBEvent.ValidationError)
+                _skKTPDalamProsesEvent.emit(SKKTPDalamProsesEvent.ValidationError)
             }
         }
         return isValid
@@ -231,18 +230,18 @@ class SKBelumMemilikiPBBViewModel(
 
     private fun emitStepChangedEvent() {
         viewModelScope.launch {
-            _skBelumMemilikiPBBEvent.emit(SKBelumMemilikiPBBEvent.StepChanged(stateManager.currentStep))
+            _skKTPDalamProsesEvent.emit(SKKTPDalamProsesEvent.StepChanged(stateManager.currentStep))
         }
     }
 
     // Events
-    sealed class SKBelumMemilikiPBBEvent {
-        data class StepChanged(val step: Int) : SKBelumMemilikiPBBEvent()
-        data object SubmitSuccess : SKBelumMemilikiPBBEvent()
-        data class SubmitError(val message: String) : SKBelumMemilikiPBBEvent()
-        data object ValidationError : SKBelumMemilikiPBBEvent()
-        data class UserDataLoadError(val message: String) : SKBelumMemilikiPBBEvent()
-        data class AgamaLoadError(val message: String) : SKBelumMemilikiPBBEvent()
-        data class StatusKawinLoadError(val message: String) : SKBelumMemilikiPBBEvent()
+    sealed class SKKTPDalamProsesEvent {
+        data class StepChanged(val step: Int) : SKKTPDalamProsesEvent()
+        data object SubmitSuccess : SKKTPDalamProsesEvent()
+        data class SubmitError(val message: String) : SKKTPDalamProsesEvent()
+        data object ValidationError : SKKTPDalamProsesEvent()
+        data class UserDataLoadError(val message: String) : SKKTPDalamProsesEvent()
+        data class AgamaDataLoadError(val message: String) : SKKTPDalamProsesEvent()
+        data class StatusKawinDataLoadError(val message: String) : SKKTPDalamProsesEvent()
     }
 }

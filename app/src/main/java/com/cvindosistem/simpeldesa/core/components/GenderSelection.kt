@@ -68,58 +68,6 @@ internal fun GenderSelection(
 }
 
 @Composable
-internal fun StatusPerkawinanSelection(
-    selectedStatus: String,
-    onStatusSelected: (String) -> Unit,
-    isError: Boolean,
-    errorMessage: String?
-) {
-    Column {
-        LabelFieldText("Status Perkawinan")
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(24.dp)
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                RadioButton(
-                    selected = selectedStatus == "KAWIN",
-                    onClick = { onStatusSelected("KAWIN") },
-                    colors = RadioButtonDefaults.colors(
-                        selectedColor = MaterialTheme.colorScheme.primary
-                    )
-                )
-                BodyMediumText("Kawin")
-            }
-
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                RadioButton(
-                    selected = selectedStatus == "BELUM_KAWIN",
-                    onClick = { onStatusSelected("BELUM_KAWIN") },
-                    colors = RadioButtonDefaults.colors(
-                        selectedColor = MaterialTheme.colorScheme.primary
-                    )
-                )
-                BodyMediumText("Belum Kawin")
-            }
-        }
-
-        if (isError && errorMessage != null) {
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = errorMessage,
-                color = MaterialTheme.colorScheme.error,
-                style = MaterialTheme.typography.bodySmall
-            )
-        }
-    }
-}
-
-@Composable
 internal fun DasarPengajuanSelection(
     selectedDasarPengajuan: String,
     onDasarPengajuanSelected: (String) -> Unit,

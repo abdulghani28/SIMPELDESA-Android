@@ -1,4 +1,4 @@
-package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skbelummemilikipbb
+package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skktpdalamproses
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,11 +22,11 @@ import com.cvindosistem.simpeldesa.core.components.GenderSelection
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
 import com.cvindosistem.simpeldesa.core.components.StepIndicator
 import com.cvindosistem.simpeldesa.core.components.UseMyDataCheckbox
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.belummemilikipbb.SKBelumMemilikiPBBViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.ktpdalamproses.SKKTPDalamProsesViewModel
 
 @Composable
-internal fun SKBelumMemilikiPBB1Content(
-    viewModel: SKBelumMemilikiPBBViewModel,
+internal fun SKKTPDalamProses1Content(
+    viewModel: SKKTPDalamProsesViewModel,
     modifier: Modifier = Modifier
 ) {
     val validationErrors by viewModel.validationErrors.collectAsState()
@@ -37,7 +37,7 @@ internal fun SKBelumMemilikiPBB1Content(
     ) {
         item {
             StepIndicator(
-                steps = listOf("Informasi Pelapor", "Keperluan"),
+                steps = listOf("Informasi Pemohon", "Informasi Pelengkap"),
                 currentStep = viewModel.currentStep
             )
         }
@@ -61,11 +61,11 @@ internal fun SKBelumMemilikiPBB1Content(
 
 @Composable
 private fun InformasiPelapor(
-    viewModel: SKBelumMemilikiPBBViewModel,
+    viewModel: SKKTPDalamProsesViewModel,
     validationErrors: Map<String, String>
 ) {
     Column {
-        SectionTitle("Informasi Pelapor")
+        SectionTitle("Informasi Pemohon")
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -96,7 +96,7 @@ private fun InformasiPelapor(
             selectedGender = viewModel.jenisKelaminValue,
             onGenderSelected = viewModel::updateJenisKelamin,
             isError = viewModel.hasFieldError("jenis_kelamin"),
-            errorMessage = viewModel.getFieldError("jenis_kelamin"),
+            errorMessage = viewModel.getFieldError("jenis_kelamin")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -129,36 +129,6 @@ private fun InformasiPelapor(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        DropdownField(
-            label = "Status Perkawinan",
-            value = viewModel.statusKawinList.find { it.id == viewModel.statusKawinValue }?.nama.orEmpty(),
-            onValueChange = { selectedNama ->
-                val selected = viewModel.statusKawinList.find { it.nama == selectedNama }
-                selected?.let { viewModel.updateStatusKawin(it.id) }
-            },
-            options = viewModel.statusKawinList.map { it.nama },
-            isError = viewModel.hasFieldError("status_kawin_id"),
-            errorMessage = viewModel.getFieldError("status_kawin_id"),
-            onDropdownExpanded = viewModel::loadStatusKawin
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        DropdownField(
-            label = "Agama",
-            value = viewModel.agamaList.find { it.id == viewModel.agamaIdValue }?.nama.orEmpty(),
-            onValueChange = { selectedNama ->
-                val selected = viewModel.agamaList.find { it.nama == selectedNama }
-                selected?.let { viewModel.updateAgamaId(it.id) }
-            },
-            options = viewModel.agamaList.map { it.nama },
-            isError = viewModel.hasFieldError("agama_id"),
-            errorMessage = viewModel.getFieldError("agama_id"),
-            onDropdownExpanded = viewModel::loadAgama
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
         AppTextField(
             label = "Pekerjaan",
             placeholder = "Masukkan pekerjaan",
@@ -181,13 +151,43 @@ private fun InformasiPelapor(
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        DropdownField(
+            label = "Agama",
+            value = viewModel.agamaList.find { it.id == viewModel.agamaIdValue }?.nama.orEmpty(),
+            onValueChange = { selectedNama ->
+                val selected = viewModel.agamaList.find { it.nama == selectedNama }
+                selected?.let { viewModel.updateAgamaId(it.id) }
+            },
+            options = viewModel.agamaList.map { it.nama },
+            isError = viewModel.hasFieldError("agama_id"),
+            errorMessage = viewModel.getFieldError("agama_id"),
+            onDropdownExpanded = viewModel::loadAgama
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        DropdownField(
+            label = "Status Perkawinan",
+            value = viewModel.statusKawinList.find { it.id == viewModel.statusKawinIdValue }?.nama.orEmpty(),
+            onValueChange = { selectedNama ->
+                val selected = viewModel.statusKawinList.find { it.nama == selectedNama }
+                selected?.let { viewModel.updateStatusKawinId(it.id) }
+            },
+            options = viewModel.statusKawinList.map { it.nama },
+            isError = viewModel.hasFieldError("status_kawin_id"),
+            errorMessage = viewModel.getFieldError("status_kawin_id"),
+            onDropdownExpanded = viewModel::loadStatusKawin
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         AppTextField(
-            label = "Keperluan",
-            placeholder = "Masukkan keperluan surat",
-            value = viewModel.keperluanValue,
-            onValueChange = viewModel::updateKeperluan,
-            isError = viewModel.hasFieldError("keperluan"),
-            errorMessage = viewModel.getFieldError("keperluan")
+            label = "Kewarganegaraan",
+            placeholder = "Masukkan kewarganegaraan",
+            value = viewModel.kewarganegaraanValue,
+            onValueChange = viewModel::updateKewarganegaraan,
+            isError = viewModel.hasFieldError("kewarganegaraan"),
+            errorMessage = viewModel.getFieldError("kewarganegaraan")
         )
     }
 }
