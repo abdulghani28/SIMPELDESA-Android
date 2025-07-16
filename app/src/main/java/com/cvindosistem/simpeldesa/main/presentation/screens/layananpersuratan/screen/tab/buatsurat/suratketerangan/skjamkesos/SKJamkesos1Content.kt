@@ -1,4 +1,4 @@
-package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skbelummemilikipbb
+package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skjamkesos
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,11 +22,11 @@ import com.cvindosistem.simpeldesa.core.components.GenderSelection
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
 import com.cvindosistem.simpeldesa.core.components.StepIndicator
 import com.cvindosistem.simpeldesa.core.components.UseMyDataCheckbox
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.belummemilikipbb.SKBelumMemilikiPBBViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.jamkesos.SKJamkesosViewModel
 
 @Composable
-internal fun SKBelumMemilikiPBB1Content(
-    viewModel: SKBelumMemilikiPBBViewModel,
+internal fun SKJamkesos1Content(
+    viewModel: SKJamkesosViewModel,
     modifier: Modifier = Modifier
 ) {
     val validationErrors by viewModel.validationErrors.collectAsState()
@@ -37,7 +37,7 @@ internal fun SKBelumMemilikiPBB1Content(
     ) {
         item {
             StepIndicator(
-                steps = listOf("Informasi Pelapor", "Keperluan"),
+                steps = listOf("Informasi Pelapor", "Informasi Kartu", "Keperluan"),
                 currentStep = viewModel.currentStep
             )
         }
@@ -61,7 +61,7 @@ internal fun SKBelumMemilikiPBB1Content(
 
 @Composable
 private fun InformasiPelapor(
-    viewModel: SKBelumMemilikiPBBViewModel,
+    viewModel: SKJamkesosViewModel,
     validationErrors: Map<String, String>
 ) {
     Column {
@@ -139,7 +139,7 @@ private fun InformasiPelapor(
             options = viewModel.statusKawinList.map { it.nama },
             isError = viewModel.hasFieldError("status_kawin_id"),
             errorMessage = viewModel.getFieldError("status_kawin_id"),
-            onDropdownExpanded = viewModel::loadStatusKawin
+            onDropdownExpanded = viewModel::loadStatusKawinData
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -154,7 +154,7 @@ private fun InformasiPelapor(
             options = viewModel.agamaList.map { it.nama },
             isError = viewModel.hasFieldError("agama_id"),
             errorMessage = viewModel.getFieldError("agama_id"),
-            onDropdownExpanded = viewModel::loadAgama
+            onDropdownExpanded = viewModel::loadAgamaData
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -177,17 +177,6 @@ private fun InformasiPelapor(
             onValueChange = viewModel::updateAlamat,
             isError = viewModel.hasFieldError("alamat"),
             errorMessage = viewModel.getFieldError("alamat")
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        AppTextField(
-            label = "Keperluan",
-            placeholder = "Masukkan keperluan surat",
-            value = viewModel.keperluanValue,
-            onValueChange = viewModel::updateKeperluan,
-            isError = viewModel.hasFieldError("keperluan"),
-            errorMessage = viewModel.getFieldError("keperluan")
         )
     }
 }

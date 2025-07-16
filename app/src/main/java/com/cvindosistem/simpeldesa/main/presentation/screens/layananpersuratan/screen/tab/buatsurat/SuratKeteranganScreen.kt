@@ -289,9 +289,17 @@ private fun getSuratKeteranganList(): List<SuratKeteranganItem> {
             id = "ktpdalamproses",
             title = "Surat Keterangan KTP Dalam Proses",
             description = "Menyatakan KTP seseorang yang masih dalam proses.",
-            emoji = "\uD83E\uDD1D",
+            emoji = "\uD83C\uDD94", // 🆔
             iconBackgroundColor = Color(0xFFF8F0FF),
             rute = Screen.SKKTPDalamProses.route
+        ),
+        SuratKeteranganItem(
+            id = "jamkesos",
+            title = "Surat Keterangan Jamkesos",
+            description = "Menyatakan seseorang mengajukan jaminan kesehatan sosial.",
+            emoji = "\u2695\uFE0F", // ⚕️
+            iconBackgroundColor = Color(0xFFF8F0FF),
+            rute = Screen.SKJamkesos.route
         )
     )
 }
