@@ -178,5 +178,17 @@ private fun InformasiPelapor(
             isError = viewModel.hasFieldError("alamat"),
             errorMessage = viewModel.getFieldError("alamat")
         )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Pendidikan, dibuat nanti
+//        AppTextField(
+//            label = "Pendidikan",
+//            placeholder = "Masukkan alamat lengkap",
+//            value = viewModel.alamatValue,
+//            onValueChange = viewModel::updateAlamat,
+//            isError = viewModel.hasFieldError("alamat"),
+//            errorMessage = viewModel.getFieldError("alamat")
+//        )
     }
 }
