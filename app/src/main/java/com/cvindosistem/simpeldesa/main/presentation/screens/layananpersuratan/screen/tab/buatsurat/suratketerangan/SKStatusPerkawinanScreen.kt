@@ -30,7 +30,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.cvindosistem.simpeldesa.core.components.GenderSelection
-import com.cvindosistem.simpeldesa.core.components.StatusPerkawinanSelection
 import com.cvindosistem.simpeldesa.core.components.AppBottomBar
 import com.cvindosistem.simpeldesa.core.components.AppTextField
 import com.cvindosistem.simpeldesa.core.components.AppTopBar
@@ -353,11 +352,17 @@ private fun InformasiPelapor(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        StatusPerkawinanSelection(
-            selectedStatus = viewModel.statusKawinValue,
-            onStatusSelected = viewModel::updateStatusKawin,
-            isError = false,
-            errorMessage = null,
+        DropdownField(
+            label = "Status Perkawinan",
+            value = viewModel.statusKawinList.find { it.id == viewModel.statusKawinValue }?.nama.orEmpty(),
+            onValueChange = { selectedNama ->
+                val selected = viewModel.statusKawinList.find { it.nama == selectedNama }
+                selected?.let { viewModel.updateStatusKawin(it.id) }
+            },
+            options = viewModel.statusKawinList.map { it.nama },
+            isError = viewModel.hasFieldError("status_kawin_id"),
+            errorMessage = viewModel.getFieldError("status_kawin_id"),
+            onDropdownExpanded = viewModel::loadStatusKawin
         )
 
         Spacer(modifier = Modifier.height(16.dp))
