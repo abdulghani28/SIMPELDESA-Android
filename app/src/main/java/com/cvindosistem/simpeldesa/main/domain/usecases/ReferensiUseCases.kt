@@ -5,6 +5,7 @@ import com.cvindosistem.simpeldesa.main.domain.model.AgamaResult
 import com.cvindosistem.simpeldesa.main.domain.model.BidangUsahaResult
 import com.cvindosistem.simpeldesa.main.domain.model.DisahkanOlehResult
 import com.cvindosistem.simpeldesa.main.domain.model.JenisUsahaResult
+import com.cvindosistem.simpeldesa.main.domain.model.PendidikanResult
 import com.cvindosistem.simpeldesa.main.domain.model.PerbedaanIdentitasResult
 import com.cvindosistem.simpeldesa.main.domain.model.StatusKawinResult
 import com.cvindosistem.simpeldesa.main.domain.model.TercantumIdentitasResult
@@ -48,5 +49,11 @@ class JenisUsahaUseCase(private val referensiRepository: ReferensiRepository) {
 class GetStatusKawinUseCase(private val referensiRepository: ReferensiRepository) {
     suspend operator fun invoke(): StatusKawinResult {
         return referensiRepository.getStatusKawin()
+    }
+}
+
+class GetPendidikanUseCase(private val referensiRepository: ReferensiRepository) {
+    suspend operator fun invoke(): PendidikanResult {
+        return referensiRepository.getPendidikan()
     }
 }

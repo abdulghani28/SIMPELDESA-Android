@@ -4,6 +4,7 @@ import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.AgamaResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.BidangUsahaResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.DisahkanOlehResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.JenisUsahaResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.PendidikanResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.PerbedaanIdentitasResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.StatusKawinResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.TercantumIdentitasResponse
@@ -31,4 +32,7 @@ interface ReferensiApi {
 
     @GET("/warga-desa/ref/status-kawin")
     suspend fun getStatusKawin(): Response<StatusKawinResponse>
+
+    @GET("/warga-desa/ref/pendidikan")
+    suspend fun getPendidikan(): Response<PendidikanResponse>
 }

@@ -181,14 +181,17 @@ private fun InformasiPelapor(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Pendidikan, dibuat nanti
-//        AppTextField(
-//            label = "Pendidikan",
-//            placeholder = "Masukkan alamat lengkap",
-//            value = viewModel.alamatValue,
-//            onValueChange = viewModel::updateAlamat,
-//            isError = viewModel.hasFieldError("alamat"),
-//            errorMessage = viewModel.getFieldError("alamat")
-//        )
+        DropdownField(
+            label = "Pendidikan",
+            value = viewModel.pendidikanList.find { it.id == viewModel.pendidikanIdValue }?.nama.orEmpty(),
+            onValueChange = { selectedNama ->
+                val selected = viewModel.pendidikanList.find { it.nama == selectedNama }
+                selected?.let { viewModel.updatePendidikanId(it.id) }
+            },
+            options = viewModel.pendidikanList.map { it.nama },
+            isError = viewModel.hasFieldError("pendidikan_id"),
+            errorMessage = viewModel.getFieldError("pendidikan_id"),
+            onDropdownExpanded = viewModel::loadPendidikanData
+        )
     }
 }

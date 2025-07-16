@@ -7,6 +7,7 @@ import com.cvindosistem.simpeldesa.main.domain.model.AgamaResult
 import com.cvindosistem.simpeldesa.main.domain.model.BidangUsahaResult
 import com.cvindosistem.simpeldesa.main.domain.model.DisahkanOlehResult
 import com.cvindosistem.simpeldesa.main.domain.model.JenisUsahaResult
+import com.cvindosistem.simpeldesa.main.domain.model.PendidikanResult
 import com.cvindosistem.simpeldesa.main.domain.model.PerbedaanIdentitasResult
 import com.cvindosistem.simpeldesa.main.domain.model.StatusKawinResult
 import com.cvindosistem.simpeldesa.main.domain.model.TercantumIdentitasResult
@@ -63,6 +64,12 @@ interface ReferensiRepository {
      * @return [StatusKawinResult] berisi data atau pesan kesalahan.
      */
     suspend fun getStatusKawin(): StatusKawinResult
+
+    /**
+     * Mengambil daftar referensi status perkawinan.
+     * @return [PendidikanResult] berisi data atau pesan kesalahan.
+     */
+    suspend fun getPendidikan(): PendidikanResult
 }
 
 class ReferensiRepositoryImpl(
@@ -276,6 +283,36 @@ class ReferensiRepositoryImpl(
         } catch (e: Exception) {
             Log.e("ReferensiRepository", "StatusKawin exception", e)
             return@withContext StatusKawinResult.Error(e.message ?: "Unknown error occurred")
+        }
+    }
+
+    override suspend fun getPendidikan(): PendidikanResult = withContext(Dispatchers.IO) {
+        try {
+            val response = referensiApi.getPendidikan()
+
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Log.d("ReferensiRepository", "Fetched Pendidikan")
+                    return@withContext PendidikanResult.Success(it)
+                } ?: run {
+                    Log.e("ReferensiRepository", "Pendidikan response body is null")
+                    return@withContext PendidikanResult.Error("Unknown error occurred")
+                }
+            } else {
+                val errorBody = response.errorBody()?.string()
+                val errorResponse = try {
+                    Gson().fromJson(errorBody, ErrorResponse::class.java)
+                } catch (e: Exception) {
+                    null
+                }
+
+                val errorMessage = errorResponse?.message ?: "Failed to fetch Pendidikan"
+                Log.e("ReferensiRepository", "Pendidikan failed: $errorMessage")
+                return@withContext PendidikanResult.Error(errorMessage)
+            }
+        } catch (e: Exception) {
+            Log.e("ReferensiRepository", "Pendidikan exception", e)
+            return@withContext PendidikanResult.Error(e.message ?: "Unknown error occurred")
         }
     }
 }

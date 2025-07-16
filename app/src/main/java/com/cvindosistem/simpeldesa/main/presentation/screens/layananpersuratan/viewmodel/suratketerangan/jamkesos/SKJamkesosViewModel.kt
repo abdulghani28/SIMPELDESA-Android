@@ -4,9 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cvindosistem.simpeldesa.auth.domain.usecases.GetUserInfoUseCase
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.AgamaResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.PendidikanResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.StatusKawinResponse
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratJamkesosUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetAgamaUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.GetPendidikanUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetStatusKawinUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,13 +20,14 @@ class SKJamkesosViewModel(
     createSKJamkesosUseCase: CreateSuratJamkesosUseCase,
     getUserInfoUseCase: GetUserInfoUseCase,
     getAgamaUseCase: GetAgamaUseCase,
-    getStatusKawinUseCase: GetStatusKawinUseCase
+    getStatusKawinUseCase: GetStatusKawinUseCase,
+    getPendidikanUseCase: GetPendidikanUseCase
 ) : ViewModel() {
 
     // Composition of components
     private val stateManager = SKJamkesosStateManager()
     private val validator = SKJamkesosValidator(stateManager)
-    private val dataLoader = SKJamkesosDataLoader(getUserInfoUseCase, getAgamaUseCase, getStatusKawinUseCase, stateManager, validator)
+    private val dataLoader = SKJamkesosDataLoader(getUserInfoUseCase, getAgamaUseCase, getStatusKawinUseCase, getPendidikanUseCase, stateManager, validator)
     private val formSubmitter = SKJamkesosFormSubmitter(createSKJamkesosUseCase, stateManager)
 
     // Events
@@ -41,6 +44,9 @@ class SKJamkesosViewModel(
     val statusKawinList: List<StatusKawinResponse.Data> get() = stateManager.statusKawinList
     val isLoadingStatusKawin: Boolean get() = stateManager.isLoadingStatusKawin
     val statusKawinErrorMessage: String? get() = stateManager.statusKawinErrorMessage
+    val pendidikanList: List<PendidikanResponse.Data> get() = stateManager.pendidikanList
+    val isLoadingPendidikan: Boolean get() = stateManager.isLoadingPendidikan
+    val pendidikanErrorMessage: String? get() = stateManager.pendidikanErrorMessage
     val isLoading: Boolean get() = stateManager.isLoading
     val errorMessage: String? get() = stateManager.errorMessage
     val currentStep: Int get() = stateManager.currentStep
@@ -237,6 +243,14 @@ class SKJamkesosViewModel(
         }
     }
 
+    fun loadPendidikanData() {
+        viewModelScope.launch {
+            dataLoader.loadPendidikanData()
+                .onSuccess { _skJamkesosEvent.emit(SKJamkesosEvent.PendidikanDataLoaded(it)) }
+                .onFailure { _skJamkesosEvent.emit(SKJamkesosEvent.PendidikanDataLoadError(it.message ?: "Error")) }
+        }
+    }
+
     // Validation functions - delegate to validator
     fun getFieldError(fieldName: String): String? = validator.getFieldError(fieldName)
     fun hasFieldError(fieldName: String): Boolean = validator.hasFieldError(fieldName)
@@ -278,5 +292,7 @@ class SKJamkesosViewModel(
         data class AgamaDataLoadError(val message: String) : SKJamkesosEvent()
         data class StatusKawinDataLoaded(val data: StatusKawinResponse) : SKJamkesosEvent()
         data class StatusKawinDataLoadError(val message: String) : SKJamkesosEvent()
+        data class PendidikanDataLoaded(val data: PendidikanResponse) : SKJamkesosEvent()
+        data class PendidikanDataLoadError(val message: String) : SKJamkesosEvent()
     }
 }

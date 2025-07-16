@@ -3,16 +3,20 @@ package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.
 import com.cvindosistem.simpeldesa.auth.domain.model.UserInfoResult
 import com.cvindosistem.simpeldesa.auth.domain.usecases.GetUserInfoUseCase
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.AgamaResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.PendidikanResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.StatusKawinResponse
 import com.cvindosistem.simpeldesa.main.domain.model.AgamaResult
+import com.cvindosistem.simpeldesa.main.domain.model.PendidikanResult
 import com.cvindosistem.simpeldesa.main.domain.model.StatusKawinResult
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetAgamaUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.GetPendidikanUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetStatusKawinUseCase
 
 class SKJamkesosDataLoader(
     private val getUserInfoUseCase: GetUserInfoUseCase,
     private val getAgamaUseCase: GetAgamaUseCase,
     private val getStatusKawinUseCase: GetStatusKawinUseCase,
+    private val getPendidikanUseCase: GetPendidikanUseCase,
     private val stateManager: SKJamkesosStateManager,
     private val validator: SKJamkesosValidator
 ) {
@@ -83,6 +87,27 @@ class SKJamkesosDataLoader(
             Result.failure(Exception(errorMsg))
         } finally {
             stateManager.updateStatusKawinLoading(false)
+        }
+    }
+
+    suspend fun loadPendidikanData(): Result<PendidikanResponse> {
+        return try {
+            stateManager.updatePendidikanLoading(true)
+            when (val result = getPendidikanUseCase()) {
+                is PendidikanResult.Success -> {
+                    Result.success(result.data)
+                }
+                is PendidikanResult.Error -> {
+                    stateManager.updateErrorMessage(result.message)
+                    Result.failure(Exception(result.message))
+                }
+            }
+        } catch (e: Exception) {
+            val errorMsg = e.message ?: "Gagal memuat data status kawin"
+            stateManager.updateErrorMessage(errorMsg)
+            Result.failure(Exception(errorMsg))
+        } finally {
+            stateManager.updatePendidikanLoading(false)
         }
     }
 }

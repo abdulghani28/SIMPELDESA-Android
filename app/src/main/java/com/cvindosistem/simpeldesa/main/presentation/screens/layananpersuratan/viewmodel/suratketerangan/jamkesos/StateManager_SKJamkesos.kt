@@ -7,6 +7,7 @@ import androidx.compose.runtime.setValue
 import com.cvindosistem.simpeldesa.auth.data.remote.dto.user.response.UserInfoResponse
 import com.cvindosistem.simpeldesa.core.helpers.dateFormatterToApiFormat
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.AgamaResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.PendidikanResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.StatusKawinResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKJamkesosRequest
 
@@ -64,6 +65,8 @@ class SKJamkesosStateManager {
         private set
     var isLoadingStatusKawin by mutableStateOf(false)
         private set
+    var isLoadingPendidikan by mutableStateOf(false)
+        private set
 
     // Error States
     var errorMessage by mutableStateOf<String?>(null)
@@ -72,11 +75,15 @@ class SKJamkesosStateManager {
         private set
     var statusKawinErrorMessage by mutableStateOf<String?>(null)
         private set
+    var pendidikanErrorMessage by mutableStateOf<String?>(null)
+        private set
 
     // Agama Data
     var agamaList by mutableStateOf<List<AgamaResponse.Data>>(emptyList())
         private set
     var statusKawinList by mutableStateOf<List<StatusKawinResponse.Data>>(emptyList())
+        private set
+    var pendidikanList by mutableStateOf<List<PendidikanResponse.Data>>(emptyList())
         private set
 
     // Step 1 Update Functions (Personal Data)
@@ -118,6 +125,7 @@ class SKJamkesosStateManager {
     fun updateUserDataLoading(loading: Boolean) { isLoadingUserData = loading }
     fun updateAgamaLoading(loading: Boolean) { isLoadingAgama = loading }
     fun updateStatusKawinLoading(loading: Boolean) { isLoadingStatusKawin = loading }
+    fun updatePendidikanLoading(loading: Boolean) { isLoadingPendidikan = loading }
 
     // Error Handling
     fun updateErrorMessage(message: String?) { errorMessage = message }
