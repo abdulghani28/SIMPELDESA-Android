@@ -2,11 +2,15 @@ package com.cvindosistem.simpeldesa.main.data.remote.api
 
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKIzinTidakMasukKerjaRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKBedaIdentitasRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKBelumMemilikiPBBRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKBerpergianRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKDomisiliPerusahaanRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKDomisiliRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKGhaibRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKJamkesosRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKJandaDudaRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKJualBeliRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKKTPDalamProsesRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKKelahiranRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKKematianRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKPenghasilanRequest
@@ -42,6 +46,10 @@ import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratpeng
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratrekomendasi.SRKeramaianResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratlainnya.SuratKuasaResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.SuratListResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKBelumMemilikiPBBResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKJamkesosResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKJualBeliResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKKTPDalamProsesResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKTidakMampuResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratlainnya.SuratTugasResponse
 import retrofit2.Response
@@ -52,6 +60,8 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface SuratApi {
+
+    // GET Requests
     @GET("/warga-desa/surat")
     suspend fun getSuratList(
         @Query("page") page: Int? = null,
@@ -66,20 +76,21 @@ interface SuratApi {
     @GET("/warga-desa/surat/{id}")
     suspend fun getSuratDetail(@Path("id") id: String): Response<SuratDetailResponse>
 
-    @POST("/warga-desa/surat/beda-identitas")
-    suspend fun createSuratBedaIdentitas(
-        @Body request: SKBedaIdentitasRequest
-    ): Response<SKBedaIdentitasResponse>
-
+    // POST Requests
     @POST("/warga-desa/surat/bepergian")
     suspend fun createSuratBepergian(
         @Body request: SKBerpergianRequest
     ): Response<SKBerpergianResponse>
 
-    @POST("/warga-desa/surat/ghaib")
-    suspend fun createSuratGhaib(
-        @Body request: SKGhaibRequest
-    ): Response<SKGhaibResponse>
+    @POST("/warga-desa/surat/beda-identitas")
+    suspend fun createSuratBedaIdentitas(
+        @Body request: SKBedaIdentitasRequest
+    ): Response<SKBedaIdentitasResponse>
+
+    @POST("/warga-desa/surat/belum-memiliki-pbb")
+    suspend fun createSuratBelumMemilikiPBB(
+        @Body request: SKBelumMemilikiPBBRequest
+    ): Response<SKBelumMemilikiPBBResponse>
 
     @POST("/warga-desa/surat/domisili")
     suspend fun createSuratDomisili(
@@ -91,15 +102,30 @@ interface SuratApi {
         @Body request: SKDomisiliPerusahaanRequest
     ): Response<SKDomisiliPerusahaanResponse>
 
+    @POST("/warga-desa/surat/ghaib")
+    suspend fun createSuratGhaib(
+        @Body request: SKGhaibRequest
+    ): Response<SKGhaibResponse>
+
     @POST("/warga-desa/surat/izin-tidak-kerja")
     suspend fun createSuratIzinTidakKerja(
         @Body request: SKIzinTidakMasukKerjaRequest
     ): Response<SKIzinTidakMasukKerjaResponse>
 
+    @POST("/warga-desa/surat/jamkesos")
+    suspend fun createSuratJamkesos(
+        @Body request: SKJamkesosRequest
+    ): Response<SKJamkesosResponse>
+
     @POST("/warga-desa/surat/janda-duda")
     suspend fun createSuratJandaDuda(
         @Body request: SKJandaDudaRequest
     ): Response<SKJandaDudaResponse>
+
+    @POST("/warga-desa/surat/jual-beli")
+    suspend fun createSuratJualBeli(
+        @Body request: SKJualBeliRequest
+    ): Response<SKJualBeliResponse>
 
     @POST("/warga-desa/surat/kehilangan")
     suspend fun createSuratKehilangan(
@@ -120,6 +146,11 @@ interface SuratApi {
     suspend fun createSuratKeramaian(
         @Body request: SRKeramaianRequest
     ): Response<SRKeramaianResponse>
+
+    @POST("/warga-desa/surat/ktp-dalam-proses")
+    suspend fun createSuratKTPDalamProse(
+        @Body request: SKKTPDalamProsesRequest
+    ): Response<SKKTPDalamProsesResponse>
 
     @POST("/warga-desa/surat/kuasa")
     suspend fun createSuratKuasa(
@@ -161,13 +192,13 @@ interface SuratApi {
         @Body request: SKTidakMampuRequest
     ): Response<SKTidakMampuResponse>
 
-    @POST("/warga-desa/surat/usaha")
-    suspend fun createSuratUsaha(
-        @Body request: SKUsahaRequest
-    ): Response<SKUsahaResponse>
-
     @POST("/warga-desa/surat/tugas")
     suspend fun createSuratTugas(
         @Body request: SuratTugasRequest
     ): Response<SuratTugasResponse>
+
+    @POST("/warga-desa/surat/usaha")
+    suspend fun createSuratUsaha(
+        @Body request: SKUsahaRequest
+    ): Response<SKUsahaResponse>
 }

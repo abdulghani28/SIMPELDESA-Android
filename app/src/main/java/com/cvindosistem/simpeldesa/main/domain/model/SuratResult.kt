@@ -8,7 +8,11 @@ import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratkete
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKIzinTidakMasukKerjaResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKJandaDudaResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.SuratListResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKBelumMemilikiPBBResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKGhaibResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKJamkesosResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKJualBeliResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKKTPDalamProsesResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKKelahiranResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKKematianResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKPenghasilanResponse
@@ -142,4 +146,24 @@ sealed class SuratTugasResult {
 sealed class SuratIzinTidakKerjaResult {
     data class Success(val data: SKIzinTidakMasukKerjaResponse) : SuratIzinTidakKerjaResult()
     data class Error(val message: String) : SuratIzinTidakKerjaResult()
+}
+
+sealed class SuratBelumMemilikiPBBResult {
+    data class Success(val data: SKBelumMemilikiPBBResponse) : SuratBelumMemilikiPBBResult()
+    data class Error(val message: String) : SuratBelumMemilikiPBBResult()
+}
+
+sealed class SuratJamkesosResult {
+    data class Success(val data: SKJamkesosResponse) : SuratJamkesosResult()
+    data class Error(val message: String) : SuratJamkesosResult()
+}
+
+sealed class SuratJualBeliResult {
+    data class Success(val data: SKJualBeliResponse) : SuratJualBeliResult()
+    data class Error(val message: String) : SuratJualBeliResult()
+}
+
+sealed class SuratKTPDalamProsesResult {
+    data class Success(val data: SKKTPDalamProsesResponse) : SuratKTPDalamProsesResult()
+    data class Error(val message: String) : SuratKTPDalamProsesResult()
 }

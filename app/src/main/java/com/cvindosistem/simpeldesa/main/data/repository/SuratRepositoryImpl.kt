@@ -5,11 +5,15 @@ import com.cvindosistem.simpeldesa.auth.data.remote.dto.auth.login.ErrorResponse
 import com.cvindosistem.simpeldesa.main.data.remote.api.SuratApi
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKIzinTidakMasukKerjaRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKBedaIdentitasRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKBelumMemilikiPBBRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKBerpergianRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKDomisiliPerusahaanRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKDomisiliRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKGhaibRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKJamkesosRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKJandaDudaRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKJualBeliRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKKTPDalamProsesRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKKelahiranRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKKematianRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKPenghasilanRequest
@@ -25,13 +29,17 @@ import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratpenga
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratpengantar.SPPindahDomisiliRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratrekomendasi.SRKeramaianRequest
 import com.cvindosistem.simpeldesa.main.domain.model.SuratBedaIdentitasResult
+import com.cvindosistem.simpeldesa.main.domain.model.SuratBelumMemilikiPBBResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratBerpergianResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratDetailResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratDomisiliPerusahaanResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratDomisiliResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratGhaibResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratIzinTidakKerjaResult
+import com.cvindosistem.simpeldesa.main.domain.model.SuratJamkesosResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratJandaDudaResult
+import com.cvindosistem.simpeldesa.main.domain.model.SuratJualBeliResult
+import com.cvindosistem.simpeldesa.main.domain.model.SuratKTPDalamProsesResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratKehilanganResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratKelahiranResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratKematianResult
@@ -152,6 +160,22 @@ interface SuratRepository {
     suspend fun createSuratIzinTidakKerja(
         request: SKIzinTidakMasukKerjaRequest
     ): SuratIzinTidakKerjaResult
+
+    suspend fun createSuratBelumMemilikiPBB(
+        request: SKBelumMemilikiPBBRequest
+    ): SuratBelumMemilikiPBBResult
+
+    suspend fun createSuratJamkesos(
+        request: SKJamkesosRequest
+    ): SuratJamkesosResult
+
+    suspend fun createSuratJualBeli(
+        request: SKJualBeliRequest
+    ): SuratJualBeliResult
+
+    suspend fun createSuratKTPDalamProse(
+        request: SKKTPDalamProsesRequest
+    ): SuratKTPDalamProsesResult
 }
 
 class SuratRepositoryImpl(
@@ -927,6 +951,134 @@ class SuratRepositoryImpl(
         } catch (e: Exception) {
             Log.e("SuratRepository", "Surat izin tidak kerja exception", e)
             return@withContext SuratIzinTidakKerjaResult.Error(e.message ?: "Unknown error occurred")
+        }
+    }
+
+    override suspend fun createSuratBelumMemilikiPBB(
+        request: SKBelumMemilikiPBBRequest
+    ): SuratBelumMemilikiPBBResult = withContext(Dispatchers.IO) {
+        try {
+            val response = suratApi.createSuratBelumMemilikiPBB(request)
+
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Log.d("SuratRepository", "Created surat belum memiliki PBB")
+                    return@withContext SuratBelumMemilikiPBBResult.Success(it)
+                } ?: run {
+                    Log.e("SuratRepository", "Surat belum memiliki PBB response body is null")
+                    return@withContext SuratBelumMemilikiPBBResult.Error("Unknown error occurred")
+                }
+            } else {
+                val errorBody = response.errorBody()?.string()
+                val errorResponse = try {
+                    Gson().fromJson(errorBody, ErrorResponse::class.java)
+                } catch (_: Exception) {
+                    null
+                }
+
+                val errorMessage = errorResponse?.message ?: "Failed to create surat belum memiliki PBB"
+                Log.e("SuratRepository", "Surat belum memiliki PBB failed: $errorMessage")
+                return@withContext SuratBelumMemilikiPBBResult.Error(errorMessage)
+            }
+        } catch (e: Exception) {
+            Log.e("SuratRepository", "Surat belum memiliki PBB exception", e)
+            return@withContext SuratBelumMemilikiPBBResult.Error(e.message ?: "Unknown error occurred")
+        }
+    }
+
+    override suspend fun createSuratJamkesos(
+        request: SKJamkesosRequest
+    ): SuratJamkesosResult = withContext(Dispatchers.IO) {
+        try {
+            val response = suratApi.createSuratJamkesos(request)
+
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Log.d("SuratRepository", "Created surat jamkesos")
+                    return@withContext SuratJamkesosResult.Success(it)
+                } ?: run {
+                    Log.e("SuratRepository", "Surat jamkesos response body is null")
+                    return@withContext SuratJamkesosResult.Error("Unknown error occurred")
+                }
+            } else {
+                val errorBody = response.errorBody()?.string()
+                val errorResponse = try {
+                    Gson().fromJson(errorBody, ErrorResponse::class.java)
+                } catch (_: Exception) {
+                    null
+                }
+
+                val errorMessage = errorResponse?.message ?: "Failed to create surat jamkesos"
+                Log.e("SuratRepository", "Surat jamkesos failed: $errorMessage")
+                return@withContext SuratJamkesosResult.Error(errorMessage)
+            }
+        } catch (e: Exception) {
+            Log.e("SuratRepository", "Surat jamkesos exception", e)
+            return@withContext SuratJamkesosResult.Error(e.message ?: "Unknown error occurred")
+        }
+    }
+
+    override suspend fun createSuratJualBeli(
+        request: SKJualBeliRequest
+    ): SuratJualBeliResult = withContext(Dispatchers.IO) {
+        try {
+            val response = suratApi.createSuratJualBeli(request)
+
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Log.d("SuratRepository", "Created surat jual beli")
+                    return@withContext SuratJualBeliResult.Success(it)
+                } ?: run {
+                    Log.e("SuratRepository", "Surat jual beli response body is null")
+                    return@withContext SuratJualBeliResult.Error("Unknown error occurred")
+                }
+            } else {
+                val errorBody = response.errorBody()?.string()
+                val errorResponse = try {
+                    Gson().fromJson(errorBody, ErrorResponse::class.java)
+                } catch (_: Exception) {
+                    null
+                }
+
+                val errorMessage = errorResponse?.message ?: "Failed to create surat jual beli"
+                Log.e("SuratRepository", "Surat jual beli failed: $errorMessage")
+                return@withContext SuratJualBeliResult.Error(errorMessage)
+            }
+        } catch (e: Exception) {
+            Log.e("SuratRepository", "Surat jual beli exception", e)
+            return@withContext SuratJualBeliResult.Error(e.message ?: "Unknown error occurred")
+        }
+    }
+
+    override suspend fun createSuratKTPDalamProse(
+        request: SKKTPDalamProsesRequest
+    ): SuratKTPDalamProsesResult = withContext(Dispatchers.IO) {
+        try {
+            val response = suratApi.createSuratKTPDalamProse(request)
+
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Log.d("SuratRepository", "Created surat KTP dalam proses")
+                    return@withContext SuratKTPDalamProsesResult.Success(it)
+                } ?: run {
+                    Log.e("SuratRepository", "Surat KTP dalam proses response body is null")
+                    return@withContext SuratKTPDalamProsesResult.Error("Unknown error occurred")
+                }
+            } else {
+                val errorBody = response.errorBody()?.string()
+                val errorResponse = try {
+                    Gson().fromJson(errorBody, ErrorResponse::class.java)
+                } catch (_: Exception) {
+                    null
+                }
+
+                val errorMessage = errorResponse?.message ?: "Failed to create surat KTP dalam proses"
+                Log.e("SuratRepository", "Surat KTP dalam proses failed: $errorMessage")
+                return@withContext SuratKTPDalamProsesResult.Error(errorMessage)
+            }
+        } catch (e: Exception) {
+            Log.e("SuratRepository", "Surat KTP dalam proses exception", e)
+            return@withContext SuratKTPDalamProsesResult.Error(e.message ?: "Unknown error occurred")
         }
     }
 }
