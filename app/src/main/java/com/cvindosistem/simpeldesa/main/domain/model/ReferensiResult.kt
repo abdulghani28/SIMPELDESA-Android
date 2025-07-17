@@ -3,6 +3,7 @@ package com.cvindosistem.simpeldesa.main.domain.model
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.AgamaResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.BidangUsahaResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.DisahkanOlehResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.HubunganResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.JenisUsahaResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.PendidikanResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.PerbedaanIdentitasResponse
@@ -47,4 +48,9 @@ sealed class StatusKawinResult {
 sealed class PendidikanResult {
     data class Success(val data: PendidikanResponse) : PendidikanResult()
     data class Error(val message: String) : PendidikanResult()
+}
+
+sealed class HubunganResult {
+    data class Success(val data: HubunganResponse) : HubunganResult()
+    data class Error(val message: String) : HubunganResult()
 }

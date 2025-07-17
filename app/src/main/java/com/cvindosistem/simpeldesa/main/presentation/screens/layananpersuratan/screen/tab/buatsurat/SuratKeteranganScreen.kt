@@ -300,6 +300,38 @@ private fun getSuratKeteranganList(): List<SuratKeteranganItem> {
             emoji = "\u2695\uFE0F", // ⚕️
             iconBackgroundColor = Color(0xFFF8F0FF),
             rute = Screen.SKJamkesos.route
+        ),
+        SuratKeteranganItem(
+            id = "lahirmati",
+            title = "Surat Lahir Mati",
+            description = "Pernyataan anak yang dilahirkan dalam keadaan tidak bernyawa.",
+            emoji = "\uD83D\uDC76", // 👶
+            iconBackgroundColor = Color(0xFFFFF0F0),
+            rute = Screen.SKLahirMati.route
+        ),
+        SuratKeteranganItem(
+            id = "pergikawin",
+            title = "Surat Pergi Kawin",
+            description = "Digunakan sebagai bukti pindah domisili untuk menikah.",
+            emoji = "\uD83D\uDC8D", // 💍
+            iconBackgroundColor = Color(0xFFEFFBF1),
+            rute = Screen.SKPergiKawin.route
+        ),
+        SuratKeteranganItem(
+            id = "kepemilikankendaraan",
+            title = "Surat Kepemilikan Kendaraan",
+            description = "Menyatakan kepemilikan kendaraan secara sah dan tertulis.",
+            emoji = "\uD83D\uDE97", // 🚗
+            iconBackgroundColor = Color(0xFFE8F4FF),
+            rute = Screen.SKKepemilikanKendaraan.route
+        ),
+        SuratKeteranganItem(
+            id = "walihakim",
+            title = "Surat Wali Hakim",
+            description = "Surat keterangan penunjukan wali bagi calon pengantin yang tidak memiliki wali nasab.",
+            emoji = "\uD83D\uDC75", // 👵 atau 🧓
+            iconBackgroundColor = Color(0xFFFFF4E5),
+            rute = Screen.SKWaliHakim.route
         )
     )
 }

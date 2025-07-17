@@ -6,6 +6,7 @@ import com.cvindosistem.simpeldesa.main.data.remote.api.ReferensiApi
 import com.cvindosistem.simpeldesa.main.domain.model.AgamaResult
 import com.cvindosistem.simpeldesa.main.domain.model.BidangUsahaResult
 import com.cvindosistem.simpeldesa.main.domain.model.DisahkanOlehResult
+import com.cvindosistem.simpeldesa.main.domain.model.HubunganResult
 import com.cvindosistem.simpeldesa.main.domain.model.JenisUsahaResult
 import com.cvindosistem.simpeldesa.main.domain.model.PendidikanResult
 import com.cvindosistem.simpeldesa.main.domain.model.PerbedaanIdentitasResult
@@ -70,6 +71,12 @@ interface ReferensiRepository {
      * @return [PendidikanResult] berisi data atau pesan kesalahan.
      */
     suspend fun getPendidikan(): PendidikanResult
+
+    /**
+     * Mengambil daftar referensi status perkawinan.
+     * @return [HubunganResult] berisi data atau pesan kesalahan.
+     */
+    suspend fun getHubungan(): HubunganResult
 }
 
 class ReferensiRepositoryImpl(
@@ -313,6 +320,36 @@ class ReferensiRepositoryImpl(
         } catch (e: Exception) {
             Log.e("ReferensiRepository", "Pendidikan exception", e)
             return@withContext PendidikanResult.Error(e.message ?: "Unknown error occurred")
+        }
+    }
+
+    override suspend fun getHubungan(): HubunganResult = withContext(Dispatchers.IO) {
+        try {
+            val response = referensiApi.getHubungan()
+
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Log.d("ReferensiRepository", "Fetched Hubungan")
+                    return@withContext HubunganResult.Success(it)
+                } ?: run {
+                    Log.e("ReferensiRepository", "Hubungan response body is null")
+                    return@withContext HubunganResult.Error("Unknown error occurred")
+                }
+            } else {
+                val errorBody = response.errorBody()?.string()
+                val errorResponse = try {
+                    Gson().fromJson(errorBody, ErrorResponse::class.java)
+                } catch (e: Exception) {
+                    null
+                }
+
+                val errorMessage = errorResponse?.message ?: "Failed to fetch Hubungan"
+                Log.e("ReferensiRepository", "Hubungan failed: $errorMessage")
+                return@withContext HubunganResult.Error(errorMessage)
+            }
+        } catch (e: Exception) {
+            Log.e("ReferensiRepository", "Hubungan exception", e)
+            return@withContext HubunganResult.Error(e.message ?: "Unknown error occurred")
         }
     }
 }

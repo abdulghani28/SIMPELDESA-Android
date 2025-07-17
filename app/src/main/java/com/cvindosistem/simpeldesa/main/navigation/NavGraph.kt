@@ -46,10 +46,14 @@ import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.s
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skjualbeli.SKJualBeliScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skkelahiran.SKKelahiranScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skkematian.SKKematianScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skkepemilikankendaraan.SKKepemilikanKendaraanScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skktpdalamproses.SKKTPDalamProsesScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.sklahirmati.SKLahirMatiScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skpenghasilan.SKPenghasilanScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skpergikawin.SKPergiKawinScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.sktidakmasukkerja.SKTidakMasukKerjaScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skusaha.SKUsahaScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skwalihakim.SKWaliHakimScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratlainnya.suratkuasa.SuratKuasaScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratlainnya.surattugas.SuratTugasScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratpengantar.SPCatatanKepolisianScreen
@@ -72,13 +76,17 @@ import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.v
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.jualbeli.SKJualBeliViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.kelahiran.SKKelahiranViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.kematian.SKKematianViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.kepemilikankendaraan.SKKepemilikanKendaraanViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.ktpdalamproses.SKKTPDalamProsesViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.lahirmati.SKLahirMatiViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.penghasilan.SKPenghasilanViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.pergikawin.SKPergiKawinViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.resiktpsementara.SKResiKTPSementaraViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.statusperkawinan.SKStatusPerkawinanViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.tidakmampu.SKTidakMampuViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.tidakmasukkerja.SKTidakMasukKerjaViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.usaha.SKUsahaViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.walihakim.SKWaliHakimViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratlainnya.kuasa.SuratKuasaViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratlainnya.tugas.SuratTugasViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpengantar.kehilangan.SPKehilanganViewModel
@@ -366,6 +374,38 @@ fun NavGraph(
             val skJamkesosViewModel: SKJamkesosViewModel = koinViewModel()
             SKJamkesosScreen(
                 skJamkesosViewModel = skJamkesosViewModel,
+                navController = navController
+            )
+        }
+
+        composable(Screen.SKLahirMati.route) {
+            val skLahirMatiViewModel: SKLahirMatiViewModel = koinViewModel()
+            SKLahirMatiScreen(
+                skLahirMatiViewModel = skLahirMatiViewModel,
+                navController = navController
+            )
+        }
+
+        composable(Screen.SKJamkesos.route) {
+            val skPergiKawinViewModel: SKPergiKawinViewModel = koinViewModel()
+            SKPergiKawinScreen(
+                skPergiKawinViewModel = skPergiKawinViewModel,
+                navController = navController
+            )
+        }
+
+        composable(Screen.SKWaliHakim.route) {
+            val skWaliHakimViewModel: SKWaliHakimViewModel = koinViewModel()
+            SKWaliHakimScreen(
+                skWaliHakimViewModel = skWaliHakimViewModel,
+                navController = navController
+            )
+        }
+
+        composable(Screen.SKKepemilikanKendaraan.route) {
+            val skKepemilikanKendaraanViewModel: SKKepemilikanKendaraanViewModel = koinViewModel()
+            SKKepemilikanKendaraanScreen(
+                skKepemilikanKendaraanViewModel = skKepemilikanKendaraanViewModel,
                 navController = navController
             )
         }

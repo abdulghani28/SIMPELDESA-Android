@@ -3,6 +3,7 @@ package com.cvindosistem.simpeldesa.main.data.remote.api
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.AgamaResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.BidangUsahaResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.DisahkanOlehResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.HubunganResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.JenisUsahaResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.PendidikanResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.PerbedaanIdentitasResponse
@@ -35,4 +36,7 @@ interface ReferensiApi {
 
     @GET("/warga-desa/ref/pendidikan")
     suspend fun getPendidikan(): Response<PendidikanResponse>
+
+    @GET("/warga-desa/ref/Hubungan")
+    suspend fun getHubungan(): Response<HubunganResponse>
 }

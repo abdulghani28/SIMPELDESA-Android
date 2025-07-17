@@ -16,11 +16,15 @@ import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketer
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKKTPDalamProsesRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKKelahiranRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKKematianRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKKepemilikanKendaraanRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKLahirMatiRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKPenghasilanRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKPergiKawinRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKResiKTPSementaraRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKStatusPerkawinanRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKTidakMampuRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKUsahaRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKWaliHakimRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratlainnya.SuratKuasaRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratlainnya.SuratTugasRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratpengantar.SPCatatanKepolisianRequest
@@ -43,10 +47,13 @@ import com.cvindosistem.simpeldesa.main.domain.model.SuratKTPDalamProsesResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratKehilanganResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratKelahiranResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratKematianResult
+import com.cvindosistem.simpeldesa.main.domain.model.SuratKepemilikanKendaraanResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratKeramaianResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratKuasaResult
+import com.cvindosistem.simpeldesa.main.domain.model.SuratLahirMatiResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratListResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratPenghasilanResult
+import com.cvindosistem.simpeldesa.main.domain.model.SuratPergiKawinResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratPernikahanResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratPindahDomisiliResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratResiKTPSementaraResult
@@ -56,6 +63,7 @@ import com.cvindosistem.simpeldesa.main.domain.model.SuratTidakMampuResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratTidakMasukKerjaResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratTugasResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratUsahaResult
+import com.cvindosistem.simpeldesa.main.domain.model.SuratWaliHakimResult
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -173,9 +181,25 @@ interface SuratRepository {
         request: SKJualBeliRequest
     ): SuratJualBeliResult
 
-    suspend fun createSuratKTPDalamProse(
+    suspend fun createSuratKTPDalamProses(
         request: SKKTPDalamProsesRequest
     ): SuratKTPDalamProsesResult
+
+    suspend fun createSuratLahirMati(
+        request: SKLahirMatiRequest
+    ): SuratLahirMatiResult
+
+    suspend fun createSuratPergiKawin(
+        request: SKPergiKawinRequest
+    ): SuratPergiKawinResult
+
+    suspend fun createSuratWaliHakim(
+        request: SKWaliHakimRequest
+    ): SuratWaliHakimResult
+
+    suspend fun createSuratKepemilikanKendaraan(
+        request: SKKepemilikanKendaraanRequest
+    ): SuratKepemilikanKendaraanResult
 }
 
 class SuratRepositoryImpl(
@@ -1050,11 +1074,11 @@ class SuratRepositoryImpl(
         }
     }
 
-    override suspend fun createSuratKTPDalamProse(
+    override suspend fun createSuratKTPDalamProses(
         request: SKKTPDalamProsesRequest
     ): SuratKTPDalamProsesResult = withContext(Dispatchers.IO) {
         try {
-            val response = suratApi.createSuratKTPDalamProse(request)
+            val response = suratApi.createSuratKTPDalamProses(request)
 
             if (response.isSuccessful) {
                 response.body()?.let {
@@ -1079,6 +1103,134 @@ class SuratRepositoryImpl(
         } catch (e: Exception) {
             Log.e("SuratRepository", "Surat KTP dalam proses exception", e)
             return@withContext SuratKTPDalamProsesResult.Error(e.message ?: "Unknown error occurred")
+        }
+    }
+
+    override suspend fun createSuratLahirMati(
+        request: SKLahirMatiRequest
+    ): SuratLahirMatiResult = withContext(Dispatchers.IO) {
+        try {
+            val response = suratApi.createSuratLahirMati(request)
+
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Log.d("SuratRepository", "Created surat LAHIR mati")
+                    return@withContext SuratLahirMatiResult.Success(it)
+                } ?: run {
+                    Log.e("SuratRepository", "Surat LAHIR mati response body is null")
+                    return@withContext SuratLahirMatiResult.Error("Unknown error occurred")
+                }
+            } else {
+                val errorBody = response.errorBody()?.string()
+                val errorResponse = try {
+                    Gson().fromJson(errorBody, ErrorResponse::class.java)
+                } catch (_: Exception) {
+                    null
+                }
+
+                val errorMessage = errorResponse?.message ?: "Failed to create surat LAHIR mati"
+                Log.e("SuratRepository", "Surat LAHIR mati failed: $errorMessage")
+                return@withContext SuratLahirMatiResult.Error(errorMessage)
+            }
+        } catch (e: Exception) {
+            Log.e("SuratRepository", "Surat LAHIR mati exception", e)
+            return@withContext SuratLahirMatiResult.Error(e.message ?: "Unknown error occurred")
+        }
+    }
+
+    override suspend fun createSuratPergiKawin(
+        request: SKPergiKawinRequest
+    ): SuratPergiKawinResult = withContext(Dispatchers.IO) {
+        try {
+            val response = suratApi.createSuratPergiKawin(request)
+
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Log.d("SuratRepository", "Created surat Pergi Kawin")
+                    return@withContext SuratPergiKawinResult.Success(it)
+                } ?: run {
+                    Log.e("SuratRepository", "Surat Pergi Kawin response body is null")
+                    return@withContext SuratPergiKawinResult.Error("Unknown error occurred")
+                }
+            } else {
+                val errorBody = response.errorBody()?.string()
+                val errorResponse = try {
+                    Gson().fromJson(errorBody, ErrorResponse::class.java)
+                } catch (_: Exception) {
+                    null
+                }
+
+                val errorMessage = errorResponse?.message ?: "Failed to create surat Pergi Kawin"
+                Log.e("SuratRepository", "Surat Pergi Kawin failed: $errorMessage")
+                return@withContext SuratPergiKawinResult.Error(errorMessage)
+            }
+        } catch (e: Exception) {
+            Log.e("SuratRepository", "Surat Pergi Kawin exception", e)
+            return@withContext SuratPergiKawinResult.Error(e.message ?: "Unknown error occurred")
+        }
+    }
+
+    override suspend fun createSuratWaliHakim(
+        request: SKWaliHakimRequest
+    ): SuratWaliHakimResult = withContext(Dispatchers.IO) {
+        try {
+            val response = suratApi.createSuratWaliHakim(request)
+
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Log.d("SuratRepository", "Created surat Wali Hakim")
+                    return@withContext SuratWaliHakimResult.Success(it)
+                } ?: run {
+                    Log.e("SuratRepository", "Surat Wali Hakim response body is null")
+                    return@withContext SuratWaliHakimResult.Error("Unknown error occurred")
+                }
+            } else {
+                val errorBody = response.errorBody()?.string()
+                val errorResponse = try {
+                    Gson().fromJson(errorBody, ErrorResponse::class.java)
+                } catch (_: Exception) {
+                    null
+                }
+
+                val errorMessage = errorResponse?.message ?: "Failed to create surat Wali Hakim"
+                Log.e("SuratRepository", "Surat Wali Hakim failed: $errorMessage")
+                return@withContext SuratWaliHakimResult.Error(errorMessage)
+            }
+        } catch (e: Exception) {
+            Log.e("SuratRepository", "Surat Wali Hakim exception", e)
+            return@withContext SuratWaliHakimResult.Error(e.message ?: "Unknown error occurred")
+        }
+    }
+
+    override suspend fun createSuratKepemilikanKendaraan(
+        request: SKKepemilikanKendaraanRequest
+    ): SuratKepemilikanKendaraanResult = withContext(Dispatchers.IO) {
+        try {
+            val response = suratApi.createSuratKepemilikanKendaraan(request)
+
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Log.d("SuratRepository", "Created surat Kepemilikan Kendaraan")
+                    return@withContext SuratKepemilikanKendaraanResult.Success(it)
+                } ?: run {
+                    Log.e("SuratRepository", "Surat Kepemilikan Kendaraan response body is null")
+                    return@withContext SuratKepemilikanKendaraanResult.Error("Unknown error occurred")
+                }
+            } else {
+                val errorBody = response.errorBody()?.string()
+                val errorResponse = try {
+                    Gson().fromJson(errorBody, ErrorResponse::class.java)
+                } catch (_: Exception) {
+                    null
+                }
+
+                val errorMessage = errorResponse?.message ?: "Failed to create surat Kepemilikan Kendaraan"
+                Log.e("SuratRepository", "Surat Kepemilikan Kendaraan failed: $errorMessage")
+                return@withContext SuratKepemilikanKendaraanResult.Error(errorMessage)
+            }
+        } catch (e: Exception) {
+            Log.e("SuratRepository", "Surat Kepemilikan Kendaraan exception", e)
+            return@withContext SuratKepemilikanKendaraanResult.Error(e.message ?: "Unknown error occurred")
         }
     }
 }

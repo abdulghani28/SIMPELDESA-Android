@@ -15,11 +15,15 @@ import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratkete
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKKTPDalamProsesResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKKelahiranResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKKematianResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKKepemilikanKendaraanResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKLahirMatiResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKPenghasilanResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKPergiKawinResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKResiKTPSementaraResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKStatusPerkawinanResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKTidakMampuResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKUsahaResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKWaliHakimResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratlainnya.SuratKuasaResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratlainnya.SuratTugasResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratpengantar.SPCatatanKepolisianResponse
@@ -166,4 +170,24 @@ sealed class SuratJualBeliResult {
 sealed class SuratKTPDalamProsesResult {
     data class Success(val data: SKKTPDalamProsesResponse) : SuratKTPDalamProsesResult()
     data class Error(val message: String) : SuratKTPDalamProsesResult()
+}
+
+sealed class SuratLahirMatiResult {
+    data class Success(val data: SKLahirMatiResponse) : SuratLahirMatiResult()
+    data class Error(val message: String) : SuratLahirMatiResult()
+}
+
+sealed class SuratPergiKawinResult {
+    data class Success(val data: SKPergiKawinResponse) : SuratPergiKawinResult()
+    data class Error(val message: String) : SuratPergiKawinResult()
+}
+
+sealed class SuratWaliHakimResult {
+    data class Success(val data: SKWaliHakimResponse) : SuratWaliHakimResult()
+    data class Error(val message: String) : SuratWaliHakimResult()
+}
+
+sealed class SuratKepemilikanKendaraanResult {
+    data class Success(val data: SKKepemilikanKendaraanResponse) : SuratKepemilikanKendaraanResult()
+    data class Error(val message: String) : SuratKepemilikanKendaraanResult()
 }
