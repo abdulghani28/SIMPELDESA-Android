@@ -1,22 +1,26 @@
 package com.cvindosistem.simpeldesa.main.domain.model
 
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.SuratDetailResponse
-import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKBedaIdentitasResponse
-import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKBerpergianResponse
-import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKDomisiliResponse
-import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKDomisiliPerusahaanResponse
-import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKIzinTidakMasukKerjaResponse
-import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKJandaDudaResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.SuratListResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKBedaIdentitasResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKBelumMemilikiPBBResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKBerpergianResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKBiodataWargaResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKDomisiliPerusahaanResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKDomisiliResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKGhaibResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKIzinOrangTuaResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKIzinTidakMasukKerjaResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKJamkesosResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKJandaDudaResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKJualBeliResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKKTPDalamProsesResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKKelahiranResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKKematianResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKKepemilikanKendaraanResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKKepemilikanTanahResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKLahirMatiResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKNikahNonMuslimResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKPenghasilanResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKPergiKawinResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKResiKTPSementaraResponse
@@ -28,8 +32,16 @@ import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratlain
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratlainnya.SuratTugasResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratpengantar.SPCatatanKepolisianResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratpengantar.SPKehilanganResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratpengantar.SPPermohonanPenerbitanBukuPasLintasBatasResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratpengantar.SPPernikahanResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratpengantar.SPPindahDomisiliResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratpermohonan.SPMAktaLahirResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratpermohonan.SPMBelumMemilikiAktaLahirResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratpermohonan.SPMDuplikatKelahiranResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratpermohonan.SPMDuplikatSuratNikahResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratpermohonan.SPMKartuKeluargaResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratpermohonan.SPMPerubahanKKResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratpernyataan.SPNPenguasaanFisikBidangTanahResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratrekomendasi.SRKeramaianResponse
 
 sealed class SuratListResult {
@@ -190,4 +202,74 @@ sealed class SuratWaliHakimResult {
 sealed class SuratKepemilikanKendaraanResult {
     data class Success(val data: SKKepemilikanKendaraanResponse) : SuratKepemilikanKendaraanResult()
     data class Error(val message: String) : SuratKepemilikanKendaraanResult()
+}
+
+sealed class SuratAktaLahirResult {
+    data class Success(val data: SPMAktaLahirResponse) : SuratAktaLahirResult()
+    data class Error(val message: String) : SuratAktaLahirResult()
+}
+
+sealed class SuratBelumMemilikiAktaLahirResult {
+    data class Success(val data: SPMBelumMemilikiAktaLahirResponse) : SuratBelumMemilikiAktaLahirResult()
+    data class Error(val message: String) : SuratBelumMemilikiAktaLahirResult()
+}
+
+sealed class SuratDuplikatKelahiranResult {
+    data class Success(val data: SPMDuplikatKelahiranResponse) : SuratDuplikatKelahiranResult()
+    data class Error(val message: String) : SuratDuplikatKelahiranResult()
+}
+
+sealed class SuratDuplikatSuratNikahResult {
+    data class Success(val data: SPMDuplikatSuratNikahResponse) : SuratDuplikatSuratNikahResult()
+    data class Error(val message: String) : SuratDuplikatSuratNikahResult()
+}
+
+sealed class SPMCeraiResult {
+    data class Success(val data: SPMCeraiResponse) : SPMCeraiResult()
+    data class Error(val message: String) : SPMCeraiResult()
+}
+
+sealed class SKPengantarCeraiRujukResult {
+    data class Success(val data: SKPengantarCeraiRujukResponse) : SKPengantarCeraiRujukResult()
+    data class Error(val message: String) : SKPengantarCeraiRujukResult()
+}
+
+sealed class SPMKartuKeluargaResult {
+    data class Success(val data: SPMKartuKeluargaResponse) : SPMKartuKeluargaResult()
+    data class Error(val message: String) : SPMKartuKeluargaResult()
+}
+
+sealed class SKIzinOrangTuaResult {
+    data class Success(val data: SKIzinOrangTuaResponse) : SKIzinOrangTuaResult()
+    data class Error(val message: String) : SKIzinOrangTuaResult()
+}
+
+sealed class SPNPenguasaanFisikBidangTanahResult {
+    data class Success(val data: SPNPenguasaanFisikBidangTanahResponse) : SPNPenguasaanFisikBidangTanahResult()
+    data class Error(val message: String) : SPNPenguasaanFisikBidangTanahResult()
+}
+
+sealed class SPMPerubahanKKResult {
+    data class Success(val data: SPMPerubahanKKResponse) : SPMPerubahanKKResult()
+    data class Error(val message: String) : SPMPerubahanKKResult()
+}
+
+sealed class SKKepemilikanTanahResult {
+    data class Success(val data: SKKepemilikanTanahResponse) : SKKepemilikanTanahResult()
+    data class Error(val message: String) : SKKepemilikanTanahResult()
+}
+
+sealed class SKBiodataWargaResult {
+    data class Success(val data: SKBiodataWargaResponse) : SKBiodataWargaResult()
+    data class Error(val message: String) : SKBiodataWargaResult()
+}
+
+sealed class SPPermohonanPenerbitanBukuPasLintasBatasResult {
+    data class Success(val data: SPPermohonanPenerbitanBukuPasLintasBatasResponse) : SPPermohonanPenerbitanBukuPasLintasBatasResult()
+    data class Error(val message: String) : SPPermohonanPenerbitanBukuPasLintasBatasResult()
+}
+
+sealed class SKNikahNonMuslimResult {
+    data class Success(val data: SKNikahNonMuslimResponse) : SKNikahNonMuslimResult()
+    data class Error(val message: String) : SKNikahNonMuslimResult()
 }

@@ -78,7 +78,7 @@ private fun SuratPengantarContent(
 
 @Composable
 private fun SuratPengantarItemCard(
-    suratItem: SuratPengantarItem,
+    suratItem: SuratItem,
     onItemClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -144,20 +144,10 @@ private fun SuratPengantarInfo(
     }
 }
 
-// Data class untuk item surat Pengantar
-data class SuratPengantarItem(
-    val id: String,
-    val title: String,
-    val description: String,
-    val emoji: String,
-    val iconBackgroundColor: Color,
-    val rute: String
-)
-
 // Function untuk mendapatkan data surat Pengantar
-private fun getSuratPengantarList(): List<SuratPengantarItem> {
+private fun getSuratPengantarList(): List<SuratItem> {
     return listOf(
-        SuratPengantarItem(
+        SuratItem(
             id = "kepolisian",
             title = "Surat Pengantar Catatan Kepolisian ",
             description = "Dibutuhkan untuk mengurus Surat Keterangan Catatan Kepolisian (SKCK).",
@@ -165,7 +155,7 @@ private fun getSuratPengantarList(): List<SuratPengantarItem> {
             iconBackgroundColor = Color(0xFFF0F4FF),
             rute = Screen.SPCatatanKepolisian.route
         ),
-        SuratPengantarItem(
+        SuratItem(
             id = "kehilangan",
             title = "Surat Pengantar Kehilangan",
             description = "Digunakan untuk melaporkan kehilangan barang atau dokumen.",
@@ -173,13 +163,21 @@ private fun getSuratPengantarList(): List<SuratPengantarItem> {
             iconBackgroundColor = Color(0xFFFFF4E6),
             rute = Screen.SPKehilangan.route
         ),
-        SuratPengantarItem(
+        SuratItem(
             id = "perkawinan",
             title = "Surat Pengantar Perkawinan",
             description = "Diperlukan untuk administrasi pernikahan (Pria atau Wanita).",
             emoji = "\uD83D\uDC8D",
             iconBackgroundColor = Color(0xFFF0FFF4),
             rute = Screen.SPPernikahan.route
+        ),
+        SuratItem(
+            id = "lintasbatas",
+            title = "Surat Pengantar Pas Lintas Batas",
+            description = "Dibutuhkan untuk pengurusan dokumen lintas batas wilayah negara.",
+            emoji = "\uD83C\uDDEF\uD83C\uDDF5", // 🇮🇩 sebagai simbol wilayah/border (opsional bisa diganti 🌐)
+            iconBackgroundColor = Color(0xFFE5F6FF),
+            rute = Screen.SPPermohonanPenerbitanBukuPasLintasBatas.route
         )
     )
 }

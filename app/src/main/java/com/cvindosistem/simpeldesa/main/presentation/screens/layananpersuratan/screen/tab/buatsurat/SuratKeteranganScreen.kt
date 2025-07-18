@@ -66,7 +66,7 @@ private fun SuratKeteranganContent(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(getSuratKeteranganList()) { suratItem ->
-            SuratKeteranganItemCard(
+            SuratItemCard(
                 suratItem = suratItem,
                 onItemClick = {
                     navController.navigate(suratItem.rute)
@@ -77,8 +77,8 @@ private fun SuratKeteranganContent(
 }
 
 @Composable
-private fun SuratKeteranganItemCard(
-    suratItem: SuratKeteranganItem,
+private fun SuratItemCard(
+    suratItem: SuratItem,
     onItemClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -144,20 +144,10 @@ private fun SuratKeteranganInfo(
     }
 }
 
-// Data class untuk item surat keterangan
-data class SuratKeteranganItem(
-    val id: String,
-    val title: String,
-    val description: String,
-    val emoji: String,
-    val iconBackgroundColor: Color,
-    val rute: String
-)
-
 // Function untuk mendapatkan data surat keterangan
-private fun getSuratKeteranganList(): List<SuratKeteranganItem> {
+private fun getSuratKeteranganList(): List<SuratItem> {
     return listOf(
-        SuratKeteranganItem(
+        SuratItem(
             id = "domisili",
             title = "Surat Keterangan Domisili",
             description = "Menyatakan tempat tinggal seseorang untuk keperluan administrasi.",
@@ -165,7 +155,7 @@ private fun getSuratKeteranganList(): List<SuratKeteranganItem> {
             iconBackgroundColor = Color(0xFFF0F4FF),
             rute = Screen.SKDomisiliScreen.route
         ),
-        SuratKeteranganItem(
+        SuratItem(
             id = "tidak_mampu",
             title = "Surat Keterangan Tidak Mampu",
             description = "Menyatakan kondisi ekonomi kurang mampu untuk bantuan atau keringanan biaya.",
@@ -173,7 +163,7 @@ private fun getSuratKeteranganList(): List<SuratKeteranganItem> {
             iconBackgroundColor = Color(0xFFFFF4E6),
             rute = Screen.SKTidakMampu.route
         ),
-        SuratKeteranganItem(
+        SuratItem(
             id = "kelahiran",
             title = "Surat Keterangan Kelahiran",
             description = "Mengonfirmasi kelahiran anak untuk pengurusan akta kelahiran.",
@@ -181,7 +171,7 @@ private fun getSuratKeteranganList(): List<SuratKeteranganItem> {
             iconBackgroundColor = Color(0xFFF0FFF4),
             rute = Screen.SKKelahiran.route
         ),
-        SuratKeteranganItem(
+        SuratItem(
             id = "kematian",
             title = "Surat Keterangan Kematian",
             description = "Menyatakan kematian seseorang untuk urusan administrasi.",
@@ -189,7 +179,7 @@ private fun getSuratKeteranganList(): List<SuratKeteranganItem> {
             iconBackgroundColor = Color(0xFFFFF0F0),
             rute = Screen.SKKematian.route
         ),
-        SuratKeteranganItem(
+        SuratItem(
             id = "usaha",
             title = "Surat Keterangan Usaha",
             description = "Menyatakan kegiatan usaha yang dijalankan untuk keperluan perizinan.",
@@ -197,7 +187,7 @@ private fun getSuratKeteranganList(): List<SuratKeteranganItem> {
             iconBackgroundColor = Color(0xFFF8F0FF),
             rute = Screen.SKUsaha.route
         ),
-        SuratKeteranganItem(
+        SuratItem(
             id = "berpergian",
             title = "Surat Keterangan Bepergian",
             description = "Memberi izin bepergian keluar daerah dalam situasi tertentu.",
@@ -205,7 +195,7 @@ private fun getSuratKeteranganList(): List<SuratKeteranganItem> {
             iconBackgroundColor = Color(0xFFF8F0FF),
             rute = Screen.SKBerpergian.route
         ),
-        SuratKeteranganItem(
+        SuratItem(
             id = "tidak_masuk_kerja",
             title = "Surat Keterangan Izin Tidak Masuk Kerja",
             description = "Bukti izin tidak masuk kerja karena alasan tertentu.",
@@ -213,7 +203,7 @@ private fun getSuratKeteranganList(): List<SuratKeteranganItem> {
             iconBackgroundColor = Color(0xFFF8F0FF),
             rute = Screen.SKTidakMasukKerja.route
         ),
-        SuratKeteranganItem(
+        SuratItem(
             id = "penghasilan",
             title = "Surat Keterangan Penghasilan",
             description = "Menyatakan jumlah penghasilan untuk pengajuan pinjaman atau bantuan.",
@@ -221,7 +211,7 @@ private fun getSuratKeteranganList(): List<SuratKeteranganItem> {
             iconBackgroundColor = Color(0xFFF8F0FF),
             rute = Screen.SKPenghasilan.route
         ),
-        SuratKeteranganItem(
+        SuratItem(
             id = "perkawinan",
             title = "Surat Keterangan Status Perkawinan",
             description = "Menyatakan status perkawinan untuk keperluan administratif.",
@@ -229,7 +219,7 @@ private fun getSuratKeteranganList(): List<SuratKeteranganItem> {
             iconBackgroundColor = Color(0xFFF8F0FF),
             rute = Screen.SKStatusPerkawinan.route
         ),
-        SuratKeteranganItem(
+        SuratItem(
             id = "ktpsementara",
             title = "Surat Keterangan Resi KTP Sementara",
             description = "Pengganti sementara KTP yang belum selesai dicetak.",
@@ -237,7 +227,7 @@ private fun getSuratKeteranganList(): List<SuratKeteranganItem> {
             iconBackgroundColor = Color(0xFFF8F0FF),
             rute = Screen.SKResiKTPSementara.route
         ),
-        SuratKeteranganItem(
+        SuratItem(
             id = "domisili_perusahaan",
             title = "Surat Keterangan Domisili Perusahaan",
             description = "Menyatakan domisili perusahaan untuk perizinan.",
@@ -245,7 +235,7 @@ private fun getSuratKeteranganList(): List<SuratKeteranganItem> {
             iconBackgroundColor = Color(0xFFF8F0FF),
             rute = Screen.SKDomisiliPerusahaan.route
         ),
-        SuratKeteranganItem(
+        SuratItem(
             id = "jandaduda",
             title = "Surat Keterangan Janda/Duda",
             description = "Menyatakan status janda/duda untuk administrasi.",
@@ -253,7 +243,7 @@ private fun getSuratKeteranganList(): List<SuratKeteranganItem> {
             iconBackgroundColor = Color(0xFFF8F0FF),
             rute = Screen.SKJandaDuda.route
         ),
-        SuratKeteranganItem(
+        SuratItem(
             id = "beda_identitas",
             title = "Surat Keterangan Beda Identitas",
             description = "Mengklarifikasi perbedaan identitas di dokumen resmi.",
@@ -261,7 +251,7 @@ private fun getSuratKeteranganList(): List<SuratKeteranganItem> {
             iconBackgroundColor = Color(0xFFF8F0FF),
             rute = Screen.SKBedaIdentitas.route
         ),
-        SuratKeteranganItem(
+        SuratItem(
             id = "ghaib",
             title = "Surat Keterangan Ghaib",
             description = "Menyatakan seseorang hilang untuk proses hukum.",
@@ -269,7 +259,7 @@ private fun getSuratKeteranganList(): List<SuratKeteranganItem> {
             iconBackgroundColor = Color(0xFFF8F0FF),
             rute = Screen.SKGhaib.route
         ),
-        SuratKeteranganItem(
+        SuratItem(
             id = "belummemilikipbb",
             title = "Surat Keterangan Belum Memiliki PBB",
             description = "Menyatakan seseorang belum memiliki PBB.",
@@ -277,7 +267,7 @@ private fun getSuratKeteranganList(): List<SuratKeteranganItem> {
             iconBackgroundColor = Color(0xFFF8F0FF),
             rute = Screen.SKBelumMemilikiPBB.route
         ),
-        SuratKeteranganItem(
+        SuratItem(
             id = "jualbeli",
             title = "Surat Keterangan Jual Beli",
             description = "Menyatakan dua belah pihak yang melakukan jual beli.",
@@ -285,7 +275,7 @@ private fun getSuratKeteranganList(): List<SuratKeteranganItem> {
             iconBackgroundColor = Color(0xFFF8F0FF),
             rute = Screen.SKJualBeli.route
         ),
-        SuratKeteranganItem(
+        SuratItem(
             id = "ktpdalamproses",
             title = "Surat Keterangan KTP Dalam Proses",
             description = "Menyatakan KTP seseorang yang masih dalam proses.",
@@ -293,7 +283,7 @@ private fun getSuratKeteranganList(): List<SuratKeteranganItem> {
             iconBackgroundColor = Color(0xFFF8F0FF),
             rute = Screen.SKKTPDalamProses.route
         ),
-        SuratKeteranganItem(
+        SuratItem(
             id = "jamkesos",
             title = "Surat Keterangan Jamkesos",
             description = "Menyatakan seseorang mengajukan jaminan kesehatan sosial.",
@@ -301,7 +291,7 @@ private fun getSuratKeteranganList(): List<SuratKeteranganItem> {
             iconBackgroundColor = Color(0xFFF8F0FF),
             rute = Screen.SKJamkesos.route
         ),
-        SuratKeteranganItem(
+        SuratItem(
             id = "lahirmati",
             title = "Surat Lahir Mati",
             description = "Pernyataan anak yang dilahirkan dalam keadaan tidak bernyawa.",
@@ -309,7 +299,7 @@ private fun getSuratKeteranganList(): List<SuratKeteranganItem> {
             iconBackgroundColor = Color(0xFFFFF0F0),
             rute = Screen.SKLahirMati.route
         ),
-        SuratKeteranganItem(
+        SuratItem(
             id = "pergikawin",
             title = "Surat Pergi Kawin",
             description = "Digunakan sebagai bukti pindah domisili untuk menikah.",
@@ -317,7 +307,7 @@ private fun getSuratKeteranganList(): List<SuratKeteranganItem> {
             iconBackgroundColor = Color(0xFFEFFBF1),
             rute = Screen.SKPergiKawin.route
         ),
-        SuratKeteranganItem(
+        SuratItem(
             id = "kepemilikankendaraan",
             title = "Surat Kepemilikan Kendaraan",
             description = "Menyatakan kepemilikan kendaraan secara sah dan tertulis.",
@@ -325,13 +315,53 @@ private fun getSuratKeteranganList(): List<SuratKeteranganItem> {
             iconBackgroundColor = Color(0xFFE8F4FF),
             rute = Screen.SKKepemilikanKendaraan.route
         ),
-        SuratKeteranganItem(
+        SuratItem(
             id = "walihakim",
             title = "Surat Wali Hakim",
             description = "Surat keterangan penunjukan wali bagi calon pengantin yang tidak memiliki wali nasab.",
             emoji = "\uD83D\uDC75", // 👵 atau 🧓
             iconBackgroundColor = Color(0xFFFFF4E5),
             rute = Screen.SKWaliHakim.route
+        ),
+        SuratItem(
+            id = "pengantarcerairujuk",
+            title = "Surat Pengantar Cerai Rujuk",
+            description = "Digunakan sebagai pengantar proses cerai rujuk sesuai ketentuan hukum.",
+            emoji = "\uD83D\uDD10", // 🔐 simbol pernikahan kembali
+            iconBackgroundColor = Color(0xFFE6F7FF),
+            rute = Screen.SKPengantarCeraiRujuk.route
+        ),
+        SuratItem(
+            id = "izinorangtua",
+            title = "Surat Izin Orang Tua",
+            description = "Surat persetujuan orang tua untuk keperluan pernikahan atau kegiatan penting lainnya.",
+            emoji = "\uD83D\uDC68\u200D\uD83D\uDC69\u200D\uD83D\uDC66", // 👨‍👩‍👦 keluarga
+            iconBackgroundColor = Color(0xFFFFF8E1),
+            rute = Screen.SKIzinOrangTua.route
+        ),
+        SuratItem(
+            id = "kepemilikantanah",
+            title = "Surat Kepemilikan Tanah",
+            description = "Menyatakan status kepemilikan atas bidang tanah secara sah.",
+            emoji = "\uD83C\uDF33", // 🌳 sebagai simbol tanah/perkebunan
+            iconBackgroundColor = Color(0xFFF1F8E9),
+            rute = Screen.SKKepemilikanTanah.route
+        ),
+        SuratItem(
+            id = "biodatawarga",
+            title = "Surat Keterangan Biodata Warga",
+            description = "Menjelaskan identitas resmi warga sesuai data kependudukan.",
+            emoji = "\uD83D\uDCCB", // 📋 dokumen data
+            iconBackgroundColor = Color(0xFFF3E5F5),
+            rute = Screen.SKBiodataWarga.route
+        ),
+        SuratItem(
+            id = "nikahnonmuslim",
+            title = "Surat Keterangan Nikah Non-Muslim",
+            description = "Keterangan resmi untuk pernikahan warga non-Muslim.",
+            emoji = "\uD83D\uDC91", // 💑 simbol pasangan
+            iconBackgroundColor = Color(0xFFFFEBEE),
+            rute = Screen.SKNikahNonMuslim.route
         )
     )
 }

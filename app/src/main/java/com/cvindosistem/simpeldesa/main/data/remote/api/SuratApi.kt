@@ -4,9 +4,11 @@ import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketer
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKBedaIdentitasRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKBelumMemilikiPBBRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKBerpergianRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKBiodataWargaRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKDomisiliPerusahaanRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKDomisiliRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKGhaibRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKIzinOrangTuaRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKJamkesosRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKJandaDudaRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKJualBeliRequest
@@ -14,7 +16,9 @@ import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketer
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKKelahiranRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKKematianRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKKepemilikanKendaraanRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKKepemilikanTanahRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKLahirMatiRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKNikahWargaNonMuslimRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKPenghasilanRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKPergiKawinRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKResiKTPSementaraRequest
@@ -29,6 +33,14 @@ import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratpenga
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratrekomendasi.SRKeramaianRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratlainnya.SuratKuasaRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratlainnya.SuratTugasRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratpengantar.SPPermohonanPenerbitanBukuPasLintasBatasRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratpermohonan.SPMAktaLahirRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratpermohonan.SPMBelumMemilikiAktaLahirRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratpermohonan.SPMDuplikatKelahiranRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratpermohonan.SPMDuplikatSuratNikahRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratpermohonan.SPMKartuKeluargaRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratpermohonan.SPMPerubahanKKRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratpernyataan.SPNPenguasaanFisikBidangTanahRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.SuratDetailResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKGhaibResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKBedaIdentitasResponse
@@ -51,15 +63,27 @@ import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratreko
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratlainnya.SuratKuasaResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.SuratListResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKBelumMemilikiPBBResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKBiodataWargaResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKIzinOrangTuaResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKJamkesosResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKJualBeliResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKKTPDalamProsesResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKKepemilikanKendaraanResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKKepemilikanTanahResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKLahirMatiResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKNikahNonMuslimResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKPergiKawinResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKTidakMampuResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKWaliHakimResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratlainnya.SuratTugasResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratpengantar.SPPermohonanPenerbitanBukuPasLintasBatasResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratpermohonan.SPMAktaLahirResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratpermohonan.SPMBelumMemilikiAktaLahirResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratpermohonan.SPMDuplikatKelahiranResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratpermohonan.SPMDuplikatSuratNikahResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratpermohonan.SPMKartuKeluargaResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratpermohonan.SPMPerubahanKKResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratpernyataan.SPNPenguasaanFisikBidangTanahResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -229,4 +253,74 @@ interface SuratApi {
     suspend fun createSuratKepemilikanKendaraan(
         @Body request: SKKepemilikanKendaraanRequest
     ): Response<SKKepemilikanKendaraanResponse>
+
+    @POST("/warga-desa/surat/akta-lahir")
+    suspend fun createSuratAktaLahir(
+        @Body request: SPMAktaLahirRequest
+    ): Response<SPMAktaLahirResponse>
+
+    @POST("/warga-desa/surat/belum-memiliki-akta-lahir")
+    suspend fun createSuratBelumMemilikiAktaLahir(
+        @Body request: SPMBelumMemilikiAktaLahirRequest
+    ): Response<SPMBelumMemilikiAktaLahirResponse>
+
+    @POST("/warga-desa/surat/duplikat-kelahiran")
+    suspend fun createSuratDuplikatKelahiran(
+        @Body request: SPMDuplikatKelahiranRequest
+    ): Response<SPMDuplikatKelahiranResponse>
+
+    @POST("/warga-desa/surat/duplikat-surat-nikah")
+    suspend fun createSuratDuplikatSuratNikah(
+        @Body request: SPMDuplikatSuratNikahRequest
+    ): Response<SPMDuplikatSuratNikahResponse>
+
+    @POST("/warga-desa/surat/permohonan-cerai")
+    suspend fun createSuratPermohonanCerai(
+        @Body request: SPMCeraiRequest
+    ): Response<SPMCeraiResponse>
+
+    @POST("/warga-desa/surat/cerai-rujuk")
+    suspend fun createSuratPengantarCeraiRujuk(
+        @Body request: SKPengantarCeraiRujukRequest
+    ): Response<SKPengantarCeraiRujukResponse>
+
+    @POST("/warga-desa/surat/permohonan-kk")
+    suspend fun createSuratPermohonanKartuKeluarga(
+        @Body request: SPMKartuKeluargaRequest
+    ): Response<SPMKartuKeluargaResponse>
+
+    @POST("/warga-desa/surat/sk-izin")
+    suspend fun createSuratKeteranganIzinOrangTua(
+        @Body request: SKIzinOrangTuaRequest
+    ): Response<SKIzinOrangTuaResponse>
+
+    @POST("/warga-desa/surat/fisik-tanah")
+    suspend fun createSuratPernyataanSporadik(
+        @Body request: SPNPenguasaanFisikBidangTanahRequest
+    ): Response<SPNPenguasaanFisikBidangTanahResponse>
+
+    @POST("/warga-desa/surat/perubahan-kk")
+    suspend fun createSuratPermohonanPerubahanKK(
+        @Body request: SPMPerubahanKKRequest
+    ): Response<SPMPerubahanKKResponse>
+
+    @POST("/warga-desa/surat/kepemilikan-tanah")
+    suspend fun createSuratKeteranganKepemilikanTanah(
+        @Body request: SKKepemilikanTanahRequest
+    ): Response<SKKepemilikanTanahResponse>
+
+    @POST("/warga-desa/surat/biodata")
+    suspend fun createSuratKeteranganBiodataWarga(
+        @Body request: SKBiodataWargaRequest
+    ): Response<SKBiodataWargaResponse>
+
+    @POST("/warga-desa/surat/lintas-batas")
+    suspend fun createSuratPengantarPasLintasBatas(
+        @Body request: SPPermohonanPenerbitanBukuPasLintasBatasRequest
+    ): Response<SPPermohonanPenerbitanBukuPasLintasBatasResponse>
+
+    @POST("/warga-desa/surat/nikah-non-muslim")
+    suspend fun createSuratKeteranganNikahNonMuslim(
+        @Body request: SKNikahWargaNonMuslimRequest
+    ): Response<SKNikahNonMuslimResponse>
 }

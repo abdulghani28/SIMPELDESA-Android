@@ -3,9 +3,11 @@ package com.cvindosistem.simpeldesa.main.domain.usecases
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKBedaIdentitasRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKBelumMemilikiPBBRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKBerpergianRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKBiodataWargaRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKDomisiliPerusahaanRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKDomisiliRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKGhaibRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKIzinOrangTuaRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKIzinTidakMasukKerjaRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKJamkesosRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKJandaDudaRequest
@@ -14,7 +16,9 @@ import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketer
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKKelahiranRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKKematianRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKKepemilikanKendaraanRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKKepemilikanTanahRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKLahirMatiRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKNikahWargaNonMuslimRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKPenghasilanRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKPergiKawinRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKResiKTPSementaraRequest
@@ -26,16 +30,36 @@ import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratlainn
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratlainnya.SuratTugasRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratpengantar.SPCatatanKepolisianRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratpengantar.SPKehilanganRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratpengantar.SPPermohonanPenerbitanBukuPasLintasBatasRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratpengantar.SPPernikahanRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratpengantar.SPPindahDomisiliRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratpermohonan.SPMAktaLahirRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratpermohonan.SPMBelumMemilikiAktaLahirRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratpermohonan.SPMDuplikatKelahiranRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratpermohonan.SPMDuplikatSuratNikahRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratpermohonan.SPMKartuKeluargaRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratpermohonan.SPMPerubahanKKRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratpernyataan.SPNPenguasaanFisikBidangTanahRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratrekomendasi.SRKeramaianRequest
 import com.cvindosistem.simpeldesa.main.data.repository.SuratRepository
+import com.cvindosistem.simpeldesa.main.domain.model.SKBiodataWargaResult
+import com.cvindosistem.simpeldesa.main.domain.model.SKIzinOrangTuaResult
+import com.cvindosistem.simpeldesa.main.domain.model.SKKepemilikanTanahResult
+import com.cvindosistem.simpeldesa.main.domain.model.SKNikahNonMuslimResult
+import com.cvindosistem.simpeldesa.main.domain.model.SPMKartuKeluargaResult
+import com.cvindosistem.simpeldesa.main.domain.model.SPMPerubahanKKResult
+import com.cvindosistem.simpeldesa.main.domain.model.SPNPenguasaanFisikBidangTanahResult
+import com.cvindosistem.simpeldesa.main.domain.model.SPPermohonanPenerbitanBukuPasLintasBatasResult
+import com.cvindosistem.simpeldesa.main.domain.model.SuratAktaLahirResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratBedaIdentitasResult
+import com.cvindosistem.simpeldesa.main.domain.model.SuratBelumMemilikiAktaLahirResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratBelumMemilikiPBBResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratBerpergianResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratDetailResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratDomisiliPerusahaanResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratDomisiliResult
+import com.cvindosistem.simpeldesa.main.domain.model.SuratDuplikatKelahiranResult
+import com.cvindosistem.simpeldesa.main.domain.model.SuratDuplikatSuratNikahResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratGhaibResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratIzinTidakKerjaResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratJamkesosResult
@@ -62,6 +86,7 @@ import com.cvindosistem.simpeldesa.main.domain.model.SuratTidakMasukKerjaResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratTugasResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratUsahaResult
 import com.cvindosistem.simpeldesa.main.domain.model.SuratWaliHakimResult
+
 
 class GetSuratListUseCase(private val suratRepository: SuratRepository) {
     suspend operator fun invoke(
@@ -260,5 +285,90 @@ class CreateSuratWaliHakimUseCase(private val suratRepository: SuratRepository) 
 class CreateSuratKepemilikanKendaraanUseCase(private val suratRepository: SuratRepository) {
     suspend operator fun invoke(request: SKKepemilikanKendaraanRequest): SuratKepemilikanKendaraanResult {
         return suratRepository.createSuratKepemilikanKendaraan(request)
+    }
+}
+
+class CreateSuratAktaLahirUseCase(private val suratRepository: SuratRepository) {
+    suspend operator fun invoke(request: SPMAktaLahirRequest): SuratAktaLahirResult {
+        return suratRepository.createSuratAktaLahir(request)
+    }
+}
+
+class CreateSuratBelumMemilikiAktaLahirUseCase(private val suratRepository: SuratRepository) {
+    suspend operator fun invoke(request: SPMBelumMemilikiAktaLahirRequest): SuratBelumMemilikiAktaLahirResult {
+        return suratRepository.createSuratBelumMemilikiAktaLahir(request)
+    }
+}
+
+class CreateSuratDuplikatKelahiranUseCase(private val suratRepository: SuratRepository) {
+    suspend operator fun invoke(request: SPMDuplikatKelahiranRequest): SuratDuplikatKelahiranResult {
+        return suratRepository.createSuratDuplikatKelahiran(request)
+    }
+}
+
+class CreateSuratDuplikatSuratNikahUseCase(private val suratRepository: SuratRepository) {
+    suspend operator fun invoke(request: SPMDuplikatSuratNikahRequest): SuratDuplikatSuratNikahResult {
+        return suratRepository.createSuratDuplikatSuratNikah(request)
+    }
+}
+
+// Use Cases
+class CreateSuratPermohonanCeraiUseCase(private val suratRepository: SuratRepository) {
+    suspend operator fun invoke(request: SPMCeraiRequest): SPMCeraiResult {
+        return suratRepository.createSuratPermohonanCerai(request)
+    }
+}
+
+class CreateSuratPengantarCeraiRujukUseCase(private val suratRepository: SuratRepository) {
+    suspend operator fun invoke(request: SKPengantarCeraiRujukRequest): SKPengantarCeraiRujukResult {
+        return suratRepository.createSuratPengantarCeraiRujuk(request)
+    }
+}
+
+class CreateSuratPermohonanKartuKeluargaUseCase(private val suratRepository: SuratRepository) {
+    suspend operator fun invoke(request: SPMKartuKeluargaRequest): SPMKartuKeluargaResult {
+        return suratRepository.createSuratPermohonanKartuKeluarga(request)
+    }
+}
+
+class CreateSuratKeteranganIzinOrangTuaUseCase(private val suratRepository: SuratRepository) {
+    suspend operator fun invoke(request: SKIzinOrangTuaRequest): SKIzinOrangTuaResult {
+        return suratRepository.createSuratKeteranganIzinOrangTua(request)
+    }
+}
+
+class CreateSuratPernyataanSporadikUseCase(private val suratRepository: SuratRepository) {
+    suspend operator fun invoke(request: SPNPenguasaanFisikBidangTanahRequest): SPNPenguasaanFisikBidangTanahResult {
+        return suratRepository.createSuratPernyataanSporadik(request)
+    }
+}
+
+class CreateSuratPermohonanPerubahanKKUseCase(private val suratRepository: SuratRepository) {
+    suspend operator fun invoke(request: SPMPerubahanKKRequest): SPMPerubahanKKResult {
+        return suratRepository.createSuratPermohonanPerubahanKK(request)
+    }
+}
+
+class CreateSuratKeteranganKepemilikanTanahUseCase(private val suratRepository: SuratRepository) {
+    suspend operator fun invoke(request: SKKepemilikanTanahRequest): SKKepemilikanTanahResult {
+        return suratRepository.createSuratKeteranganKepemilikanTanah(request)
+    }
+}
+
+class CreateSuratKeteranganBiodataWargaUseCase(private val suratRepository: SuratRepository) {
+    suspend operator fun invoke(request: SKBiodataWargaRequest): SKBiodataWargaResult {
+        return suratRepository.createSuratKeteranganBiodataWarga(request)
+    }
+}
+
+class CreateSuratPengantarPasLintasBatasUseCase(private val suratRepository: SuratRepository) {
+    suspend operator fun invoke(request: SPPermohonanPenerbitanBukuPasLintasBatasRequest): SPPermohonanPenerbitanBukuPasLintasBatasResult {
+        return suratRepository.createSuratPengantarPasLintasBatas(request)
+    }
+}
+
+class CreateSuratKeteranganNikahNonMuslimUseCase(private val suratRepository: SuratRepository) {
+    suspend operator fun invoke(request: SKNikahWargaNonMuslimRequest): SKNikahNonMuslimResult {
+        return suratRepository.createSuratKeteranganNikahNonMuslim(request)
     }
 }

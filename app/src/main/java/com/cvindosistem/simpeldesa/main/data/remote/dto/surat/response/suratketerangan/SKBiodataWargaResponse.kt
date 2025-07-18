@@ -1,0 +1,50 @@
+package com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan
+
+data class SKBiodataWargaResponse(
+    val `data`: Data
+) {
+    data class Data(
+        val agama_id: String,
+        val akta_cerai: String,
+        val akta_kawin: String,
+        val akta_lahir: String,
+        val alamat: String,
+        val anggota_keluarga: Any?,
+        val bagian_surat_id: String,
+        val created_at: String,
+        val deleted_at: Any?,
+        val diproses_oleh: String,
+        val diproses_oleh_id: String,
+        val disabilitas_id: String,
+        val disahkan_oleh: String,
+        val disahkan_oleh_id: String,
+        val golongan_darah: String,
+        val hubungan: String,
+        val id: String,
+        val is_warga_desa: Boolean,
+        val jenis_kelamin: String,
+        val kepala_keluarga: String,
+        val keperluan: String,
+        val kode_belakang: String,
+        val kode_depan: String,
+        val nama: String,
+        val nama_ayah: String,
+        val nama_ibu: String,
+        val nik: String,
+        val nik_ayah: String,
+        val nik_ibu: String,
+        val no_kk: String,
+        val nomor_surat: String,
+        val nomor_surat_deprecated: String,
+        val organisasi_id: String,
+        val pekerjaan: String,
+        val pendidikan_id: String,
+        val status: String,
+        val tanggal_cerai: String,
+        val tanggal_kawin: String,
+        val tanggal_lahir: String,
+        val tanggal_surat: String,
+        val tempat_lahir: String,
+        val updated_at: String
+    )
+}

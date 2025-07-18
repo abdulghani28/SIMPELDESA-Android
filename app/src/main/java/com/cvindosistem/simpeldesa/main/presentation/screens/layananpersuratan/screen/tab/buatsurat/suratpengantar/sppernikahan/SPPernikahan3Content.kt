@@ -29,7 +29,6 @@ internal fun SPPernikahan3Content(
     viewModel: SPPernikahanViewModel,
     modifier: Modifier = Modifier
 ) {
-    val validationErrors by viewModel.validationErrors.collectAsState()
     FormSectionList(
         modifier = modifier,
         background = MaterialTheme.colorScheme.background
@@ -43,8 +42,7 @@ internal fun SPPernikahan3Content(
 
         item {
             InformasiCalonIstri(
-                viewModel = viewModel,
-                validationErrors = validationErrors
+                viewModel = viewModel
             )
         }
     }
@@ -52,8 +50,7 @@ internal fun SPPernikahan3Content(
 
 @Composable
 private fun InformasiCalonIstri(
-    viewModel: SPPernikahanViewModel,
-    validationErrors: Map<String, String>
+    viewModel: SPPernikahanViewModel
 ) {
     Column {
         SectionTitle("Biodata Istri")

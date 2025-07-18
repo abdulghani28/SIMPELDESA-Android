@@ -78,7 +78,7 @@ private fun SuratLainnyaContent(
 
 @Composable
 private fun SuratLainnyaItemCard(
-    suratItem: SuratLainnyaItem,
+    suratItem: SuratItem,
     onItemClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -144,20 +144,10 @@ private fun SuratLainnyaInfo(
     }
 }
 
-// Data class untuk item surat lainnya
-data class SuratLainnyaItem(
-    val id: String,
-    val title: String,
-    val description: String,
-    val emoji: String,
-    val iconBackgroundColor: Color,
-    val rute: String
-)
-
 // Function untuk mendapatkan data surat lainnya
-private fun getSuratLainnyaList(): List<SuratLainnyaItem> {
+private fun getSuratLainnyaList(): List<SuratItem> {
     return listOf(
-        SuratLainnyaItem(
+        SuratItem(
             id = "kuasa",
             title = "Surat Kuasa",
             description = "Memberi wewenang kepada orang lain untuk bertindak atas nama pemberi kuasa.",
@@ -165,7 +155,7 @@ private fun getSuratLainnyaList(): List<SuratLainnyaItem> {
             iconBackgroundColor = Color(0xFFF0F4FF),
             rute = Screen.SuratKuasa.route
         ),
-        SuratLainnyaItem(
+        SuratItem(
             id = "tugas",
             title = "Surat Tugas",
             description = "Dokumen resmi yang menugaskan seseorang untuk melaksanakan tugas tertentu.",

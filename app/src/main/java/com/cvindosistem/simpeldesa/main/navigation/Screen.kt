@@ -42,6 +42,8 @@ sealed class Screen(val route: String) {
     object SuratPengantar : Screen("surat_pengantar")
     object SuratRekomendasi : Screen("surat_rekomendasi")
     object SuratLainnya : Screen("surat_lainnya")
+    object SuratPermohonan : Screen("surat_permohonan")
+    object SuratPernyataan : Screen("surat_pernyataan")
 
     object SKDomisiliScreen : Screen("sk_domisili_screen")
     object SKTidakMampu : Screen("sk_tidak_mampu")
@@ -65,10 +67,26 @@ sealed class Screen(val route: String) {
     object SKPergiKawin : Screen("sk_pergi_kawin")
     object SKWaliHakim : Screen("sk_wali_hakim")
     object SKKepemilikanKendaraan : Screen("sk_kepemilikan_kendaraan")
+    object SKPengantarCeraiRujuk : Screen("sk_pengantar_cerai_rujuk")
+    object SKIzinOrangTua : Screen("sk_izin_orang_tua")
+    object SKKepemilikanTanah : Screen("sk_kepemilikan_tanah")
+    object SKBiodataWarga : Screen("sk_biodata_warga")
+    object SKNikahNonMuslim : Screen("sk_nikah_non_muslim")
 
     object SPCatatanKepolisian : Screen("sp_catatan_kepolisian")
     object SPKehilangan : Screen("sp_kehilangan")
     object SPPernikahan : Screen("sp_pernikahan")
+    object SPPermohonanPenerbitanBukuPasLintasBatas : Screen("sp_permohonan_penerbitan_buku_pas_lintas_batas")
+
+    object SPMAktaLahir : Screen("spm_akta_lahir")
+    object SPMBelumAktaLahir : Screen("spm_belum_akta_lahir")
+    object SPMDuplikatKelahiran : Screen("spm_duplikat_kelahiran")
+    object SPMDuplikatNikah : Screen("spm_duplikat_nikah")
+    object SPMCerai : Screen("spm_cerai")
+    object SPMKartuKeluarga : Screen("spm_kartu_keluarga")
+    object SPMPerubahanKK : Screen("spm_perubahan_kk")
+
+    object SPNPenguasaanFisikBidangTanah : Screen("spn_penguasaan_fisik_bidang_tanah")
 
     object SRKeramaian : Screen("sr_keramaian")
 

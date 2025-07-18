@@ -32,7 +32,7 @@ import com.cvindosistem.simpeldesa.core.components.CardTitleText
 import com.cvindosistem.simpeldesa.main.navigation.Screen
 
 @Composable
-fun SuratRekomendasiScreen(
+fun SuratPernyataanScreen(
     onNavigateBack: () -> Unit = {},
     navController: NavController,
     @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
@@ -43,20 +43,20 @@ fun SuratRekomendasiScreen(
             .background(MaterialTheme.colorScheme.surfaceBright)
     ) {
         AppTopBar(
-            title = "Surat Rekomendasi",
+            title = "Surat Pernyataan",
             showBackButton = true,
             onBackClick = onNavigateBack
         )
 
-        SuratRekomendasiContent(
-            navController = navController,
-            modifier = Modifier.fillMaxSize()
+        SuratPernyataanContent(
+            modifier = Modifier.fillMaxSize(),
+            navController = navController
         )
     }
 }
 
 @Composable
-private fun SuratRekomendasiContent(
+private fun SuratPernyataanContent(
     navController: NavController,
     modifier: Modifier = Modifier
 ) {
@@ -65,8 +65,8 @@ private fun SuratRekomendasiContent(
         contentPadding = PaddingValues(vertical = 8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(getSuratRekomendasiList()) { suratItem ->
-            SuratRekomendasiItemCard(
+        items(getSuratPernyataanList()) { suratItem ->
+            SuratPernyataanItemCard(
                 suratItem = suratItem,
                 onItemClick = {
                     navController.navigate(suratItem.rute)
@@ -77,29 +77,30 @@ private fun SuratRekomendasiContent(
 }
 
 @Composable
-private fun SuratRekomendasiItemCard(
+private fun SuratPernyataanItemCard(
     suratItem: SuratItem,
     onItemClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     AppCard(
-        modifier.clickable{
-            onItemClick()
-        }
+        modifier
+            .clickable {
+                onItemClick()
+            }
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
-            SuratRekomendasiIcon(
+            SuratPernyataanIcon(
                 emoji = suratItem.emoji,
                 backgroundColor = suratItem.iconBackgroundColor
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            SuratRekomendasiInfo(
+            SuratPernyataanInfo(
                 title = suratItem.title,
                 description = suratItem.description,
             )
@@ -108,7 +109,7 @@ private fun SuratRekomendasiItemCard(
 }
 
 @Composable
-private fun SuratRekomendasiIcon(
+private fun SuratPernyataanIcon(
     emoji: String,
     backgroundColor: Color,
     modifier: Modifier = Modifier
@@ -130,7 +131,7 @@ private fun SuratRekomendasiIcon(
 }
 
 @Composable
-private fun SuratRekomendasiInfo(
+private fun SuratPernyataanInfo(
     title: String,
     description: String,
 ) {
@@ -143,26 +144,16 @@ private fun SuratRekomendasiInfo(
     }
 }
 
-// Data class untuk item surat rekomendasi
-data class SuratItem(
-    val id: String,
-    val title: String,
-    val description: String,
-    val emoji: String,
-    val iconBackgroundColor: Color,
-    val rute: String
-)
-
-// Function untuk mendapatkan data surat rekomendasi
-private fun getSuratRekomendasiList(): List<SuratItem> {
+// Function untuk mendapatkan data surat pernyataan
+private fun getSuratPernyataanList(): List<SuratItem> {
     return listOf(
         SuratItem(
-            id = "keramaian",
-            title = "Surat Rekomendasi Izin Keramaian",
-            description = "Diperlukan untuk mendapatkan izin mengadakan acara atau kegiatan yang melibatkan keramaian.",
-            emoji = "\uD83C\uDF89",
-            iconBackgroundColor = Color(0xFFF0F4FF),
-            rute = Screen.SRKeramaian.route
+            id = "penguasaan_tanah",
+            title = "Surat Pernyataan Penguasaan Fisik Bidang Tanah",
+            description = "Pernyataan yang menerangkan penguasaan fisik atas bidang tanah secara sah.",
+            emoji = "🌾",
+            iconBackgroundColor = Color(0xFFE6F4EA),
+            rute = Screen.SPNPenguasaanFisikBidangTanah.route
         )
     )
 }

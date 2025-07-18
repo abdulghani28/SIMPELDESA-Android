@@ -32,7 +32,7 @@ import com.cvindosistem.simpeldesa.core.components.CardTitleText
 import com.cvindosistem.simpeldesa.main.navigation.Screen
 
 @Composable
-fun SuratRekomendasiScreen(
+fun SuratPermohonanScreen(
     onNavigateBack: () -> Unit = {},
     navController: NavController,
     @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
@@ -43,20 +43,20 @@ fun SuratRekomendasiScreen(
             .background(MaterialTheme.colorScheme.surfaceBright)
     ) {
         AppTopBar(
-            title = "Surat Rekomendasi",
+            title = "Surat Permohonan",
             showBackButton = true,
             onBackClick = onNavigateBack
         )
 
-        SuratRekomendasiContent(
-            navController = navController,
-            modifier = Modifier.fillMaxSize()
+        SuratPermohonanContent(
+            modifier = Modifier.fillMaxSize(),
+            navController = navController
         )
     }
 }
 
 @Composable
-private fun SuratRekomendasiContent(
+private fun SuratPermohonanContent(
     navController: NavController,
     modifier: Modifier = Modifier
 ) {
@@ -65,8 +65,8 @@ private fun SuratRekomendasiContent(
         contentPadding = PaddingValues(vertical = 8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(getSuratRekomendasiList()) { suratItem ->
-            SuratRekomendasiItemCard(
+        items(getSuratPermohonanList()) { suratItem ->
+            SuratPermohonanItemCard(
                 suratItem = suratItem,
                 onItemClick = {
                     navController.navigate(suratItem.rute)
@@ -77,29 +77,30 @@ private fun SuratRekomendasiContent(
 }
 
 @Composable
-private fun SuratRekomendasiItemCard(
+private fun SuratPermohonanItemCard(
     suratItem: SuratItem,
     onItemClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     AppCard(
-        modifier.clickable{
-            onItemClick()
-        }
+        modifier
+            .clickable {
+                onItemClick()
+            }
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
-            SuratRekomendasiIcon(
+            SuratPermohonanIcon(
                 emoji = suratItem.emoji,
                 backgroundColor = suratItem.iconBackgroundColor
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            SuratRekomendasiInfo(
+            SuratPermohonanInfo(
                 title = suratItem.title,
                 description = suratItem.description,
             )
@@ -108,7 +109,7 @@ private fun SuratRekomendasiItemCard(
 }
 
 @Composable
-private fun SuratRekomendasiIcon(
+private fun SuratPermohonanIcon(
     emoji: String,
     backgroundColor: Color,
     modifier: Modifier = Modifier
@@ -130,7 +131,7 @@ private fun SuratRekomendasiIcon(
 }
 
 @Composable
-private fun SuratRekomendasiInfo(
+private fun SuratPermohonanInfo(
     title: String,
     description: String,
 ) {
@@ -143,26 +144,64 @@ private fun SuratRekomendasiInfo(
     }
 }
 
-// Data class untuk item surat rekomendasi
-data class SuratItem(
-    val id: String,
-    val title: String,
-    val description: String,
-    val emoji: String,
-    val iconBackgroundColor: Color,
-    val rute: String
-)
-
-// Function untuk mendapatkan data surat rekomendasi
-private fun getSuratRekomendasiList(): List<SuratItem> {
+// Function untuk mendapatkan data surat permohonan
+private fun getSuratPermohonanList(): List<SuratItem> {
     return listOf(
         SuratItem(
-            id = "keramaian",
-            title = "Surat Rekomendasi Izin Keramaian",
-            description = "Diperlukan untuk mendapatkan izin mengadakan acara atau kegiatan yang melibatkan keramaian.",
-            emoji = "\uD83C\uDF89",
+            id = "akta_lahir",
+            title = "Surat Permohonan Akta Lahir",
+            description = "Permohonan untuk penerbitan akta kelahiran baru.",
+            emoji = "👶",
+            iconBackgroundColor = Color(0xFFFFE5F1),
+            rute = Screen.SPMAktaLahir.route
+        ),
+        SuratItem(
+            id = "belum_akta_lahir",
+            title = "Surat Permohonan Belum Memiliki Akta Lahir",
+            description = "Permohonan untuk orang yang belum memiliki akta kelahiran.",
+            emoji = "📋",
             iconBackgroundColor = Color(0xFFF0F4FF),
-            rute = Screen.SRKeramaian.route
+            rute = Screen.SPMBelumAktaLahir.route
+        ),
+        SuratItem(
+            id = "duplikat_kelahiran",
+            title = "Surat Permohonan Duplikat Kelahiran",
+            description = "Permohonan duplikat atau salinan akta kelahiran yang hilang/rusak.",
+            emoji = "📄",
+            iconBackgroundColor = Color(0xFFFFF4E6),
+            rute = Screen.SPMDuplikatKelahiran.route
+        ),
+        SuratItem(
+            id = "duplikat_nikah",
+            title = "Surat Permohonan Duplikat Surat Nikah",
+            description = "Permohonan duplikat atau salinan surat nikah yang hilang/rusak.",
+            emoji = "💍",
+            iconBackgroundColor = Color(0xFFF0FFF4),
+            rute = Screen.SPMDuplikatNikah.route
+        ),
+        SuratItem(
+            id = "cerai",
+            title = "Surat Permohonan Cerai",
+            description = "Permohonan untuk pengurusan surat cerai atau perceraian.",
+            emoji = "💔",
+            iconBackgroundColor = Color(0xFFFFEBEE),
+            rute = Screen.SPMCerai.route
+        ),
+        SuratItem(
+            id = "kartu_keluarga",
+            title = "Surat Permohonan Kartu Keluarga",
+            description = "Permohonan untuk penerbitan kartu keluarga baru.",
+            emoji = "👨‍👩‍👧‍👦",
+            iconBackgroundColor = Color(0xFFE8F5E8),
+            rute = Screen.SPMKartuKeluarga.route
+        ),
+        SuratItem(
+            id = "perubahan_kk",
+            title = "Surat Permohonan Perubahan Kartu Keluarga",
+            description = "Permohonan untuk perubahan data pada kartu keluarga.",
+            emoji = "✏️",
+            iconBackgroundColor = Color(0xFFF5F5DC),
+            rute = Screen.SPMPerubahanKK.route
         )
     )
 }
