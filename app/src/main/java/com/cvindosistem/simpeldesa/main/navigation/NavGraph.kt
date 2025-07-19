@@ -426,46 +426,45 @@ fun NavGraph(
             )
         }
 
-
-        composable(Screen.SKPengantarCeraiRujuk.route) {
-            val skPengantarCeraiRujukViewModel: SKPengantarCeraiRujukViewModel = koinViewModel()
-            SKPengantarCeraiRujukScreen(
-                navController = navController,
-                skPengantarCeraiRujukViewModel = skPengantarCeraiRujukViewModel
-            )
-        }
-
-        composable(Screen.SKIzinOrangTua.route) {
-            val skIzinOrangTuaViewModel: SKIzinOrangTuaViewModel = koinViewModel()
-            SKIzinOrangTuaScreen(
-                navController = navController,
-                skIzinOrangTuaViewModel = skIzinOrangTuaViewModel
-            )
-        }
-
-        composable(Screen.SKKepemilikanTanah.route) {
-            val skKepemilikanTanahViewModel: SKKepemilikanTanahViewModel = koinViewModel()
-            SKKepemilikanTanahScreen(
-                navController = navController,
-                skKepemilikanTanahViewModel = skKepemilikanTanahViewModel
-            )
-        }
-
-        composable(Screen.SKBiodataWarga.route) {
-            val skBiodataWargaViewModel: SKBiodataWargaViewModel = koinViewModel()
-            SKBiodataWargaScreen(
-                navController = navController,
-                skBiodataWargaViewModel = skBiodataWargaViewModel
-            )
-        }
-
-        composable(Screen.SKNikahNonMuslim.route) {
-            val skNikahNonMuslimViewModel: SKNikahNonMuslimViewModel = koinViewModel()
-            SKNikahNonMuslimScreen(
-                navController = navController,
-                skNikahNonMuslimViewModel = skNikahNonMuslimViewModel
-            )
-        }
+//        composable(Screen.SKPengantarCeraiRujuk.route) {
+//            val skPengantarCeraiRujukViewModel: SKPengantarCeraiRujukViewModel = koinViewModel()
+//            SKPengantarCeraiRujukScreen(
+//                navController = navController,
+//                skPengantarCeraiRujukViewModel = skPengantarCeraiRujukViewModel
+//            )
+//        }
+//
+//        composable(Screen.SKIzinOrangTua.route) {
+//            val skIzinOrangTuaViewModel: SKIzinOrangTuaViewModel = koinViewModel()
+//            SKIzinOrangTuaScreen(
+//                navController = navController,
+//                skIzinOrangTuaViewModel = skIzinOrangTuaViewModel
+//            )
+//        }
+//
+//        composable(Screen.SKKepemilikanTanah.route) {
+//            val skKepemilikanTanahViewModel: SKKepemilikanTanahViewModel = koinViewModel()
+//            SKKepemilikanTanahScreen(
+//                navController = navController,
+//                skKepemilikanTanahViewModel = skKepemilikanTanahViewModel
+//            )
+//        }
+//
+//        composable(Screen.SKBiodataWarga.route) {
+//            val skBiodataWargaViewModel: SKBiodataWargaViewModel = koinViewModel()
+//            SKBiodataWargaScreen(
+//                navController = navController,
+//                skBiodataWargaViewModel = skBiodataWargaViewModel
+//            )
+//        }
+//
+//        composable(Screen.SKNikahNonMuslim.route) {
+//            val skNikahNonMuslimViewModel: SKNikahNonMuslimViewModel = koinViewModel()
+//            SKNikahNonMuslimScreen(
+//                navController = navController,
+//                skNikahNonMuslimViewModel = skNikahNonMuslimViewModel
+//            )
+//        }
 
         composable(Screen.SPCatatanKepolisian.route) {
             val spCatatanKepolisianViewModel: SPCatatanKepolisianViewModel = koinViewModel()
@@ -492,13 +491,13 @@ fun NavGraph(
             )
         }
 
-        composable(Screen.SPPermohonanPenerbitanBukuPasLintasBatas.route) {
-            val spPermohonanPenerbitanBukuPasLintasBatasViewModel: SPPermohonanPenerbitanBukuPasLintasBatasViewModel = koinViewModel()
-            SPPermohonanPenerbitanBukuPasLintasBatasScreen(
-                navController = navController,
-                spPermohonanPenerbitanBukuPasLintasBatasViewModel = spPermohonanPenerbitanBukuPasLintasBatasViewModel
-            )
-        }
+//        composable(Screen.SPPermohonanPenerbitanBukuPasLintasBatas.route) {
+//            val spPermohonanPenerbitanBukuPasLintasBatasViewModel: SPPermohonanPenerbitanBukuPasLintasBatasViewModel = koinViewModel()
+//            SPPermohonanPenerbitanBukuPasLintasBatasScreen(
+//                navController = navController,
+//                spPermohonanPenerbitanBukuPasLintasBatasViewModel = spPermohonanPenerbitanBukuPasLintasBatasViewModel
+//            )
+//        }
 
         composable(Screen.SRKeramaian.route) {
             val srKeramaianViewModel: SRKeramaianViewModel = koinViewModel()
@@ -524,37 +523,37 @@ fun NavGraph(
             )
         }
 
-        composable(Screen.SPMCerai.route) {
-            val spmCeraiViewModel: SPMCeraiViewModel = koinViewModel()
-            SPMCeraiScreen(
-                navController = navController,
-                spmCeraiViewModel = spmCeraiViewModel
-            )
-        }
-
-        composable(Screen.SPMKartuKeluarga.route) {
-            val spmKartuKeluargaViewModel: SPMKartuKeluargaViewModel = koinViewModel()
-            SPMKartuKeluargaScreen(
-                navController = navController,
-                spmKartuKeluargaViewModel = spmKartuKeluargaViewModel
-            )
-        }
-
-        composable(Screen.SPMPerubahanKK.route) {
-            val spmPerubahanKKViewModel: SPMPerubahanKKViewModel = koinViewModel()
-            SPMPerubahanKKScreen(
-                navController = navController,
-                spmPerubahanKKViewModel = spmPerubahanKKViewModel
-            )
-        }
-
-        composable(Screen.SPNPenguasaanFisikBidangTanah.route) {
-            val spnPenguasaanFisikBidangTanahViewModel: SPNPenguasaanFisikBidangTanahViewModel = koinViewModel()
-            SPNPenguasaanFisikBidangTanahScreen(
-                navController = navController,
-                spnPenguasaanFisikBidangTanahViewModel = spnPenguasaanFisikBidangTanahViewModel
-            )
-        }
+//        composable(Screen.SPMCerai.route) {
+//            val spmCeraiViewModel: SPMCeraiViewModel = koinViewModel()
+//            SPMCeraiScreen(
+//                navController = navController,
+//                spmCeraiViewModel = spmCeraiViewModel
+//            )
+//        }
+//
+//        composable(Screen.SPMKartuKeluarga.route) {
+//            val spmKartuKeluargaViewModel: SPMKartuKeluargaViewModel = koinViewModel()
+//            SPMKartuKeluargaScreen(
+//                navController = navController,
+//                spmKartuKeluargaViewModel = spmKartuKeluargaViewModel
+//            )
+//        }
+//
+//        composable(Screen.SPMPerubahanKK.route) {
+//            val spmPerubahanKKViewModel: SPMPerubahanKKViewModel = koinViewModel()
+//            SPMPerubahanKKScreen(
+//                navController = navController,
+//                spmPerubahanKKViewModel = spmPerubahanKKViewModel
+//            )
+//        }
+//
+//        composable(Screen.SPNPenguasaanFisikBidangTanah.route) {
+//            val spnPenguasaanFisikBidangTanahViewModel: SPNPenguasaanFisikBidangTanahViewModel = koinViewModel()
+//            SPNPenguasaanFisikBidangTanahScreen(
+//                navController = navController,
+//                spnPenguasaanFisikBidangTanahViewModel = spnPenguasaanFisikBidangTanahViewModel
+//            )
+//        }
 
         composable(Screen.Notification.route) {
             val homeViewModel: HomeViewModel = koinViewModel()

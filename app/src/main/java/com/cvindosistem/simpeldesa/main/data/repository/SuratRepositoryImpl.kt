@@ -22,6 +22,7 @@ import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketer
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKKepemilikanTanahRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKLahirMatiRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKNikahWargaNonMuslimRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKPengantarCeraiRujukRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKPenghasilanRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKPergiKawinRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKResiKTPSementaraRequest
@@ -38,6 +39,7 @@ import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratpenga
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratpengantar.SPPindahDomisiliRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratpermohonan.SPMAktaLahirRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratpermohonan.SPMBelumMemilikiAktaLahirRequest
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratpermohonan.SPMCeraiRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratpermohonan.SPMDuplikatKelahiranRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratpermohonan.SPMDuplikatSuratNikahRequest
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratpermohonan.SPMKartuKeluargaRequest

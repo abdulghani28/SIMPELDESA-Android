@@ -21,6 +21,7 @@ import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratkete
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKKepemilikanTanahResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKLahirMatiResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKNikahNonMuslimResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKPengantarCeraiRujukResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKPenghasilanResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKPergiKawinResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratketerangan.SKResiKTPSementaraResponse
@@ -37,6 +38,7 @@ import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratpeng
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratpengantar.SPPindahDomisiliResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratpermohonan.SPMAktaLahirResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratpermohonan.SPMBelumMemilikiAktaLahirResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratpermohonan.SPMCeraiResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratpermohonan.SPMDuplikatKelahiranResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratpermohonan.SPMDuplikatSuratNikahResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.response.suratpermohonan.SPMKartuKeluargaResponse
