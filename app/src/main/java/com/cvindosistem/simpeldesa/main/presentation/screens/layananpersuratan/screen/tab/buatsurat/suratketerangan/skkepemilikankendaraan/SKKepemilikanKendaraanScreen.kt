@@ -123,7 +123,7 @@ fun SKKepemilikanKendaraanScreen(
         topBar = {
             Column {
                 AppTopBar(
-                    title = "SK Pergi Kawin",
+                    title = "Surat Keterangan Kepemilikan Kendaraan",
                     showBackButton = true,
                     onBackClick = {
                         if (hasFormData) {

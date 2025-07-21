@@ -148,7 +148,7 @@ fun SKStatusPerkawinanScreen(
         topBar = {
             Column {
                 AppTopBar(
-                    title = "SK Status Perkawinan",
+                    title = "Surat Keterangan Status Perkawinan",
                     showBackButton = true,
                     onBackClick = {
                         if (hasFormData) {

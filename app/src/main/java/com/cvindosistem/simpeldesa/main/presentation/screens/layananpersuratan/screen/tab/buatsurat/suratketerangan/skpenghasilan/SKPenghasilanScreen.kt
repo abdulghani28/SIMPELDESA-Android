@@ -123,7 +123,7 @@ fun SKPenghasilanScreen(
         topBar = {
             Column {
                 AppTopBar(
-                    title = "SK Tidak Masuk Kerja",
+                    title = "Surat Keterangan Penghasilan",
                     showBackButton = true,
                     onBackClick = {
                         if (hasFormData) {

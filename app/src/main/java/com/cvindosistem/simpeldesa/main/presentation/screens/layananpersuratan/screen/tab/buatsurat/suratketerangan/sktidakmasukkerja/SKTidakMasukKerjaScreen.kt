@@ -124,7 +124,7 @@ fun SKTidakMasukKerjaScreen(
         topBar = {
             Column {
                 AppTopBar(
-                    title = "SK Tidak Masuk Kerja",
+                    title = "Surat Keterangan Tidak Masuk Kerja",
                     showBackButton = true,
                     onBackClick = {
                         if (hasFormData) {

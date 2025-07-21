@@ -123,7 +123,7 @@ fun SKPergiKawinScreen(
         topBar = {
             Column {
                 AppTopBar(
-                    title = "SK Pergi Kawin",
+                    title = "Surat Keterangan Pergi Kawin",
                     showBackButton = true,
                     onBackClick = {
                         if (hasFormData) {

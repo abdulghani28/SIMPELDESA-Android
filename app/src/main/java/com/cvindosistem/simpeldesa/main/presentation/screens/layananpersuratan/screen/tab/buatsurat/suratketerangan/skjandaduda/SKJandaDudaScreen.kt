@@ -123,7 +123,7 @@ fun SKJandaDudaScreen(
         topBar = {
             Column {
                 AppTopBar(
-                    title = "SK Tidak Masuk Kerja",
+                    title = "Surat Keterangan Janda Duda",
                     showBackButton = true,
                     onBackClick = {
                         if (hasFormData) {

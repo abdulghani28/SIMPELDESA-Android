@@ -123,7 +123,7 @@ fun SKBedaIdentitasScreen(
         topBar = {
             Column {
                 AppTopBar(
-                    title = "SK Tidak Masuk Kerja",
+                    title = "Surat Keterangan Beda Identitas",
                     showBackButton = true,
                     onBackClick = {
                         if (hasFormData) {

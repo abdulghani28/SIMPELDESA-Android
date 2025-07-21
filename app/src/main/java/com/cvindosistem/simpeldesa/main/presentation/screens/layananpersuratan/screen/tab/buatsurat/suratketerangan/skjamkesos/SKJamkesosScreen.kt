@@ -124,7 +124,7 @@ fun SKJamkesosScreen(
         topBar = {
             Column {
                 AppTopBar(
-                    title = "SK Jamkesos",
+                    title = "Surat Keterangan Jamkesos",
                     showBackButton = true,
                     onBackClick = {
                         if (hasFormData) {

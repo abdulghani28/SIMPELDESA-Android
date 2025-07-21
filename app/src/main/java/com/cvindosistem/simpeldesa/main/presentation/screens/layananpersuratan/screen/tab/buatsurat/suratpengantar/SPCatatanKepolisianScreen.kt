@@ -135,7 +135,7 @@ fun SPCatatanKepolisianScreen(
         topBar = {
             Column {
                 AppTopBar(
-                    title = "SP Catatan Kepolisian",
+                    title = "Surat Pengantar Catatan Kepolisian",
                     showBackButton = true,
                     onBackClick = {
                         if (hasFormData) {

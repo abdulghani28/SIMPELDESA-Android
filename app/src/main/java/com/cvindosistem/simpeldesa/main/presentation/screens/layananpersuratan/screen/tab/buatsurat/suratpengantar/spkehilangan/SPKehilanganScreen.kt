@@ -124,7 +124,7 @@ fun SPKehilanganScreen(
         topBar = {
             Column {
                 AppTopBar(
-                    title = "SP Kehilangan",
+                    title = "Surat Pengantar Kehilangan",
                     showBackButton = true,
                     onBackClick = {
                         if (hasFormData) {

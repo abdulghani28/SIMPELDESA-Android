@@ -123,7 +123,7 @@ fun SKGhaibScreen(
         topBar = {
             Column {
                 AppTopBar(
-                    title = "SK Tidak Masuk Kerja",
+                    title = "Surat Keterangan Ghaib",
                     showBackButton = true,
                     onBackClick = {
                         if (hasFormData) {

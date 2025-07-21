@@ -124,7 +124,7 @@ fun SKBelumMemilikiPBBScreen(
         topBar = {
             Column {
                 AppTopBar(
-                    title = "SK Belum Memiliki PBB",
+                    title = "Surat Keterangan Belum Memiliki PBB",
                     showBackButton = true,
                     onBackClick = {
                         if (hasFormData) {

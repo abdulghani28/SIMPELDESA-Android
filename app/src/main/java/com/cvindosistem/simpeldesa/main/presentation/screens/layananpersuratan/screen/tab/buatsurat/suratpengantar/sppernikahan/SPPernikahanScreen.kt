@@ -125,7 +125,7 @@ fun SPPernikahanScreen(
         topBar = {
             Column {
                 AppTopBar(
-                    title = "SP Pernikahan",
+                    title = "Surat Pengantar Pernikahan",
                     showBackButton = true,
                     onBackClick = {
                         if (hasFormData) {

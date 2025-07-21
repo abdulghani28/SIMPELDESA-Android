@@ -123,7 +123,7 @@ fun SKBerpergianScreen(
         topBar = {
             Column {
                 AppTopBar(
-                    title = "SK Tidak Masuk Kerja",
+                    title = "Surat Keterangan Berpergian",
                     showBackButton = true,
                     onBackClick = {
                         if (hasFormData) {

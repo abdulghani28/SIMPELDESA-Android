@@ -145,7 +145,7 @@ fun SKUsahaScreen(
         topBar = {
             Column {
                 AppTopBar(
-                    title = "SK Usaha",
+                    title = "Surat Keterangan Usaha",
                     showBackButton = true,
                     onBackClick = {
                         if (hasFormData) {

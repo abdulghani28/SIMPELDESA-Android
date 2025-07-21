@@ -142,7 +142,7 @@ fun SKResiKTPSementaraScreen(
         topBar = {
             Column {
                 AppTopBar(
-                    title = "SK Resi KTP Sementara",
+                    title = "Surat Keterangan Resi KTP Sementara",
                     showBackButton = true,
                     onBackClick = {
                         if (hasFormData) {

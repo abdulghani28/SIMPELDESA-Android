@@ -123,7 +123,7 @@ fun SKLahirMatiScreen(
         topBar = {
             Column {
                 AppTopBar(
-                    title = "SK Lahir Mati",
+                    title = "Surat Keterangan Lahir Mati",
                     showBackButton = true,
                     onBackClick = {
                         if (hasFormData) {

@@ -123,7 +123,7 @@ fun SKKematianScreen(
         topBar = {
             Column {
                 AppTopBar(
-                    title = "SK Kematian",
+                    title = "Surat Keterangan Kematian",
                     showBackButton = true,
                     onBackClick = {
                         if (hasFormData) {

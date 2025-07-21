@@ -1,4 +1,4 @@
-package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratpermohonan
+package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratpermohonan.spmaktalahir
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -123,7 +123,7 @@ fun SPMAktaLahirScreen(
         topBar = {
             Column {
                 AppTopBar(
-                    title = "SPM Akta Lahir",
+                    title = "Surat Permohonan Akta Lahir",
                     showBackButton = true,
                     onBackClick = {
                         if (hasFormData) {

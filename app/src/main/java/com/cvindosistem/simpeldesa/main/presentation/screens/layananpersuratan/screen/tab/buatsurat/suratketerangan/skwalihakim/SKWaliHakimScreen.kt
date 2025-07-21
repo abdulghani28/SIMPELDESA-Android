@@ -123,7 +123,7 @@ fun SKWaliHakimScreen(
         topBar = {
             Column {
                 AppTopBar(
-                    title = "SK Wali Hakim",
+                    title = "Surat Keterangan Wali Hakim",
                     showBackButton = true,
                     onBackClick = {
                         if (hasFormData) {

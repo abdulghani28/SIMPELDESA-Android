@@ -124,7 +124,7 @@ fun SKJualBeliScreen(
         topBar = {
             Column {
                 AppTopBar(
-                    title = "SK Jual Beli",
+                    title = "Surat Keterangan Jual Beli",
                     showBackButton = true,
                     onBackClick = {
                         if (hasFormData) {

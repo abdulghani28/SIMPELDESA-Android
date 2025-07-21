@@ -135,7 +135,7 @@ fun SKDomisiliScreen(
         topBar = {
             Column {
                 AppTopBar(
-                    title = "SK Domisili",
+                    title = "Surat Keterangan Domisili",
                     showBackButton = true,
                     onBackClick = {
                         if (hasFormData) {

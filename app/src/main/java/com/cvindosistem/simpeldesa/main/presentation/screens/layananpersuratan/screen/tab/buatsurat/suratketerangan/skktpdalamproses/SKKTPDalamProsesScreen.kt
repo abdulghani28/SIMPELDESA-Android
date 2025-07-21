@@ -124,7 +124,7 @@ fun SKKTPDalamProsesScreen(
         topBar = {
             Column {
                 AppTopBar(
-                    title = "SK KTP Dalam Proses",
+                    title = "Surat Keterangan KTP Dalam Proses",
                     showBackButton = true,
                     onBackClick = {
                         if (hasFormData) {

@@ -151,7 +151,7 @@ fun SKDomisiliPerusahaanScreen(
         topBar = {
             Column {
                 AppTopBar(
-                    title = "SK Domisili Perusahaan",
+                    title = "Surat Keterangan Domisili Perusahaan",
                     showBackButton = true,
                     onBackClick = {
                         if (hasFormData) {
