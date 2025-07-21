@@ -1,4 +1,4 @@
-package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratpermohonan.spmduplikatkelahiran
+package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratpermohonan.spmduplikatsuratnikah
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,11 +18,11 @@ import com.cvindosistem.simpeldesa.core.components.FormSectionList
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
 import com.cvindosistem.simpeldesa.core.components.StepIndicator
 import com.cvindosistem.simpeldesa.core.components.UseMyDataCheckbox
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpermohonan.duplikatkelahiran.SPMDuplikatKelahiranViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpermohonan.duplikatsuratnikah.SPMDuplikatSuratNikahViewModel
 
 @Composable
-internal fun SPMDuplikatKelahiran1Content(
-    viewModel: SPMDuplikatKelahiranViewModel,
+internal fun SPMDuplikatSuratNikah1Content(
+    viewModel: SPMDuplikatSuratNikahViewModel,
     modifier: Modifier = Modifier
 ) {
     FormSectionList(
@@ -31,7 +31,7 @@ internal fun SPMDuplikatKelahiran1Content(
     ) {
         item {
             StepIndicator(
-                steps = listOf("Informasi Pelapor", "Informasi Anak", "Informasi Orang Tua", "Informasi Pelengkap"),
+                steps = listOf("Informasi Pelapor", "Informasi Pernikahan", "Informasi Pelengkap"),
                 currentStep = viewModel.currentStep
             )
         }
@@ -52,7 +52,7 @@ internal fun SPMDuplikatKelahiran1Content(
 
 @Composable
 private fun InformasiPelapor(
-    viewModel: SPMDuplikatKelahiranViewModel
+    viewModel: SPMDuplikatSuratNikahViewModel
 ) {
     Column {
         SectionTitle("Informasi Pelapor")
@@ -82,10 +82,18 @@ private fun InformasiPelapor(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
+        AppTextField(
+            label = "Jenis Kelamin",
+            placeholder = "Laki-laki / Perempuan",
+            value = viewModel.jenisKelaminValue,
+            onValueChange = viewModel::updateJenisKelamin,
+            isError = viewModel.hasFieldError("jenis_kelamin"),
+            errorMessage = viewModel.getFieldError("jenis_kelamin")
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             Column(modifier = Modifier.weight(1f)) {
                 AppTextField(
                     label = "Tempat Lahir",
@@ -111,6 +119,29 @@ private fun InformasiPelapor(
         Spacer(modifier = Modifier.height(16.dp))
 
         AppTextField(
+            label = "Kewarganegaraan",
+            placeholder = "Masukkan kewarganegaraan",
+            value = viewModel.kewarganegaraanValue,
+            onValueChange = viewModel::updateKewarganegaraan,
+            isError = viewModel.hasFieldError("kewarganegaraan"),
+            errorMessage = viewModel.getFieldError("kewarganegaraan")
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        AppTextField(
+            label = "No. Kartu Keluarga",
+            placeholder = "Masukkan nomor KK",
+            value = viewModel.noKkValue,
+            onValueChange = viewModel::updateNoKk,
+            isError = viewModel.hasFieldError("no_kk"),
+            errorMessage = viewModel.getFieldError("no_kk"),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        AppTextField(
             label = "Pekerjaan",
             placeholder = "Masukkan pekerjaan",
             value = viewModel.pekerjaanValue,
@@ -122,8 +153,30 @@ private fun InformasiPelapor(
         Spacer(modifier = Modifier.height(16.dp))
 
         AppTextField(
+            label = "Pendidikan ID",
+            placeholder = "Masukkan ID pendidikan",
+            value = viewModel.pendidikanIdValue,
+            onValueChange = viewModel::updatePendidikanId,
+            isError = viewModel.hasFieldError("pendidikan_id"),
+            errorMessage = viewModel.getFieldError("pendidikan_id")
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        AppTextField(
+            label = "Agama ID",
+            placeholder = "Masukkan ID agama",
+            value = viewModel.agamaIdValue,
+            onValueChange = viewModel::updateAgamaId,
+            isError = viewModel.hasFieldError("agama_id"),
+            errorMessage = viewModel.getFieldError("agama_id")
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        AppTextField(
             label = "Alamat",
-            placeholder = "Masukkan alamat tempat tinggal",
+            placeholder = "Masukkan alamat lengkap",
             value = viewModel.alamatValue,
             onValueChange = viewModel::updateAlamat,
             isError = viewModel.hasFieldError("alamat"),

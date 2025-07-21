@@ -1,4 +1,4 @@
-package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratpermohonan.spmduplikatkelahiran
+package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratpermohonan.spmduplikatsuratnikah
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -12,11 +12,11 @@ import com.cvindosistem.simpeldesa.core.components.FormSectionList
 import com.cvindosistem.simpeldesa.core.components.MultilineTextField
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
 import com.cvindosistem.simpeldesa.core.components.StepIndicator
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpermohonan.duplikatkelahiran.SPMDuplikatKelahiranViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpermohonan.duplikatsuratnikah.SPMDuplikatSuratNikahViewModel
 
 @Composable
-internal fun SPMDuplikatKelahiran4Content(
-    viewModel: SPMDuplikatKelahiranViewModel,
+internal fun SPMDuplikatSuratNikah3Content(
+    viewModel: SPMDuplikatSuratNikahViewModel,
     modifier: Modifier = Modifier
 ) {
     FormSectionList(
@@ -25,7 +25,7 @@ internal fun SPMDuplikatKelahiran4Content(
     ) {
         item {
             StepIndicator(
-                steps = listOf("Informasi Pelapor", "Informasi Anak", "Informasi Orang Tua", "Informasi Pelengkap"),
+                steps = listOf("Informasi Pelapor", "Informasi Pernikahan", "Informasi Pelengkap"),
                 currentStep = viewModel.currentStep
             )
         }
@@ -38,10 +38,10 @@ internal fun SPMDuplikatKelahiran4Content(
 
 @Composable
 private fun InformasiPelengkap(
-    viewModel: SPMDuplikatKelahiranViewModel
+    viewModel: SPMDuplikatSuratNikahViewModel
 ) {
     Column {
-        SectionTitle("Informasi Pelengkap")
+        SectionTitle("Keperluan Pengajuan")
 
         Spacer(modifier = Modifier.height(16.dp))
 

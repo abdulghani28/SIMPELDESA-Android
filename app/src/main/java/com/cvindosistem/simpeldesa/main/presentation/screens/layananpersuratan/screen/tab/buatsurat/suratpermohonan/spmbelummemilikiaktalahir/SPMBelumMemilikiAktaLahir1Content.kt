@@ -17,6 +17,7 @@ import com.cvindosistem.simpeldesa.core.components.DatePickerField
 import com.cvindosistem.simpeldesa.core.components.FormSectionList
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
 import com.cvindosistem.simpeldesa.core.components.StepIndicator
+import com.cvindosistem.simpeldesa.core.components.UseMyDataCheckbox
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpermohonan.belummemilikiaktalahir.SPMBelumMemilikiAktaLahirViewModel
 
 @Composable
@@ -32,6 +33,14 @@ internal fun SPMBelumMemilikiAktaLahir1Content(
             StepIndicator(
                 steps = listOf("Informasi Pelapor", "Informasi Orang Tua"),
                 currentStep = viewModel.currentStep
+            )
+        }
+
+        item {
+            UseMyDataCheckbox(
+                checked = viewModel.useMyDataChecked,
+                onCheckedChange = viewModel::updateUseMyData,
+                isLoading = viewModel.isLoadingUserData
             )
         }
 
