@@ -180,13 +180,13 @@ private fun getSuratTypes(): List<SuratType> {
     return listOf(
         SuratType(
             title = "Surat Keterangan",
-            subtitle = "14 Pilihan Surat",
+            subtitle = "27 Pilihan Surat",
             icon = R.drawable.ic_surat_keterangan,
             navigation = Screen.SuratKeterangan.route
         ),
         SuratType(
             title = "Surat Pengantar",
-            subtitle = "3 Pilihan Surat",
+            subtitle = "4 Pilihan Surat",
             icon = R.drawable.ic_surat_pengantar,
             navigation = Screen.SuratPengantar.route
         ),
@@ -195,6 +195,18 @@ private fun getSuratTypes(): List<SuratType> {
             subtitle = "1 Pilihan Surat",
             icon = R.drawable.ic_surat_rekomendasi,
             navigation = Screen.SuratRekomendasi.route
+        ),
+        SuratType(
+            title = "Surat Permohonan",
+            subtitle = "7 Pilihan Surat",
+            icon = R.drawable.ic_surat_rekomendasi,
+            navigation = Screen.SuratPermohonan.route
+        ),
+        SuratType(
+            title = "Surat Pernyataan",
+            subtitle = "1 Pilihan Surat",
+            icon = R.drawable.ic_surat_rekomendasi,
+            navigation = Screen.SuratPernyataan.route
         ),
         SuratType(
             title = "Surat Lainnya",

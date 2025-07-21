@@ -35,11 +35,6 @@ import com.cvindosistem.simpeldesa.main.presentation.components.BaseDialog
 import com.cvindosistem.simpeldesa.main.presentation.components.PreviewItem
 import com.cvindosistem.simpeldesa.main.presentation.components.PreviewSection
 import com.cvindosistem.simpeldesa.main.presentation.components.SubmitConfirmationDialog
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratpermohonan.spmduplikatSuratNikah.SPMDuplikatSuratNikah1Content
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratpermohonan.spmduplikatSuratNikah.SPMDuplikatSuratNikah2Content
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratpermohonan.spmduplikatSuratNikah.SPMDuplikatSuratNikah3Content
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratpermohonan.spmduplikatSuratNikah.SPMDuplikatSuratNikah4Content
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpermohonan.duplikatSuratNikah.SPMDuplikatSuratNikahViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpermohonan.duplikatsuratnikah.SPMDuplikatSuratNikahViewModel
 import kotlinx.coroutines.delay
 
@@ -54,7 +49,7 @@ fun SPMDuplikatSuratNikahScreen(
     val showPreviewDialog by remember { derivedStateOf { spmDuplikatSuratNikahViewModel.showPreviewDialog } }
     val isLoading by remember { derivedStateOf { spmDuplikatSuratNikahViewModel.isLoading } }
     val hasFormData by remember { derivedStateOf { spmDuplikatSuratNikahViewModel.hasFormData() } }
-    val totalSteps = 4
+    val totalSteps = 3
 
     var showSuccessDialog by remember { mutableStateOf(false) }
     var successDialogTitle by remember { mutableStateOf("") }
@@ -172,10 +167,6 @@ fun SPMDuplikatSuratNikahScreen(
                         modifier = Modifier.fillMaxSize()
                     )
                     3 -> SPMDuplikatSuratNikah3Content(
-                        viewModel = spmDuplikatSuratNikahViewModel,
-                        modifier = Modifier.fillMaxSize()
-                    )
-                    4 -> SPMDuplikatSuratNikah4Content(
                         viewModel = spmDuplikatSuratNikahViewModel,
                         modifier = Modifier.fillMaxSize()
                     )
