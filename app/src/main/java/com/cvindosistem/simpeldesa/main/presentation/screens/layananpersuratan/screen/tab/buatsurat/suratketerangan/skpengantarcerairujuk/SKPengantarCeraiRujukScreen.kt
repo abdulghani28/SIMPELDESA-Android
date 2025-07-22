@@ -1,4 +1,4 @@
-package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratrekomendasi
+package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skpengantarcerairujuk
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -29,28 +29,27 @@ import com.cvindosistem.simpeldesa.core.components.AppStepAnimatedContent
 import com.cvindosistem.simpeldesa.core.components.AppTopBar
 import com.cvindosistem.simpeldesa.core.components.ErrorDialog
 import com.cvindosistem.simpeldesa.core.components.LoadingScreen
-import com.cvindosistem.simpeldesa.core.helpers.dateFormatterToApiFormat
 import com.cvindosistem.simpeldesa.main.navigation.Screen
 import com.cvindosistem.simpeldesa.main.presentation.components.BackWarningDialog
 import com.cvindosistem.simpeldesa.main.presentation.components.BaseDialog
 import com.cvindosistem.simpeldesa.main.presentation.components.PreviewItem
 import com.cvindosistem.simpeldesa.main.presentation.components.PreviewSection
 import com.cvindosistem.simpeldesa.main.presentation.components.SubmitConfirmationDialog
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratrekomendasi.keramaian.SRKeramaianViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.pengantarcerairujuk.SKPengantarCeraiRujukViewModel
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun SRKeramaianScreen(
-    srKeramaianViewModel: SRKeramaianViewModel,
+fun SKPengantarCeraiRujukScreen(
+    skPengantarCeraiRujukViewModel: SKPengantarCeraiRujukViewModel,
     navController: NavController
 ) {
-    val currentStep by remember { derivedStateOf { srKeramaianViewModel.currentStep } }
-    val showConfirmationDialog by remember { derivedStateOf { srKeramaianViewModel.showConfirmationDialog } }
-    val showPreviewDialog by remember { derivedStateOf { srKeramaianViewModel.showPreviewDialog } }
-    val isLoading by remember { derivedStateOf { srKeramaianViewModel.isLoading } }
-    val hasFormData by remember { derivedStateOf { srKeramaianViewModel.hasFormData() } }
-    val totalSteps = 2
+    val currentStep by remember { derivedStateOf { skPengantarCeraiRujukViewModel.currentStep } }
+    val showConfirmationDialog by remember { derivedStateOf { skPengantarCeraiRujukViewModel.showConfirmationDialog } }
+    val showPreviewDialog by remember { derivedStateOf { skPengantarCeraiRujukViewModel.showPreviewDialog } }
+    val isLoading by remember { derivedStateOf { skPengantarCeraiRujukViewModel.isLoading } }
+    val hasFormData by remember { derivedStateOf { skPengantarCeraiRujukViewModel.hasFormData() } }
+    val totalSteps = 5
 
     var showSuccessDialog by remember { mutableStateOf(false) }
     var successDialogTitle by remember { mutableStateOf("") }
@@ -74,10 +73,10 @@ fun SRKeramaianScreen(
         }
     }
 
-    LaunchedEffect(srKeramaianViewModel.keramaianEvent) {
-        srKeramaianViewModel.keramaianEvent.collect { event ->
+    LaunchedEffect(skPengantarCeraiRujukViewModel.skPengantarCeraiRujukEvent) {
+        skPengantarCeraiRujukViewModel.skPengantarCeraiRujukEvent.collect { event ->
             when (event) {
-                is SRKeramaianViewModel.SRKeramaianEvent.SubmitSuccess -> {
+                is SKPengantarCeraiRujukViewModel.SKPengantarCeraiRujukEvent.SubmitSuccess -> {
 
                     successDialogTitle = "Berhasil"
                     successDialogMessage = "Surat berhasil diajukan"
@@ -91,23 +90,23 @@ fun SRKeramaianScreen(
                         }
                     }
                 }
-                is SRKeramaianViewModel.SRKeramaianEvent.SubmitError -> {
+                is SKPengantarCeraiRujukViewModel.SKPengantarCeraiRujukEvent.SubmitError -> {
                     errorDialogTitle = "Gagal Mengirim"
                     errorDialogMessage = event.message
                     showErrorDialog = true
                 }
-                is SRKeramaianViewModel.SRKeramaianEvent.UserDataLoadError -> {
+                is SKPengantarCeraiRujukViewModel.SKPengantarCeraiRujukEvent.UserDataLoadError -> {
                     errorDialogTitle = "Gagal Memuat Data"
                     errorDialogMessage = event.message
                     showErrorDialog = true
                 }
-                is SRKeramaianViewModel.SRKeramaianEvent.ValidationError -> {
+                is SKPengantarCeraiRujukViewModel.SKPengantarCeraiRujukEvent.ValidationError -> {
                     snackbarHostState.showSnackbar(
                         message = "Mohon lengkapi semua field yang diperlukan",
                         duration = SnackbarDuration.Short
                     )
                 }
-                is SRKeramaianViewModel.SRKeramaianEvent.StepChanged -> {
+                is SKPengantarCeraiRujukViewModel.SKPengantarCeraiRujukEvent.StepChanged -> {
                     // Optional: Show step change feedback
                     snackbarHostState.showSnackbar(
                         message = "Beralih ke langkah ${event.step}",
@@ -124,7 +123,7 @@ fun SRKeramaianScreen(
         topBar = {
             Column {
                 AppTopBar(
-                    title = "Surat Rekomendasi Keramaian",
+                    title = "Surat Keterangan Biodata Warga",
                     showBackButton = true,
                     onBackClick = {
                         if (hasFormData) {
@@ -139,16 +138,16 @@ fun SRKeramaianScreen(
         bottomBar = {
             AppBottomBar(
                 onPreviewClick = {
-                    srKeramaianViewModel.showPreview()
+                    skPengantarCeraiRujukViewModel.showPreview()
                 },
                 onBackClick = if (currentStep > 1) {
-                    { srKeramaianViewModel.previousStep() }
+                    { skPengantarCeraiRujukViewModel.previousStep() }
                 } else null,
                 onContinueClick = if (currentStep < totalSteps) {
-                    { srKeramaianViewModel.nextStep() }
+                    { skPengantarCeraiRujukViewModel.nextStep() }
                 } else null,
                 onSubmitClick = if (currentStep == totalSteps) {
-                    { srKeramaianViewModel.showConfirmationDialog() }
+                    { skPengantarCeraiRujukViewModel.showConfirmationDialog() }
                 } else null
             )
         }
@@ -159,12 +158,16 @@ fun SRKeramaianScreen(
                 modifier = Modifier.fillMaxSize()
             ) { step ->
                 when (step) {
-                    1 -> SRKeramaian1Content(
-                        viewModel = srKeramaianViewModel,
+                    1 -> SKPengantarCeraiRujuk1Content(
+                        viewModel = skPengantarCeraiRujukViewModel,
                         modifier = Modifier.fillMaxSize()
                     )
-                    2 -> SRKeramaian2Content(
-                        viewModel = srKeramaianViewModel,
+                    2 -> SKPengantarCeraiRujuk2Content(
+                        viewModel = skPengantarCeraiRujukViewModel,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                    3 -> SKPengantarCeraiRujuk3Content(
+                        viewModel = skPengantarCeraiRujukViewModel,
                         modifier = Modifier.fillMaxSize()
                     )
                 }
@@ -173,13 +176,13 @@ fun SRKeramaianScreen(
             // Preview Dialog
             if (showPreviewDialog) {
                 PreviewDialog(
-                    viewModel = srKeramaianViewModel,
+                    viewModel = skPengantarCeraiRujukViewModel,
                     onDismiss = {
-                        srKeramaianViewModel.dismissPreview()
+                        skPengantarCeraiRujukViewModel.dismissPreview()
                     },
                     onSubmit = {
-                        srKeramaianViewModel.dismissPreview()
-                        srKeramaianViewModel.showConfirmationDialog()
+                        skPengantarCeraiRujukViewModel.dismissPreview()
+                        skPengantarCeraiRujukViewModel.showConfirmationDialog()
                     }
                 )
             }
@@ -188,14 +191,14 @@ fun SRKeramaianScreen(
             if (showConfirmationDialog) {
                 SubmitConfirmationDialog(
                     onConfirm = {
-                        srKeramaianViewModel.confirmSubmit()
+                        skPengantarCeraiRujukViewModel.confirmSubmit()
                     },
                     onDismiss = {
-                        srKeramaianViewModel.dismissConfirmationDialog()
+                        skPengantarCeraiRujukViewModel.dismissConfirmationDialog()
                     },
                     onPreview = {
-                        srKeramaianViewModel.dismissConfirmationDialog()
-                        srKeramaianViewModel.showPreview()
+                        skPengantarCeraiRujukViewModel.dismissConfirmationDialog()
+                        skPengantarCeraiRujukViewModel.showPreview()
                     }
                 )
             }
@@ -229,7 +232,7 @@ fun SRKeramaianScreen(
                     message = errorDialogMessage,
                     onDismiss = {
                         showErrorDialog = false
-                        srKeramaianViewModel.clearError()
+                        skPengantarCeraiRujukViewModel.clearError()
                     }
                 )
             }
@@ -244,12 +247,12 @@ fun SRKeramaianScreen(
 
 @Composable
 private fun PreviewDialog(
-    viewModel: SRKeramaianViewModel,
+    viewModel: SKPengantarCeraiRujukViewModel,
     onDismiss: () -> Unit,
     onSubmit: () -> Unit
 ) {
     BaseDialog(
-        title = "Preview Data",
+        title = "Preview Biodata Warga",
         onDismiss = onDismiss,
         onSubmit = onSubmit,
         submitText = "Ajukan Sekarang",
@@ -259,34 +262,54 @@ private fun PreviewDialog(
             modifier = Modifier.weight(1f),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            // Step 1: Data Diri Pemohon
             item {
-                PreviewSection(
-                    title = "Informasi Pelapor",
-                    content = {
-                        PreviewItem("NIK", viewModel.nikValue)
-                        PreviewItem("Nama Lengkap", viewModel.namaValue)
-                        PreviewItem("Tempat Lahir", viewModel.tempatLahirValue)
-                        PreviewItem("Tanggal Lahir", dateFormatterToApiFormat(viewModel.tanggalLahirValue))
-                        PreviewItem("Jenis Kelamin", viewModel.selectedGender)
-                        PreviewItem("Pekerjaan", viewModel.pekerjaanValue)
-                        PreviewItem("Alamat", viewModel.alamatValue)
-                    }
-                )
+                PreviewSection(title = "Data Diri Pemohon") {
+                    PreviewItem("NIK", viewModel.nikValue)
+                    PreviewItem("Nama Lengkap", viewModel.namaValue)
+                    PreviewItem("Tempat Lahir", viewModel.tempatLahirValue)
+                    PreviewItem("Tanggal Lahir", viewModel.tanggalLahirValue)
+                    PreviewItem("Agama", viewModel.agamaIdValue)
+                    PreviewItem("Pekerjaan", viewModel.pekerjaanValue)
+                    PreviewItem("Kewarganegaraan", viewModel.kewarganegaraanValue)
+                }
             }
+
+            // Step 2: Data Orang Tua Pemohon
             item {
-                PreviewSection(
-                    title = "Informasi Kegiatan",
-                    content = {
-                        PreviewItem("Nama Acara", viewModel.namaAcaraValue)
-                        PreviewItem("Tempat Acara", viewModel.tempatAcaraValue)
-                        PreviewItem("Hari", viewModel.hariValue)
-                        PreviewItem("Tanggal", dateFormatterToApiFormat(viewModel.tanggalValue))
-                        PreviewItem("Jam Mulai", viewModel.jamMulaiValue)
-                        PreviewItem("Jam Selesai", viewModel.jamSelesaiValue)
-                        PreviewItem("Penanggung Jawab", viewModel.penanggungJawabValue)
-                        PreviewItem("Kontak", viewModel.kontakValue)
-                    }
-                )
+                PreviewSection(title = "Data Ayah Pemohon") {
+                    PreviewItem("Nama Ayah", viewModel.namaAyahValue)
+                    PreviewItem("NIK Ayah", viewModel.nikAyahValue)
+                }
+            }
+
+            // Step 3: Data Pasangan
+            item {
+                PreviewSection(title = "Data Pasangan") {
+                    PreviewItem("NIK Pasangan", viewModel.nikPasanganValue)
+                    PreviewItem("Nama Pasangan", viewModel.namaPasanganValue)
+                    PreviewItem("Tempat Lahir", viewModel.tempatLahirPasanganValue)
+                    PreviewItem("Tanggal Lahir", viewModel.tanggalLahirPasanganValue)
+                    PreviewItem("Agama", viewModel.agamaIdPasanganValue)
+                    PreviewItem("Pekerjaan", viewModel.pekerjaanPasanganValue)
+                    PreviewItem("Alamat", viewModel.alamatPasanganValue)
+                    PreviewItem("Kewarganegaraan", viewModel.kewarganegaraanPasanganValue)
+                }
+            }
+
+            // Step 4: Data Orang Tua Pasangan
+            item {
+                PreviewSection(title = "Data Ayah Pasangan") {
+                    PreviewItem("Nama Ayah Pasangan", viewModel.namaAyahPasanganValue)
+                    PreviewItem("NIK Ayah Pasangan", viewModel.nikAyahPasanganValue)
+                }
+            }
+
+            // Step 5: Keperluan
+            item {
+                PreviewSection(title = "Keperluan") {
+                    PreviewItem("Keperluan", viewModel.keperluanValue)
+                }
             }
         }
     }

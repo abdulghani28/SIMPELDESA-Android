@@ -41,16 +41,21 @@ import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.s
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skbedaidentitas.SKBedaIdentitasScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skbelummemilikipbb.SKBelumMemilikiPBBScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skberpergian.SKBerpergianScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skbiodatawarga.SKBiodataWargaScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skdomisiliperusahaan.SKDomisiliPerusahaanScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skgaib.SKGhaibScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skizinorangtua.SKIzinOrangTuaScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skjamkesos.SKJamkesosScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skjandaduda.SKJandaDudaScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skjualbeli.SKJualBeliScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skkelahiran.SKKelahiranScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skkematian.SKKematianScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skkepemilikankendaraan.SKKepemilikanKendaraanScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skkepemilikantanah.SKKepemilikanTanahScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skktpdalamproses.SKKTPDalamProsesScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.sklahirmati.SKLahirMatiScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.sknikahwarganonmuslim.SKNikahWargaNonMuslimScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skpengantarcerairujuk.SKPengantarCeraiRujukScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skpenghasilan.SKPenghasilanScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skpergikawin.SKPergiKawinScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.sktidakmasukkerja.SKTidakMasukKerjaScreen
@@ -69,7 +74,7 @@ import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.s
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SuratDetailViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpengantar.catatankepolisian.SPCatatanKepolisianViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpengantar.pernikahan.SPPernikahanViewModel
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratrekomendasi.SRKeramaianViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratrekomendasi.keramaian.SRKeramaianViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SuratSayaViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.bedaidentitas.SKBedaIdentitasViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.belummemilikipbb.SKBelumMemilikiPBBViewModel
@@ -444,45 +449,45 @@ fun NavGraph(
             )
         }
 
-//        composable(Screen.SKPengantarCeraiRujuk.route) {
-//            val skPengantarCeraiRujukViewModel: SKPengantarCeraiRujukViewModel = koinViewModel()
-//            SKPengantarCeraiRujukScreen(
-//                navController = navController,
-//                skPengantarCeraiRujukViewModel = skPengantarCeraiRujukViewModel
-//            )
-//        }
-//
-//        composable(Screen.SKIzinOrangTua.route) {
-//            val skIzinOrangTuaViewModel: SKIzinOrangTuaViewModel = koinViewModel()
-//            SKIzinOrangTuaScreen(
-//                navController = navController,
-//                skIzinOrangTuaViewModel = skIzinOrangTuaViewModel
-//            )
-//        }
-//
-//        composable(Screen.SKKepemilikanTanah.route) {
-//            val skKepemilikanTanahViewModel: SKKepemilikanTanahViewModel = koinViewModel()
-//            SKKepemilikanTanahScreen(
-//                navController = navController,
-//                skKepemilikanTanahViewModel = skKepemilikanTanahViewModel
-//            )
-//        }
-//
-//        composable(Screen.SKBiodataWarga.route) {
-//            val skBiodataWargaViewModel: SKBiodataWargaViewModel = koinViewModel()
-//            SKBiodataWargaScreen(
-//                navController = navController,
-//                skBiodataWargaViewModel = skBiodataWargaViewModel
-//            )
-//        }
-//
-//        composable(Screen.SKNikahNonMuslim.route) {
-//            val skNikahNonMuslimViewModel: SKNikahWargaNonMuslimViewModel = koinViewModel()
-//            SKNikahNonMuslimScreen(
-//                navController = navController,
-//                skNikahNonMuslimViewModel = skNikahNonMuslimViewModel
-//            )
-//        }
+        composable(Screen.SKPengantarCeraiRujuk.route) {
+            val skPengantarCeraiRujukViewModel: SKPengantarCeraiRujukViewModel = koinViewModel()
+            SKPengantarCeraiRujukScreen(
+                navController = navController,
+                skPengantarCeraiRujukViewModel = skPengantarCeraiRujukViewModel
+            )
+        }
+
+        composable(Screen.SKIzinOrangTua.route) {
+            val skIzinOrangTuaViewModel: SKIzinOrangTuaViewModel = koinViewModel()
+            SKIzinOrangTuaScreen(
+                navController = navController,
+                skIzinOrangTuaViewModel = skIzinOrangTuaViewModel
+            )
+        }
+
+        composable(Screen.SKKepemilikanTanah.route) {
+            val skKepemilikanTanahViewModel: SKKepemilikanTanahViewModel = koinViewModel()
+            SKKepemilikanTanahScreen(
+                navController = navController,
+                skKepemilikanTanahViewModel = skKepemilikanTanahViewModel
+            )
+        }
+
+        composable(Screen.SKBiodataWarga.route) {
+            val skBiodataWargaViewModel: SKBiodataWargaViewModel = koinViewModel()
+            SKBiodataWargaScreen(
+                navController = navController,
+                skBiodataWargaViewModel = skBiodataWargaViewModel
+            )
+        }
+
+        composable(Screen.SKNikahNonMuslim.route) {
+            val skNikahNonMuslimViewModel: SKNikahWargaNonMuslimViewModel = koinViewModel()
+            SKNikahWargaNonMuslimScreen(
+                navController = navController,
+                skNikahWargaNonMuslimViewModel = skNikahNonMuslimViewModel
+            )
+        }
 
         composable(Screen.SPCatatanKepolisian.route) {
             val spCatatanKepolisianViewModel: SPCatatanKepolisianViewModel = koinViewModel()
@@ -509,13 +514,13 @@ fun NavGraph(
             )
         }
 
-//        composable(Screen.SPPermohonanPenerbitanBukuPasLintasBatas.route) {
-//            val spPermohonanPenerbitanBukuPasLintasBatasViewModel: SPPermohonanPenerbitanBukuPasLintasBatasViewModel = koinViewModel()
-//            SPPermohonanPenerbitanBukuPasLintasBatasScreen(
-//                navController = navController,
-//                spPermohonanPenerbitanBukuPasLintasBatasViewModel = spPermohonanPenerbitanBukuPasLintasBatasViewModel
-//            )
-//        }
+        composable(Screen.SPPermohonanPenerbitanBukuPasLintasBatas.route) {
+            val spPermohonanPenerbitanBukuPasLintasBatasViewModel: SPPermohonanPenerbitanBukuPasLintasBatasViewModel = koinViewModel()
+            SPPermohonanPenerbitanBukuPasLintasBatasScreen(
+                navController = navController,
+                spPermohonanPenerbitanBukuPasLintasBatasViewModel = spPermohonanPenerbitanBukuPasLintasBatasViewModel
+            )
+        }
 
         composable(Screen.SRKeramaian.route) {
             val srKeramaianViewModel: SRKeramaianViewModel = koinViewModel()
@@ -573,37 +578,37 @@ fun NavGraph(
             )
         }
 
-//        composable(Screen.SPMCerai.route) {
-//            val spmCeraiViewModel: SPMCeraiViewModel = koinViewModel()
-//            SPMCeraiScreen(
-//                navController = navController,
-//                spmCeraiViewModel = spmCeraiViewModel
-//            )
-//        }
-//
-//        composable(Screen.SPMKartuKeluarga.route) {
-//            val spmKartuKeluargaViewModel: SPMKartuKeluargaViewModel = koinViewModel()
-//            SPMKartuKeluargaScreen(
-//                navController = navController,
-//                spmKartuKeluargaViewModel = spmKartuKeluargaViewModel
-//            )
-//        }
-//
-//        composable(Screen.SPMPerubahanKK.route) {
-//            val spmPerubahanKKViewModel: SPMPerubahanKKViewModel = koinViewModel()
-//            SPMPerubahanKKScreen(
-//                navController = navController,
-//                spmPerubahanKKViewModel = spmPerubahanKKViewModel
-//            )
-//        }
-//
-//        composable(Screen.SPNPenguasaanFisikBidangTanah.route) {
-//            val spnPenguasaanFisikBidangTanahViewModel: SPNPenguasaanFisikBidangTanahViewModel = koinViewModel()
-//            SPNPenguasaanFisikBidangTanahScreen(
-//                navController = navController,
-//                spnPenguasaanFisikBidangTanahViewModel = spnPenguasaanFisikBidangTanahViewModel
-//            )
-//        }
+        composable(Screen.SPMCerai.route) {
+            val spmCeraiViewModel: SPMCeraiViewModel = koinViewModel()
+            SPMCeraiScreen(
+                navController = navController,
+                spmCeraiViewModel = spmCeraiViewModel
+            )
+        }
+
+        composable(Screen.SPMKartuKeluarga.route) {
+            val spmKartuKeluargaViewModel: SPMKartuKeluargaViewModel = koinViewModel()
+            SPMKartuKeluargaScreen(
+                navController = navController,
+                spmKartuKeluargaViewModel = spmKartuKeluargaViewModel
+            )
+        }
+
+        composable(Screen.SPMPerubahanKK.route) {
+            val spmPerubahanKKViewModel: SPMPerubahanKKViewModel = koinViewModel()
+            SPMPerubahanKKScreen(
+                navController = navController,
+                spmPerubahanKKViewModel = spmPerubahanKKViewModel
+            )
+        }
+
+        composable(Screen.SPNPenguasaanFisikBidangTanah.route) {
+            val spnPenguasaanFisikBidangTanahViewModel: SPNPenguasaanFisikBidangTanahViewModel = koinViewModel()
+            SPNPenguasaanFisikBidangTanahScreen(
+                navController = navController,
+                spnPenguasaanFisikBidangTanahViewModel = spnPenguasaanFisikBidangTanahViewModel
+            )
+        }
 
         composable(Screen.Notification.route) {
             val homeViewModel: HomeViewModel = koinViewModel()

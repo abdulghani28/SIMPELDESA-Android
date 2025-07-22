@@ -238,12 +238,6 @@ class CreateSuratTugasUseCase(private val suratRepository: SuratRepository) {
     }
 }
 
-class CreateSuratIzinTidakKerjaUseCase(private val suratRepository: SuratRepository) {
-    suspend operator fun invoke(request: SKIzinTidakMasukKerjaRequest): SuratIzinTidakKerjaResult {
-        return suratRepository.createSuratIzinTidakKerja(request)
-    }
-}
-
 class CreateSuratBelumMemilikiPBBUseCase(private val suratRepository: SuratRepository) {
     suspend operator fun invoke(request: SKBelumMemilikiPBBRequest): SuratBelumMemilikiPBBResult {
         return suratRepository.createSuratBelumMemilikiPBB(request)

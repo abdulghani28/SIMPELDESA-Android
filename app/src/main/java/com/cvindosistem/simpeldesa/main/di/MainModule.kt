@@ -8,20 +8,40 @@ import com.cvindosistem.simpeldesa.main.data.repository.SuratRepository
 import com.cvindosistem.simpeldesa.main.data.repository.SuratRepositoryImpl
 import com.cvindosistem.simpeldesa.main.domain.usecases.BidangUsahaUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateResiKTPSementaraUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratAktaLahirUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratBedaIdentitasUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratBelumMemilikiAktaLahirUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratBelumMemilikiPBBUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratBerpergianUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratDomisiliPerusahaanUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratDomisiliUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratDuplikatKelahiranUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratDuplikatSuratNikahUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratGhaibUseCase
-import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratIzinTidakKerjaUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratJamkesosUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratJandaDudaUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratJualBeliUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratKTPDalamProsesUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratKehilanganUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratKelahiranUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratKematianUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratKepemilikanKendaraanUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratKeramaianUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratKeteranganBiodataWargaUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratKeteranganIzinOrangTuaUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratKeteranganKepemilikanTanahUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratKeteranganNikahNonMuslimUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratKuasaUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratLahirMatiUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratPengantarCeraiRujukUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratPengantarPasLintasBatasUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratPenghasilanUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratPergiKawinUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratPermohonanCeraiUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratPermohonanKartuKeluargaUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratPermohonanPerubahanKKUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratPernikahanUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratPernyataanSporadikUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratPindahDomisiliUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratSKCKUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratStatusPerkawinanUseCase
@@ -29,7 +49,10 @@ import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratTidakMampuUse
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratTidakMasukKerjaUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratTugasUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratUsahaUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratWaliHakimUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetAgamaUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.GetHubunganUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.GetPendidikanUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetPerbedaanIdentitasUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetStatusKawinUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetSuratDetailUseCase
@@ -39,25 +62,47 @@ import com.cvindosistem.simpeldesa.main.domain.usecases.JenisUsahaUseCase
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SuratDetailViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpengantar.catatankepolisian.SPCatatanKepolisianViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpengantar.pernikahan.SPPernikahanViewModel
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratrekomendasi.SRKeramaianViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratrekomendasi.keramaian.SRKeramaianViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SuratSayaViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.bedaidentitas.SKBedaIdentitasViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.belummemilikipbb.SKBelumMemilikiPBBViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.berpergian.SKBerpergianViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.biodata.SKBiodataWargaViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.domisiliperusahaan.SKDomisiliPerusahaanViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.domisili.SKDomisiliViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.ghaib.SKGhaibViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.izinorangtua.SKIzinOrangTuaViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.jamkesos.SKJamkesosViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.jandaduda.SKJandaDudaViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.jualbeli.SKJualBeliViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.kelahiran.SKKelahiranViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.kematian.SKKematianViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.kepemilikankendaraan.SKKepemilikanKendaraanViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.kepemilikantanah.SKKepemilikanTanahViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.ktpdalamproses.SKKTPDalamProsesViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.lahirmati.SKLahirMatiViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.nikahnonmuslim.SKNikahWargaNonMuslimViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.pengantarcerairujuk.SKPengantarCeraiRujukViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.penghasilan.SKPenghasilanViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.pergikawin.SKPergiKawinViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.resiktpsementara.SKResiKTPSementaraViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.statusperkawinan.SKStatusPerkawinanViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.tidakmampu.SKTidakMampuViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.tidakmasukkerja.SKTidakMasukKerjaViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.usaha.SKUsahaViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.walihakim.SKWaliHakimViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratlainnya.kuasa.SuratKuasaViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratlainnya.tugas.SuratTugasViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpengantar.kehilangan.SPKehilanganViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpengantar.permohonanpenerbitanbuku.SPPermohonanPenerbitanBukuPasLintasBatasViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpermohonan.aktalahir.SPMAktaLahirViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpermohonan.belummemilikiaktalahir.SPMBelumMemilikiAktaLahirViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpermohonan.cerai.SPMCeraiViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpermohonan.duplikatkelahiran.SPMDuplikatKelahiranViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpermohonan.duplikatsuratnikah.SPMDuplikatSuratNikahViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpermohonan.kartukeluarga.SPMKartuKeluargaViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpermohonan.perubahankk.SPMPerubahanKKViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpernyataan.penguasaanfisikbidangtanah.SPNPenguasaanFisikBidangTanahViewModel
 import com.google.gson.Gson
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -123,27 +168,49 @@ val mainModule = module {
     single { GetSuratListUseCase(get()) }
     single { GetSuratDetailUseCase(get()) }
     single { CreateSuratDomisiliUseCase(get()) }
-    single { CreateSuratBerpergianUseCase(get()) }
-    single { CreateSuratJandaDudaUseCase(get()) }
-    single { CreateSuratBedaIdentitasUseCase(get()) }
     single { CreateSuratDomisiliPerusahaanUseCase(get()) }
-    single { CreateSuratTidakMasukKerjaUseCase(get()) }
-    single { CreateSuratGhaibUseCase(get()) }
-    single { CreateSuratKehilanganUseCase(get()) }
+    single { CreateSuratPindahDomisiliUseCase(get()) }
     single { CreateSuratKelahiranUseCase(get()) }
     single { CreateSuratKematianUseCase(get()) }
-    single { CreateSuratKeramaianUseCase(get()) }
-    single { CreateSuratKuasaUseCase(get()) }
-    single { CreateSuratPenghasilanUseCase(get()) }
-    single { CreateSuratPernikahanUseCase(get()) }
-    single { CreateSuratPindahDomisiliUseCase(get()) }
+    single { CreateSuratAktaLahirUseCase(get()) }
+    single { CreateSuratBelumMemilikiAktaLahirUseCase(get()) }
+    single { CreateSuratDuplikatKelahiranUseCase(get()) }
+    single { CreateSuratKTPDalamProsesUseCase(get()) }
     single { CreateResiKTPSementaraUseCase(get()) }
-    single { CreateSuratSKCKUseCase(get()) }
+    single { CreateSuratPermohonanKartuKeluargaUseCase(get()) }
+    single { CreateSuratPermohonanPerubahanKKUseCase(get()) }
+    single { CreateSuratPernikahanUseCase(get()) }
     single { CreateSuratStatusPerkawinanUseCase(get()) }
-    single { CreateSuratTidakMampuUseCase(get()) }
+    single { CreateSuratJandaDudaUseCase(get()) }
+    single { CreateSuratPergiKawinUseCase(get()) }
+    single { CreateSuratWaliHakimUseCase(get()) }
+    single { CreateSuratDuplikatSuratNikahUseCase(get()) }
+    single { CreateSuratKeteranganNikahNonMuslimUseCase(get()) }
+    single { CreateSuratPermohonanCeraiUseCase(get()) }
+    single { CreateSuratPengantarCeraiRujukUseCase(get()) }
+    single { CreateSuratKeteranganIzinOrangTuaUseCase(get()) }
+    single { CreateSuratPenghasilanUseCase(get()) }
     single { CreateSuratUsahaUseCase(get()) }
+    single { CreateSuratKuasaUseCase(get()) }
     single { CreateSuratTugasUseCase(get()) }
-    single { CreateSuratIzinTidakKerjaUseCase(get()) }
+    single { CreateSuratTidakMasukKerjaUseCase(get()) }
+    single { CreateSuratKehilanganUseCase(get()) }
+    single { CreateSuratSKCKUseCase(get()) }
+    single { CreateSuratTidakMampuUseCase(get()) }
+    single { CreateSuratJamkesosUseCase(get()) }
+    single { CreateSuratBerpergianUseCase(get()) }
+    single { CreateSuratKeramaianUseCase(get()) }
+    single { CreateSuratPernyataanSporadikUseCase(get()) }
+    single { CreateSuratKeteranganKepemilikanTanahUseCase(get()) }
+    single { CreateSuratKepemilikanKendaraanUseCase(get()) }
+    single { CreateSuratGhaibUseCase(get()) }
+    single { CreateSuratLahirMatiUseCase(get()) }
+    single { CreateSuratBelumMemilikiPBBUseCase(get()) }
+    single { CreateSuratJualBeliUseCase(get()) }
+    single { CreateSuratBedaIdentitasUseCase(get()) }
+    single { CreateSuratPengantarPasLintasBatasUseCase(get()) }
+    single { CreateSuratKeteranganBiodataWargaUseCase(get()) }
+
 
     // UseCases - Referensi
     single { GetAgamaUseCase(get()) }
@@ -152,18 +219,26 @@ val mainModule = module {
     single { GetPerbedaanIdentitasUseCase(get()) }
     single { JenisUsahaUseCase(get()) }
     single { BidangUsahaUseCase(get()) }
+    single { GetHubunganUseCase(get()) }
+    single { GetPendidikanUseCase(get()) }
 
-    // ViewModel - Surat
+// ViewModel - Surat
     viewModel { SuratSayaViewModel(get()) }
     viewModel { SuratDetailViewModel(get()) }
+
+// ViewModel - SR (Surat Rekomendasi)
     viewModel { SRKeramaianViewModel(get(), get()) }
+
+// ViewModel - SP (Surat Pernyataan)
     viewModel { SPCatatanKepolisianViewModel(get(), get()) }
     viewModel { SPPernikahanViewModel(get(), get(), get(), get()) }
     viewModel { SPKehilanganViewModel(get(), get()) }
+
+// ViewModel - Surat Lainnya
     viewModel { SuratKuasaViewModel(get(), get()) }
     viewModel { SuratTugasViewModel(get(), get()) }
 
-    // ViewModel - SK
+// ViewModel - SK (Surat Keterangan)
     viewModel { SKTidakMampuViewModel(get(), get(), get(), get()) }
     viewModel { SKResiKTPSementaraViewModel(get(), get(), get()) }
     viewModel { SKStatusPerkawinanViewModel(get(), get(), get(), get()) }
@@ -178,4 +253,30 @@ val mainModule = module {
     viewModel { SKDomisiliPerusahaanViewModel(get(), get(), get(), get(), get()) }
     viewModel { SKBerpergianViewModel(get(), get()) }
     viewModel { SKBedaIdentitasViewModel(get(), get(), get(), get()) }
+    viewModel { SKBelumMemilikiPBBViewModel(get(), get(), get(), get()) }
+    viewModel { SKBiodataWargaViewModel(get(), get(), get(), get(), get()) }
+    viewModel { SKJamkesosViewModel(get(), get(), get(), get(), get()) }
+    viewModel { SKIzinOrangTuaViewModel(get(), get(), get()) }
+    viewModel { SKJualBeliViewModel(get(), get()) }
+    viewModel { SKKepemilikanKendaraanViewModel(get(), get()) }
+    viewModel { SKKepemilikanTanahViewModel(get(), get()) }
+    viewModel { SKKTPDalamProsesViewModel(get(), get(), get(), get()) }
+    viewModel { SKLahirMatiViewModel(get(), get(), get(), get()) }
+    viewModel { SKNikahWargaNonMuslimViewModel(get(), get(), get(), get(), get()) }
+    viewModel { SKPengantarCeraiRujukViewModel(get(), get(), get()) }
+    viewModel { SKPergiKawinViewModel(get(), get(), get(), get(), get()) }
+    viewModel { SKWaliHakimViewModel(get(), get(), get(), get(), get()) }
+
+// ViewModel - SPM (Surat Permohonan)
+    viewModel { SPMAktaLahirViewModel(get(), get()) }
+    viewModel { SPMBelumMemilikiAktaLahirViewModel(get(), get()) }
+    viewModel { SPMCeraiViewModel(get(), get(), get()) }
+    viewModel { SPMDuplikatKelahiranViewModel(get(), get(), get()) }
+    viewModel { SPMDuplikatSuratNikahViewModel(get(), get()) }
+    viewModel { SPMKartuKeluargaViewModel(get(), get(), get()) }
+    viewModel { SPMPerubahanKKViewModel(get(), get(), get()) }
+    viewModel { SPPermohonanPenerbitanBukuPasLintasBatasViewModel(get(), get(), get(), get()) }
+
+// ViewModel - SPN (Surat Pernyataan)
+    viewModel { SPNPenguasaanFisikBidangTanahViewModel(get(), get()) }
 }

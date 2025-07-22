@@ -1,4 +1,4 @@
-package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratrekomendasi
+package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratrekomendasi.keramaian
 
 import com.cvindosistem.simpeldesa.auth.data.remote.dto.user.response.UserInfoResponse
 import com.cvindosistem.simpeldesa.auth.domain.model.UserInfoResult

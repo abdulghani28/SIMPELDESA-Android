@@ -1,4 +1,4 @@
-package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratrekomendasi
+package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratketerangan.skpengantarcerairujuk
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,20 +16,20 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.cvindosistem.simpeldesa.core.components.AppTextField
 import com.cvindosistem.simpeldesa.core.components.DatePickerField
+import com.cvindosistem.simpeldesa.core.components.DropdownField
 import com.cvindosistem.simpeldesa.core.components.FormSectionList
-import com.cvindosistem.simpeldesa.core.components.GenderSelection
+import com.cvindosistem.simpeldesa.core.components.KewarganegaraanSection
 import com.cvindosistem.simpeldesa.core.components.MultilineTextField
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
 import com.cvindosistem.simpeldesa.core.components.StepIndicator
 import com.cvindosistem.simpeldesa.core.components.UseMyDataCheckbox
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratrekomendasi.keramaian.SRKeramaianViewModel
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.pengantarcerairujuk.SKPengantarCeraiRujukViewModel
 
 @Composable
-internal fun SRKeramaian1Content(
-    viewModel: SRKeramaianViewModel,
+internal fun SKPengantarCeraiRujuk1Content(
+    viewModel: SKPengantarCeraiRujukViewModel,
     modifier: Modifier = Modifier
 ) {
-    val validationErrors by viewModel.validationErrors.collectAsState()
 
     FormSectionList(
         modifier = modifier,
@@ -37,7 +37,7 @@ internal fun SRKeramaian1Content(
     ) {
         item {
             StepIndicator(
-                steps = listOf("Informasi Pelapor", "Informasi Kegiatan"),
+                steps = listOf("Data Pemohon", "Data Pasangan", "Keperluan"),
                 currentStep = viewModel.currentStep
             )
         }
@@ -51,26 +51,24 @@ internal fun SRKeramaian1Content(
         }
 
         item {
-            InformasiPelapor(
-                viewModel = viewModel,
-                validationErrors = validationErrors
+            InformasiPemohon(
+                viewModel = viewModel
             )
         }
     }
 }
 
 @Composable
-private fun InformasiPelapor(
-    viewModel: SRKeramaianViewModel,
-    validationErrors: Map<String, String>
+private fun InformasiPemohon(
+    viewModel: SKPengantarCeraiRujukViewModel
 ) {
     Column {
-        SectionTitle("Informasi Pelapor")
+        SectionTitle("Data Diri Pemohon")
 
         Spacer(modifier = Modifier.height(16.dp))
 
         AppTextField(
-            label = "Nomor Induk Kependudukan (NIK)",
+            label = "NIK",
             placeholder = "Masukkan NIK",
             value = viewModel.nikValue,
             onValueChange = viewModel::updateNik,
@@ -92,14 +90,11 @@ private fun InformasiPelapor(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             Column(modifier = Modifier.weight(1f)) {
                 AppTextField(
                     label = "Tempat Lahir",
-                    placeholder = "Tempat lahir",
+                    placeholder = "Masukkan tempat lahir",
                     value = viewModel.tempatLahirValue,
                     onValueChange = viewModel::updateTempatLahir,
                     isError = viewModel.hasFieldError("tempat_lahir"),
@@ -113,18 +108,24 @@ private fun InformasiPelapor(
                     value = viewModel.tanggalLahirValue,
                     onValueChange = viewModel::updateTanggalLahir,
                     isError = viewModel.hasFieldError("tanggal_lahir"),
-                    errorMessage = viewModel.getFieldError("tanggal_lahir"),
+                    errorMessage = viewModel.getFieldError("tanggal_lahir")
                 )
             }
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        GenderSelection(
-            selectedGender = viewModel.selectedGender,
-            onGenderSelected = viewModel::updateSelectedGender,
-            isError = viewModel.hasFieldError("jenis_kelamin"),
-            errorMessage = viewModel.getFieldError("jenis_kelamin"),
+        DropdownField(
+            label = "Agama",
+            value = viewModel.agamaList.find { it.id == viewModel.agamaIdValue }?.nama.orEmpty(),
+            onValueChange = { selectedNama ->
+                val selected = viewModel.agamaList.find { it.nama == selectedNama }
+                selected?.let { viewModel.updateAgamaId(it.id) }
+            },
+            options = viewModel.agamaList.map { it.nama },
+            isError = viewModel.hasFieldError("agama_id"),
+            errorMessage = viewModel.getFieldError("agama_id"),
+            onDropdownExpanded = viewModel::loadAgama
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -141,12 +142,48 @@ private fun InformasiPelapor(
         Spacer(modifier = Modifier.height(16.dp))
 
         MultilineTextField(
-            label = "Alamat Lengkap",
+            label = "Alamat",
             placeholder = "Masukkan alamat lengkap",
             value = viewModel.alamatValue,
             onValueChange = viewModel::updateAlamat,
             isError = viewModel.hasFieldError("alamat"),
             errorMessage = viewModel.getFieldError("alamat")
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        KewarganegaraanSection(
+            selectedKewarganegaraan = viewModel.kewarganegaraanValue,
+            onSelectedKewarganegaraan = viewModel::updateKewarganegaraan,
+            isError = viewModel.hasFieldError("kewarganegaraan"),
+            errorMessage = viewModel.getFieldError("kewarganegaraan")
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        SectionTitle("Data Orang Tua")
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        AppTextField(
+            label = "Nama Ayah",
+            placeholder = "Masukkan nama ayah",
+            value = viewModel.namaAyahValue,
+            onValueChange = viewModel::updateNamaAyah,
+            isError = viewModel.hasFieldError("nama_ayah"),
+            errorMessage = viewModel.getFieldError("nama_ayah")
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        AppTextField(
+            label = "NIK Ayah",
+            placeholder = "Masukkan NIK ayah",
+            value = viewModel.nikAyahValue,
+            onValueChange = viewModel::updateNikAyah,
+            isError = viewModel.hasFieldError("nik_ayah"),
+            errorMessage = viewModel.getFieldError("nik_ayah"),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
     }
 }
