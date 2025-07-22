@@ -205,6 +205,7 @@ fun AppTextField(
     errorMessage: String?,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
+    trailingIcon: @Composable (() -> Unit)? = {}
 ) {
     Column {
         LabelFieldText(label)
@@ -215,7 +216,8 @@ fun AppTextField(
             placeholder = placeholder,
             isError = isError,
             keyboardOptions = keyboardOptions,
-            keyboardActions = keyboardActions
+            keyboardActions = keyboardActions,
+            trailingIcon = trailingIcon
         )
 
         if (isError && errorMessage != null) {
