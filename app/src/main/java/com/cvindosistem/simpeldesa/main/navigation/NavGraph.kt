@@ -74,6 +74,7 @@ import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.s
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratpermohonan.spmduplikatsuratnikah.SPMDuplikatSuratNikahScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratpermohonan.spmkartukeluarga.SPMKartuKeluargaScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratpermohonan.spmperubahankk.SPMPerubahanKKScreen
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratpernyataan.spnpenguasaanfisikbidangtanah.SPNPenguasaanFisikBidangTanahScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.screen.tab.buatsurat.suratrekomendasi.SRKeramaianScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.SuratDetailViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratpengantar.catatankepolisian.SPCatatanKepolisianViewModel
@@ -429,7 +430,7 @@ fun NavGraph(
             )
         }
 
-        composable(Screen.SKJamkesos.route) {
+        composable(Screen.SKPergiKawin.route) {
             val skPergiKawinViewModel: SKPergiKawinViewModel = koinViewModel()
             SKPergiKawinScreen(
                 skPergiKawinViewModel = skPergiKawinViewModel,

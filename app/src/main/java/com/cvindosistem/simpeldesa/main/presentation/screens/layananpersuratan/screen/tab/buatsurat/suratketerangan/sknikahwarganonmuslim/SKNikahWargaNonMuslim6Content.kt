@@ -15,6 +15,7 @@ import com.cvindosistem.simpeldesa.core.components.DropdownField
 import com.cvindosistem.simpeldesa.core.components.FormSectionList
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
 import com.cvindosistem.simpeldesa.core.components.StepIndicator
+import com.cvindosistem.simpeldesa.core.components.StepIndicatorFlexible
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.nikahnonmuslim.SKNikahWargaNonMuslimViewModel
 
 @Composable
@@ -29,7 +30,7 @@ internal fun SKNikahWargaNonMuslim6Content(
         background = MaterialTheme.colorScheme.background
     ) {
         item {
-            StepIndicator(
+            StepIndicatorFlexible(
                 steps = listOf("Data Suami & Istri", "Alamat & Anak", "Orang Tua Suami", "Orang Tua Istri", "Saksi Pernikahan", "Pernikahan & Pemuka Agama", "Legalitas & Putusan"),
                 currentStep = viewModel.currentStep
             )
