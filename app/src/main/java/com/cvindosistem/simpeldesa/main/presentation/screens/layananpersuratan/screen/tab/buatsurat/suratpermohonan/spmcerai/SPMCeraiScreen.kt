@@ -123,7 +123,7 @@ fun SPMCeraiScreen(
         topBar = {
             Column {
                 AppTopBar(
-                    title = "Surat Keterangan Cerai",
+                    title = "Surat Permohonan Cerai",
                     showBackButton = true,
                     onBackClick = {
                         if (hasFormData) {

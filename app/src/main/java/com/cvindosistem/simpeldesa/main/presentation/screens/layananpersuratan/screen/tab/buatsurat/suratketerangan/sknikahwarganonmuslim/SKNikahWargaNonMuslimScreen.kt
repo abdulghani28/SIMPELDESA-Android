@@ -123,7 +123,7 @@ fun SKNikahWargaNonMuslimScreen(
         topBar = {
             Column {
                 AppTopBar(
-                    title = "Surat Keterangan Izin Orang Tua",
+                    title = "Surat Keterangan Nikah Warga Non-Muslim",
                     showBackButton = true,
                     onBackClick = {
                         if (hasFormData) {

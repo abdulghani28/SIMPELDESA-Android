@@ -124,7 +124,7 @@ fun SPPermohonanPenerbitanBukuPasLintasBatasScreen(
         topBar = {
             Column {
                 AppTopBar(
-                    title = "Surat Keterangan Wali Hakim",
+                    title = "Surat Pengantar Permohonan Penerbitan Buku Pas Lintas Batas",
                     showBackButton = true,
                     onBackClick = {
                         if (hasFormData) {
