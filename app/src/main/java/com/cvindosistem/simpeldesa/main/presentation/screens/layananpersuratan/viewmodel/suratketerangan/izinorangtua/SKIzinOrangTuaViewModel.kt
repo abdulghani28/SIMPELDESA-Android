@@ -46,7 +46,7 @@ class SKIzinOrangTuaViewModel(
     val showPreviewDialog: Boolean get() = stateManager.showPreviewDialog
     val validationErrors = validator.validationErrors
 
-    // Form field properties - Step 1 (Informasi Pemberi Izin - Orang Tua)
+    // Form field properties - Step 1 (Informasi Pemberi Izin)
     val nikValue: String get() = stateManager.nikValue
     val namaValue: String get() = stateManager.namaValue
     val alamatValue: String get() = stateManager.alamatValue
@@ -57,7 +57,7 @@ class SKIzinOrangTuaViewModel(
     val kewarganegaraanValue: String get() = stateManager.kewarganegaraanValue
     val memberiIzinValue: String get() = stateManager.memberiIzinValue
 
-    // Form field properties - Step 2 (Informasi yang Diberi Izin - Anak)
+    // Form field properties - Step 2 (Informasi yang Diberi Izin)
     val nik2Value: String get() = stateManager.nik2Value
     val nama2Value: String get() = stateManager.nama2Value
     val alamat2Value: String get() = stateManager.alamat2Value
