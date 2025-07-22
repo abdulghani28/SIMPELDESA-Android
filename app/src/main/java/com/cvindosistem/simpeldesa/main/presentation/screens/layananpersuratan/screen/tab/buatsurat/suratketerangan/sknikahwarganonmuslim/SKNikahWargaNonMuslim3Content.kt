@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -19,7 +17,6 @@ import com.cvindosistem.simpeldesa.core.components.DatePickerField
 import com.cvindosistem.simpeldesa.core.components.DropdownField
 import com.cvindosistem.simpeldesa.core.components.FormSectionList
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
-import com.cvindosistem.simpeldesa.core.components.StepIndicator
 import com.cvindosistem.simpeldesa.core.components.StepIndicatorFlexible
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.nikahnonmuslim.SKNikahWargaNonMuslimViewModel
 
@@ -28,8 +25,6 @@ internal fun SKNikahWargaNonMuslim3Content(
     viewModel: SKNikahWargaNonMuslimViewModel,
     modifier: Modifier = Modifier
 ) {
-    val validationErrors by viewModel.validationErrors.collectAsState()
-
     FormSectionList(
         modifier = modifier,
         background = MaterialTheme.colorScheme.background
@@ -44,7 +39,6 @@ internal fun SKNikahWargaNonMuslim3Content(
         item {
             OrangTuaSuamiSection(
                 viewModel = viewModel,
-                validationErrors = validationErrors
             )
         }
     }
@@ -53,7 +47,6 @@ internal fun SKNikahWargaNonMuslim3Content(
 @Composable
 private fun OrangTuaSuamiSection(
     viewModel: SKNikahWargaNonMuslimViewModel,
-    validationErrors: Map<String, String>
 ) {
     Column {
         SectionTitle("Data Ayah Suami")

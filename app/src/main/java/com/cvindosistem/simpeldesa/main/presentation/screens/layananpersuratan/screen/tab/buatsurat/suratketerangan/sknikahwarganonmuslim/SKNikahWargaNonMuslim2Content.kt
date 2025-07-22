@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -19,7 +17,6 @@ import com.cvindosistem.simpeldesa.core.components.DatePickerField
 import com.cvindosistem.simpeldesa.core.components.DropdownField
 import com.cvindosistem.simpeldesa.core.components.FormSectionList
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
-import com.cvindosistem.simpeldesa.core.components.StepIndicator
 import com.cvindosistem.simpeldesa.core.components.StepIndicatorFlexible
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.nikahnonmuslim.SKNikahWargaNonMuslimViewModel
 
@@ -28,7 +25,6 @@ internal fun SKNikahWargaNonMuslim2Content(
     viewModel: SKNikahWargaNonMuslimViewModel,
     modifier: Modifier = Modifier
 ) {
-    val validationErrors by viewModel.validationErrors.collectAsState()
 
     FormSectionList(
         modifier = modifier,
@@ -43,15 +39,13 @@ internal fun SKNikahWargaNonMuslim2Content(
 
         item {
             AlamatSection(
-                viewModel = viewModel,
-                validationErrors = validationErrors
+                viewModel = viewModel
             )
         }
 
         item {
             DataAnakSection(
-                viewModel = viewModel,
-                validationErrors = validationErrors
+                viewModel = viewModel
             )
         }
     }
@@ -59,8 +53,7 @@ internal fun SKNikahWargaNonMuslim2Content(
 
 @Composable
 private fun AlamatSection(
-    viewModel: SKNikahWargaNonMuslimViewModel,
-    validationErrors: Map<String, String>
+    viewModel: SKNikahWargaNonMuslimViewModel
 ) {
     Column {
         SectionTitle("Alamat")
@@ -90,8 +83,7 @@ private fun AlamatSection(
 
 @Composable
 private fun DataAnakSection(
-    viewModel: SKNikahWargaNonMuslimViewModel,
-    validationErrors: Map<String, String>
+    viewModel: SKNikahWargaNonMuslimViewModel
 ) {
     Column {
         SectionTitle("Data Anak")

@@ -6,15 +6,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -23,13 +17,9 @@ import com.cvindosistem.simpeldesa.core.components.CheckBoxField
 import com.cvindosistem.simpeldesa.core.components.DatePickerField
 import com.cvindosistem.simpeldesa.core.components.DropdownField
 import com.cvindosistem.simpeldesa.core.components.FormSectionList
-import com.cvindosistem.simpeldesa.core.components.KewarganegaraanSection
-import com.cvindosistem.simpeldesa.core.components.MultilineTextField
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
-import com.cvindosistem.simpeldesa.core.components.StepIndicator
 import com.cvindosistem.simpeldesa.core.components.StepIndicatorFlexible
 import com.cvindosistem.simpeldesa.core.components.UseMyDataCheckbox
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.izinorangtua.SKIzinOrangTuaViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.nikahnonmuslim.SKNikahWargaNonMuslimViewModel
 
 @Composable
@@ -37,8 +27,6 @@ internal fun SKNikahWargaNonMuslim1Content(
     viewModel: SKNikahWargaNonMuslimViewModel,
     modifier: Modifier = Modifier
 ) {
-    val validationErrors by viewModel.validationErrors.collectAsState()
-
     FormSectionList(
         modifier = modifier,
         background = MaterialTheme.colorScheme.background
@@ -60,15 +48,13 @@ internal fun SKNikahWargaNonMuslim1Content(
 
         item {
             DataSuamiSection(
-                viewModel = viewModel,
-                validationErrors = validationErrors
+                viewModel = viewModel
             )
         }
 
         item {
             DataIstriSection(
-                viewModel = viewModel,
-                validationErrors = validationErrors
+                viewModel = viewModel
             )
         }
     }
@@ -76,8 +62,7 @@ internal fun SKNikahWargaNonMuslim1Content(
 
 @Composable
 private fun DataSuamiSection(
-    viewModel: SKNikahWargaNonMuslimViewModel,
-    validationErrors: Map<String, String>
+    viewModel: SKNikahWargaNonMuslimViewModel
 ) {
     Column {
         SectionTitle("Data Suami")
@@ -267,8 +252,7 @@ private fun DataSuamiSection(
 
 @Composable
 private fun DataIstriSection(
-    viewModel: SKNikahWargaNonMuslimViewModel,
-    validationErrors: Map<String, String>
+    viewModel: SKNikahWargaNonMuslimViewModel
 ) {
     Column {
         SectionTitle("Data Istri")
