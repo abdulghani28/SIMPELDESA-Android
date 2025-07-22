@@ -8,6 +8,7 @@ import com.cvindosistem.simpeldesa.auth.data.remote.dto.user.response.UserInfoRe
 import com.cvindosistem.simpeldesa.core.helpers.dateFormatterToApiFormat
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.AgamaResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.PendidikanResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.StatusKawinResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKBiodataWargaRequest
 
 class SKBiodataWargaStateManager {
@@ -86,6 +87,8 @@ class SKBiodataWargaStateManager {
         private set
     var isLoadingDisabilitas by mutableStateOf(false)
         private set
+    var isLoadingStatusKawin by mutableStateOf(false)
+        private set
 
     // Error States
     var errorMessage by mutableStateOf<String?>(null)
@@ -96,11 +99,15 @@ class SKBiodataWargaStateManager {
         private set
     var disabilitasErrorMessage by mutableStateOf<String?>(null)
         private set
+    var statusKawinErrorMessage by mutableStateOf<String?>(null)
+        private set
 
     // Reference Data
     var agamaList by mutableStateOf<List<AgamaResponse.Data>>(emptyList())
         private set
     var pendidikanList by mutableStateOf<List<PendidikanResponse.Data>>(emptyList())
+        private set
+    var statusKawinList by mutableStateOf<List<StatusKawinResponse.Data>>(emptyList())
         private set
 //    var disabilitasList by mutableStateOf<List<DisabilitasResponse.Data>>(emptyList())
 //        private set
@@ -156,18 +163,21 @@ class SKBiodataWargaStateManager {
     fun updateUserDataLoading(loading: Boolean) { isLoadingUserData = loading }
     fun updateAgamaLoading(loading: Boolean) { isLoadingAgama = loading }
     fun updatePendidikanLoading(loading: Boolean) { isLoadingPendidikan = loading }
+    fun updateStatusKawinLoading(loading: Boolean) { isLoadingStatusKawin = loading }
     fun updateDisabilitasLoading(loading: Boolean) { isLoadingDisabilitas = loading }
 
     // Error Handling
     fun updateErrorMessage(message: String?) { errorMessage = message }
     fun updateAgamaErrorMessage(message: String?) { agamaErrorMessage = message }
     fun updatePendidikanErrorMessage(message: String?) { pendidikanErrorMessage = message }
+    fun updateStatusKawinErrorMessage(message: String?) { statusKawinErrorMessage = message }
     fun updateDisabilitasErrorMessage(message: String?) { disabilitasErrorMessage = message }
     fun clearError() { errorMessage = null }
 
     // Data Setter
     fun updateAgamaList(list: List<AgamaResponse.Data>) { agamaList = list }
     fun updatePendidikanList(list: List<PendidikanResponse.Data>) { pendidikanList = list }
+    fun updateStatusKawinList(list: List<StatusKawinResponse.Data>) { statusKawinList = list }
 //    fun updateDisabilitasList(list: List<DisabilitasResponse.Data>) { disabilitasList = list }
 
     // Populate / Clear User Data

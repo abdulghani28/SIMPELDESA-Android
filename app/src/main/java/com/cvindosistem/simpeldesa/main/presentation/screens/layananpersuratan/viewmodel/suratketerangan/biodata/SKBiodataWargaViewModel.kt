@@ -6,10 +6,13 @@ import com.cvindosistem.simpeldesa.auth.domain.usecases.GetUserInfoUseCase
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.AgamaResponse
 //import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.DisabilitasResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.PendidikanResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.StatusKawinResponse
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratKeteranganBiodataWargaUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetAgamaUseCase
 //import com.cvindosistem.simpeldesa.main.domain.usecases.GetDisabilitasUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetPendidikanUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.GetStatusKawinUseCase
+import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.walihakim.SKWaliHakimViewModel.SKWaliHakimEvent
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -21,6 +24,7 @@ class SKBiodataWargaViewModel(
     getUserInfoUseCase: GetUserInfoUseCase,
     getAgamaUseCase: GetAgamaUseCase,
     getPendidikanUseCase: GetPendidikanUseCase,
+    getStatusKawinUseCase: GetStatusKawinUseCase
 //    getDisabilitasUseCase: GetDisabilitasUseCase
 ) : ViewModel() {
 
@@ -31,6 +35,7 @@ class SKBiodataWargaViewModel(
         getUserInfoUseCase,
         getAgamaUseCase,
         getPendidikanUseCase,
+        getStatusKawinUseCase,
 //        getDisabilitasUseCase,
         stateManager,
         validator
@@ -54,6 +59,9 @@ class SKBiodataWargaViewModel(
 //    val disabilitasList: List<DisabilitasResponse.Data> get() = stateManager.disabilitasList
     val isLoadingDisabilitas: Boolean get() = stateManager.isLoadingDisabilitas
     val disabilitasErrorMessage: String? get() = stateManager.disabilitasErrorMessage
+    val statusKawinList: List<StatusKawinResponse.Data> get() = stateManager.statusKawinList
+    val isLoadingStatusKawin: Boolean get() = stateManager.isLoadingStatusKawin
+    val statusKawinErrorMessage: String? get() = stateManager.statusKawinErrorMessage
     val isLoading: Boolean get() = stateManager.isLoading
     val errorMessage: String? get() = stateManager.errorMessage
     val currentStep: Int get() = stateManager.currentStep
@@ -113,6 +121,9 @@ class SKBiodataWargaViewModel(
 //                dataLoader.loadDisabilitas().onFailure {
 //                    _skBiodataWargaEvent.emit(SKBiodataWargaEvent.DisabilitasLoadError(it.message ?: "Error"))
 //                }
+                dataLoader.loadStatusKawin().onFailure {
+                    _skBiodataWargaEvent.emit(SKBiodataWargaEvent.StatusKawinLoadError(it.message ?: "Error"))
+                }
             }
         } else {
             stateManager.clearUserData()
@@ -134,6 +145,15 @@ class SKBiodataWargaViewModel(
             }
         }
     }
+
+    fun loadStatusKawin() {
+        viewModelScope.launch {
+            dataLoader.loadStatusKawin().onFailure {
+                _skBiodataWargaEvent.emit(SKBiodataWargaEvent.StatusKawinLoadError(it.message ?: "Error"))
+            }
+        }
+    }
+
 
 //    fun loadDisabilitas() {
 //        viewModelScope.launch {
@@ -375,6 +395,7 @@ class SKBiodataWargaViewModel(
         data class UserDataLoadError(val message: String) : SKBiodataWargaEvent()
         data class AgamaLoadError(val message: String) : SKBiodataWargaEvent()
         data class PendidikanLoadError(val message: String) : SKBiodataWargaEvent()
+        data class StatusKawinLoadError(val message: String) : SKBiodataWargaEvent()
         data class DisabilitasLoadError(val message: String) : SKBiodataWargaEvent()
     }
 }
