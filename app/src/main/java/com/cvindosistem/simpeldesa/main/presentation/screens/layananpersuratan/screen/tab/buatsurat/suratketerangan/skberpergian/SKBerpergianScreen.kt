@@ -113,7 +113,6 @@ fun SKBerpergianScreen(
                         duration = SnackbarDuration.Short
                     )
                 }
-                else -> { /* Handle other events */ }
             }
         }
     }

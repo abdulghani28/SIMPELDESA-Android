@@ -24,7 +24,6 @@ internal fun SKBedaIdentitas2Content(
     viewModel: SKBedaIdentitasViewModel,
     modifier: Modifier = Modifier
 ) {
-    val validationErrors by viewModel.validationErrors.collectAsState()
 
     FormSectionList(
         modifier = modifier,
@@ -39,8 +38,7 @@ internal fun SKBedaIdentitas2Content(
 
         item {
             InformasiPerbedaanIdentitas2(
-                viewModel = viewModel,
-                validationErrors = validationErrors
+                viewModel = viewModel
             )
         }
     }
@@ -48,8 +46,7 @@ internal fun SKBedaIdentitas2Content(
 
 @Composable
 private fun InformasiPerbedaanIdentitas2(
-    viewModel: SKBedaIdentitasViewModel,
-    validationErrors: Map<String, String>
+    viewModel: SKBedaIdentitasViewModel
 ) {
     Column {
         LabelFieldText("Identitas 2")

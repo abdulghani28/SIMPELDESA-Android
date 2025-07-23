@@ -113,7 +113,6 @@ fun SKKematianScreen(
                         duration = SnackbarDuration.Short
                     )
                 }
-                else -> { /* Handle other events */ }
             }
         }
     }

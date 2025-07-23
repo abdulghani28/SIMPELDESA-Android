@@ -19,7 +19,6 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,7 +28,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.cvindosistem.simpeldesa.core.components.GenderSelection
 import com.cvindosistem.simpeldesa.core.components.AppBottomBar
 import com.cvindosistem.simpeldesa.core.components.AppTextField
 import com.cvindosistem.simpeldesa.core.components.AppTopBar
@@ -37,6 +35,7 @@ import com.cvindosistem.simpeldesa.core.components.DatePickerField
 import com.cvindosistem.simpeldesa.core.components.DropdownField
 import com.cvindosistem.simpeldesa.core.components.ErrorDialog
 import com.cvindosistem.simpeldesa.core.components.FormSectionList
+import com.cvindosistem.simpeldesa.core.components.GenderSelection
 import com.cvindosistem.simpeldesa.core.components.LoadingScreen
 import com.cvindosistem.simpeldesa.core.components.MultilineTextField
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
@@ -61,7 +60,6 @@ fun SKStatusPerkawinanScreen(
     val showPreviewDialog by remember { derivedStateOf { sKStatusPerkawinanViewModel.showPreviewDialog } }
     val isLoading by remember { derivedStateOf { sKStatusPerkawinanViewModel.isLoading } }
     val hasFormData by remember { derivedStateOf { sKStatusPerkawinanViewModel.hasFormData() } }
-    val validationErrors by sKStatusPerkawinanViewModel.validationErrors.collectAsState()
 
     var showSuccessDialog by remember { mutableStateOf(false) }
     var successDialogTitle by remember { mutableStateOf("") }
@@ -181,8 +179,7 @@ fun SKStatusPerkawinanScreen(
 
             item {
                 InformasiPelapor(
-                    viewModel = sKStatusPerkawinanViewModel,
-                    validationErrors = validationErrors
+                    viewModel = sKStatusPerkawinanViewModel
                 )
             }
         }
@@ -258,8 +255,7 @@ fun SKStatusPerkawinanScreen(
 
 @Composable
 private fun InformasiPelapor(
-    viewModel: SKStatusPerkawinanViewModel,
-    validationErrors: Map<String, String>
+    viewModel: SKStatusPerkawinanViewModel
 ) {
     Column {
         SectionTitle("Informasi Pelapor")

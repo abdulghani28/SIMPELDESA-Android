@@ -20,7 +20,6 @@ internal fun SKJandaDuda3Content(
     viewModel: SKJandaDudaViewModel,
     modifier: Modifier = Modifier
 ) {
-    val validationErrors by viewModel.validationErrors.collectAsState()
 
     FormSectionList(
         modifier = modifier,
@@ -35,8 +34,7 @@ internal fun SKJandaDuda3Content(
 
         item {
             InformasiPelengkap(
-                viewModel = viewModel,
-                validationErrors = validationErrors
+                viewModel = viewModel
             )
         }
     }
@@ -44,8 +42,7 @@ internal fun SKJandaDuda3Content(
 
 @Composable
 private fun InformasiPelengkap(
-    viewModel: SKJandaDudaViewModel,
-    validationErrors: Map<String, String>
+    viewModel: SKJandaDudaViewModel
 ) {
     Column {
         SectionTitle("Informasi Pelengkap")

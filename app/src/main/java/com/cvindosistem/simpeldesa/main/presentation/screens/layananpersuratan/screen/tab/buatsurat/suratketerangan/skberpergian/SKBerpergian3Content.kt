@@ -20,7 +20,6 @@ internal fun SKBerpergian3Content(
     viewModel: SKBerpergianViewModel,
     modifier: Modifier = Modifier
 ) {
-    val validationErrors by viewModel.validationErrors.collectAsState()
 
     FormSectionList(
         modifier = modifier,
@@ -35,8 +34,7 @@ internal fun SKBerpergian3Content(
 
         item {
             InformasiPelengkap(
-                viewModel = viewModel,
-                validationErrors = validationErrors
+                viewModel = viewModel
             )
         }
     }
@@ -44,8 +42,7 @@ internal fun SKBerpergian3Content(
 
 @Composable
 private fun InformasiPelengkap(
-    viewModel: SKBerpergianViewModel,
-    validationErrors: Map<String, String>
+    viewModel: SKBerpergianViewModel
 ) {
     Column {
         SectionTitle("Informasi Pelengkap")

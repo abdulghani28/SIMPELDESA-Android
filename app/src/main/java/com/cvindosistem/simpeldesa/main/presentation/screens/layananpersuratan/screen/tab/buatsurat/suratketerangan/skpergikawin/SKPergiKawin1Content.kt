@@ -31,7 +31,6 @@ internal fun SKPergiKawin1Content(
     viewModel: SKPergiKawinViewModel,
     modifier: Modifier = Modifier
 ) {
-    val validationErrors by viewModel.validationErrors.collectAsState()
 
     FormSectionList(
         modifier = modifier,
@@ -54,8 +53,7 @@ internal fun SKPergiKawin1Content(
 
         item {
             InformasiPelapor(
-                viewModel = viewModel,
-                validationErrors = validationErrors
+                viewModel = viewModel
             )
         }
     }
@@ -63,8 +61,7 @@ internal fun SKPergiKawin1Content(
 
 @Composable
 private fun InformasiPelapor(
-    viewModel: SKPergiKawinViewModel,
-    validationErrors: Map<String, String>
+    viewModel: SKPergiKawinViewModel
 ) {
     Column {
         SectionTitle("Informasi Pelapor")

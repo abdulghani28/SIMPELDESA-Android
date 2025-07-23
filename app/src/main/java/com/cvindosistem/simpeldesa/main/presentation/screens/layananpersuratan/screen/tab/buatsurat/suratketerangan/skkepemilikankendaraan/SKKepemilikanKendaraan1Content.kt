@@ -29,7 +29,6 @@ internal fun SKKepemilikanKendaraan1Content(
     viewModel: SKKepemilikanKendaraanViewModel,
     modifier: Modifier = Modifier
 ) {
-    val validationErrors by viewModel.validationErrors.collectAsState()
 
     FormSectionList(
         modifier = modifier,
@@ -52,8 +51,7 @@ internal fun SKKepemilikanKendaraan1Content(
 
         item {
             InformasiPemilikKendaraan(
-                viewModel = viewModel,
-                validationErrors = validationErrors
+                viewModel = viewModel
             )
         }
     }
@@ -61,8 +59,7 @@ internal fun SKKepemilikanKendaraan1Content(
 
 @Composable
 private fun InformasiPemilikKendaraan(
-    viewModel: SKKepemilikanKendaraanViewModel,
-    validationErrors: Map<String, String>
+    viewModel: SKKepemilikanKendaraanViewModel
 ) {
     Column {
         SectionTitle("Data Pemilik Kendaraan")

@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -28,7 +26,6 @@ internal fun SKKepemilikanTanah1Content(
     viewModel: SKKepemilikanTanahViewModel,
     modifier: Modifier = Modifier
 ) {
-    val validationErrors by viewModel.validationErrors.collectAsState()
 
     FormSectionList(
         modifier = modifier,
@@ -51,8 +48,7 @@ internal fun SKKepemilikanTanah1Content(
 
         item {
             DataDiriPemohon(
-                viewModel = viewModel,
-                validationErrors = validationErrors
+                viewModel = viewModel
             )
         }
     }
@@ -60,8 +56,7 @@ internal fun SKKepemilikanTanah1Content(
 
 @Composable
 private fun DataDiriPemohon(
-    viewModel: SKKepemilikanTanahViewModel,
-    validationErrors: Map<String, String>
+    viewModel: SKKepemilikanTanahViewModel
 ) {
     Column {
         SectionTitle("Data Diri Pemohon")

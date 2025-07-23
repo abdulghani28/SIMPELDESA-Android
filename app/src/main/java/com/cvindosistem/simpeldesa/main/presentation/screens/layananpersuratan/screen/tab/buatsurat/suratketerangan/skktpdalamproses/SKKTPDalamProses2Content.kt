@@ -3,8 +3,6 @@ package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.cvindosistem.simpeldesa.core.components.FormSectionList
 import com.cvindosistem.simpeldesa.core.components.MultilineTextField
@@ -17,7 +15,6 @@ internal fun SKKTPDalamProses2Content(
     viewModel: SKKTPDalamProsesViewModel,
     modifier: Modifier = Modifier
 ) {
-    val validationErrors by viewModel.validationErrors.collectAsState()
 
     FormSectionList(
         modifier = modifier,
@@ -32,8 +29,7 @@ internal fun SKKTPDalamProses2Content(
 
         item {
             KeperluanPelapor(
-                viewModel = viewModel,
-                validationErrors = validationErrors
+                viewModel = viewModel
             )
         }
     }
@@ -41,8 +37,7 @@ internal fun SKKTPDalamProses2Content(
 
 @Composable
 private fun KeperluanPelapor(
-    viewModel: SKKTPDalamProsesViewModel,
-    validationErrors: Map<String, String>
+    viewModel: SKKTPDalamProsesViewModel
 ) {
     Column {
         SectionTitle("Informasi Pelengkap")

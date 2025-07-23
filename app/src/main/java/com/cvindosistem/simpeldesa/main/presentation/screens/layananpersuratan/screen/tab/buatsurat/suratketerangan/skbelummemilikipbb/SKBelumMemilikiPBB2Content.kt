@@ -17,7 +17,6 @@ internal fun SKBelumMemilikiPBB2Content(
     viewModel: SKBelumMemilikiPBBViewModel,
     modifier: Modifier = Modifier
 ) {
-    val validationErrors by viewModel.validationErrors.collectAsState()
 
     FormSectionList(
         modifier = modifier,
@@ -32,8 +31,7 @@ internal fun SKBelumMemilikiPBB2Content(
 
         item {
             KeperluanPelapor(
-                viewModel = viewModel,
-                validationErrors = validationErrors
+                viewModel = viewModel
             )
         }
     }
@@ -41,8 +39,7 @@ internal fun SKBelumMemilikiPBB2Content(
 
 @Composable
 private fun KeperluanPelapor(
-    viewModel: SKBelumMemilikiPBBViewModel,
-    validationErrors: Map<String, String>
+    viewModel: SKBelumMemilikiPBBViewModel
 ) {
     Column {
         SectionTitle("Informasi Pelengkap")

@@ -29,7 +29,6 @@ internal fun SKPenghasilan2Content(
     viewModel: SKPenghasilanViewModel,
     modifier: Modifier = Modifier
 ) {
-    val validationErrors by viewModel.validationErrors.collectAsState()
 
     FormSectionList(
         modifier = modifier,
@@ -44,8 +43,7 @@ internal fun SKPenghasilan2Content(
 
         item {
             InformasiOrangTua(
-                viewModel = viewModel,
-                validationErrors = validationErrors
+                viewModel = viewModel
             )
         }
     }
@@ -53,8 +51,7 @@ internal fun SKPenghasilan2Content(
 
 @Composable
 private fun InformasiOrangTua(
-    viewModel: SKPenghasilanViewModel,
-    validationErrors: Map<String, String>
+    viewModel: SKPenghasilanViewModel
 ) {
     Column {
         SectionTitle("Informasi Orang Tua")

@@ -14,7 +14,6 @@ import com.cvindosistem.simpeldesa.core.components.DatePickerField
 import com.cvindosistem.simpeldesa.core.components.DropdownField
 import com.cvindosistem.simpeldesa.core.components.FormSectionList
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
-import com.cvindosistem.simpeldesa.core.components.StepIndicator
 import com.cvindosistem.simpeldesa.core.components.StepIndicatorFlexible
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.nikahnonmuslim.SKNikahWargaNonMuslimViewModel
 
@@ -23,7 +22,6 @@ internal fun SKNikahWargaNonMuslim6Content(
     viewModel: SKNikahWargaNonMuslimViewModel,
     modifier: Modifier = Modifier
 ) {
-    val validationErrors by viewModel.validationErrors.collectAsState()
 
     FormSectionList(
         modifier = modifier,
@@ -38,8 +36,7 @@ internal fun SKNikahWargaNonMuslim6Content(
 
         item {
             PernikahanPemukaAgamaSection(
-                viewModel = viewModel,
-                validationErrors = validationErrors
+                viewModel = viewModel
             )
         }
     }
@@ -47,8 +44,7 @@ internal fun SKNikahWargaNonMuslim6Content(
 
 @Composable
 private fun PernikahanPemukaAgamaSection(
-    viewModel: SKNikahWargaNonMuslimViewModel,
-    validationErrors: Map<String, String>
+    viewModel: SKNikahWargaNonMuslimViewModel
 ) {
     Column {
         SectionTitle("Data Pernikahan & Pemuka Agama")

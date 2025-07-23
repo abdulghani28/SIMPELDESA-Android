@@ -26,7 +26,6 @@ internal fun SKGhaib2Content(
     viewModel: SKGhaibViewModel,
     modifier: Modifier = Modifier
 ) {
-    val validationErrors by viewModel.validationErrors.collectAsState()
 
     FormSectionList(
         modifier = modifier,
@@ -41,8 +40,7 @@ internal fun SKGhaib2Content(
 
         item {
             InformasiOrangYangHilang(
-                viewModel = viewModel,
-                validationErrors = validationErrors
+                viewModel = viewModel
             )
         }
     }
@@ -50,8 +48,7 @@ internal fun SKGhaib2Content(
 
 @Composable
 private fun InformasiOrangYangHilang(
-    viewModel: SKGhaibViewModel,
-    validationErrors: Map<String, String>
+    viewModel: SKGhaibViewModel
 ) {
     Column {
         SectionTitle("Informasi Orang Hilang")

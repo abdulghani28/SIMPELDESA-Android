@@ -61,7 +61,6 @@ fun SKDomisiliScreen(
     val showPreviewDialog by remember { derivedStateOf { skDomisiliViewModel.showPreviewDialog } }
     val isLoading by remember { derivedStateOf { skDomisiliViewModel.isLoading } }
     val hasFormData by remember { derivedStateOf { skDomisiliViewModel.hasFormData() } }
-    val validationErrors by skDomisiliViewModel.validationErrors.collectAsState()
     val currentTab by remember { derivedStateOf { skDomisiliViewModel.currentTab } }
 
     var showSuccessDialog by remember { mutableStateOf(false) }
@@ -166,13 +165,11 @@ fun SKDomisiliScreen(
             when (tabIndex) {
                 0 -> WargaDesaContent(
                     modifier = modifier,
-                    viewModel = skDomisiliViewModel,
-                    validationErrors = validationErrors
+                    viewModel = skDomisiliViewModel
                 )
                 1 -> PendatangContent(
                     modifier = modifier,
-                    viewModel = skDomisiliViewModel,
-                    validationErrors = validationErrors
+                    viewModel = skDomisiliViewModel
                 )
             }
         }
@@ -252,8 +249,7 @@ fun SKDomisiliScreen(
 @Composable
 private fun WargaDesaContent(
     modifier: Modifier = Modifier,
-    viewModel: SKDomisiliViewModel,
-    validationErrors: Map<String, String>
+    viewModel: SKDomisiliViewModel
 ) {
     FormSectionList(
         modifier = modifier,
@@ -269,8 +265,7 @@ private fun WargaDesaContent(
 
         item {
             InformasiPelapor(
-                viewModel = viewModel,
-                validationErrors = validationErrors
+                viewModel = viewModel
             )
         }
     }
@@ -279,8 +274,7 @@ private fun WargaDesaContent(
 @Composable
 private fun PendatangContent(
     modifier: Modifier = Modifier,
-    viewModel: SKDomisiliViewModel,
-    validationErrors: Map<String, String>
+    viewModel: SKDomisiliViewModel
 ) {
     FormSectionList(
         modifier = modifier,
@@ -296,8 +290,7 @@ private fun PendatangContent(
 
         item {
             InformasiPelapor(
-                viewModel = viewModel,
-                validationErrors = validationErrors
+                viewModel = viewModel
             )
         }
 
@@ -312,15 +305,13 @@ private fun PendatangContent(
 
         item {
             AlamatLengkapSection(
-                viewModel = viewModel,
-                validationErrors = validationErrors
+                viewModel = viewModel
             )
         }
 
         item {
             JumlahPengikutField(
-                viewModel = viewModel,
-                validationErrors = validationErrors
+                viewModel = viewModel
             )
         }
     }
@@ -328,8 +319,7 @@ private fun PendatangContent(
 
 @Composable
 private fun InformasiPelapor(
-    viewModel: SKDomisiliViewModel,
-    validationErrors: Map<String, String>
+    viewModel: SKDomisiliViewModel
 ) {
     Column {
         SectionTitle("Informasi Pelapor")
@@ -446,8 +436,7 @@ private fun InformasiPelapor(
 
 @Composable
 private fun AlamatLengkapSection(
-    viewModel: SKDomisiliViewModel,
-    validationErrors: Map<String, String>
+    viewModel: SKDomisiliViewModel
 ) {
     Column {
         MultilineTextField(
@@ -474,8 +463,7 @@ private fun AlamatLengkapSection(
 
 @Composable
 private fun JumlahPengikutField(
-    viewModel: SKDomisiliViewModel,
-    validationErrors: Map<String, String>
+    viewModel: SKDomisiliViewModel
 ) {
     AppTextField(
         label = "Jumlah Pengikut",

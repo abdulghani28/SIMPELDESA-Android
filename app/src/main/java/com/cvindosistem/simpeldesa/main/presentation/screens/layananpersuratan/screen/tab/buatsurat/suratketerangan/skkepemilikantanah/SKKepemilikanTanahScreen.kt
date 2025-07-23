@@ -113,7 +113,6 @@ fun SKKepemilikanTanahScreen(
                         duration = SnackbarDuration.Short
                     )
                 }
-                else -> { /* Handle other events */ }
             }
         }
     }

@@ -113,7 +113,6 @@ fun SKKelahiranScreen(
                         duration = SnackbarDuration.Short
                     )
                 }
-                else -> { /* Handle other events */ }
             }
         }
     }

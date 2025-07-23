@@ -18,21 +18,16 @@ import com.cvindosistem.simpeldesa.core.components.AppTextField
 import com.cvindosistem.simpeldesa.core.components.DatePickerField
 import com.cvindosistem.simpeldesa.core.components.DropdownField
 import com.cvindosistem.simpeldesa.core.components.FormSectionList
-import com.cvindosistem.simpeldesa.core.components.GenderSelection
-import com.cvindosistem.simpeldesa.core.components.KewarganegaraanSection
-import com.cvindosistem.simpeldesa.core.components.MultilineTextField
 import com.cvindosistem.simpeldesa.core.components.SectionTitle
 import com.cvindosistem.simpeldesa.core.components.StepIndicator
 import com.cvindosistem.simpeldesa.core.components.UseMyDataCheckbox
 import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.biodata.SKBiodataWargaViewModel
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.walihakim.SKWaliHakimViewModel
 
 @Composable
 internal fun SKBiodataWarga1Content(
     viewModel: SKBiodataWargaViewModel,
     modifier: Modifier = Modifier
 ) {
-    val validationErrors by viewModel.validationErrors.collectAsState()
 
     FormSectionList(
         modifier = modifier,
@@ -55,8 +50,7 @@ internal fun SKBiodataWarga1Content(
 
         item {
             DataDiriPemohon(
-                viewModel = viewModel,
-                validationErrors = validationErrors
+                viewModel = viewModel
             )
         }
     }
@@ -64,8 +58,7 @@ internal fun SKBiodataWarga1Content(
 
 @Composable
 private fun DataDiriPemohon(
-    viewModel: SKBiodataWargaViewModel,
-    validationErrors: Map<String, String>
+    viewModel: SKBiodataWargaViewModel
 ) {
     Column {
         SectionTitle("Data Diri Pemohon")

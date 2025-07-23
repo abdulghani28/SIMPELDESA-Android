@@ -20,7 +20,6 @@ internal fun SKKematian3Content(
     viewModel: SKKematianViewModel,
     modifier: Modifier = Modifier
 ) {
-    val validationErrors by viewModel.validationErrors.collectAsState()
 
     FormSectionList(
         modifier = modifier,
@@ -35,8 +34,7 @@ internal fun SKKematian3Content(
 
         item {
             InformasiPelengkap(
-                viewModel = viewModel,
-                validationErrors = validationErrors
+                viewModel = viewModel
             )
         }
     }
@@ -44,8 +42,7 @@ internal fun SKKematian3Content(
 
 @Composable
 private fun InformasiPelengkap(
-    viewModel: SKKematianViewModel,
-    validationErrors: Map<String, String>
+    viewModel: SKKematianViewModel
 ) {
     Column {
         SectionTitle("Informasi Pelengkap")

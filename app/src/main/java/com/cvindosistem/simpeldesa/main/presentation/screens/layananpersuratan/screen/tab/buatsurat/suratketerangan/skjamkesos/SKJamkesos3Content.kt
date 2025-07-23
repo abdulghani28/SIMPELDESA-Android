@@ -20,7 +20,6 @@ internal fun SKJamkesos3Content(
     viewModel: SKJamkesosViewModel,
     modifier: Modifier = Modifier
 ) {
-    val validationErrors by viewModel.validationErrors.collectAsState()
 
     FormSectionList(
         modifier = modifier,
@@ -35,8 +34,7 @@ internal fun SKJamkesos3Content(
 
         item {
             KeperluanPelapor(
-                viewModel = viewModel,
-                validationErrors = validationErrors
+                viewModel = viewModel
             )
         }
     }
@@ -44,8 +42,7 @@ internal fun SKJamkesos3Content(
 
 @Composable
 private fun KeperluanPelapor(
-    viewModel: SKJamkesosViewModel,
-    validationErrors: Map<String, String>
+    viewModel: SKJamkesosViewModel
 ) {
     Column {
         SectionTitle("Keperluan")

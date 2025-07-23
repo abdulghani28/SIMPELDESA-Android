@@ -28,7 +28,6 @@ internal fun SKTidakMasukKerja2Content(
     viewModel: SKTidakMasukKerjaViewModel,
     modifier: Modifier = Modifier
 ) {
-    val validationErrors by viewModel.validationErrors.collectAsState()
 
     FormSectionList(
         modifier = modifier,
@@ -43,8 +42,7 @@ internal fun SKTidakMasukKerja2Content(
 
         item {
             InformasiPerusahaan(
-                viewModel = viewModel,
-                validationErrors = validationErrors
+                viewModel = viewModel
             )
         }
     }
@@ -52,8 +50,7 @@ internal fun SKTidakMasukKerja2Content(
 
 @Composable
 private fun InformasiPerusahaan(
-    viewModel: SKTidakMasukKerjaViewModel,
-    validationErrors: Map<String, String>
+    viewModel: SKTidakMasukKerjaViewModel
 ) {
     Column {
         SectionTitle("Informasi Perusahaan")

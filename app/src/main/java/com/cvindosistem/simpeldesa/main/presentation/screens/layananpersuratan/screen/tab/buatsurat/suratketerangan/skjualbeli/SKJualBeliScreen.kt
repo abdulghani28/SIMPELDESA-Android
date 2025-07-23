@@ -114,7 +114,6 @@ fun SKJualBeliScreen(
                         duration = SnackbarDuration.Short
                     )
                 }
-                else -> { /* Handle other events */ }
             }
         }
     }

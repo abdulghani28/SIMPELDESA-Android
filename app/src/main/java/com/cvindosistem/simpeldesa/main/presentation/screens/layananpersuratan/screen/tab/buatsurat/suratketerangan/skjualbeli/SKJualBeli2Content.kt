@@ -28,7 +28,6 @@ internal fun SKJualBeli2Content(
     viewModel: SKJualBeliViewModel,
     modifier: Modifier = Modifier
 ) {
-    val validationErrors by viewModel.validationErrors.collectAsState()
 
     FormSectionList(
         modifier = modifier,
@@ -51,8 +50,7 @@ internal fun SKJualBeli2Content(
 
         item {
             InformasiPembeli(
-                viewModel = viewModel,
-                validationErrors = validationErrors
+                viewModel = viewModel
             )
         }
     }
@@ -60,8 +58,7 @@ internal fun SKJualBeli2Content(
 
 @Composable
 private fun InformasiPembeli(
-    viewModel: SKJualBeliViewModel,
-    validationErrors: Map<String, String>
+    viewModel: SKJualBeliViewModel
 ) {
     Column {
         SectionTitle("Informasi Pembeli")
