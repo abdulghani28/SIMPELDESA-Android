@@ -115,7 +115,6 @@ fun SuratKuasaScreen(
                         duration = SnackbarDuration.Short
                     )
                 }
-                else -> { /* Handle other events */ }
             }
         }
     }

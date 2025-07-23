@@ -20,8 +20,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
@@ -39,7 +37,6 @@ internal fun SuratTugas1Content(
     viewModel: SuratTugasViewModel,
     modifier: Modifier = Modifier
 ) {
-    val validationErrors by viewModel.validationErrors.collectAsState()
 
     FormSectionList(
         modifier = modifier,
@@ -54,8 +51,7 @@ internal fun SuratTugas1Content(
 
         item {
             InformasiPenerimaTugas(
-                viewModel = viewModel,
-                validationErrors = validationErrors
+                viewModel = viewModel
             )
         }
     }
@@ -63,8 +59,7 @@ internal fun SuratTugas1Content(
 
 @Composable
 private fun InformasiPenerimaTugas(
-    viewModel: SuratTugasViewModel,
-    validationErrors: Map<String, String>
+    viewModel: SuratTugasViewModel
 ) {
     Column {
         SectionTitle("Informasi Penerima Tugas")
@@ -80,7 +75,6 @@ private fun InformasiPenerimaTugas(
             onNikChange = viewModel::updateNik,
             onNamaChange = viewModel::updateNama,
             onJabatanChange = viewModel::updateJabatan,
-            validationErrors = validationErrors,
             viewModel = viewModel,
             showRemoveButton = false
         )
@@ -104,7 +98,6 @@ private fun InformasiPenerimaTugas(
                 onNikChange = { viewModel.updateAdditionalRecipientNik(index, it) },
                 onNamaChange = { viewModel.updateAdditionalRecipientNama(index, it) },
                 onJabatanChange = { viewModel.updateAdditionalRecipientJabatan(index, it) },
-                validationErrors = validationErrors,
                 viewModel = viewModel,
                 showRemoveButton = true,
                 onRemove = { viewModel.removeAdditionalRecipient(index) }
@@ -148,7 +141,6 @@ private fun PenerimaTugasForm(
     onNikChange: (String) -> Unit,
     onNamaChange: (String) -> Unit,
     onJabatanChange: (String) -> Unit,
-    validationErrors: Map<String, String>,
     viewModel: SuratTugasViewModel,
     showRemoveButton: Boolean,
     onRemove: (() -> Unit)? = null

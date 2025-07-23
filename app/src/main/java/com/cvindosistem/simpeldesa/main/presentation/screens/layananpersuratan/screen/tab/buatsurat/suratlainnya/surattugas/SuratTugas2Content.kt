@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.cvindosistem.simpeldesa.core.components.AppTextField
@@ -21,7 +19,6 @@ internal fun SuratTugas2Content(
     viewModel: SuratTugasViewModel,
     modifier: Modifier = Modifier
 ) {
-    val validationErrors by viewModel.validationErrors.collectAsState()
 
     FormSectionList(
         modifier = modifier,
@@ -36,8 +33,7 @@ internal fun SuratTugas2Content(
 
         item {
             InformasiTugas(
-                viewModel = viewModel,
-                validationErrors = validationErrors
+                viewModel = viewModel
             )
         }
     }
@@ -45,8 +41,7 @@ internal fun SuratTugas2Content(
 
 @Composable
 private fun InformasiTugas(
-    viewModel: SuratTugasViewModel,
-    validationErrors: Map<String, String>
+    viewModel: SuratTugasViewModel
 ) {
     Column {
         SectionTitle("Informasi Tugas")
