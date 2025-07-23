@@ -29,7 +29,6 @@ internal fun SPKehilangan1Content(
     viewModel: SPKehilanganViewModel,
     modifier: Modifier = Modifier
 ) {
-    val validationErrors by viewModel.validationErrors.collectAsState()
     
     FormSectionList(
         modifier = modifier,
@@ -52,8 +51,7 @@ internal fun SPKehilangan1Content(
 
         item {
             InformasiPelapor(
-                viewModel = viewModel,
-                validationErrors = validationErrors
+                viewModel = viewModel
             )
         }
     }
@@ -61,8 +59,7 @@ internal fun SPKehilangan1Content(
 
 @Composable
 private fun InformasiPelapor(
-    viewModel: SPKehilanganViewModel,
-    validationErrors: Map<String, String>
+    viewModel: SPKehilanganViewModel
 ) {
     Column {
         SectionTitle("Informasi Pelapor")

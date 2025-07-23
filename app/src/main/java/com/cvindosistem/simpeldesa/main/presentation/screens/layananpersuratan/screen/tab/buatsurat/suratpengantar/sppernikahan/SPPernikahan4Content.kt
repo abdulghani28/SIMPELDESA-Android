@@ -30,7 +30,6 @@ internal fun SPPernikahan4Content(
     viewModel: SPPernikahanViewModel,
     modifier: Modifier = Modifier
 ) {
-    val validationErrors by viewModel.validationErrors.collectAsState()
 
     FormSectionList(
         modifier = modifier,
@@ -45,8 +44,7 @@ internal fun SPPernikahan4Content(
 
         item {
             InformasiOrangTuaCalonIstri(
-                viewModel = viewModel,
-                validationErrors = validationErrors
+                viewModel = viewModel
             )
         }
     }
@@ -54,8 +52,7 @@ internal fun SPPernikahan4Content(
 
 @Composable
 private fun InformasiOrangTuaCalonIstri(
-    viewModel: SPPernikahanViewModel,
-    validationErrors: Map<String, String>
+    viewModel: SPPernikahanViewModel
 ) {
     Column {
         SectionTitle("Informasi Orang Tua Calon Istri")

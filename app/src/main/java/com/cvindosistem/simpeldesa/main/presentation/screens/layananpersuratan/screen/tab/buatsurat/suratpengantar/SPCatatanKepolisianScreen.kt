@@ -59,7 +59,6 @@ fun SPCatatanKepolisianScreen(
     val showPreviewDialog by remember { derivedStateOf { spCatatanKepolisianViewModel.showPreviewDialog } }
     val isLoading by remember { derivedStateOf { spCatatanKepolisianViewModel.isLoading } }
     val hasFormData by remember { derivedStateOf { spCatatanKepolisianViewModel.hasFormData() } }
-    val validationErrors by spCatatanKepolisianViewModel.validationErrors.collectAsState()
 
     var showSuccessDialog by remember { mutableStateOf(false) }
     var successDialogTitle by remember { mutableStateOf("") }
@@ -168,8 +167,7 @@ fun SPCatatanKepolisianScreen(
 
             item {
                 InformasiPelapor(
-                    viewModel = spCatatanKepolisianViewModel,
-                    validationErrors = validationErrors
+                    viewModel = spCatatanKepolisianViewModel
                 )
             }
         }
@@ -245,8 +243,7 @@ fun SPCatatanKepolisianScreen(
 
 @Composable
 private fun InformasiPelapor(
-    viewModel: SPCatatanKepolisianViewModel,
-    validationErrors: Map<String, String>
+    viewModel: SPCatatanKepolisianViewModel
 ) {
     Column {
         SectionTitle("Informasi Pelapor")

@@ -32,8 +32,6 @@ internal fun SPPernikahan1Content(
     modifier: Modifier = Modifier
 ) {
 
-    val validationErrors by viewModel.validationErrors.collectAsState()
-
     FormSectionList(
         modifier = modifier,
         background = MaterialTheme.colorScheme.background
@@ -55,15 +53,13 @@ internal fun SPPernikahan1Content(
 
         item {
             InformasiCalonSuami(
-                viewModel = viewModel,
-                validationErrors = validationErrors
+                viewModel = viewModel
             )
         }
 
         item {
             InformasiStatusPerkawinan(
-                viewModel = viewModel,
-                validationErrors = validationErrors
+                viewModel = viewModel
             )
         }
     }
@@ -71,8 +67,7 @@ internal fun SPPernikahan1Content(
 
 @Composable
 private fun InformasiCalonSuami(
-    viewModel: SPPernikahanViewModel,
-    validationErrors: Map<String, String>
+    viewModel: SPPernikahanViewModel
 ) {
     Column {
         SectionTitle("Informasi Calon Suami")
@@ -178,8 +173,7 @@ private fun InformasiCalonSuami(
 
 @Composable
 private fun InformasiStatusPerkawinan(
-    viewModel: SPPernikahanViewModel,
-    validationErrors: Map<String, String>
+    viewModel: SPPernikahanViewModel
 ) {
     Column {
         SectionTitle("Informasi Status Perkawinan")

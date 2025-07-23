@@ -114,7 +114,6 @@ fun SPKehilanganScreen(
                         duration = SnackbarDuration.Short
                     )
                 }
-                else -> { /* Handle other events */ }
             }
         }
     }
