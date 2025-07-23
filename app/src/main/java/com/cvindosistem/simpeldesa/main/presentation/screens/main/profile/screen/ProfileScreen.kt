@@ -120,11 +120,11 @@ fun ProfilScreen(
         }
 
         // Village Information Card
-        item {
-            VillageInfoCard(
-                village = uiState.dusun
-            )
-        }
+//        item {
+//            VillageInfoCard(
+//                village = uiState.dusun
+//            )
+//        }
 
         // Account Settings
         item {
@@ -190,18 +190,18 @@ private fun ProfileHeaderWithExpandableInfo(
             }
 
             // Edit Icon
-            IconButton(
-                onClick = { /* Handle edit action */ },
-                modifier = Modifier
-                    .size(40.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Edit,
-                    contentDescription = "Edit Profile",
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(20.dp)
-                )
-            }
+//            IconButton(
+//                onClick = { /* Handle edit action */ },
+//                modifier = Modifier
+//                    .size(40.dp)
+//            ) {
+//                Icon(
+//                    imageVector = Icons.Default.Edit,
+//                    contentDescription = "Edit Profile",
+//                    tint = MaterialTheme.colorScheme.primary,
+//                    modifier = Modifier.size(20.dp)
+//                )
+//            }
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -369,23 +369,23 @@ private fun AccountSettingsSection(
             modifier = Modifier.padding(bottom = 8.dp)
         )
 
-        SettingsItem(
-            icon = Icons.Default.Lock,
-            title = "Ubah Password",
-            iconTint = MaterialTheme.colorScheme.primary
-        )
+//        SettingsItem(
+//            icon = Icons.Default.Lock,
+//            title = "Ubah Password",
+//            iconTint = MaterialTheme.colorScheme.primary
+//        )
 
-        SettingsItem(
-            icon = Icons.Default.Phone,
-            title = "Ubah Nomor Telepon",
-            iconTint = MaterialTheme.colorScheme.primary
-        )
+//        SettingsItem(
+//            icon = Icons.Default.Phone,
+//            title = "Ubah Nomor Telepon",
+//            iconTint = MaterialTheme.colorScheme.primary
+//        )
 
-        SettingsItem(
-            icon = Icons.Default.Email,
-            title = "Ubah Alamat Email",
-            iconTint = MaterialTheme.colorScheme.primary
-        )
+//        SettingsItem(
+//            icon = Icons.Default.Email,
+//            title = "Ubah Alamat Email",
+//            iconTint = MaterialTheme.colorScheme.primary
+//        )
 
         Spacer(modifier = Modifier.height(8.dp))
 
