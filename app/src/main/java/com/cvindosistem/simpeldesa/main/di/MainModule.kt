@@ -51,6 +51,7 @@ import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratTugasUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratUsahaUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratWaliHakimUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetAgamaUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.GetDisabilitasUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetHubunganUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetPendidikanUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetPerbedaanIdentitasUseCase
@@ -221,24 +222,25 @@ val mainModule = module {
     single { BidangUsahaUseCase(get()) }
     single { GetHubunganUseCase(get()) }
     single { GetPendidikanUseCase(get()) }
+    single { GetDisabilitasUseCase(get()) }
 
-// ViewModel - Surat
+    // ViewModel - Surat
     viewModel { SuratSayaViewModel(get()) }
     viewModel { SuratDetailViewModel(get()) }
 
-// ViewModel - SR (Surat Rekomendasi)
+    // ViewModel - SR (Surat Rekomendasi)
     viewModel { SRKeramaianViewModel(get(), get()) }
 
-// ViewModel - SP (Surat Pernyataan)
+    // ViewModel - SP (Surat Pernyataan)
     viewModel { SPCatatanKepolisianViewModel(get(), get()) }
     viewModel { SPPernikahanViewModel(get(), get(), get(), get()) }
     viewModel { SPKehilanganViewModel(get(), get()) }
 
-// ViewModel - Surat Lainnya
+    // ViewModel - Surat Lainnya
     viewModel { SuratKuasaViewModel(get(), get()) }
     viewModel { SuratTugasViewModel(get(), get()) }
 
-// ViewModel - SK (Surat Keterangan)
+    // ViewModel - SK (Surat Keterangan)
     viewModel { SKTidakMampuViewModel(get(), get(), get(), get()) }
     viewModel { SKResiKTPSementaraViewModel(get(), get(), get()) }
     viewModel { SKStatusPerkawinanViewModel(get(), get(), get(), get()) }
@@ -254,7 +256,7 @@ val mainModule = module {
     viewModel { SKBerpergianViewModel(get(), get()) }
     viewModel { SKBedaIdentitasViewModel(get(), get(), get(), get()) }
     viewModel { SKBelumMemilikiPBBViewModel(get(), get(), get(), get()) }
-    viewModel { SKBiodataWargaViewModel(get(), get(), get(), get(), get()) }
+    viewModel { SKBiodataWargaViewModel(get(), get(), get(), get(), get(), get()) }
     viewModel { SKJamkesosViewModel(get(), get(), get(), get(), get()) }
     viewModel { SKIzinOrangTuaViewModel(get(), get(), get()) }
     viewModel { SKJualBeliViewModel(get(), get()) }
@@ -267,7 +269,7 @@ val mainModule = module {
     viewModel { SKPergiKawinViewModel(get(), get(), get(), get(), get()) }
     viewModel { SKWaliHakimViewModel(get(), get(), get(), get(), get()) }
 
-// ViewModel - SPM (Surat Permohonan)
+    // ViewModel - SPM (Surat Permohonan)
     viewModel { SPMAktaLahirViewModel(get(), get()) }
     viewModel { SPMBelumMemilikiAktaLahirViewModel(get(), get()) }
     viewModel { SPMCeraiViewModel(get(), get(), get()) }
@@ -277,6 +279,6 @@ val mainModule = module {
     viewModel { SPMPerubahanKKViewModel(get(), get(), get()) }
     viewModel { SPPermohonanPenerbitanBukuPasLintasBatasViewModel(get(), get(), get(), get()) }
 
-// ViewModel - SPN (Surat Pernyataan)
+    // ViewModel - SPN (Surat Pernyataan)
     viewModel { SPNPenguasaanFisikBidangTanahViewModel(get(), get()) }
 }

@@ -164,18 +164,18 @@ private fun DataDiriPemohon(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-//        DropdownField(
-//            label = "Disabilitas",
-//            value = viewModel.disabilitasList.find { it.id == viewModel.disabilitasIdValue }?.nama.orEmpty(),
-//            onValueChange = { selectedNama ->
-//                viewModel.disabilitasList.find { it.nama == selectedNama }?.let {
-//                    viewModel.updateDisabilitasId(it.id)
-//                }
-//            },
-//            options = viewModel.disabilitasList.map { it.nama },
-//            isError = viewModel.hasFieldError("disabilitas_id"),
-//            errorMessage = viewModel.getFieldError("disabilitas_id"),
-//            onDropdownExpanded = viewModel::loadDisabilitas
-//        )
+        DropdownField(
+            label = "Disabilitas",
+            value = viewModel.disabilitasList.find { it.id == viewModel.disabilitasIdValue }?.nama.orEmpty(),
+            onValueChange = { selectedNama ->
+                viewModel.disabilitasList.find { it.nama == selectedNama }?.let {
+                    viewModel.updateDisabilitasId(it.id)
+                }
+            },
+            options = viewModel.disabilitasList.map { it.nama },
+            isError = viewModel.hasFieldError("disabilitas_id"),
+            errorMessage = viewModel.getFieldError("disabilitas_id"),
+            onDropdownExpanded = viewModel::loadDisabilitas
+        )
     }
 }

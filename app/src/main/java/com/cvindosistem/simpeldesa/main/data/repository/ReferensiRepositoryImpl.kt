@@ -5,6 +5,7 @@ import com.cvindosistem.simpeldesa.auth.data.remote.dto.auth.login.ErrorResponse
 import com.cvindosistem.simpeldesa.main.data.remote.api.ReferensiApi
 import com.cvindosistem.simpeldesa.main.domain.model.AgamaResult
 import com.cvindosistem.simpeldesa.main.domain.model.BidangUsahaResult
+import com.cvindosistem.simpeldesa.main.domain.model.DisabilitasResult
 import com.cvindosistem.simpeldesa.main.domain.model.DisahkanOlehResult
 import com.cvindosistem.simpeldesa.main.domain.model.HubunganResult
 import com.cvindosistem.simpeldesa.main.domain.model.JenisUsahaResult
@@ -67,16 +68,22 @@ interface ReferensiRepository {
     suspend fun getStatusKawin(): StatusKawinResult
 
     /**
-     * Mengambil daftar referensi status perkawinan.
+     * Mengambil daftar referensi pendidikan.
      * @return [PendidikanResult] berisi data atau pesan kesalahan.
      */
     suspend fun getPendidikan(): PendidikanResult
 
     /**
-     * Mengambil daftar referensi status perkawinan.
+     * Mengambil daftar referensi status hubungan.
      * @return [HubunganResult] berisi data atau pesan kesalahan.
      */
     suspend fun getHubungan(): HubunganResult
+
+    /**
+     * Mengambil daftar referensi disabilitas.
+     * @return [DisabilitasResult] berisi data atau pesan kesalahan.
+     */
+    suspend fun getDisabilitas(): DisabilitasResult
 }
 
 class ReferensiRepositoryImpl(
@@ -129,7 +136,7 @@ class ReferensiRepositoryImpl(
                 val errorBody = response.errorBody()?.string()
                 val errorResponse = try {
                     Gson().fromJson(errorBody, ErrorResponse::class.java)
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     null
                 }
 
@@ -159,7 +166,7 @@ class ReferensiRepositoryImpl(
                 val errorBody = response.errorBody()?.string()
                 val errorResponse = try {
                     Gson().fromJson(errorBody, ErrorResponse::class.java)
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     null
                 }
 
@@ -189,7 +196,7 @@ class ReferensiRepositoryImpl(
                 val errorBody = response.errorBody()?.string()
                 val errorResponse = try {
                     Gson().fromJson(errorBody, ErrorResponse::class.java)
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     null
                 }
 
@@ -219,7 +226,7 @@ class ReferensiRepositoryImpl(
                 val errorBody = response.errorBody()?.string()
                 val errorResponse = try {
                     Gson().fromJson(errorBody, ErrorResponse::class.java)
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     null
                 }
 
@@ -249,7 +256,7 @@ class ReferensiRepositoryImpl(
                 val errorBody = response.errorBody()?.string()
                 val errorResponse = try {
                     Gson().fromJson(errorBody, ErrorResponse::class.java)
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     null
                 }
 
@@ -279,7 +286,7 @@ class ReferensiRepositoryImpl(
                 val errorBody = response.errorBody()?.string()
                 val errorResponse = try {
                     Gson().fromJson(errorBody, ErrorResponse::class.java)
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     null
                 }
 
@@ -309,7 +316,7 @@ class ReferensiRepositoryImpl(
                 val errorBody = response.errorBody()?.string()
                 val errorResponse = try {
                     Gson().fromJson(errorBody, ErrorResponse::class.java)
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     null
                 }
 
@@ -339,7 +346,7 @@ class ReferensiRepositoryImpl(
                 val errorBody = response.errorBody()?.string()
                 val errorResponse = try {
                     Gson().fromJson(errorBody, ErrorResponse::class.java)
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     null
                 }
 
@@ -350,6 +357,36 @@ class ReferensiRepositoryImpl(
         } catch (e: Exception) {
             Log.e("ReferensiRepository", "Hubungan exception", e)
             return@withContext HubunganResult.Error(e.message ?: "Unknown error occurred")
+        }
+    }
+
+    override suspend fun getDisabilitas(): DisabilitasResult = withContext(Dispatchers.IO) {
+        try {
+            val response = referensiApi.getDisabilitas()
+
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Log.d("ReferensiRepository", "Fetched Disabilitas")
+                    return@withContext DisabilitasResult.Success(it)
+                } ?: run {
+                    Log.e("ReferensiRepository", "Disabilitas response body is null")
+                    return@withContext DisabilitasResult.Error("Unknown error occurred")
+                }
+            } else {
+                val errorBody = response.errorBody()?.string()
+                val errorResponse = try {
+                    Gson().fromJson(errorBody, ErrorResponse::class.java)
+                } catch (_: Exception) {
+                    null
+                }
+
+                val errorMessage = errorResponse?.message ?: "Failed to fetch Disabilitas"
+                Log.e("ReferensiRepository", "Disabilitas failed: $errorMessage")
+                return@withContext DisabilitasResult.Error(errorMessage)
+            }
+        } catch (e: Exception) {
+            Log.e("ReferensiRepository", "Disabilitas exception", e)
+            return@withContext DisabilitasResult.Error(e.message ?: "Unknown error occurred")
         }
     }
 }

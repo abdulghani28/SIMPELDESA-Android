@@ -2,6 +2,7 @@ package com.cvindosistem.simpeldesa.main.domain.model
 
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.AgamaResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.BidangUsahaResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.DisabilitasResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.DisahkanOlehResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.HubunganResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.JenisUsahaResponse
@@ -53,4 +54,9 @@ sealed class PendidikanResult {
 sealed class HubunganResult {
     data class Success(val data: HubunganResponse) : HubunganResult()
     data class Error(val message: String) : HubunganResult()
+}
+
+sealed class DisabilitasResult {
+    data class Success(val data: DisabilitasResponse) : DisabilitasResult()
+    data class Error(val message: String) : DisabilitasResult()
 }

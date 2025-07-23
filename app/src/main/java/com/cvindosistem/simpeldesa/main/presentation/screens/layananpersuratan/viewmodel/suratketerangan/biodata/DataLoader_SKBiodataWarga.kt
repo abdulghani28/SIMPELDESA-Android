@@ -5,19 +5,18 @@ import com.cvindosistem.simpeldesa.auth.domain.usecases.GetUserInfoUseCase
 import com.cvindosistem.simpeldesa.main.domain.model.AgamaResult
 import com.cvindosistem.simpeldesa.main.domain.model.PendidikanResult
 import com.cvindosistem.simpeldesa.main.domain.model.StatusKawinResult
-//import com.cvindosistem.simpeldesa.main.domain.model.DisabilitasResult
+import com.cvindosistem.simpeldesa.main.domain.model.DisabilitasResult
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetAgamaUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetPendidikanUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetStatusKawinUseCase
-
-//import com.cvindosistem.simpeldesa.main.domain.usecases.GetDisabilitasUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.GetDisabilitasUseCase
 
 class SKBiodataWargaDataLoader(
     private val getUserInfoUseCase: GetUserInfoUseCase,
     private val getAgamaUseCase: GetAgamaUseCase,
     private val getPendidikanUseCase: GetPendidikanUseCase,
     private val getStatusKawinUseCase: GetStatusKawinUseCase,
-//    private val getDisabilitasUseCase: GetDisabilitasUseCase,
+    private val getDisabilitasUseCase: GetDisabilitasUseCase,
     private val stateManager: SKBiodataWargaStateManager,
     private val validator: SKBiodataWargaValidator
 ) {
@@ -118,26 +117,26 @@ class SKBiodataWargaDataLoader(
         }
     }
 
-//    suspend fun loadDisabilitas(): Result<Unit> {
-//        return try {
-//            stateManager.updateDisabilitasLoading(true)
-//            stateManager.updateDisabilitasErrorMessage(null)
-//            when (val result = getDisabilitasUseCase()) {
-//                is DisabilitasResult.Success -> {
-//                    stateManager.updateDisabilitasList(result.data.data)
-//                    Result.success(Unit)
-//                }
-//                is DisabilitasResult.Error -> {
-//                    stateManager.updateDisabilitasErrorMessage(result.message)
-//                    Result.failure(Exception(result.message))
-//                }
-//            }
-//        } catch (e: Exception) {
-//            val errorMsg = e.message ?: "Gagal memuat data disabilitas"
-//            stateManager.updateDisabilitasErrorMessage(errorMsg)
-//            Result.failure(Exception(errorMsg))
-//        } finally {
-//            stateManager.updateDisabilitasLoading(false)
-//        }
-//    }
+    suspend fun loadDisabilitas(): Result<Unit> {
+        return try {
+            stateManager.updateDisabilitasLoading(true)
+            stateManager.updateDisabilitasErrorMessage(null)
+            when (val result = getDisabilitasUseCase()) {
+                is DisabilitasResult.Success -> {
+                    stateManager.updateDisabilitasList(result.data.data)
+                    Result.success(Unit)
+                }
+                is DisabilitasResult.Error -> {
+                    stateManager.updateDisabilitasErrorMessage(result.message)
+                    Result.failure(Exception(result.message))
+                }
+            }
+        } catch (e: Exception) {
+            val errorMsg = e.message ?: "Gagal memuat data disabilitas"
+            stateManager.updateDisabilitasErrorMessage(errorMsg)
+            Result.failure(Exception(errorMsg))
+        } finally {
+            stateManager.updateDisabilitasLoading(false)
+        }
+    }
 }

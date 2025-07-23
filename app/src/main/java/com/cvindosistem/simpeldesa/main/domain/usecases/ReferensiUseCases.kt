@@ -3,6 +3,7 @@ package com.cvindosistem.simpeldesa.main.domain.usecases
 import com.cvindosistem.simpeldesa.main.data.repository.ReferensiRepository
 import com.cvindosistem.simpeldesa.main.domain.model.AgamaResult
 import com.cvindosistem.simpeldesa.main.domain.model.BidangUsahaResult
+import com.cvindosistem.simpeldesa.main.domain.model.DisabilitasResult
 import com.cvindosistem.simpeldesa.main.domain.model.DisahkanOlehResult
 import com.cvindosistem.simpeldesa.main.domain.model.HubunganResult
 import com.cvindosistem.simpeldesa.main.domain.model.JenisUsahaResult
@@ -62,5 +63,11 @@ class GetPendidikanUseCase(private val referensiRepository: ReferensiRepository)
 class GetHubunganUseCase(private val referensiRepository: ReferensiRepository) {
     suspend operator fun invoke(): HubunganResult {
         return referensiRepository.getHubungan()
+    }
+}
+
+class GetDisabilitasUseCase(private val referensiRepository: ReferensiRepository) {
+    suspend operator fun invoke(): DisabilitasResult {
+        return referensiRepository.getDisabilitas()
     }
 }

@@ -7,6 +7,7 @@ import androidx.compose.runtime.setValue
 import com.cvindosistem.simpeldesa.auth.data.remote.dto.user.response.UserInfoResponse
 import com.cvindosistem.simpeldesa.core.helpers.dateFormatterToApiFormat
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.AgamaResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.DisabilitasResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.PendidikanResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.StatusKawinResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.surat.request.suratketerangan.SKBiodataWargaRequest
@@ -109,8 +110,8 @@ class SKBiodataWargaStateManager {
         private set
     var statusKawinList by mutableStateOf<List<StatusKawinResponse.Data>>(emptyList())
         private set
-//    var disabilitasList by mutableStateOf<List<DisabilitasResponse.Data>>(emptyList())
-//        private set
+    var disabilitasList by mutableStateOf<List<DisabilitasResponse.Data>>(emptyList())
+        private set
 
     // Step 1 Update Functions - Data Diri Pemohon
     fun updateNik(value: String) { nikValue = value }
@@ -178,7 +179,7 @@ class SKBiodataWargaStateManager {
     fun updateAgamaList(list: List<AgamaResponse.Data>) { agamaList = list }
     fun updatePendidikanList(list: List<PendidikanResponse.Data>) { pendidikanList = list }
     fun updateStatusKawinList(list: List<StatusKawinResponse.Data>) { statusKawinList = list }
-//    fun updateDisabilitasList(list: List<DisabilitasResponse.Data>) { disabilitasList = list }
+    fun updateDisabilitasList(list: List<DisabilitasResponse.Data>) { disabilitasList = list }
 
     // Populate / Clear User Data
     fun populateUserData(userData: UserInfoResponse.Data) {

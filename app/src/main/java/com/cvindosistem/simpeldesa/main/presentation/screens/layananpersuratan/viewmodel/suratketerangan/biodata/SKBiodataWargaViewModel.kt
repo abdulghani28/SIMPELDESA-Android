@@ -4,15 +4,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cvindosistem.simpeldesa.auth.domain.usecases.GetUserInfoUseCase
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.AgamaResponse
-//import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.DisabilitasResponse
+import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.DisabilitasResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.PendidikanResponse
 import com.cvindosistem.simpeldesa.main.data.remote.dto.referensi.StatusKawinResponse
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratKeteranganBiodataWargaUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetAgamaUseCase
-//import com.cvindosistem.simpeldesa.main.domain.usecases.GetDisabilitasUseCase
+import com.cvindosistem.simpeldesa.main.domain.usecases.GetDisabilitasUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetPendidikanUseCase
 import com.cvindosistem.simpeldesa.main.domain.usecases.GetStatusKawinUseCase
-import com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.viewmodel.suratketerangan.walihakim.SKWaliHakimViewModel.SKWaliHakimEvent
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -24,8 +23,8 @@ class SKBiodataWargaViewModel(
     getUserInfoUseCase: GetUserInfoUseCase,
     getAgamaUseCase: GetAgamaUseCase,
     getPendidikanUseCase: GetPendidikanUseCase,
-    getStatusKawinUseCase: GetStatusKawinUseCase
-//    getDisabilitasUseCase: GetDisabilitasUseCase
+    getStatusKawinUseCase: GetStatusKawinUseCase,
+    getDisabilitasUseCase: GetDisabilitasUseCase
 ) : ViewModel() {
 
     // Composition of components
@@ -36,7 +35,7 @@ class SKBiodataWargaViewModel(
         getAgamaUseCase,
         getPendidikanUseCase,
         getStatusKawinUseCase,
-//        getDisabilitasUseCase,
+        getDisabilitasUseCase,
         stateManager,
         validator
     )
@@ -56,7 +55,7 @@ class SKBiodataWargaViewModel(
     val pendidikanList: List<PendidikanResponse.Data> get() = stateManager.pendidikanList
     val isLoadingPendidikan: Boolean get() = stateManager.isLoadingPendidikan
     val pendidikanErrorMessage: String? get() = stateManager.pendidikanErrorMessage
-//    val disabilitasList: List<DisabilitasResponse.Data> get() = stateManager.disabilitasList
+    val disabilitasList: List<DisabilitasResponse.Data> get() = stateManager.disabilitasList
     val isLoadingDisabilitas: Boolean get() = stateManager.isLoadingDisabilitas
     val disabilitasErrorMessage: String? get() = stateManager.disabilitasErrorMessage
     val statusKawinList: List<StatusKawinResponse.Data> get() = stateManager.statusKawinList
@@ -118,9 +117,9 @@ class SKBiodataWargaViewModel(
                 dataLoader.loadPendidikan().onFailure {
                     _skBiodataWargaEvent.emit(SKBiodataWargaEvent.PendidikanLoadError(it.message ?: "Error"))
                 }
-//                dataLoader.loadDisabilitas().onFailure {
-//                    _skBiodataWargaEvent.emit(SKBiodataWargaEvent.DisabilitasLoadError(it.message ?: "Error"))
-//                }
+                dataLoader.loadDisabilitas().onFailure {
+                    _skBiodataWargaEvent.emit(SKBiodataWargaEvent.DisabilitasLoadError(it.message ?: "Error"))
+                }
                 dataLoader.loadStatusKawin().onFailure {
                     _skBiodataWargaEvent.emit(SKBiodataWargaEvent.StatusKawinLoadError(it.message ?: "Error"))
                 }
@@ -154,14 +153,13 @@ class SKBiodataWargaViewModel(
         }
     }
 
-
-//    fun loadDisabilitas() {
-//        viewModelScope.launch {
-//            dataLoader.loadDisabilitas().onFailure {
-//                _skBiodataWargaEvent.emit(SKBiodataWargaEvent.DisabilitasLoadError(it.message ?: "Error"))
-//            }
-//        }
-//    }
+    fun loadDisabilitas() {
+        viewModelScope.launch {
+            dataLoader.loadDisabilitas().onFailure {
+                _skBiodataWargaEvent.emit(SKBiodataWargaEvent.DisabilitasLoadError(it.message ?: "Error"))
+            }
+        }
+    }
 
     // Step 1 update functions - Data Diri Pemohon
     fun updateNik(value: String) {
