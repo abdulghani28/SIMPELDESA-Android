@@ -17,6 +17,7 @@ import com.cvindosistem.simpeldesa.auth.domain.usecases.auth.ResetPasswordUseCas
 import com.cvindosistem.simpeldesa.auth.domain.usecases.auth.ValidateOtpUseCase
 import com.cvindosistem.simpeldesa.auth.presentation.auth.login.AuthViewModel
 import com.cvindosistem.simpeldesa.auth.presentation.auth.resetpassword.PasswordResetViewModel
+import com.cvindosistem.simpeldesa.core.data.remote.interceptor.SessionManager
 import com.cvindosistem.simpeldesa.main.presentation.screens.main.home.viewmodel.HomeViewModel
 import com.cvindosistem.simpeldesa.main.presentation.screens.main.profile.viewmodel.ProfileViewModel
 import com.google.gson.Gson
@@ -39,6 +40,9 @@ import retrofit2.Retrofit
  * - Pastikan endpoint `AuthApi` dan `UserApi` sudah benar sesuai backend
  */
 val authModule = module {
+
+    single { SessionManager(get(), get()) }
+
     // Service Retrofit untuk API otentikasi
     single { get<Retrofit>().create(AuthApi::class.java) }
 
@@ -86,7 +90,7 @@ val authModule = module {
     viewModel { PasswordResetViewModel(get(), get(), get(), get()) }
 
     // ViewModel utama untuk dashboard/home
-    viewModel { HomeViewModel(get(), get()) }
+    viewModel { HomeViewModel(get(), get(), get()) }
 
     // ViewModel untuk tampilan profil pengguna
     viewModel { ProfileViewModel(get(), get(), get()) }

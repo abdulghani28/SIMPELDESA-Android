@@ -23,7 +23,8 @@ import okhttp3.Response
  * here if required for backend validation.
  */
 class AuthInterceptor(
-    private val userPreferences: UserPreferences
+    private val userPreferences: UserPreferences,
+    private val onUnauthorized: () -> Unit
 ) : Interceptor {
 
     /**
@@ -38,14 +39,19 @@ class AuthInterceptor(
         val token = userPreferences.getAuthToken()
 
         val newRequestBuilder = originalRequest.newBuilder()
-
-        // Optionally set origin header if CORS or backend validation requires it.
         newRequestBuilder.header("Origin", "https://digitaldesa.avnet.id")
 
         if (!token.isNullOrEmpty()) {
             newRequestBuilder.header("Authorization", "Bearer $token")
         }
 
-        return chain.proceed(newRequestBuilder.build())
+        val response = chain.proceed(newRequestBuilder.build())
+
+        // Check for 401 Unauthorized
+        if (response.code == 401) {
+            onUnauthorized()
+        }
+
+        return response
     }
 }

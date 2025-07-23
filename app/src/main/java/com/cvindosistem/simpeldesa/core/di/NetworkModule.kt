@@ -1,6 +1,7 @@
 package com.cvindosistem.simpeldesa.core.di
 
 import com.cvindosistem.simpeldesa.core.data.remote.interceptor.AuthInterceptor
+import com.cvindosistem.simpeldesa.core.data.remote.interceptor.SessionManager
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
@@ -15,8 +16,14 @@ import java.util.concurrent.TimeUnit
  */
 val networkModule = module {
 
+    single { SessionManager(get(), get()) }
+
     // Menyediakan interceptor untuk menyisipkan header Authorization di setiap request
-    single { AuthInterceptor(get()) }
+    single {
+        AuthInterceptor(get()) {
+            get<SessionManager>().handleUnauthorized()
+        }
+    }
 
     // Menyediakan instance OkHttpClient dengan:
     // - Logging Interceptor (level BODY)

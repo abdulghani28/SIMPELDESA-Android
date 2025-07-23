@@ -9,7 +9,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cvindosistem.simpeldesa.auth.domain.model.UserInfoResult
 import com.cvindosistem.simpeldesa.auth.domain.usecases.GetUserInfoUseCase
+import com.cvindosistem.simpeldesa.core.data.abstractclass.BaseViewModel
 import com.cvindosistem.simpeldesa.core.data.local.preferences.NotificationUtils
+import com.cvindosistem.simpeldesa.core.data.remote.interceptor.SessionManager
 import com.cvindosistem.simpeldesa.core.domain.model.notification.NotificationResponse
 import com.cvindosistem.simpeldesa.core.domain.model.notification.NotifikasiResult
 import com.cvindosistem.simpeldesa.core.domain.usecases.GetNotifikasiUseCase
@@ -25,8 +27,9 @@ import java.util.Locale
 
 class HomeViewModel(
     private val getUserInfoUseCase: GetUserInfoUseCase,
-    private val getNotifikasiUseCase: GetNotifikasiUseCase
-) : ViewModel() {
+    private val getNotifikasiUseCase: GetNotifikasiUseCase,
+    private val sessionManager: SessionManager
+) : BaseViewModel(sessionManager) {
 
     // UI State
     private val _uiState = MutableStateFlow(HomeUiState())
@@ -62,24 +65,28 @@ class HomeViewModel(
             isLoading = true
             errorMessage = null
 
-            when (val result = getUserInfoUseCase()) {
-                is UserInfoResult.Success -> {
-                    val userData = result.data.data
-                    _uiState.value = _uiState.value.copy(
-                        userName = userData.nama_warga,
-                        userEmail = userData.email,
-                        dusun = userData.dusun,
-                        greeting = getCurrentGreeting(),
-                        rt = userData.rt,
-                        rw = userData.rw,
-                        isDataLoaded = true
-                    )
-                    _homeEvent.emit(HomeEvent.DataLoaded)
+            try {
+                when (val result = getUserInfoUseCase()) {
+                    is UserInfoResult.Success -> {
+                        val userData = result.data.data
+                        _uiState.value = _uiState.value.copy(
+                            userName = userData.nama_warga,
+                            userEmail = userData.email,
+                            dusun = userData.dusun,
+                            greeting = getCurrentGreeting(),
+                            rt = userData.rt,
+                            rw = userData.rw,
+                            isDataLoaded = true
+                        )
+                        _homeEvent.emit(HomeEvent.DataLoaded)
+                    }
+                    is UserInfoResult.Error -> {
+                        errorMessage = result.message
+                        _homeEvent.emit(HomeEvent.Error(result.message))
+                    }
                 }
-                is UserInfoResult.Error -> {
-                    errorMessage = result.message
-                    _homeEvent.emit(HomeEvent.Error(result.message))
-                }
+            } catch (e: Exception) {
+                handleApiError(e) // Handle token expiry
             }
             isLoading = false
         }

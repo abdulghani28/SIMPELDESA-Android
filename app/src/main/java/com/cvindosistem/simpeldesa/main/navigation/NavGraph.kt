@@ -1,6 +1,16 @@
 package com.cvindosistem.simpeldesa.main.navigation
 
+import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.os.Build
+import android.util.Log
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -13,6 +23,7 @@ import com.cvindosistem.simpeldesa.auth.presentation.auth.resetpassword.OtpVerif
 import com.cvindosistem.simpeldesa.auth.presentation.auth.resetpassword.PasswordResetViewModel
 import com.cvindosistem.simpeldesa.auth.presentation.auth.resetpassword.ResetPasswordScreen
 import com.cvindosistem.simpeldesa.core.data.local.preferences.UserPreferences
+import com.cvindosistem.simpeldesa.core.data.remote.interceptor.SessionManager
 import com.cvindosistem.simpeldesa.main.presentation.screens.blogdesa.BlogDesaScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.blogdesa.BuatPostinganScreen
 import com.cvindosistem.simpeldesa.main.presentation.screens.blogdesa.PostinganScreen
@@ -142,11 +153,49 @@ import org.koin.compose.koinInject
  *   dan akan di-destroy saat screen tidak aktif.
  */
 
+@SuppressLint("UnspecifiedRegisterReceiverFlag")
 @Composable
 fun NavGraph(
     navController: NavHostController = rememberNavController(),
-    userPreferences: UserPreferences = koinInject()
+    userPreferences: UserPreferences = koinInject(),
+    sessionManager: SessionManager = koinInject()
 ) {
+
+    LaunchedEffect(sessionManager) {
+        sessionManager.sessionExpired.collect {
+            // Navigate ke login dan clear back stack
+            navController.navigate(Screen.Login.route) {
+                popUpTo(0) { inclusive = true }
+            }
+        }
+    }
+
+    val context = LocalContext.current
+    DisposableEffect(context) {
+        val intentFilter = IntentFilter("com.cvindosistem.simpeldesa.SESSION_EXPIRED")
+        val receiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                navController.navigate(Screen.Login.route) {
+                    popUpTo(0) { inclusive = true }
+                }
+            }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            context.registerReceiver(receiver, intentFilter, Context.RECEIVER_NOT_EXPORTED)
+        } else {
+            context.registerReceiver(receiver, intentFilter)
+        }
+
+        onDispose {
+            try {
+                context.unregisterReceiver(receiver)
+            } catch (e: Exception) {
+                Log.w("NavGraph", "Failed to unregister session receiver: ${e.message}")
+            }
+        }
+    }
+
     val isLoggedIn = userPreferences.isLoggedIn()
 
     val initialStartDestination = when {

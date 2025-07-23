@@ -207,7 +207,7 @@ private fun SuratSayaCard(
 }
 
 @Composable
-private fun StatusChip(
+fun StatusChip(
     status: StatusSurat,
     modifier: Modifier = Modifier
 ) {

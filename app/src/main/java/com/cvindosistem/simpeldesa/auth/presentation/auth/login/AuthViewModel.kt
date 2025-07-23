@@ -7,9 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cvindosistem.simpeldesa.auth.domain.model.LoginResult
-import com.cvindosistem.simpeldesa.auth.domain.model.LogoutResult
 import com.cvindosistem.simpeldesa.auth.domain.usecases.auth.LoginUseCase
-import com.cvindosistem.simpeldesa.auth.domain.usecases.auth.LogoutUseCase
 import com.cvindosistem.simpeldesa.core.data.fcm.FcmManager
 import com.cvindosistem.simpeldesa.core.data.local.preferences.UserPreferences
 import kotlinx.coroutines.flow.MutableSharedFlow

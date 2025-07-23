@@ -33,7 +33,7 @@ fun StatusChip(
         "menunggu" -> StatusMenunggu
         "diproses" -> StatusDiproses
         "selesai" -> StatusSelesai
-        "ditolak" -> StatusDitolak
+        "dibatalkan" -> StatusDitolak
         else -> StatusMenunggu
     }
 
