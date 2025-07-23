@@ -137,8 +137,8 @@ private fun DataAnakSection(
             placeholder = "Masukkan nama anak",
             value = viewModel.namaAnak1,
             onValueChange = viewModel::updateNamaAnak1,
-            isError = viewModel.hasFieldError("nama_anak_1"),
-            errorMessage = viewModel.getFieldError("nama_anak_1")
+            isError = viewModel.hasFieldError("nama_anak1"),
+            errorMessage = viewModel.getFieldError("nama_anak1")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -150,118 +150,34 @@ private fun DataAnakSection(
                     placeholder = "Masukkan nomor akta",
                     value = viewModel.noAktaLahir1,
                     onValueChange = viewModel::updateNoAktaLahir1,
-                    isError = viewModel.hasFieldError("no_akta_lahir_1"),
-                    errorMessage = viewModel.getFieldError("no_akta_lahir_1")
+                    isError = viewModel.hasFieldError("no_akta_lahir1"),
+                    errorMessage = viewModel.getFieldError("no_akta_lahir1")
                 )
             }
 
             Column(modifier = Modifier.weight(1f)) {
                 DatePickerField(
                     label = "Tanggal Lahir",
-                    value = viewModel.tanggalLahirAyahSuami,
-                    onValueChange = viewModel::updateTanggalLahirAyahSuami,
-                    isError = viewModel.hasFieldError("tanggal_lahir_ayah_suami"),
-                    errorMessage = viewModel.getFieldError("tanggal_lahir_ayah_suami")
+                    value = viewModel.tanggalLahir1,
+                    onValueChange = viewModel::updateTanggalLahir1,
+                    isError = viewModel.hasFieldError("tanggal_lahir1"),
+                    errorMessage = viewModel.getFieldError("tanggal_lahir1")
                 )
             }
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        AppTextField(
-            label = "Pekerjaan Ayah Suami",
-            placeholder = "Masukkan pekerjaan",
-            value = viewModel.pekerjaanAyahSuami,
-            onValueChange = viewModel::updatePekerjaanAyahSuami,
-            isError = viewModel.hasFieldError("pekerjaan_ayah_suami"),
-            errorMessage = viewModel.getFieldError("pekerjaan_ayah_suami")
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        AppTextField(
-            label = "Alamat Ayah Suami",
-            placeholder = "Masukkan alamat lengkap",
-            value = viewModel.alamatAyahSuami,
-            onValueChange = viewModel::updateAlamatAyahSuami,
-            isError = viewModel.hasFieldError("alamat_ayah_suami"),
-            errorMessage = viewModel.getFieldError("alamat_ayah_suami"),
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        AppTextField(
-            label = "Nomor Telepon Ayah Suami",
-            placeholder = "Masukkan nomor telepon",
-            value = viewModel.teleponAyahSuami,
-            onValueChange = viewModel::updateTeleponAyahSuami,
-            isError = viewModel.hasFieldError("telepon_ayah_suami"),
-            errorMessage = viewModel.getFieldError("telepon_ayah_suami"),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone)
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        DropdownField(
-            label = "Agama Ayah Suami",
-            value = viewModel.agamaList.find { it.id == viewModel.agamaAyahSuamiId }?.nama.orEmpty(),
-            onValueChange = { selectedNama ->
-                viewModel.agamaList.find { it.nama == selectedNama }?.let {
-                    viewModel.updateAgamaAyahSuamiId(it.id)
-                }
-            },
-            options = viewModel.agamaList.map { it.nama },
-            isError = viewModel.hasFieldError("agama_ayah_suami_id"),
-            errorMessage = viewModel.getFieldError("agama_ayah_suami_id"),
-            onDropdownExpanded = viewModel::loadAgama
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        AppTextField(
-            label = "Kewarganegaraan Ayah Suami",
-            placeholder = "Masukkan kewarganegaraan",
-            value = viewModel.kewarganegaraanAyahSuami,
-            onValueChange = viewModel::updateKewarganegaraanAyahSuami,
-            isError = viewModel.hasFieldError("kewarganegaraan_ayah_suami"),
-            errorMessage = viewModel.getFieldError("kewarganegaraan_ayah_suami")
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        AppTextField(
-            label = "Nama Organisasi Ayah Suami",
-            placeholder = "Masukkan nama organisasi",
-            value = viewModel.namaOrganisasiAyahSuami,
-            onValueChange = viewModel::updateNamaOrganisasiAyahSuami,
-            isError = viewModel.hasFieldError("nama_organisasi_ayah_suami"),
-            errorMessage = viewModel.getFieldError("nama_organisasi_ayah_suami")
-        )
-
         Spacer(modifier = Modifier.height(24.dp))
 
-        SectionTitle("Data Ibu Suami")
+        SectionTitle("Anak Kedua")
         Spacer(modifier = Modifier.height(16.dp))
 
         AppTextField(
-            label = "NIK Ibu Suami",
-            placeholder = "Masukkan NIK ibu suami",
-            value = viewModel.nikIbuSuami,
-            onValueChange = viewModel::updateNikIbuSuami,
-            isError = viewModel.hasFieldError("nik_ibu_suami"),
-            errorMessage = viewModel.getFieldError("nik_ibu_suami"),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        AppTextField(
-            label = "Nama Ibu Suami",
-            placeholder = "Masukkan nama lengkap ibu suami",
-            value = viewModel.namaIbuSuami,
-            onValueChange = viewModel::updateNamaIbuSuami,
-            isError = viewModel.hasFieldError("nama_ibu_suami"),
-            errorMessage = viewModel.getFieldError("nama_ibu_suami")
+            label = "Nama Anak Kedua",
+            placeholder = "Masukkan nama anak",
+            value = viewModel.namaAnak2,
+            onValueChange = viewModel::updateNamaAnak2,
+            isError = viewModel.hasFieldError("nama_anak2"),
+            errorMessage = viewModel.getFieldError("nama_anak2")
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -269,96 +185,24 @@ private fun DataAnakSection(
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             Column(modifier = Modifier.weight(1f)) {
                 AppTextField(
-                    label = "Tempat Lahir",
-                    placeholder = "Masukkan tempat lahir",
-                    value = viewModel.tempatLahirIbuSuami,
-                    onValueChange = viewModel::updateTempatLahirIbuSuami,
-                    isError = viewModel.hasFieldError("tempat_lahir_ibu_suami"),
-                    errorMessage = viewModel.getFieldError("tempat_lahir_ibu_suami")
+                    label = "No. Akta Lahir",
+                    placeholder = "Masukkan nomor akta",
+                    value = viewModel.noAktaLahir2,
+                    onValueChange = viewModel::updateNoAktaLahir2,
+                    isError = viewModel.hasFieldError("no_akta_lahir2"),
+                    errorMessage = viewModel.getFieldError("no_akta_lahir2")
                 )
             }
 
             Column(modifier = Modifier.weight(1f)) {
                 DatePickerField(
                     label = "Tanggal Lahir",
-                    value = viewModel.tanggalLahirIbuSuami,
-                    onValueChange = viewModel::updateTanggalLahirIbuSuami,
-                    isError = viewModel.hasFieldError("tanggal_lahir_ibu_suami"),
-                    errorMessage = viewModel.getFieldError("tanggal_lahir_ibu_suami")
+                    value = viewModel.tanggalLahir2,
+                    onValueChange = viewModel::updateTanggalLahir2,
+                    isError = viewModel.hasFieldError("tanggal_lahir2"),
+                    errorMessage = viewModel.getFieldError("tanggal_lahir2")
                 )
             }
         }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        AppTextField(
-            label = "Pekerjaan Ibu Suami",
-            placeholder = "Masukkan pekerjaan",
-            value = viewModel.pekerjaanIbuSuami,
-            onValueChange = viewModel::updatePekerjaanIbuSuami,
-            isError = viewModel.hasFieldError("pekerjaan_ibu_suami"),
-            errorMessage = viewModel.getFieldError("pekerjaan_ibu_suami")
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        AppTextField(
-            label = "Alamat Ibu Suami",
-            placeholder = "Masukkan alamat lengkap",
-            value = viewModel.alamatIbuSuami,
-            onValueChange = viewModel::updateAlamatIbuSuami,
-            isError = viewModel.hasFieldError("alamat_ibu_suami"),
-            errorMessage = viewModel.getFieldError("alamat_ibu_suami"),
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        AppTextField(
-            label = "Nomor Telepon Ibu Suami",
-            placeholder = "Masukkan nomor telepon",
-            value = viewModel.teleponIbuSuami,
-            onValueChange = viewModel::updateTeleponIbuSuami,
-            isError = viewModel.hasFieldError("telepon_ibu_suami"),
-            errorMessage = viewModel.getFieldError("telepon_ibu_suami"),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone)
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        DropdownField(
-            label = "Agama Ibu Suami",
-            value = viewModel.agamaList.find { it.id == viewModel.agamaIbuSuamiId }?.nama.orEmpty(),
-            onValueChange = { selectedNama ->
-                viewModel.agamaList.find { it.nama == selectedNama }?.let {
-                    viewModel.updateAgamaIbuSuamiId(it.id)
-                }
-            },
-            options = viewModel.agamaList.map { it.nama },
-            isError = viewModel.hasFieldError("agama_ibu_suami_id"),
-            errorMessage = viewModel.getFieldError("agama_ibu_suami_id"),
-            onDropdownExpanded = viewModel::loadAgama
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        AppTextField(
-            label = "Kewarganegaraan Ibu Suami",
-            placeholder = "Masukkan kewarganegaraan",
-            value = viewModel.kewarganegaraanIbuSuami,
-            onValueChange = viewModel::updateKewarganegaraanIbuSuami,
-            isError = viewModel.hasFieldError("kewarganegaraan_ibu_suami"),
-            errorMessage = viewModel.getFieldError("kewarganegaraan_ibu_suami")
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        AppTextField(
-            label = "Nama Organisasi Ibu Suami",
-            placeholder = "Masukkan nama organisasi",
-            value = viewModel.namaOrganisasiIbuSuami,
-            onValueChange = viewModel::updateNamaOrganisasiIbuSuami,
-            isError = viewModel.hasFieldError("nama_organisasi_ibu_suami"),
-            errorMessage = viewModel.getFieldError("nama_organisasi_ibu_suami")
-        )
     }
 }

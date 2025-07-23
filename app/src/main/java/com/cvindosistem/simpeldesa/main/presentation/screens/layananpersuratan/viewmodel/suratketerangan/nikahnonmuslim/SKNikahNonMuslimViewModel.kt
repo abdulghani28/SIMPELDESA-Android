@@ -17,11 +17,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class SKNikahWargaNonMuslimViewModel(
-    private val createSKNikahWargaNonMuslimUseCase: CreateSuratKeteranganNikahNonMuslimUseCase,
-    private val getUserInfoUseCase: GetUserInfoUseCase,
-    private val getAgamaUseCase: GetAgamaUseCase,
-    private val getPendidikanUseCase: GetPendidikanUseCase,
-    private val getStatusKawinUseCase: GetStatusKawinUseCase
+    createSKNikahWargaNonMuslimUseCase: CreateSuratKeteranganNikahNonMuslimUseCase,
+    getUserInfoUseCase: GetUserInfoUseCase,
+    getAgamaUseCase: GetAgamaUseCase,
+    getPendidikanUseCase: GetPendidikanUseCase,
+    getStatusKawinUseCase: GetStatusKawinUseCase
 ) : ViewModel() {
 
     // Composition of components
