@@ -4,9 +4,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import com.cvindosistem.simpeldesa.auth.data.remote.dto.user.response.UserInfoResponse
+import com.cvindosistem.simpeldesa.core.helpers.dateFormatterToApiFormat
 
 class SKKelahiranStateManager {
-    // Form state properties
+    // Step 1 - Form state properties (Informasi Anak)
     var namaValue by mutableStateOf("")
         private set
     var jenisKelaminValue by mutableStateOf("")
@@ -32,7 +34,7 @@ class SKKelahiranStateManager {
     var alamatAyahValue by mutableStateOf("")
         private set
 
-    // Step 3 - Informasi Ibu - Copy pattern dari Step 2
+    // Step 3 - Informasi Ibu
     var namaIbuValue by mutableStateOf("")
         private set
     var nikIbuValue by mutableStateOf("")
@@ -70,78 +72,30 @@ class SKKelahiranStateManager {
     var errorMessage by mutableStateOf<String?>(null)
         private set
 
-    // Update functions - Step 1
     // Step 1 - Informasi Anak Update Functions
-    fun updateNama(value: String) {
-        namaValue = value
-    }
-
-    fun updateJenisKelamin(value: String) {
-        jenisKelaminValue = value
-    }
-
-    fun updateTempatLahir(value: String) {
-        tempatLahirValue = value
-    }
-
-    fun updateTanggalLahir(value: String) {
-        tanggalLahirValue = value
-    }
-
-    fun updateJamLahir(value: String) {
-        jamLahirValue = value
-    }
-
-    fun updateAnakKe(value: Int) {
-        anakKeValue = value
-    }
+    fun updateNama(value: String) { namaValue = value }
+    fun updateJenisKelamin(value: String) { jenisKelaminValue = value }
+    fun updateTempatLahir(value: String) { tempatLahirValue = value }
+    fun updateTanggalLahir(value: String) { tanggalLahirValue = value }
+    fun updateJamLahir(value: String) { jamLahirValue = value }
+    fun updateAnakKe(value: Int) { anakKeValue = value }
 
     // Step 2 - Informasi Ayah Update Functions
-    fun updateNamaAyah(value: String) {
-        namaAyahValue = value
-    }
-
-    fun updateNikAyah(value: String) {
-        nikAyahValue = value
-    }
-
-    fun updateTempatLahirAyah(value: String) {
-        tempatLahirAyahValue = value
-    }
-
-    fun updateTanggalLahirAyah(value: String) {
-        tanggalLahirAyahValue = value
-    }
-
-    fun updateAlamatAyah(value: String) {
-        alamatAyahValue = value
-    }
+    fun updateNamaAyah(value: String) { namaAyahValue = value }
+    fun updateNikAyah(value: String) { nikAyahValue = value }
+    fun updateTempatLahirAyah(value: String) { tempatLahirAyahValue = value }
+    fun updateTanggalLahirAyah(value: String) { tanggalLahirAyahValue = value }
+    fun updateAlamatAyah(value: String) { alamatAyahValue = value }
 
     // Step 3 - Informasi Ibu Update Functions
-    fun updateNamaIbu(value: String) {
-        namaIbuValue = value
-    }
-
-    fun updateNikIbu(value: String) {
-        nikIbuValue = value
-    }
-
-    fun updateTempatLahirIbu(value: String) {
-        tempatLahirIbuValue = value
-    }
-
-    fun updateTanggalLahirIbu(value: String) {
-        tanggalLahirIbuValue = value
-    }
-
-    fun updateAlamatIbu(value: String) {
-        alamatIbuValue = value
-    }
+    fun updateNamaIbu(value: String) { namaIbuValue = value }
+    fun updateNikIbu(value: String) { nikIbuValue = value }
+    fun updateTempatLahirIbu(value: String) { tempatLahirIbuValue = value }
+    fun updateTanggalLahirIbu(value: String) { tanggalLahirIbuValue = value }
+    fun updateAlamatIbu(value: String) { alamatIbuValue = value }
 
     // Step 4 - Keperluan Update Function
-    fun updateKeperluan(value: String) {
-        keperluanValue = value
-    }
+    fun updateKeperluan(value: String) { keperluanValue = value }
 
     // Navigation functions
     fun nextStep() {
@@ -167,6 +121,24 @@ class SKKelahiranStateManager {
     fun updateErrorMessage(message: String?) { errorMessage = message }
     fun clearError() { errorMessage = null }
 
+    // User data functions
+    fun populateUserData(userData: UserInfoResponse.Data) {
+        // Pada SKKelahiran, biasanya data user digunakan untuk mengisi informasi ayah
+        namaAyahValue = userData.nama_warga
+        nikAyahValue = userData.nik
+        alamatAyahValue = userData.alamat
+        tempatLahirAyahValue = userData.tempat_lahir
+        tanggalLahirAyahValue = dateFormatterToApiFormat(userData.tanggal_lahir)
+    }
+
+    fun clearUserData() {
+        namaAyahValue = ""
+        nikAyahValue = ""
+        alamatAyahValue = ""
+        tempatLahirAyahValue = ""
+        tanggalLahirAyahValue = ""
+    }
+
     // Reset function
     fun resetForm() {
         currentStep = 1
@@ -180,10 +152,22 @@ class SKKelahiranStateManager {
         jamLahirValue = ""
         anakKeValue = 1
 
-        // Reset Step 2 - Copy pattern dari kode asli
+        // Reset Step 2
         namaAyahValue = ""
         nikAyahValue = ""
-        // ... (copy semua reset values dari kode asli)
+        tempatLahirAyahValue = ""
+        tanggalLahirAyahValue = ""
+        alamatAyahValue = ""
+
+        // Reset Step 3
+        namaIbuValue = ""
+        nikIbuValue = ""
+        tempatLahirIbuValue = ""
+        tanggalLahirIbuValue = ""
+        alamatIbuValue = ""
+
+        // Reset Step 4
+        keperluanValue = ""
 
         errorMessage = null
         showConfirmationDialog = false
@@ -196,12 +180,10 @@ class SKKelahiranStateManager {
                 tempatLahirValue.isNotBlank() || tanggalLahirValue.isNotBlank() ||
                 jamLahirValue.isNotBlank() || anakKeValue > 1 ||
                 namaAyahValue.isNotBlank() || nikAyahValue.isNotBlank() ||
-                // ... (copy semua kondisi dari kode asli)
+                tempatLahirAyahValue.isNotBlank() || tanggalLahirAyahValue.isNotBlank() ||
+                alamatAyahValue.isNotBlank() || namaIbuValue.isNotBlank() ||
+                nikIbuValue.isNotBlank() || tempatLahirIbuValue.isNotBlank() ||
+                tanggalLahirIbuValue.isNotBlank() || alamatIbuValue.isNotBlank() ||
                 keperluanValue.isNotBlank()
-    }
-
-    fun clearUserData() {
-        namaAyahValue = ""
-        alamatAyahValue = ""
     }
 }

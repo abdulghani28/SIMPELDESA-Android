@@ -123,7 +123,7 @@ fun BerandaScreen(
                     navController.navigate(Screen.Notification.route)
                 },
                 onDesaClick = {
-                    navController.navigate(Screen.VillageInformation.route)
+//                    navController.navigate(Screen.VillageInformation.route)
                 }
             )
         }

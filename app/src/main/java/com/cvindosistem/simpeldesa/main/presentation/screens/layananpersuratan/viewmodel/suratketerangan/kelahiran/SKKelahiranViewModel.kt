@@ -2,6 +2,7 @@ package com.cvindosistem.simpeldesa.main.presentation.screens.layananpersuratan.
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.cvindosistem.simpeldesa.auth.domain.usecases.GetUserInfoUseCase
 import com.cvindosistem.simpeldesa.main.domain.model.SuratKelahiranResult
 import com.cvindosistem.simpeldesa.main.domain.usecases.CreateSuratKelahiranUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -12,12 +13,22 @@ import kotlinx.coroutines.launch
 
 class SKKelahiranViewModel(
     createSKKelahiranUseCase: CreateSuratKelahiranUseCase,
+    getUserInfoUseCase: GetUserInfoUseCase
 ) : ViewModel() {
 
-    // Composed components
+    // Composition of components
     private val stateManager = SKKelahiranStateManager()
     private val validator = SKKelahiranValidator()
+    private val dataLoader = SKKelahiranDataLoader(getUserInfoUseCase, stateManager, validator)
     private val formSubmitter = SKKelahiranFormSubmitter(createSKKelahiranUseCase)
+
+    // Events
+    private val _skKelahiranEvent = MutableSharedFlow<SKKelahiranEvent>()
+    val skKelahiranEvent = _skKelahiranEvent.asSharedFlow()
+
+    // UI State for the form
+    private val _uiState = MutableStateFlow(SKKelahiranUiState())
+    val uiState = _uiState.asStateFlow()
 
     // Expose state through delegation
     val isLoading by stateManager::isLoading
@@ -53,15 +64,20 @@ class SKKelahiranViewModel(
     // Expose validation
     val validationErrors = validator.validationErrors
 
-    // Events
-    private val _skKelahiranEvent = MutableSharedFlow<SKKelahiranEvent>()
-    val skKelahiranEvent = _skKelahiranEvent.asSharedFlow()
+    // Use My Data Function
+    fun updateUseMyData(checked: Boolean) {
+        stateManager.updateUseMyDataChecked(checked)
+        if (checked) {
+            viewModelScope.launch {
+                dataLoader.loadUserData().onFailure {
+                    _skKelahiranEvent.emit(SKKelahiranEvent.UserDataLoadError(it.message ?: "Error"))
+                }
+            }
+        } else {
+            stateManager.clearUserData()
+        }
+    }
 
-    // UI State for the form
-    private val _uiState = MutableStateFlow(SKKelahiranUiState())
-    val uiState = _uiState.asStateFlow()
-
-    // Delegate update functions
     // Step 1 - Informasi Anak Update Functions
     fun updateNama(value: String) {
         stateManager.updateNama(value)
@@ -260,7 +276,7 @@ class SKKelahiranViewModel(
     fun clearError() = stateManager.clearError()
     fun hasFormData() = stateManager.hasFormData()
 
-    // Events - Copy dari kode asli
+    // Events
     sealed class SKKelahiranEvent {
         data class StepChanged(val step: Int) : SKKelahiranEvent()
         data object SubmitSuccess : SKKelahiranEvent()

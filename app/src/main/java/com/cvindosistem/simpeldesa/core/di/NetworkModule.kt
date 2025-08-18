@@ -25,16 +25,16 @@ val networkModule = module {
         }
     }
 
-    // Menyediakan instance OkHttpClient dengan:
-    // - Logging Interceptor (level BODY)
-    // - AuthInterceptor untuk menambahkan token secara otomatis
-    // - Timeout 120 detik
+//     Menyediakan instance OkHttpClient dengan:
+//     - Logging Interceptor (level BODY)
+//     - AuthInterceptor untuk menambahkan token secara otomatis
+//     - Timeout 120 detik
     single {
         OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY // Log seluruh isi request/response
+                level = HttpLoggingInterceptor.Level.BODY
             })
-            .addInterceptor(get<AuthInterceptor>()) // Tambahkan header Authorization
+            .addInterceptor(get<AuthInterceptor>())
             .connectTimeout(120, TimeUnit.SECONDS)
             .readTimeout(120, TimeUnit.SECONDS)
             .build()
@@ -46,6 +46,7 @@ val networkModule = module {
     single {
         Retrofit.Builder()
             .baseUrl("https://devsuperadmin-digitaldesa.avnet.id/") // Base URL API backend
+//            .baseUrl("https://prod-client.avnet.id/") // Base URL API backend
             .addConverterFactory(GsonConverterFactory.create()) // Konversi JSON ke objek Kotlin
             .client(get()) // OkHttpClient dengan interceptor
             .build()
