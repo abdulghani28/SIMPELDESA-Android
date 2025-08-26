@@ -17,7 +17,7 @@ Berisi semua logika aplikasi berdasarkan domain dan fitur.
 * di/: Dependency Injection untuk modul app seperti modul umum, permission handler, dan scanning activity.
 
 🔐 auth/
-Modul otentikasi pengguna (login, reset password, FCM token, dll).
+Modul otentikasi pengguna (login, reset password, FCaM token, dll).
 * data/remote/api/: API interface untuk login dan user.
 * dto/: Data Transfer Objects (untuk request & response dari API).
     * login/, resetpassword/, fcm/, user.response/
