@@ -22,6 +22,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.get
+import androidx.core.content.edit
 
 /**
  * Layanan untuk menerima pesan dari Firebase Cloud Messaging (FCM).
@@ -184,7 +185,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     private fun setUnreadNotificationState() {
         try {
             val sharedPrefs = getSharedPreferences("notification_prefs", Context.MODE_PRIVATE)
-            sharedPrefs.edit().putBoolean("has_unread_notifications", true).apply()
+            sharedPrefs.edit { putBoolean("has_unread_notifications", true) }
 
             // Broadcast ke aplikasi jika sedang berjalan
             val intent = Intent("com.cvindosistem.simpeldesa.NOTIFICATION_RECEIVED")
