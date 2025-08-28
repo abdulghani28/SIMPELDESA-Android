@@ -4,11 +4,11 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-07-16T08:02:33.337023Z">
+        <DropdownSelection timestamp="2025-08-28T05:41:52.488169Z">
           <Target type="DEFAULT_BOOT">
-            <template>
-              <DeviceId pluginId="FirebaseDirectAccess" type="TEMPLATE" identifier="model_id=e1q/34" />
-            </template>
+            <handle>
+              <DeviceId pluginId="LocalEmulator" identifier="path=/Users/muhammadabdulghani/.android/avd/Tablet_10_Inch_API_34.avd" />
+            </handle>
           </Target>
         </DropdownSelection>
         <DialogSelection />

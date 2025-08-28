@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Digital Desa</string>
+    <string name="app_name">Administrasi Warga Desa</string>
     <string name="take_photo">Ambil Foto</string>
     <string name="default_notification_channel_id">fcm_default_channel</string>
 </resources>
