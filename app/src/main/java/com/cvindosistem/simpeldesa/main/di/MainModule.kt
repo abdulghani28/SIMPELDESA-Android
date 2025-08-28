@@ -249,7 +249,7 @@ val mainModule = module {
     viewModel { SKTidakMasukKerjaViewModel(get(), get(), get()) }
     viewModel { SKPenghasilanViewModel(get(), get()) }
     viewModel { SKKematianViewModel(get(), get()) }
-    viewModel { SKKelahiranViewModel(get()) }
+    viewModel { SKKelahiranViewModel(get(), get()) }
     viewModel { SKJandaDudaViewModel(get(), get(), get()) }
     viewModel { SKGhaibViewModel(get(), get()) }
     viewModel { SKDomisiliPerusahaanViewModel(get(), get(), get(), get(), get()) }

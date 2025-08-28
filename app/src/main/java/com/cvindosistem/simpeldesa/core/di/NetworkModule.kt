@@ -45,8 +45,8 @@ val networkModule = module {
     // - Client sudah memakai OkHttpClient di atas
     single {
         Retrofit.Builder()
-            .baseUrl("https://devsuperadmin-digitaldesa.avnet.id/") // Base URL API backend
-//            .baseUrl("https://prod-client.avnet.id/") // Base URL API backend
+//            .baseUrl("https://devsuperadmin-digitaldesa.avnet.id/") // Base URL API backend
+            .baseUrl("https://prod-client.avnet.id/") // Base URL API backend
             .addConverterFactory(GsonConverterFactory.create()) // Konversi JSON ke objek Kotlin
             .client(get()) // OkHttpClient dengan interceptor
             .build()

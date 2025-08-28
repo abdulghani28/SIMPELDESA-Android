@@ -121,7 +121,7 @@ class AuthViewModel(
 
     /** Memastikan format email valid atau merupakan nomor telepon */
     private fun isValidEmail(email: String): Boolean {
-        val emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
+        val emailPattern = "[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}"
         return email.matches(emailPattern.toRegex()) || isValidPhoneNumber(email)
     }
 
