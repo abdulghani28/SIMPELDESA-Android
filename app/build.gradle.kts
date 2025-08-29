@@ -23,7 +23,7 @@ android {
         applicationId = "com.cvindosistem.simpeldesa"
         minSdk = 26
         targetSdk = 35
-        versionCode = 1
+        versionCode = 3
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
