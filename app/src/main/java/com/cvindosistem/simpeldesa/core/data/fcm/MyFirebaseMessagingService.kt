@@ -9,11 +9,11 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.media.RingtoneManager
-import android.os.Build
 import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.edit
 import com.cvindosistem.simpeldesa.R
 import com.cvindosistem.simpeldesa.app.MainActivity
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -22,7 +22,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.get
-import androidx.core.content.edit
 
 /**
  * Layanan untuk menerima pesan dari Firebase Cloud Messaging (FCM).
