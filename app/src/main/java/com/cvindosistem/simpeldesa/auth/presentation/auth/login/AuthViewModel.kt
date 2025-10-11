@@ -37,15 +37,15 @@ class AuthViewModel(
     var password by mutableStateOf("")
         private set
 
-    var licenseCode by mutableStateOf(userPreferences.getLicenseCode() ?: "")
-        private set
+//    var licenseCode by mutableStateOf(userPreferences.getLicenseCode() ?: "")
+//        private set
 
     // === UI States ===
     var isLoading by mutableStateOf(false)
         private set
 
-    var hasLicenseCode = userPreferences.hasLicenseCode()
-        private set
+//    var hasLicenseCode = userPreferences.hasLicenseCode()
+//        private set
 
     // === Validation Errors ===
     var emailError by mutableStateOf<String?>(null)
@@ -54,8 +54,8 @@ class AuthViewModel(
     var passwordError by mutableStateOf<String?>(null)
         private set
 
-    var licenseCodeError by mutableStateOf<String?>(null)
-        private set
+//    var licenseCodeError by mutableStateOf<String?>(null)
+//        private set
 
     var loginError by mutableStateOf<String?>(null)
         private set
@@ -81,11 +81,11 @@ class AuthViewModel(
     }
 
     /** Memperbarui input kode lisensi dan menghapus error terkait jika ada */
-    fun onLicenseCodeChanged(value: String) {
-        licenseCode = value
-        licenseCodeError = null
-        loginError = null
-    }
+//    fun onLicenseCodeChanged(value: String) {
+//        licenseCode = value
+//        licenseCodeError = null
+//        loginError = null
+//    }
 
     // === Validation ===
 
@@ -150,24 +150,24 @@ class AuthViewModel(
             if (!isEmailValid || !isPasswordValid) return@launch
 
             isLoading = true
-            val codeToUse = userPreferences.getLicenseCode() ?: licenseCode
+//            val codeToUse = userPreferences.getLicenseCode() ?: licenseCode
 
-            if (codeToUse.isEmpty()) {
-                loginError = "Kode lisensi harus diisi"
-                _loginEvent.emit(LoginEvent.Error("Kode lisensi harus diisi"))
-                isLoading = false
-                return@launch
-            }
+//            if (codeToUse.isEmpty()) {
+//                loginError = "Kode lisensi harus diisi"
+//                _loginEvent.emit(LoginEvent.Error("Kode lisensi harus diisi"))
+//                isLoading = false
+//                return@launch
+//            }
 
-            when (val result = loginUseCase(email, password, codeToUse)) {
+            when (val result = loginUseCase(email, password)) {
                 is LoginResult.Success -> {
                     Log.d("LoginViewModel", "Login successful: ${result.token}")
                     userPreferences.saveAuthToken(result.token)
 
-                    if (licenseCode.isNotEmpty() && !userPreferences.hasLicenseCode()) {
-                        userPreferences.saveLicenseCode(licenseCode)
-                        hasLicenseCode = true
-                    }
+//                    if (licenseCode.isNotEmpty() && !userPreferences.hasLicenseCode()) {
+//                        userPreferences.saveLicenseCode(licenseCode)
+//                        hasLicenseCode = true
+//                    }
 
                     try {
                         fcmManager.initializeFcm()

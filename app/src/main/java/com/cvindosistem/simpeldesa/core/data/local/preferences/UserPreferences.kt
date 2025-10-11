@@ -11,9 +11,9 @@ interface UserPreferences {
     fun isLoggedIn(): Boolean
 
     // License code methods
-    fun saveLicenseCode(code: String)
-    fun getLicenseCode(): String?
-    fun hasLicenseCode(): Boolean
+//    fun saveLicenseCode(code: String)
+//    fun getLicenseCode(): String?
+//    fun hasLicenseCode(): Boolean
 
     fun clearAllUserData()
 
@@ -40,7 +40,7 @@ class UserPreferencesImpl(context: Context) : UserPreferences {
 
     companion object {
         private const val KEY_AUTH_TOKEN = "auth_token"
-        private const val KEY_LICENSE_CODE = "license_code"
+//        private const val KEY_LICENSE_CODE = "license_code"
         private const val KEY_MENU_CACHE = "menu_cache"
         private const val KEY_MENU_CACHE_TIMESTAMP = "menu_cache_timestamp"
         private const val MENU_CACHE_EXPIRY_HOURS = 24L // Cache expiry in hours
@@ -77,23 +77,23 @@ class UserPreferencesImpl(context: Context) : UserPreferences {
     /**
      * Saves the license code (typically used for device/instance registration).
      */
-    override fun saveLicenseCode(code: String) {
-        sharedPreferences.edit { putString(KEY_LICENSE_CODE, code) }
-    }
+//    override fun saveLicenseCode(code: String) {
+//        sharedPreferences.edit { putString(KEY_LICENSE_CODE, code) }
+//    }
 
     /**
      * Retrieves the license code.
      */
-    override fun getLicenseCode(): String? {
-        return sharedPreferences.getString(KEY_LICENSE_CODE, null)
-    }
+//    override fun getLicenseCode(): String? {
+//        return sharedPreferences.getString(KEY_LICENSE_CODE, null)
+//    }
 
     /**
      * Checks whether a license code exists and is not empty.
      */
-    override fun hasLicenseCode(): Boolean {
-        return getLicenseCode() != null && getLicenseCode()!!.isNotEmpty()
-    }
+//    override fun hasLicenseCode(): Boolean {
+//        return getLicenseCode() != null && getLicenseCode()!!.isNotEmpty()
+//    }
 
     // ----------------------
     // Menu cache methods

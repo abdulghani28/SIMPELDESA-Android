@@ -28,7 +28,7 @@ interface AuthRepository {
      * @param licenseCode kode lisensi untuk verifikasi wilayah/akses
      * @return [LoginResult] yang berisi token jika berhasil, atau pesan error
      */
-    suspend fun login(email: String, password: String, licenseCode: String): LoginResult
+    suspend fun login(email: String, password: String): LoginResult
 
     /**
      * Melakukan logout pengguna dari server dan mengakhiri sesi.
@@ -61,9 +61,9 @@ class AuthRepositoryImpl(
      * Melakukan login dan menangani semua kemungkinan hasil dengan error handling.
      * Jika berhasil, mengembalikan token dari backend.
      */
-    override suspend fun login(email: String, password: String, licenseCode: String): LoginResult = withContext(Dispatchers.IO) {
+    override suspend fun login(email: String, password: String): LoginResult = withContext(Dispatchers.IO) {
         try {
-            val response = authApi.login(LoginRequest(email, password, licenseCode))
+            val response = authApi.login(LoginRequest(email, password))
 
             if (response.isSuccessful) {
                 response.body()?.let {

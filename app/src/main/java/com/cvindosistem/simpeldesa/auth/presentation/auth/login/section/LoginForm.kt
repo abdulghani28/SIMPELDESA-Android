@@ -54,16 +54,16 @@ internal fun LoginForm(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        if (!viewModel.hasLicenseCode) {
-            AppTextField(
-                label = "Kode Lisensi",
-                placeholder = "Masukkan kode lisensi",
-                value = viewModel.licenseCode,
-                onValueChange = { viewModel.onLicenseCodeChanged(it) },
-                isError = viewModel.licenseCodeError != null,
-                errorMessage = viewModel.licenseCodeError
-            )
-        }
+//        if (!viewModel.hasLicenseCode) {
+//            AppTextField(
+//                label = "Kode Lisensi",
+//                placeholder = "Masukkan kode lisensi",
+//                value = viewModel.licenseCode,
+//                onValueChange = { viewModel.onLicenseCodeChanged(it) },
+//                isError = viewModel.licenseCodeError != null,
+//                errorMessage = viewModel.licenseCodeError
+//            )
+//        }
 
         // General login error (from server response)
         if (viewModel.loginError != null) {

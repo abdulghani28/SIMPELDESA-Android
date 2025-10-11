@@ -47,7 +47,7 @@ fun VillageIllustration() {
         contentAlignment = Alignment.Center
     ) {
         Image(
-            painter = painterResource(id = R.drawable.image_login),
+            painter = painterResource(id = R.drawable.login_image),
             contentDescription = "Illustration of a village",
             modifier = Modifier.fillMaxSize()
         )

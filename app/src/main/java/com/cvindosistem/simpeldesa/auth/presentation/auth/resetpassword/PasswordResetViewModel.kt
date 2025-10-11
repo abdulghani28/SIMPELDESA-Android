@@ -85,14 +85,14 @@ class PasswordResetViewModel(
 
             isLoading = true
 
-            val licenseCode = userPreferences.getLicenseCode() ?: ""
-            if (licenseCode.isEmpty()) {
-                _passwordResetEvent.emit(PasswordResetEvent.Error("Kode lisensi tidak ditemukan"))
-                isLoading = false
-                return@launch
-            }
+//            val licenseCode = userPreferences.getLicenseCode() ?: ""
+//            if (licenseCode.isEmpty()) {
+//                _passwordResetEvent.emit(PasswordResetEvent.Error("Kode lisensi tidak ditemukan"))
+//                isLoading = false
+//                return@launch
+//            }
 
-            when (val result = requestOtpUseCase(email, licenseCode)) {
+            when (val result = requestOtpUseCase(email)) {
                 is RequestOtpResult.Success -> {
                     Log.d("PasswordResetViewModel", "OTP request successful")
                     _passwordResetEvent.emit(PasswordResetEvent.OtpSent)
@@ -117,14 +117,14 @@ class PasswordResetViewModel(
 
             isLoading = true
 
-            val licenseCode = userPreferences.getLicenseCode() ?: ""
-            if (licenseCode.isEmpty()) {
-                _passwordResetEvent.emit(PasswordResetEvent.Error("Kode lisensi tidak ditemukan"))
-                isLoading = false
-                return@launch
-            }
+//            val licenseCode = userPreferences.getLicenseCode() ?: ""
+//            if (licenseCode.isEmpty()) {
+//                _passwordResetEvent.emit(PasswordResetEvent.Error("Kode lisensi tidak ditemukan"))
+//                isLoading = false
+//                return@launch
+//            }
 
-            when (val result = validateOtpUseCase(email, otp, licenseCode)) {
+            when (val result = validateOtpUseCase(email, otp)) {
                 is ValidateOtpResult.Success -> {
                     if (result.isValid) {
                         Log.d("PasswordResetViewModel", "OTP validation successful")
@@ -162,14 +162,14 @@ class PasswordResetViewModel(
 
             isLoading = true
 
-            val licenseCode = userPreferences.getLicenseCode() ?: ""
-            if (licenseCode.isEmpty()) {
-                _passwordResetEvent.emit(PasswordResetEvent.Error("Kode lisensi tidak ditemukan"))
-                isLoading = false
-                return@launch
-            }
+//            val licenseCode = userPreferences.getLicenseCode() ?: ""
+//            if (licenseCode.isEmpty()) {
+//                _passwordResetEvent.emit(PasswordResetEvent.Error("Kode lisensi tidak ditemukan"))
+//                isLoading = false
+//                return@launch
+//            }
 
-            when (val result = resetPasswordUseCase(email, otp, newPassword, licenseCode)) {
+            when (val result = resetPasswordUseCase(email, otp, newPassword)) {
                 is ResetPasswordResult.Success -> {
                     Log.d("PasswordResetViewModel", "Password reset successful")
                     _passwordResetEvent.emit(PasswordResetEvent.PasswordResetSuccess)

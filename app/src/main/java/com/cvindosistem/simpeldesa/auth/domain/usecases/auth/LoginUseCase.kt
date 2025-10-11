@@ -20,7 +20,7 @@ class LoginUseCase(private val authRepository: AuthRepository) {
      *
      * @return [LoginResult] hasil dari proses login.
      */
-    suspend operator fun invoke(email: String, password: String, licenseCode: String): LoginResult {
-        return authRepository.login(email, password, licenseCode)
+    suspend operator fun invoke(email: String, password: String): LoginResult {
+        return authRepository.login(email, password)
     }
 }

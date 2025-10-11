@@ -22,8 +22,8 @@ class RequestOtpUseCase(private val passwordResetRepository: PasswordResetReposi
      *
      * @return [RequestOtpResult] hasil dari permintaan OTP.
      */
-    suspend operator fun invoke(email: String, licenseCode: String): RequestOtpResult {
-        return passwordResetRepository.requestOtp(email, licenseCode)
+    suspend operator fun invoke(email: String): RequestOtpResult {
+        return passwordResetRepository.requestOtp(email)
     }
 }
 
@@ -40,8 +40,8 @@ class ValidateOtpUseCase(private val passwordResetRepository: PasswordResetRepos
      *
      * @return [ValidateOtpResult] hasil dari validasi OTP.
      */
-    suspend operator fun invoke(email: String, otp: String, licenseCode: String): ValidateOtpResult {
-        return passwordResetRepository.validateOtp(email, otp, licenseCode)
+    suspend operator fun invoke(email: String, otp: String): ValidateOtpResult {
+        return passwordResetRepository.validateOtp(email, otp)
     }
 }
 
@@ -58,7 +58,7 @@ class ResetPasswordUseCase(private val passwordResetRepository: PasswordResetRep
      *
      * @return [ResetPasswordResult] hasil dari proses reset password.
      */
-    suspend operator fun invoke(email: String, otp: String, newPassword: String, licenseCode: String): ResetPasswordResult {
-        return passwordResetRepository.resetPassword(email, otp, newPassword, licenseCode)
+    suspend operator fun invoke(email: String, otp: String, newPassword: String): ResetPasswordResult {
+        return passwordResetRepository.resetPassword(email, otp, newPassword)
     }
 }
