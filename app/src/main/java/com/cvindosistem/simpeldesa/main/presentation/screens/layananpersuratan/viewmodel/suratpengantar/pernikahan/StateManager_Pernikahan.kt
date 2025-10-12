@@ -333,15 +333,15 @@ class SPPernikahanStateManager {
     fun updateTanggalPernikahan(value: String) { tanggalPernikahanValue = value }
 
     fun loadUserDataToState(userData: UserInfoResponse.Data) {
-        nikSuamiValue = userData.nik
-        namaSuamiValue = userData.nama_warga
-        tempatLahirSuamiValue = userData.tempat_lahir
-        tanggalLahirSuamiValue = dateFormatterToApiFormat(userData.tanggal_lahir)
-        agamaSuamiIdValue = userData.agama_id
-        pekerjaanSuamiValue = userData.pekerjaan
-        alamatSuamiValue = userData.alamat
-        kewarganegaraanSuamiValue = userData.kewarganegaraan
-        statusKawinSuamiIdValue = userData.status_kawin_id
+        nikSuamiValue = userData.nik ?: ""
+        namaSuamiValue = userData.nama_warga ?: ""
+        tempatLahirSuamiValue = userData.tempat_lahir ?: ""
+        tanggalLahirSuamiValue = dateFormatterToApiFormat(userData.tanggal_lahir ?: "")
+        agamaSuamiIdValue = userData.agama_id ?: ""
+        pekerjaanSuamiValue = userData.pekerjaan ?: ""
+        alamatSuamiValue = userData.alamat ?: ""
+        kewarganegaraanSuamiValue = userData.kewarganegaraan ?: ""
+        statusKawinSuamiIdValue = userData.status_kawin_id ?: ""
     }
 
     fun clearUserData() {

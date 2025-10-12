@@ -145,8 +145,8 @@ class SuratTugasViewModel(
         viewModelScope.launch {
             dataLoader.loadUserData(
                 onSuccess = { userData ->
-                    stateManager.updateNik(userData.nik)
-                    stateManager.updateNama(userData.nama_warga)
+                    stateManager.updateNik(userData.nik ?: "")
+                    stateManager.updateNama(userData.nama_warga ?: "")
                     validator.clearMultipleFieldErrors(listOf("nik", "nama"))
                 },
                 onError = { message ->

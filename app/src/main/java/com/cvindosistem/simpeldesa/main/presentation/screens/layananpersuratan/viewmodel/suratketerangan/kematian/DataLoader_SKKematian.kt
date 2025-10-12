@@ -41,8 +41,8 @@ class SKKematianDataLoader(
                 when (val result = getUserInfoUseCase()) {
                     is UserInfoResult.Success -> {
                         val userData = result.data.data
-                        stateManager.updateNama(userData.nama_warga)
-                        stateManager.updateAlamat(userData.alamat)
+                        stateManager.updateNama(userData.nama_warga ?: "")
+                        stateManager.updateAlamat(userData.alamat ?: "")
 
                         // Clear validation errors for filled fields
                         validator.clearMultipleFieldErrors(listOf("nama", "alamat"))

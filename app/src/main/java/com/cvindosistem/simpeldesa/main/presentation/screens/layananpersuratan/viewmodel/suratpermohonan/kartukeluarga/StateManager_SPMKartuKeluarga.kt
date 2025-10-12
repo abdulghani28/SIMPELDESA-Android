@@ -111,16 +111,16 @@ class SPMKartuKeluargaStateManager {
 
     // Populate / Clear User Data
     fun populateUserData(userData: UserInfoResponse.Data) {
-        nikValue = userData.nik
-        namaValue = userData.nama_warga
-        alamatValue = userData.alamat
+        nikValue = userData.nik ?: ""
+        namaValue = userData.nama_warga ?: ""
+        alamatValue = userData.alamat ?: ""
         noKkValue = userData.no_kk ?: ""
-        jenisKelaminValue = userData.jenis_kelamin
-        tanggalLahirValue = dateFormatterToApiFormat(userData.tanggal_lahir)
-        tempatLahirValue = userData.tempat_lahir
-        kewarganegaraanValue = userData.kewarganegaraan
-        pekerjaanValue = userData.pekerjaan
-        agamaIdValue = userData.agama_id
+        jenisKelaminValue = userData.jenis_kelamin ?: ""
+        tanggalLahirValue = dateFormatterToApiFormat(userData.tanggal_lahir ?: "")
+        tempatLahirValue = userData.tempat_lahir ?: ""
+        kewarganegaraanValue = userData.kewarganegaraan ?: ""
+        pekerjaanValue = userData.pekerjaan ?: ""
+        agamaIdValue = userData.agama_id ?: ""
     }
 
     fun clearUserData() {

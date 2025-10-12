@@ -485,16 +485,16 @@ class SKNikahWargaNonMuslimStateManager {
     // ==================== POPULATE / CLEAR USER DATA ====================
     fun populateUserData(userData: UserInfoResponse.Data) {
         // Populate only personal data for the applicant (assuming this would be the husband/suami)
-        nikSuamiValue = userData.nik
-        namaSuamiValue = userData.nama_warga
-        tempatLahirSuamiValue = userData.tempat_lahir
-        tanggalLahirSuamiValue = dateFormatterToApiFormat(userData.tanggal_lahir)
-        alamatSuamiValue = userData.alamat
-        agamaSuamiIdValue = userData.agama_id
-        statusKawinSuamiValue = userData.status_kawin_id
-        pendidikanIdSuamiValue = userData.pendidikan_id
-        pekerjaanSuamiValue = userData.pekerjaan
-        kewarganegaraanSuamiValue = userData.kewarganegaraan
+        nikSuamiValue = userData.nik ?: ""
+        namaSuamiValue = userData.nama_warga ?: ""
+        tempatLahirSuamiValue = userData.tempat_lahir ?: ""
+        tanggalLahirSuamiValue = dateFormatterToApiFormat(userData.tanggal_lahir ?: "")
+        alamatSuamiValue = userData.alamat ?: ""
+        agamaSuamiIdValue = userData.agama_id ?: ""
+        statusKawinSuamiValue = userData.status_kawin_id ?: ""
+        pendidikanIdSuamiValue = userData.pendidikan_id ?: ""
+        pekerjaanSuamiValue = userData.pekerjaan ?: ""
+        kewarganegaraanSuamiValue = userData.kewarganegaraan ?: ""
     }
 
     fun clearUserData() {

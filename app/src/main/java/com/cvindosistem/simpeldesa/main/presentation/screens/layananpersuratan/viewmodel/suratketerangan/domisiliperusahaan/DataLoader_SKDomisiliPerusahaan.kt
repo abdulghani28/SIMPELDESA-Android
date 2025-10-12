@@ -115,23 +115,23 @@ class SKDomisiliPerusahaanDataLoader(
                 is UserInfoResult.Success -> {
                     val userData = result.data.data
                     // Update state manager dengan data user
-                    stateManager.updateWargaNik(userData.nik)
-                    stateManager.updateWargaNama(userData.nama_warga)
-                    stateManager.updateWargaTempatLahir(userData.tempat_lahir)
-                    stateManager.updateWargaTanggalLahir(dateFormatterToApiFormat(userData.tanggal_lahir))
-                    stateManager.updateWargaGender(userData.jenis_kelamin)
-                    stateManager.updateWargaAgama(userData.agama_id)
-                    stateManager.updateWargaAlamat(userData.alamat)
-                    stateManager.updateWargaPekerjaan(userData.pekerjaan)
+                    stateManager.updateWargaNik(userData.nik ?: "")
+                    stateManager.updateWargaNama(userData.nama_warga ?: "")
+                    stateManager.updateWargaTempatLahir(userData.tempat_lahir ?: "")
+                    stateManager.updateWargaTanggalLahir(dateFormatterToApiFormat(userData.tanggal_lahir ?: ""))
+                    stateManager.updateWargaGender(userData.jenis_kelamin ?: "")
+                    stateManager.updateWargaAgama(userData.agama_id ?: "")
+                    stateManager.updateWargaAlamat(userData.alamat ?: "")
+                    stateManager.updateWargaPekerjaan(userData.pekerjaan ?: "")
 
-                    stateManager.updateWargaNik(userData.nik)
-                    stateManager.updateWargaNama(userData.nama_warga)
-                    stateManager.updateWargaTempatLahir(userData.tempat_lahir)
-                    stateManager.updateWargaTanggalLahir(dateFormatterToApiFormat(userData.tanggal_lahir))
-                    stateManager.updateWargaGender(userData.jenis_kelamin)
-                    stateManager.updateWargaAgama(userData.agama_id)
-                    stateManager.updateWargaAlamat(userData.alamat)
-                    stateManager.updateWargaPekerjaan(userData.pekerjaan)
+                    stateManager.updateWargaNik(userData.nik ?: "")
+                    stateManager.updateWargaNama(userData.nama_warga ?: "")
+                    stateManager.updateWargaTempatLahir(userData.tempat_lahir ?: "")
+                    stateManager.updateWargaTanggalLahir(dateFormatterToApiFormat(userData.tanggal_lahir ?: ""))
+                    stateManager.updateWargaGender(userData.jenis_kelamin ?: "")
+                    stateManager.updateWargaAgama(userData.agama_id ?: "")
+                    stateManager.updateWargaAlamat(userData.alamat ?: "")
+                    stateManager.updateWargaPekerjaan(userData.pekerjaan ?: "")
 
                     // Clear validation errors
                     validator.clearMultipleFieldErrors(listOf(

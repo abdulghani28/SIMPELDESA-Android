@@ -79,13 +79,13 @@ class SKUsahaDataLoader(
                 is UserInfoResult.Success -> {
                     val userData = result.data.data
                     with(stateManager) {
-                        updateWargaNik(userData.nik)
-                        updateWargaNama(userData.nama_warga)
-                        updateWargaTempatLahir(userData.tempat_lahir)
-                        updateWargaTanggalLahir(dateFormatterToApiFormat(userData.tanggal_lahir))
-                        updateWargaGender(userData.jenis_kelamin)
-                        updateWargaPekerjaan(userData.pekerjaan)
-                        updateWargaAlamat(userData.alamat)
+                        updateWargaNik(userData.nik ?: "")
+                        updateWargaNama(userData.nama_warga ?: "")
+                        updateWargaTempatLahir(userData.tempat_lahir ?: "")
+                        updateWargaTanggalLahir(dateFormatterToApiFormat(userData.tanggal_lahir ?: ""))
+                        updateWargaGender(userData.jenis_kelamin ?: "")
+                        updateWargaPekerjaan(userData.pekerjaan ?: "")
+                        updateWargaAlamat(userData.alamat ?: "")
                     }
 
                     validator.clearMultipleFieldErrors(listOf(

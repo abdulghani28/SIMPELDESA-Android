@@ -149,16 +149,16 @@ class SPPermohonanPenerbitanBukuPasLintasBatasStateManager {
 
     // Populate / Clear User Data
     fun populateUserData(userData: UserInfoResponse.Data) {
-        nikValue = userData.nik
-        namaValue = userData.nama_warga
-        tempatLahirValue = userData.tempat_lahir
-        tanggalLahirValue = dateFormatterToApiFormat(userData.tanggal_lahir)
-        jenisKelaminValue = userData.jenis_kelamin
-        kewarganegaraanValue = userData.kewarganegaraan
-        agamaIdValue = userData.agama_id
-        pekerjaanValue = userData.pekerjaan
-        statusKawinIdValue = userData.status_kawin_id
-        alamatValue = userData.alamat
+        nikValue = userData.nik ?: ""
+        namaValue = userData.nama_warga ?: ""
+        tempatLahirValue = userData.tempat_lahir ?: ""
+        tanggalLahirValue = dateFormatterToApiFormat(userData.tanggal_lahir ?: "")
+        jenisKelaminValue = userData.jenis_kelamin ?: ""
+        kewarganegaraanValue = userData.kewarganegaraan ?: ""
+        agamaIdValue = userData.agama_id ?: ""
+        pekerjaanValue = userData.pekerjaan ?: ""
+        statusKawinIdValue = userData.status_kawin_id ?: ""
+        alamatValue = userData.alamat ?: ""
     }
 
     fun clearUserData() {

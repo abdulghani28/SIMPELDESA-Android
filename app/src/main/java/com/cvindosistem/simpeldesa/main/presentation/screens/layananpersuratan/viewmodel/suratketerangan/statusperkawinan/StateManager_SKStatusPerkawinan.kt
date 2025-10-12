@@ -72,15 +72,15 @@ class SKStatusPerkawinanStateManager {
     fun setUseMyData(checked: Boolean) { useMyDataChecked = checked }
 
     fun populateUserData(userData: UserInfoResponse.Data) {
-        nikValue = userData.nik
-        namaValue = userData.nama_warga
-        tempatLahirValue = userData.tempat_lahir
-        tanggalLahirValue = dateFormatterToApiFormat(userData.tanggal_lahir)
-        selectedGender = userData.jenis_kelamin
-        pekerjaanValue = userData.pekerjaan
-        alamatValue = userData.alamat
-        agamaValue = userData.agama_id
-        statusKawinValue = userData.status_kawin_id
+        nikValue = userData.nik ?: ""
+        namaValue = userData.nama_warga ?: ""
+        tempatLahirValue = userData.tempat_lahir ?: ""
+        tanggalLahirValue = dateFormatterToApiFormat(userData.tanggal_lahir ?: "")
+        selectedGender = userData.jenis_kelamin ?: ""
+        pekerjaanValue = userData.pekerjaan ?: ""
+        alamatValue = userData.alamat ?: ""
+        agamaValue = userData.agama_id ?: ""
+        statusKawinValue = userData.status_kawin_id ?: ""
     }
 
     fun clearUserData() {

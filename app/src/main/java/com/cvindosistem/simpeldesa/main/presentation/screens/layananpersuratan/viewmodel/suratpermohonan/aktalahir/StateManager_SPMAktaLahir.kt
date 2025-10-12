@@ -117,12 +117,12 @@ class SPMAktaLahirStateManager {
 
     // Populate / Clear User Data
     fun populateUserData(userData: UserInfoResponse.Data) {
-        nikValue = userData.nik
-        namaValue = userData.nama_warga
-        alamatValue = userData.alamat
-        pekerjaanValue = userData.pekerjaan
-        tanggalLahirValue = dateFormatterToApiFormat(userData.tanggal_lahir)
-        tempatLahirValue = userData.tempat_lahir
+        nikValue = userData.nik ?: ""
+        namaValue = userData.nama_warga ?: ""
+        alamatValue = userData.alamat ?: ""
+        pekerjaanValue = userData.pekerjaan ?: ""
+        tanggalLahirValue = dateFormatterToApiFormat(userData.tanggal_lahir ?: "")
+        tempatLahirValue = userData.tempat_lahir ?: ""
     }
 
     fun clearUserData() {

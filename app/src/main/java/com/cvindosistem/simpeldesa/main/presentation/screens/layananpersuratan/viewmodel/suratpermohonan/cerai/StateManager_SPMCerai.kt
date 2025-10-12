@@ -128,13 +128,13 @@ class SPMCeraiStateManager {
     // Populate / Clear User Data
     fun populateUserData(userData: UserInfoResponse.Data) {
         // Populate to Suami data (assuming user is the husband)
-        nikSuamiValue = userData.nik
-        namaSuamiValue = userData.nama_warga
-        alamatSuamiValue = userData.alamat
-        pekerjaanSuamiValue = userData.pekerjaan
-        tanggalLahirSuamiValue = dateFormatterToApiFormat(userData.tanggal_lahir)
-        tempatLahirSuamiValue = userData.tempat_lahir
-        agamaIdSuamiValue = userData.agama_id
+        nikSuamiValue = userData.nik ?: ""
+        namaSuamiValue = userData.nama_warga ?: ""
+        alamatSuamiValue = userData.alamat ?: ""
+        pekerjaanSuamiValue = userData.pekerjaan ?: ""
+        tanggalLahirSuamiValue = dateFormatterToApiFormat(userData.tanggal_lahir ?: "")
+        tempatLahirSuamiValue = userData.tempat_lahir ?: ""
+        agamaIdSuamiValue = userData.agama_id ?: ""
     }
 
     fun clearUserData() {

@@ -115,14 +115,14 @@ class SKJandaDudaStateManager {
 
     // Populate / Clear User Data
     fun populateUserData(userData: UserInfoResponse.Data) {
-        nikValue = userData.nik
-        namaValue = userData.nama_warga
-        tempatLahirValue = userData.tempat_lahir
-        tanggalLahirValue = dateFormatterToApiFormat(userData.tanggal_lahir)
-        jenisKelaminValue = userData.jenis_kelamin
-        pekerjaanValue = userData.pekerjaan
-        alamatValue = userData.alamat
-        agamaIdValue = userData.agama_id
+        nikValue = userData.nik ?: ""
+        namaValue = userData.nama_warga ?: ""
+        tempatLahirValue = userData.tempat_lahir ?: ""
+        tanggalLahirValue = dateFormatterToApiFormat(userData.tanggal_lahir ?: "")
+        jenisKelaminValue = userData.jenis_kelamin ?: ""
+        pekerjaanValue = userData.pekerjaan ?: ""
+        alamatValue = userData.alamat ?: ""
+        agamaIdValue = userData.agama_id ?: ""
     }
 
     fun clearUserData() {

@@ -142,14 +142,14 @@ class SKTidakMasukKerjaStateManager {
 
     fun populateUserData(userData: UserInfoResponse.Data) {
         // Copy semua assignment dari loadUserData() di kode asli
-        nikValue = userData.nik
-        namaValue = userData.nama_warga
-        alamatValue = userData.alamat
-        jenisKelaminValue = userData.jenis_kelamin
-        agamaIdValue = userData.agama_id
-        pekerjaanValue = userData.pekerjaan
-        tempatLahirValue = userData.tempat_lahir
-        tanggalLahirValue = userData.tanggal_lahir
+        nikValue = userData.nik ?: ""
+        namaValue = userData.nama_warga ?: ""
+        alamatValue = userData.alamat ?: ""
+        jenisKelaminValue = userData.jenis_kelamin ?: ""
+        agamaIdValue = userData.agama_id ?: ""
+        pekerjaanValue = userData.pekerjaan ?: ""
+        tempatLahirValue = userData.tempat_lahir ?: ""
+        tanggalLahirValue = userData.tanggal_lahir ?: ""
 
         clearMultipleFieldErrors(listOf(
             "nik", "nama", "alamat", "jenis_kelamin", "agama_id",

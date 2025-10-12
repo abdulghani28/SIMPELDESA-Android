@@ -68,12 +68,12 @@ class HomeViewModel(
                     is UserInfoResult.Success -> {
                         val userData = result.data.data
                         _uiState.value = _uiState.value.copy(
-                            userName = userData.nama_warga,
-                            userEmail = userData.email,
-                            dusun = userData.dusun,
+                            userName = userData.nama_warga ?: "",
+                            userEmail = userData.email ?: "",
+                            dusun = userData.dusun ?: "",
                             greeting = getCurrentGreeting(),
-                            rt = userData.rt,
-                            rw = userData.rw,
+                            rt = userData.rt ?: "",
+                            rw = userData.rw ?: "",
                             isDataLoaded = true
                         )
                         _homeEvent.emit(HomeEvent.DataLoaded)

@@ -63,11 +63,11 @@ class SKBedaIdentitasDataLoader(
             when (val result = getUserInfoUseCase()) {
                 is UserInfoResult.Success -> {
                     val userData = result.data.data
-                    stateManager.nama1Value = userData.nama_warga
-                    stateManager.nomor1Value = userData.nik
-                    stateManager.tempatLahir1Value = userData.tempat_lahir
-                    stateManager.tanggalLahir1Value = dateFormatterToApiFormat(userData.tanggal_lahir)
-                    stateManager.alamat1Value = userData.alamat
+                    stateManager.nama1Value = userData.nama_warga ?: ""
+                    stateManager.nomor1Value = userData.nik ?: ""
+                    stateManager.tempatLahir1Value = userData.tempat_lahir ?: ""
+                    stateManager.tanggalLahir1Value = dateFormatterToApiFormat(userData.tanggal_lahir ?: "")
+                    stateManager.alamat1Value = userData.alamat ?: ""
 
                     stateManager.clearMultipleFieldErrors(listOf(
                         "nama_1", "nomor_1", "tempat_lahir_1", "tanggal_lahir_1", "alamat_1"

@@ -172,11 +172,11 @@ class SPNPenguasaanFisikBidangTanahStateManager {
 
     // Populate / Clear User Data
     fun populateUserData(userData: UserInfoResponse.Data) {
-        nikPemohonValue = userData.nik
-        namaPemohonValue = userData.nama_warga
-        tempatLahirPemohonValue = userData.tempat_lahir
-        tanggalLahirPemohonValue = dateFormatterToApiFormat(userData.tanggal_lahir)
-        pekerjaanValue = userData.pekerjaan
+        nikPemohonValue = userData.nik ?: ""
+        namaPemohonValue = userData.nama_warga ?: ""
+        tempatLahirPemohonValue = userData.tempat_lahir ?: ""
+        tanggalLahirPemohonValue = dateFormatterToApiFormat(userData.tanggal_lahir ?: "")
+        pekerjaanValue = userData.pekerjaan ?: ""
     }
 
     fun clearUserData() {

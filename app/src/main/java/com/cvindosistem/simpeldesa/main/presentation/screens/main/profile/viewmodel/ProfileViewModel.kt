@@ -56,19 +56,19 @@ class ProfileViewModel(
                 is UserInfoResult.Success -> {
                     val userData = result.data.data
                     _uiState.value = _uiState.value.copy(
-                        userName = userData.nama_warga,
-                        nik = userData.nik,
+                        userName = userData.nama_warga ?: "",
+                        nik = userData.nik ?: "",
                         foto = userData.photo,
-                        tempatTanggalLahir = "${userData.tempat_lahir}, ${dateFormatterToApiFormat(userData.tanggal_lahir)}",
-                        jenisKelamin = userData.jenis_kelamin,
-                        agama = userData.agama,
-                        pekerjaan = userData.pekerjaan,
-                        alamatLengkap = userData.alamat,
-                        dusun = userData.dusun,
-                        rt = userData.rt,
-                        rw = userData.rw,
-                        email = userData.email,
-                        noTelp = userData.no_telp,
+                        tempatTanggalLahir = "${userData.tempat_lahir}, ${dateFormatterToApiFormat(userData.tanggal_lahir ?: "")}",
+                        jenisKelamin = userData.jenis_kelamin ?: "",
+                        agama = userData.agama ?: "",
+                        pekerjaan = userData.pekerjaan ?: "",
+                        alamatLengkap = userData.alamat ?: "",
+                        dusun = userData.dusun ?: "",
+                        rt = userData.rt ?: "",
+                        rw = userData.rw ?: "",
+                        email = userData.email ?: "",
+                        noTelp = userData.no_telp ?: "",
                         isDataLoaded = true
                     )
                     _profileEvent.emit(ProfileEvent.DataLoaded)

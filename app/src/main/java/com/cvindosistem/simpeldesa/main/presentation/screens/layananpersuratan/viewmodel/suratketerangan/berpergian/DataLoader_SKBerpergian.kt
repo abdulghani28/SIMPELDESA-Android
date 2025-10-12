@@ -14,13 +14,13 @@ class SKBerpergianDataLoader(
                     val userData = result.data.data
                     Result.success(
                         UserDataInfo(
-                            nik = userData.nik,
-                            nama = userData.nama_warga,
-                            tempatLahir = userData.tempat_lahir,
-                            tanggalLahir = dateFormatterToApiFormat(userData.tanggal_lahir),
-                            jenisKelamin = userData.jenis_kelamin,
-                            pekerjaan = userData.pekerjaan,
-                            alamat = userData.alamat
+                            nik = userData.nik ?: "",
+                            nama = userData.nama_warga ?: "",
+                            tempatLahir = userData.tempat_lahir ?: "",
+                            tanggalLahir = dateFormatterToApiFormat(userData.tanggal_lahir ?: ""),
+                            jenisKelamin = userData.jenis_kelamin ?: "",
+                            pekerjaan = userData.pekerjaan ?: "",
+                            alamat = userData.alamat ?: ""
                         )
                     )
                 }

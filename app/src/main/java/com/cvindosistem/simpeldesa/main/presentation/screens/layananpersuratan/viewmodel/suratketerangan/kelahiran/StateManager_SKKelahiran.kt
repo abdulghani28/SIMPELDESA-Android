@@ -124,11 +124,11 @@ class SKKelahiranStateManager {
     // User data functions
     fun populateUserData(userData: UserInfoResponse.Data) {
         // Pada SKKelahiran, biasanya data user digunakan untuk mengisi informasi ayah
-        namaAyahValue = userData.nama_warga
-        nikAyahValue = userData.nik
-        alamatAyahValue = userData.alamat
-        tempatLahirAyahValue = userData.tempat_lahir
-        tanggalLahirAyahValue = dateFormatterToApiFormat(userData.tanggal_lahir)
+        namaAyahValue = userData.nama_warga ?: ""
+        nikAyahValue = userData.nik ?: ""
+        alamatAyahValue = userData.alamat ?: ""
+        tempatLahirAyahValue = userData.tempat_lahir ?: ""
+        tanggalLahirAyahValue = dateFormatterToApiFormat(userData.tanggal_lahir ?: "")
     }
 
     fun clearUserData() {

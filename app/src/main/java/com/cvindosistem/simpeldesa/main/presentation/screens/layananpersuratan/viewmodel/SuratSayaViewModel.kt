@@ -49,6 +49,7 @@ class SuratSayaViewModel(
     var showFilterSheet by mutableStateOf(false)
         private set
 
+    // Filtered surat list
     val filteredSuratList: StateFlow<List<SuratSaya>> = combine(
         _uiState,
         snapshotFlow { searchQuery }
@@ -101,40 +102,43 @@ class SuratSayaViewModel(
                 endDate = currentFilter.endDate.ifEmpty { null }
             )) {
                 is SuratListResult.Success -> {
-                    val newSuratList = result.data.data.map { data ->
+                    // Mapping data API ke model UI
+                    val newSuratList = result.data.data?.map { data ->
                         SuratSaya(
-                            id = data.id,
-                            judul = data.jenis_surat,
-                            deskripsi = getDescriptionByStatus(data.status, data.jenis_surat),
-                            tanggal = dateFormatterToApiFormat(data.created_at),
-                            status = mapStringToStatusSurat(data.status),
-                            nik = data.nik,
-                            nama = data.nama,
-                            diprosesOlehId = data.diproses_oleh_id,
-                            disahkanOlehId = data.disahkan_oleh_id
+                            id = data.id ?: "",
+                            judul = data.jenis_surat ?: "",
+                            deskripsi = getDescriptionByStatus(data.status ?: "", data.jenis_surat ?: ""),
+                            tanggal = dateFormatterToApiFormat(data.created_at ?: ""),
+                            status = mapStringToStatusSurat(data.status ?: ""),
+                            nik = data.nik ?: "",
+                            nama = data.nama ?: "",
+                            diprosesOlehId = data.diproses_oleh_id ?: "",
+                            disahkanOlehId = data.disahkan_oleh_id ?: ""
                         )
-                    }
+                    } ?: emptyList()
 
                     val currentList = if (refresh) emptyList() else _uiState.value.suratList
                     val updatedList = currentList + newSuratList
 
                     _uiState.value = _uiState.value.copy(
                         suratList = updatedList,
-                        totalData = result.data.meta.total,
+                        totalData = result.data.meta?.total ?: 0,
                         isDataLoaded = true
                     )
 
-                    // Check if we can load more
+                    // Cek apakah masih bisa load lagi
                     canLoadMore = newSuratList.size == limit
                     if (canLoadMore) currentPage++
 
                     _suratEvent.emit(SuratSayaEvent.DataLoaded)
                 }
+
                 is SuratListResult.Error -> {
                     errorMessage = result.message
                     _suratEvent.emit(SuratSayaEvent.Error(result.message))
                 }
             }
+
             isLoading = false
         }
     }
@@ -163,9 +167,7 @@ class SuratSayaViewModel(
         refreshData()
     }
 
-    fun getCurrentFilter(): FilterData {
-        return currentFilter
-    }
+    fun getCurrentFilter(): FilterData = currentFilter
 
     fun clearFilter() {
         currentFilter = FilterData()
@@ -180,7 +182,7 @@ class SuratSayaViewModel(
         errorMessage = null
     }
 
-    // Helper function to map string status to enum
+    // Helper: map string ke enum StatusSurat
     private fun mapStringToStatusSurat(status: String): StatusSurat {
         return when (status.lowercase()) {
             "menunggu", "pending" -> StatusSurat.MENUNGGU
@@ -191,14 +193,19 @@ class SuratSayaViewModel(
         }
     }
 
-    // Helper function to get description based on status
+    // Helper: deskripsi berdasarkan status
     private fun getDescriptionByStatus(status: String, jenisSurat: String): String {
         return when (status.lowercase()) {
-            "menunggu", "pending" -> "Surat $jenisSurat berhasil diajukan ke pihak desa dan akan segera diproses."
-            "diproses", "processing" -> "Surat $jenisSurat yang Anda ajukan saat ini sedang dalam proses oleh pihak desa."
-            "selesai", "completed", "done" -> "Surat $jenisSurat yang Anda ajukan sudah selesai diproses dan siap untuk diambil di kantor desa."
-            "dibatalkan", "rejected" -> "Mohon maaf, surat $jenisSurat yang Anda ajukan telah dibatalkan oleh pihak desa."
-            else -> "Surat $jenisSurat sedang dalam proses."
+            "menunggu", "pending" ->
+                "Surat $jenisSurat berhasil diajukan ke pihak desa dan akan segera diproses."
+            "diproses", "processing" ->
+                "Surat $jenisSurat yang Anda ajukan saat ini sedang dalam proses oleh pihak desa."
+            "selesai", "completed", "done" ->
+                "Surat $jenisSurat yang Anda ajukan sudah selesai diproses dan siap untuk diambil di kantor desa."
+            "dibatalkan", "rejected" ->
+                "Mohon maaf, surat $jenisSurat yang Anda ajukan telah dibatalkan oleh pihak desa."
+            else ->
+                "Surat $jenisSurat sedang dalam proses."
         }
     }
 
@@ -209,14 +216,14 @@ class SuratSayaViewModel(
     }
 }
 
-// Updated data class untuk UI State
+// UI State
 data class SuratSayaUiState(
     val suratList: List<SuratSaya> = emptyList(),
     val totalData: Int = 0,
     val isDataLoaded: Boolean = false
 )
 
-// Updated data class untuk surat saya dengan field tambahan dari API
+// Model surat untuk UI
 data class SuratSaya(
     val id: String,
     val judul: String,
@@ -229,7 +236,6 @@ data class SuratSaya(
     val disahkanOlehId: String
 )
 
-// Enum untuk status surat (tetap sama)
 enum class StatusSurat {
     MENUNGGU,
     DIPROSES,

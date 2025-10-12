@@ -96,10 +96,6 @@ class AuthViewModel(
                 emailError = "Email tidak boleh kosong"
                 false
             }
-            !isValidEmail(email) -> {
-                emailError = "Format email tidak valid"
-                false
-            }
             else -> true
         }
     }
@@ -193,7 +189,6 @@ class AuthViewModel(
     fun isFormValid(): Boolean {
         return email.isNotEmpty() &&
                 password.isNotEmpty() &&
-                isValidEmail(email) &&
                 password.length >= 6
     }
 

@@ -209,9 +209,9 @@ class SKPenghasilanStateManager {
     }
 
     fun loadUserData(userData: UserInfoResponse.Data) {
-        nikValue = userData.nik
-        namaValue = userData.nama_warga
-        alamatValue = userData.alamat
+        nikValue = userData.nik ?: ""
+        namaValue = userData.nama_warga ?: ""
+        alamatValue = userData.alamat ?: ""
     }
 
     fun clearUserData() {

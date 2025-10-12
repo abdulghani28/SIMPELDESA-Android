@@ -116,16 +116,16 @@ class SKKTPDalamProsesStateManager {
 
     // Populate / Clear User Data
     fun populateUserData(userData: UserInfoResponse.Data) {
-        nikValue = userData.nik
-        namaValue = userData.nama_warga
-        alamatValue = userData.alamat
-        jenisKelaminValue = userData.jenis_kelamin
+        nikValue = userData.nik ?: ""
+        namaValue = userData.nama_warga ?: ""
+        alamatValue = userData.alamat ?: ""
+        jenisKelaminValue = userData.jenis_kelamin ?: ""
         agamaIdValue = userData.agama_id.toString()
-        pekerjaanValue = userData.pekerjaan
+        pekerjaanValue = userData.pekerjaan ?: ""
         statusKawinIdValue = userData.status_kawin_id.toString()
-        tanggalLahirValue = dateFormatterToApiFormat(userData.tanggal_lahir)
-        tempatLahirValue = userData.tempat_lahir
-        kewarganegaraanValue = userData.kewarganegaraan
+        tanggalLahirValue = dateFormatterToApiFormat(userData.tanggal_lahir ?: "")
+        tempatLahirValue = userData.tempat_lahir ?: ""
+        kewarganegaraanValue = userData.kewarganegaraan ?: ""
     }
 
     fun clearUserData() {

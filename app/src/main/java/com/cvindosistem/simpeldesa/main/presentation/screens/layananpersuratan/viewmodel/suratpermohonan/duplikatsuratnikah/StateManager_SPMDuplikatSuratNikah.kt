@@ -113,17 +113,17 @@ class SPMDuplikatSuratNikahStateManager {
 
     // Populate / Clear User Data
     fun populateUserData(userData: UserInfoResponse.Data) {
-        nikValue = userData.nik
-        namaValue = userData.nama_warga
-        alamatValue = userData.alamat
-        jenisKelaminValue = userData.jenis_kelamin
-        tanggalLahirValue = dateFormatterToApiFormat(userData.tanggal_lahir)
-        tempatLahirValue = userData.tempat_lahir
-        kewarganegaraanValue = userData.kewarganegaraan
+        nikValue = userData.nik ?: ""
+        namaValue = userData.nama_warga ?: ""
+        alamatValue = userData.alamat ?: ""
+        jenisKelaminValue = userData.jenis_kelamin ?: ""
+        tanggalLahirValue = dateFormatterToApiFormat(userData.tanggal_lahir ?: "")
+        tempatLahirValue = userData.tempat_lahir ?: ""
+        kewarganegaraanValue = userData.kewarganegaraan ?: ""
         noKkValue = userData.no_kk ?: ""
-        pekerjaanValue = userData.pekerjaan
-        pendidikanIdValue = userData.pendidikan_id
-        agamaIdValue = userData.agama_id
+        pekerjaanValue = userData.pekerjaan ?: ""
+        pendidikanIdValue = userData.pendidikan_id ?: ""
+        agamaIdValue = userData.agama_id ?: ""
     }
 
     fun clearUserData() {

@@ -133,8 +133,8 @@ class SKLahirMatiStateManager {
 
     // Populate / Clear User Data
     fun populateUserData(userData: UserInfoResponse.Data) {
-        nikValue = userData.nik
-        namaValue = userData.nama_warga
+        nikValue = userData.nik ?: ""
+        namaValue = userData.nama_warga ?: ""
     }
 
     fun clearUserData() {

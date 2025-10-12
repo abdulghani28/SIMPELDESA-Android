@@ -142,14 +142,14 @@ class SKPengantarCeraiRujukStateManager {
 
     // Populate / Clear User Data
     fun populateUserData(userData: UserInfoResponse.Data) {
-        nikValue = userData.nik
-        namaValue = userData.nama_warga
-        alamatValue = userData.alamat
-        pekerjaanValue = userData.pekerjaan
-        tanggalLahirValue = dateFormatterToApiFormat(userData.tanggal_lahir)
-        tempatLahirValue = userData.tempat_lahir
-        agamaIdValue = userData.agama_id
-        kewarganegaraanValue = userData.kewarganegaraan
+        nikValue = userData.nik ?: ""
+        namaValue = userData.nama_warga ?: ""
+        alamatValue = userData.alamat ?: ""
+        pekerjaanValue = userData.pekerjaan ?: ""
+        tanggalLahirValue = dateFormatterToApiFormat(userData.tanggal_lahir ?: "")
+        tempatLahirValue = userData.tempat_lahir ?: ""
+        agamaIdValue = userData.agama_id ?: ""
+        kewarganegaraanValue = userData.kewarganegaraan ?: ""
     }
 
     fun clearUserData() {

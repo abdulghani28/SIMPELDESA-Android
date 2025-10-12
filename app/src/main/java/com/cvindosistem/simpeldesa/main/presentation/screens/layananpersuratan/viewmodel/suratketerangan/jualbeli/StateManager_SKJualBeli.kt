@@ -113,13 +113,13 @@ class SKJualBeliStateManager {
 
     // Populate / Clear User Data
     fun populateUserData(userData: UserInfoResponse.Data) {
-        nik1Value = userData.nik
-        nama1Value = userData.nama_warga
-        alamat1Value = userData.alamat
-        jenisKelamin1Value = userData.jenis_kelamin
-        pekerjaan1Value = userData.pekerjaan
-        tanggalLahir1Value = dateFormatterToApiFormat(userData.tanggal_lahir)
-        tempatLahir1Value = userData.tempat_lahir
+        nik1Value = userData.nik ?: ""
+        nama1Value = userData.nama_warga ?: ""
+        alamat1Value = userData.alamat ?: ""
+        jenisKelamin1Value = userData.jenis_kelamin ?: ""
+        pekerjaan1Value = userData.pekerjaan ?: ""
+        tanggalLahir1Value = dateFormatterToApiFormat(userData.tanggal_lahir ?: "")
+        tempatLahir1Value = userData.tempat_lahir ?: ""
     }
 
     fun clearUserData() {

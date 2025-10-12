@@ -75,13 +75,13 @@ class SPKehilanganStateManager {
 
     // Data Population
     fun populateUserData(userData: UserInfoResponse.Data) {
-        nikValue = userData.nik
-        namaValue = userData.nama_warga
-        tempatLahirValue = userData.tempat_lahir
-        tanggalLahirValue = dateFormatterToApiFormat(userData.tanggal_lahir)
-        jenisKelaminValue = userData.jenis_kelamin
-        pekerjaanValue = userData.pekerjaan
-        alamatValue = userData.alamat
+        nikValue = userData.nik ?: ""
+        namaValue = userData.nama_warga ?: ""
+        tempatLahirValue = userData.tempat_lahir ?: ""
+        tanggalLahirValue = dateFormatterToApiFormat(userData.tanggal_lahir ?: "")
+        jenisKelaminValue = userData.jenis_kelamin ?: ""
+        pekerjaanValue = userData.pekerjaan ?: ""
+        alamatValue = userData.alamat ?: ""
     }
 
     fun clearUserData() {

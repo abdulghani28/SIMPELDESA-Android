@@ -62,8 +62,8 @@ class SKGhaibStateManager {
     fun setUseMyData(checked: Boolean) { useMyDataChecked = checked }
 
     fun loadUserData(userData: UserInfoResponse.Data) {
-        nikValue = userData.nik
-        namaValue = userData.nama_warga
+        nikValue = userData.nik ?: ""
+        namaValue = userData.nama_warga ?: ""
     }
 
     fun clearUserData() {

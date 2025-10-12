@@ -13,8 +13,8 @@ class SuratKuasaDataLoader(
                 is UserInfoResult.Success -> {
                     val userData = result.data.data
                     UserDataResult.Success(
-                        nik = userData.nik,
-                        nama = userData.nama_warga
+                        nik = userData.nik ?: "",
+                        nama = userData.nama_warga ?: ""
                     )
                 }
                 is UserInfoResult.Error -> {
